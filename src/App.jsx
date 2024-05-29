@@ -1,11 +1,13 @@
-import HeaderAs from "./HeaderAs";
-import SideBar from "./SideBar";
+import Content from "./Component/Content";
+import HeaderAs from "./Component/HeaderAs";
+import SideBar from "./Component/SideBar";
 
 function App() {
   return (
     <>
       <HeaderAs />
       <SideBar />
+      <Content />
     </>
   );
 }

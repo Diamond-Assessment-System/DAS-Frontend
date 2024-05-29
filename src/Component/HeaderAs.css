@@ -1,0 +1,27 @@
+body{
+    margin: 0%;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+}
+head{
+    display: flex;
+    justify-content: flex-end;
+}
+
+h3{
+    color: rgb(255, 255, 255);
+    margin-left: 1600px;
+}
+.image1{
+    width: 90px;
+    height: 70px;
+}
+.image2{
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+}
