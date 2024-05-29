@@ -1,0 +1,48 @@
+/* src/components/ErrorPage/ErrorPage.scss */
+.container {
+    text-align: center;
+    padding: 50px;
+    background-color: hwb(0 82% 4% / 0.051);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .image {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  
+  .title {
+    font-size: 48px;
+    color: #333;
+    margin: 20px 0;
+    font-weight: bold;
+  }
+  
+  .message {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .link {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .link:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
