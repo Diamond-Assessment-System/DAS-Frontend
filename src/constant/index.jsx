@@ -1,1 +1,0 @@
-export const requiredError="Trường này không được để trống";
