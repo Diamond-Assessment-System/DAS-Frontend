@@ -1,58 +1,37 @@
-import React, { useState } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
-import Avatar from '@mui/material/Avatar';
-import diamondIcon from '../../assets/logodas.png'; 
+import React from 'react';
+import { auth, googleProvider } from '../config/firebase';
 import './Login.scss';
 
 const GoogleLoginComponent = () => {
-  const [user, setUser] = useState(null);
-
-  const handleLoginSuccess = async (response) => {
+  const signInWithGoogle = async () => {
     try {
-      const res = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+      const result = await auth.signInWithPopup(googleProvider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+
+      // Send the token to the backend
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${response.access_token}`,
-        },
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        }
       });
-      setUser(res.data);
+
+      if (response.ok) {
+        console.log("Successfully authenticated");
+      } else {
+        console.error("Authentication failed");
+      }
     } catch (error) {
-      console.error('Failed to fetch user info', error);
+      console.error("Error during Google Sign-In: ", error);
     }
   };
 
-  const handleLoginFailure = (error) => {
-    console.error('Login Failed', error);
-  };
-
-  const login = useGoogleLogin({
-    onSuccess: handleLoginSuccess,
-    onError: handleLoginFailure,
-    scope: 'profile email',
-  });
-
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-header">
-          <Avatar className="avatar" sx={{ width: 100, height: 100 }}>
-            <img src={diamondIcon} alt="Diamond Icon" style={{ width: '100%', height: '100%' }} />
-          </Avatar>
-          <h1>DAS</h1>
-          <h2>We Valued Your Diamond!</h2>
-        </div>
-        {user ? (
-          <div className="user-info">
-            <h3>Welcome, {user.name}</h3>
-            <Avatar src={user.picture} alt={user.name} sx={{ width: 56, height: 56, margin: 'auto' }} />
-            <p>Email: {user.email}</p>
-          </div>
-        ) : (
-          <button className="login-button" onClick={login}>
-            Dùng tài khoản Google
-          </button>
-        )}
-      </div>
+    <div>
+      <h1>React Google Login</h1>
+      <button onClick={signInWithGoogle}>Sign in with Google</button>
     </div>
   );
 };
