@@ -1,5 +1,5 @@
 import React from 'react';
-import { auth, googleProvider } from '../config/firebase';
+import { auth, googleProvider } from '../../config/firebase';
 import './Login.scss';
 
 const GoogleLoginComponent = () => {
@@ -19,6 +19,13 @@ const GoogleLoginComponent = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        const sessionId = data.sessionId;
+
+        // Store the session ID and token in local storage
+        localStorage.setItem('sessionId', sessionId);
+        localStorage.setItem('idToken', idToken);
+
         console.log("Successfully authenticated");
       } else {
         console.error("Authentication failed");
