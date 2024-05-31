@@ -9,7 +9,6 @@ const GoogleLoginComponent = () => {
       const user = result.user;
       const idToken = await user.getIdToken();
 
-      // Send the token to the backend
       const response = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: {
@@ -21,12 +20,13 @@ const GoogleLoginComponent = () => {
       if (response.ok) {
         const data = await response.json();
         const sessionId = data.sessionId;
+        const account = data.account;
 
-        // Store the session ID and token in local storage
         localStorage.setItem('sessionId', sessionId);
         localStorage.setItem('idToken', idToken);
 
         console.log("Successfully authenticated");
+        console.log("Account details:", account);
       } else {
         console.error("Authentication failed");
       }
