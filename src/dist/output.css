@@ -1646,10 +1646,6 @@ input:checked + .toggle-bg{
   height: 92%;
 }
 
-.h-\[95\%\]{
-  height: 95%;
-}
-
 .h-\[95vh\]{
   height: 95vh;
 }

@@ -87,18 +87,8 @@ const StudentForm = ( { onClose, open, classId } ) => {
       if ( res ) {
         // @ts-ignore
         dispatch( fetchClassDetail( { id: classId, token } ) );
-<<<<<<< Updated upstream
-      }
-      if ( res.length > 0 ) {
-        dispatch( setSnackbar( { color: "green", message: "Tạo thành công" } ) );
-      } else {
-        dispatch(
-          setSnackbar( { color: "red", message: "Thêm học sinh thất bại" } )
-        );
-=======
         dispatch( setSnackbar( { color: "green", message: "Tạo thành công" } ) );
 
->>>>>>> Stashed changes
       }
     } catch ( error ) {
       console.log( "Error", error );
