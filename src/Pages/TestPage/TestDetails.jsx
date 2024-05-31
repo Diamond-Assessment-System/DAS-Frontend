@@ -97,7 +97,11 @@ const TestDetails = () => {
       dispatch(
         setSnackbar( {
           color: "red",
+<<<<<<< Updated upstream
           message: "Export Result failed for" + examId,
+=======
+          message: error.message
+>>>>>>> Stashed changes
         } )
       );
     } finally {

@@ -115,7 +115,11 @@ const CustomDrawer = () => {
   return (
     <>
       <Sidebar className=" px-0 py-0 shadow-sm rounded-sm relative h-full flex flex-col w-[12vw] bg-white">
+<<<<<<< Updated upstream
         <Sidebar.Items className="h-[95%] overflow-auto hide-scrollbar bg-white py-4 px-2">
+=======
+        <Sidebar.Items className="h-full overflow-auto hide-scrollbar bg-white py-4 px-2">
+>>>>>>> Stashed changes
           <div className="flex flex-col gap-1 !font-medium  ">
             { menus
               .filter( ( item ) => item.userTypes.includes( userType ) )
@@ -125,8 +129,13 @@ const CustomDrawer = () => {
                     <NavLink key={ index } to={ item.path } replace>
                       <div
                         className={ `flex flex-row items-center gap-2 !font-baloo2  rounded-md p-2 text-base text-blue_dark  ${ selectedItem === item.path
+<<<<<<< Updated upstream
                             ? `!bg-blue_base !text-white`
                             : ""
+=======
+                          ? `!bg-blue_base !text-white`
+                          : ""
+>>>>>>> Stashed changes
                           } hover:bg-slate-100 transition-all` }
                       >
                         <img src={ item.icon } width={ 25 } />
@@ -149,8 +158,13 @@ const CustomDrawer = () => {
                   <NavLink key={ index } to={ item.path } replace>
                     <div
                       className={ `flex flex-row gap-2  items-center ml-2 !font-baloo2  rounded-md p-2 text-sm text-blue_dark  ${ selectedItem === item.path
+<<<<<<< Updated upstream
                           ? `!bg-blue_base !text-white`
                           : ""
+=======
+                        ? `!bg-blue_base !text-white`
+                        : ""
+>>>>>>> Stashed changes
                         } hover:bg-slate-100 transition-all` }
                     >
                       <img src={ item.icon } />
@@ -162,8 +176,13 @@ const CustomDrawer = () => {
             <NavLink to={ menus[ menus.length - 1 ].path } replace>
               <div
                 className={ `flex flex-row items-center gap-2 !font-baloo2  rounded-md p-2 text-base text-blue_dark  ${ selectedItem === menus[ menus.length - 1 ].path
+<<<<<<< Updated upstream
                     ? `!bg-blue_base !text-white`
                     : ""
+=======
+                  ? `!bg-blue_base !text-white`
+                  : ""
+>>>>>>> Stashed changes
                   } hover:bg-slate-100 transition-all` }
               >
                 <img src={ menus[ menus.length - 1 ].icon } />
@@ -172,9 +191,15 @@ const CustomDrawer = () => {
             </NavLink>
           </div>
         </Sidebar.Items>
+<<<<<<< Updated upstream
         <Button className="mt-2 w-full justify-center !p-0 !ring-0 text-blue_dark font-bold flex-1 ">
           Hướng dẫn sử dụng
         </Button>
+=======
+        {/* <Button className="mt-2 w-full justify-center !p-0 !ring-0 text-blue_dark font-bold flex-1 ">
+          Hướng dẫn sử dụng
+        </Button> */}
+>>>>>>> Stashed changes
       </Sidebar>
     </>
   );

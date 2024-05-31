@@ -1,9 +1,16 @@
 import { PATH } from "routes/constants";
 
+<<<<<<< Updated upstream
 export const breadCrumbFormat = (pathname) => {
   if (!pathname) return "";
   const path = "/" + pathname.split("/")[1];
   switch (path) {
+=======
+export const breadCrumbFormat = ( pathname ) => {
+  if ( !pathname ) return "";
+  const path = "/" + pathname.split( "/" )[ 1 ];
+  switch ( path ) {
+>>>>>>> Stashed changes
     case PATH.HOME:
       return "Trang chủ";
 
@@ -58,8 +65,13 @@ export const breadCrumbFormat = (pathname) => {
   return "";
 };
 
+<<<<<<< Updated upstream
 export const emptyDataFormat = (tableName) => {
   switch (tableName) {
+=======
+export const emptyDataFormat = ( tableName ) => {
+  switch ( tableName ) {
+>>>>>>> Stashed changes
     case "class":
       return "Hiện tại lớp chưa có học sinh nào";
     case "school":
@@ -67,8 +79,13 @@ export const emptyDataFormat = (tableName) => {
   }
 };
 
+<<<<<<< Updated upstream
 export const drawerFormat = (pathname) => {
   switch (pathname) {
+=======
+export const drawerFormat = ( pathname ) => {
+  switch ( pathname ) {
+>>>>>>> Stashed changes
     case PATH.HOME:
       return "Trang chủ";
 
@@ -102,7 +119,11 @@ export const drawerFormat = (pathname) => {
     case PATH.MANAGEEXAM:
       return "Quản lý bộ câu hỏi";
     case PATH.SUPERMARKETEXAMALL:
+<<<<<<< Updated upstream
       return "Tất cả đề";
+=======
+      return "Tất cả bộ câu hỏi";
+>>>>>>> Stashed changes
 
     case PATH.LISTPAY:
       return "Danh sách bán";
@@ -119,6 +140,7 @@ export const drawerFormat = (pathname) => {
   }
   return "";
 };
+<<<<<<< Updated upstream
 export const dateFormat = (inputDate) => {
   // Parse the input date string
   const parsedDate = new Date(inputDate);
@@ -135,12 +157,35 @@ export const dateFormat = (inputDate) => {
 
   // Format the date and time
   const formattedDate = `${day}-${month}-${year}`;
+=======
+export const dateFormat = ( inputDate ) => {
+  // Parse the input date string
+  const parsedDate = new Date( inputDate );
+
+  // Extract date components
+  const year = parsedDate.getFullYear();
+  const month = ( parsedDate.getMonth() + 1 ).toString().padStart( 2, "0" );
+  const day = parsedDate.getDate().toString().padStart( 2, "0" );
+
+  // Extract time components
+  const hours = parsedDate.getHours().toString().padStart( 2, "0" );
+  const minutes = parsedDate.getMinutes().toString().padStart( 2, "0" );
+  const seconds = parsedDate.getSeconds().toString().padStart( 2, "0" );
+
+  // Format the date and time
+  const formattedDate = `${ day }-${ month }-${ year }`;
+>>>>>>> Stashed changes
 
   return formattedDate;
 };
 
+<<<<<<< Updated upstream
 export const genderFormat = (gender) => {
   switch (gender) {
+=======
+export const genderFormat = ( gender ) => {
+  switch ( gender ) {
+>>>>>>> Stashed changes
     case 0:
       return "Nữ";
     case 1:
@@ -150,21 +195,46 @@ export const genderFormat = (gender) => {
   }
 };
 
+<<<<<<< Updated upstream
 export const statusFormat = (status) => {
   switch (status) {
+=======
+export const statusFormat = ( status ) => {
+  switch ( status ) {
+>>>>>>> Stashed changes
     case 0:
       return "Chờ phê duyệt";
     case 1:
       return "Đã phê duyệt";
     case 2:
+<<<<<<< Updated upstream
       return "Từ chối";
+=======
+      return "Đã từ chối";
+>>>>>>> Stashed changes
     default:
       return "";
   }
 };
 
+<<<<<<< Updated upstream
 export const transactionTypeFormat = (type) => {
   switch (type) {
+=======
+export const questionsSetFormat = ( type ) => {
+  switch ( type ) {
+    case "0":
+      return "Đã mua";
+    case "2":
+      return "Được chia sẻ bởi";
+    default:
+      return ""
+  }
+}
+
+export const transactionTypeFormat = ( type ) => {
+  switch ( type ) {
+>>>>>>> Stashed changes
     case 0:
       return "Nạp xu";
     case 1:
@@ -184,6 +254,7 @@ export const transactionTypeFormat = (type) => {
   }
 };
 
+<<<<<<< Updated upstream
 export const dateHourFormat = (inputDate) => {
   // Parse the input date string
   const parsedDate = new Date(inputDate);
@@ -200,6 +271,24 @@ export const dateHourFormat = (inputDate) => {
 
   // Format the date and time
   const formattedDate = `   ${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
+=======
+export const dateHourFormat = ( inputDate ) => {
+  // Parse the input date string
+  const parsedDate = new Date( inputDate );
+
+  // Extract date components
+  const year = parsedDate.getFullYear();
+  const month = ( parsedDate.getMonth() + 1 ).toString().padStart( 2, "0" );
+  const day = parsedDate.getDate().toString().padStart( 2, "0" );
+
+  // Extract time components
+  const hours = parsedDate.getHours().toString().padStart( 2, "0" );
+  const minutes = parsedDate.getMinutes().toString().padStart( 2, "0" );
+  const seconds = parsedDate.getSeconds().toString().padStart( 2, "0" );
+
+  // Format the date and time
+  const formattedDate = `   ${ day }-${ month }-${ year } | ${ hours }:${ minutes }:${ seconds }`;
+>>>>>>> Stashed changes
 
   return formattedDate;
 };

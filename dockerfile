@@ -8,7 +8,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+<<<<<<< Updated upstream
 RUN npm install
+=======
+RUN npm build
+>>>>>>> Stashed changes
 
 # Copy the rest of the application code
 COPY . .

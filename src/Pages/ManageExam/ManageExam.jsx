@@ -120,6 +120,11 @@ export const ManageExam = () => {
     setState( false );
   };
 
+<<<<<<< Updated upstream
+=======
+  console.log( entities )
+
+>>>>>>> Stashed changes
   const [ stateDelete, setStateDelete ] = useState( false );
   const HandleTrueDelete = () => {
     setStateDelete( true );
@@ -232,8 +237,12 @@ export const ManageExam = () => {
         setSnackbar( { color: "green", message: "Đăng ký bán thành công" } )
       );
     } catch ( error ) {
+<<<<<<< Updated upstream
       console.log( truncateMessage( error ) );
       dispatch( setSnackbar( { color: "red", message: truncateMessage( error ) } ) );
+=======
+      dispatch( setSnackbar( { color: "red", message: error.message } ) );
+>>>>>>> Stashed changes
     }
   };
   const handleContribute = async ( questionSetId, token ) => {
@@ -430,12 +439,20 @@ export const ManageExam = () => {
         </div>
         <div className="h-[100%] w-full grid grid-cols-3 gap-x-12 gap-y-[43px] overflow-y-auto no-scrollbar px-4">
           { entities.map( ( value, index ) => (
+<<<<<<< Updated upstream
             <React.Fragment key={ index }>
+=======
+            <React.Fragment key={ index } >
+>>>>>>> Stashed changes
               <Card
                 name={ value.name }
                 dataButton={ dataButton( value ) }
                 questionSetId={ value.questionSetId }
                 type={ value.type }
+<<<<<<< Updated upstream
+=======
+                shareBy={ value.nameOfOwner }
+>>>>>>> Stashed changes
               />
             </React.Fragment>
           ) ) }
@@ -452,7 +469,11 @@ export const ManageExam = () => {
           setTestFormData={ setTestFormData }
           openTestForm={ handleOpenTest }
         />
+<<<<<<< Updated upstream
       </div>
+=======
+      </div >
+>>>>>>> Stashed changes
     </>
   );
 };

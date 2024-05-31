@@ -71,7 +71,11 @@ export class SubjectSectionService {
           reject( response.data.message );
         }
       } catch ( error ) {
+<<<<<<< Updated upstream
         reject( error.message );
+=======
+        reject( error.response.data );
+>>>>>>> Stashed changes
       }
     } );
   }

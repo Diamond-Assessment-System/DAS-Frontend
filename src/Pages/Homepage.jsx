@@ -3,7 +3,11 @@ import React from "react";
 const Homepage = () => {
   return (
     <div className="h-full w-full shadow-card p-4 rounded-lg overflow-auto hide-scrollbar bg-white">
+<<<<<<< Updated upstream
       <div className="grid grid-cols-4 gap-4">
+=======
+      {/* <div className="grid grid-cols-4 gap-4">
+>>>>>>> Stashed changes
         {new Array(4).fill({}).map((item, index) => (
           <div
             key={index}
@@ -48,7 +52,11 @@ const Homepage = () => {
           src="/images/table.jpg"
           alt="img"
         />
+<<<<<<< Updated upstream
       </div>
+=======
+      </div> */}
+>>>>>>> Stashed changes
     </div>
   );
 };

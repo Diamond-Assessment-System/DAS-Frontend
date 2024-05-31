@@ -89,7 +89,11 @@ export class SuperMarketService {
         }
       } catch ( error ) {
         console.log( error )
+<<<<<<< Updated upstream
         reject( error.request.response );
+=======
+        reject( error.response.data );
+>>>>>>> Stashed changes
         // reject( error.message );
       }
     } );
@@ -108,6 +112,10 @@ export class SuperMarketService {
           reject( response.data.message );
         }
       } catch ( error ) {
+<<<<<<< Updated upstream
+=======
+        console.log( error )
+>>>>>>> Stashed changes
         reject( error.response.data );
       }
     } );
@@ -127,7 +135,11 @@ export class SuperMarketService {
           reject( response.data.message );
         }
       } catch ( error ) {
+<<<<<<< Updated upstream
         reject( error.message );
+=======
+        reject( error.response.data );
+>>>>>>> Stashed changes
       }
     } );
   }
@@ -199,7 +211,11 @@ export class SuperMarketService {
           reject( response.data.message );
         }
       } catch ( error ) {
+<<<<<<< Updated upstream
         reject( error.message );
+=======
+        reject( error.response.data );
+>>>>>>> Stashed changes
       }
     } );
   }

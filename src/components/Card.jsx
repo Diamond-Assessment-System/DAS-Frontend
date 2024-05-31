@@ -4,8 +4,14 @@ import defaultImg1 from "../asset/defaultImg1.png";
 import ProfileImg from "../asset/ProfileImg.svg";
 
 import { MenuButtonMore } from "./MenuButtonMore";
+<<<<<<< Updated upstream
 import { statusFormat } from "utils/dataFormat";
 import { useLocation } from "react-router-dom";
+=======
+import { questionsSetFormat, statusFormat } from "utils/dataFormat";
+import { useLocation } from "react-router-dom";
+import { type } from "@testing-library/user-event/dist/type";
+>>>>>>> Stashed changes
 
 const price = ( props ) => {
   return (
@@ -19,10 +25,17 @@ const price = ( props ) => {
 export const Card = ( props ) => {
   const location = useLocation();
   console.log( location );
+<<<<<<< Updated upstream
   console.log( props.status );
   //remove some button when props.type === 0
   let dataButton = props?.dataButton;
   if ( props.type === 0 ) {
+=======
+  console.log( props.type )
+  //remove some button when props.type === 0
+  let dataButton = props?.dataButton;
+  if ( props.type !== 1 ) {
+>>>>>>> Stashed changes
     const buttonsToRemove = [
       "Xoá Bộ câu hỏi",
       "Đăng ký bán",
@@ -33,6 +46,12 @@ export const Card = ( props ) => {
       ( button ) => !buttonsToRemove.includes( button.name )
     );
   }
+<<<<<<< Updated upstream
+=======
+  const handleQuestionsFormat = ( type ) => {
+    return questionsSetFormat( type );
+  }
+>>>>>>> Stashed changes
   return (
     <div className="shadow-xl h-fit w-fit px-2 py-3 bg-white rounded-[10px] flex flex-col">
       <div className="w-full flex flex-row items-center justify-between">
@@ -67,6 +86,7 @@ export const Card = ( props ) => {
         { props.sellPrice && props.status !== 0 && <div className="">Giá bán: { props.sellPrice } Xu</div> }
 
 
+<<<<<<< Updated upstream
         { props?.type && location.pathname !== "/supermarketexamAll" ? (
           <></>
         ) : (
@@ -77,6 +97,22 @@ export const Card = ( props ) => {
 
       </div>
     </div>
+=======
+        { location.pathname !== "/supermarketexamAll" && props.type !== undefined ? (
+          <>
+            <div className="text-gray-500 text-sm flex justify-end">
+              { handleQuestionsFormat( props.type.toString() ) } { " " }
+              { props.shareBy ? ( `${ props.shareBy }` ) : ( <></> ) }
+            </div>
+          </>
+        ) : (
+          <>
+          </>
+        ) }
+
+      </div>
+    </div >
+>>>>>>> Stashed changes
   );
 };
 

@@ -110,7 +110,13 @@ const MatrixPage = () => {
 
   const updateConfig = ( field, value ) => {
     const updateFormData = { ...formData };
+<<<<<<< Updated upstream
     updateFormData.configArrange[ field ] = value;
+=======
+    console.log( field, value )
+    updateFormData.configArrange[ field ] = value;
+    console.log( "jfkjskdfjlksjdfk", updateFormData )
+>>>>>>> Stashed changes
     setFormData( updateFormData );
   };
   const updateForm = ( field, value ) => {
@@ -487,21 +493,33 @@ const MatrixPage = () => {
                   label={ "Trộn vị trí của câu hỏi" }
                   value={ formData.configArrange[ "shuffleQuestions" ] }
                   onChange={ ( e ) =>
+<<<<<<< Updated upstream
                     updateConfig( "shuffleQuestions", !!e.target.value )
+=======
+                    updateConfig( "shuffleQuestions", e.target.checked )
+>>>>>>> Stashed changes
                   }
                 />
                 <Toggle
                   label={ "Trộn vị trí của đáp án " }
                   value={ formData.configArrange[ "shuffleAnswers" ] }
                   onChange={ ( e ) =>
+<<<<<<< Updated upstream
                     updateConfig( "shuffleAnswers", !!e.target.value )
+=======
+                    updateConfig( "shuffleAnswers", e.target.checked )
+>>>>>>> Stashed changes
                   }
                 />
                 <Toggle
                   label={ "Sắp xếp từ dễ đến khó" }
                   value={ formData.configArrange[ "arrangeDifficulty" ] }
                   onChange={ ( e ) =>
+<<<<<<< Updated upstream
                     updateConfig( "arrangeDifficulty", !!e.target.value )
+=======
+                    updateConfig( "arrangeDifficulty", e.target.checked ) // Use 'e.target.checked' to set the new state
+>>>>>>> Stashed changes
                   }
                 />
               </div>
