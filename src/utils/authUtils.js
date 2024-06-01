@@ -1,31 +1,34 @@
-export const getAuthHeaders = () => {
-    const sessionId = localStorage.getItem('sessionId');
-    const idToken = localStorage.getItem('idToken');
-  
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`,
-      'X-Session-ID': sessionId
-    };
-  };
-  
-  // Function to fetch data from a protected endpoint
-  export const fetchData = async () => {
-    const headers = getAuthHeaders();
-  
-    try {
-      const response = await fetch('http://localhost:8080/api/your-protected-endpoint', {
-        method: 'GET',
-        headers: headers
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Data fetched successfully:", data);
-      } else {
-        console.error("Failed to fetch data");
+import {auth, googleProvider} from '../config/firebase'
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await auth.signInWithPopup(googleProvider);
+    const user = result.user;
+    const idToken = await user.getIdToken();
+
+    const response = await fetch('http://localhost:8080/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${idToken}`
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const sessionId = data.sessionId;
+      const account = data.account;
+
+      localStorage.setItem('sessionId', sessionId);
+      localStorage.setItem('idToken', idToken);
+
+      console.log("Successfully authenticated");
+      console.log("Account details:", account);
+    } else {
+      console.error("Authentication failed");
     }
-  };
+  } catch (error) {
+    console.error("Error during Google Sign-In: ", error);
+  }
+};
+export default signInWithGoogle
