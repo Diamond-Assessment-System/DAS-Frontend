@@ -12,10 +12,7 @@ head{
     justify-content: flex-end;
 }
 
-h3{
-    color: rgb(255, 255, 255);
-    margin-left: 1600px;
-}
+
 .image1{
     width: 90px;
     height: 70px;
@@ -24,4 +21,8 @@ h3{
     width: 30px;
     height: 30px;
     margin-right: 20px;
+}
+h3{
+    color: rgb(255, 255, 255);
+    margin-left: 1200px;
 }
