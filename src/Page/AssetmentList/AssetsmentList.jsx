@@ -1,5 +1,6 @@
 import React from "react";
 import "../AssetmentList/AssetsmentList.css";
+import { Button } from "antd";
 function AssetsmentList() {
   return (
     <>
@@ -12,15 +13,17 @@ function AssetsmentList() {
                 <div className="grid-body">
                   <div className="invoice-title">
                     <div className="row">
-                      <div className="col-xs-12"></div>
+                      <div className="col-xs-12">
+                        <img src="../src/image/logo.png" alt="" />
+                      </div>
                     </div>
                     <br />
                     <div className="row">
                       <div className="col-xs-12">
                         <h2>
-                          Biên Nhận
+                          Hóa Đơn
                           <br />
-                          <span className="small">Mã Biên Nhận #1082</span>
+                          <span className="small">Đơn hàng #1082</span>
                         </h2>
                       </div>
                     </div>
@@ -29,7 +32,7 @@ function AssetsmentList() {
                   <div className="row">
                     <div className="col-xs-6">
                       <address>
-                        <strong>Billed To:</strong>
+                        <strong>Người Nhận:</strong>
                         <br />
                         Twitter, Inc.
                         <br />
@@ -37,27 +40,27 @@ function AssetsmentList() {
                         <br />
                         San Francisco, CA 94107
                         <br />
-                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                        <abbr title="Phone">ĐT:</abbr> (123) 456-7890
                       </address>
                     </div>
                     <div className="col-xs-6 text-right">
                       <address>
-                        <strong>Shipped To:</strong>
+                        <strong>Người Gửi:</strong>
                         <br />
                         Elaine Hernandez
                         <br />
                         P. Sherman 42,
                         <br />
-                        Wallaby Way, Sidney
+                        Wallaby Way, Sydney
                         <br />
-                        <abbr title="Phone">P:</abbr> (123) 345-6789
+                        <abbr title="Phone">ĐT:</abbr> (123) 345-6789
                       </address>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-xs-6">
                       <address>
-                        <strong>Payment Method:</strong>
+                        <strong>Phương Thức Thanh Toán:</strong>
                         <br />
                         Visa ending **** 1234
                         <br />
@@ -67,7 +70,7 @@ function AssetsmentList() {
                     </div>
                     <div className="col-xs-6 text-right">
                       <address>
-                        <strong>Order Date:</strong>
+                        <strong>Ngày Đặt Hàng:</strong>
                         <br />
                         17/06/14
                       </address>
@@ -75,7 +78,7 @@ function AssetsmentList() {
                   </div>
                   <div className="row">
                     <div className="col-md-12">
-                      <h3>ORDER SUMMARY</h3>
+                      <h3>Tóm Tắt Đơn Hàng</h3>
                       <table className="table table-striped">
                         <thead>
                           <tr className="line">
@@ -83,10 +86,10 @@ function AssetsmentList() {
                               <strong>#</strong>
                             </td>
                             <td className="text-center">
-                              <strong>Mô Tả</strong>
+                              <strong>Dịch vụ</strong>
                             </td>
                             <td className="text-center">
-                              <strong>Số Lượng</strong>
+                              <strong>Số lượng</strong>
                             </td>
                             <td className="text-right">
                               <strong>Giá</strong>
@@ -100,57 +103,56 @@ function AssetsmentList() {
                           <tr>
                             <td>1</td>
                             <td>
-                              <strong>Template Design</strong>
-                              <br />
+                              <strong>Giám định kim cương</strong>
                             </td>
-                            <td className="text-center">15</td>
-                            <td className="text-center">$75</td>
-                            <td className="text-right">$1,125.00</td>
+                            <td className="text-center">1</td>
+                            <td className="text-right">$100</td>
+                            <td className="text-right">$100</td>
                           </tr>
                           <tr>
                             <td>2</td>
                             <td>
-                              <strong>Template Development</strong>
-                              <br />
+                              <strong>Đánh bóng</strong>
                             </td>
-                            <td className="text-center">15</td>
-                            <td className="text-center">$75</td>
-                            <td className="text-right">$1,125.00</td>
+                            <td className="text-center">2</td>
+                            <td className="text-right">$50</td>
+                            <td className="text-right">$100</td>
                           </tr>
                           <tr className="line">
                             <td>3</td>
                             <td>
-                              <strong>Testing</strong>
-                              <br />
+                              <strong>Vệ sinh</strong>
                             </td>
-                            <td className="text-center">2</td>
-                            <td className="text-center">$75</td>
-                            <td className="text-right">$150.00</td>
+                            <td className="text-center">1</td>
+                            <td className="text-right">$30</td>
+                            <td className="text-right">$30</td>
                           </tr>
                           <tr>
                             <td colSpan={3} />
                             <td className="text-right">
-                              <strong>Taxes</strong>
+                              <strong>Thuế (10%)</strong>
                             </td>
-                            <td className="text-right">
-                              <strong>N/A</strong>
-                            </td>
+                            <td className="text-right">$23</td>
                           </tr>
                           <tr>
-                            <td colSpan={3}></td>
+                            <td colSpan={3} />
                             <td className="text-right">
-                              <strong>Total</strong>
+                              <strong>Giảm giá</strong>
+                            </td>
+                            <td className="text-right">-$10</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={3} />
+                            <td className="text-right">
+                              <strong>Thành tiền</strong>
                             </td>
                             <td className="text-right">
-                              <strong>$2,400.00</strong>
+                              <strong>$243</strong>
                             </td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12 text-right identity"></div>
                   </div>
                 </div>
               </div>
@@ -158,6 +160,9 @@ function AssetsmentList() {
             {/* END INVOICE */}
           </div>
         </div>
+        <Button type="primary" htmlType="submit">
+          Tiếp Tục
+        </Button>
       </div>
     </>
   );

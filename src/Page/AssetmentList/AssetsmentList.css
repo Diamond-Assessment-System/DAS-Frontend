@@ -1,49 +1,70 @@
-.invoice {
-    padding: 30px;
-}
-
-.invoice h2 {
-	margin-top: 0px;
-	line-height: 0.8em;
-}
-
-.invoice .small {
-	font-weight: 300;
-}
-
-.invoice hr {
-	margin-top: 10px;
-	border-color: #ddd;
-}
-
-.invoice .table tr.line {
-	border-bottom: 1px solid #ccc;
-}
-
-.invoice .table td {
-	border: none;
-}
-
-.invoice .identity {
-	margin-top: 10px;
-	font-size: 1.1em;
-	font-weight: 300;
-}
-
-.invoice .identity strong {
-	font-weight: 600;
-}
-
-
-.grid {
-    position: relative;
-	width: 90%;
-	background: #fff;
-	color: #666666;
-	border-radius: 2px;
-	margin-bottom: 25px;
-	box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
-}
 .container-assetsmentlist{
     margin-left: 200px;
+}
+.container-assetsmentlist button{
+	margin-left: 1045px;
+}
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: rgba(0, 57, 87, 1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	color: rgb(255, 255, 255);
+}
+
+.invoice-title {
+    margin-bottom: 20px;
+}
+
+.invoice-title img {
+	width: 100px;
+}
+
+.invoice-title h2 {
+    margin-top: 10px;
+}
+
+.invoice-details address {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+	color: #ffffff;
+}
+
+.table th, .table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+	color: #ffffff;
+}
+
+.table th {
+    background-color: #f9f9f9;
+	color: #ffffff;
+}
+
+.table .line td {
+    border-top: 2px solid #ddd;
+	color: #ffffff;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.identity p {
+    margin: 0;
+    font-weight: bold;
 }
