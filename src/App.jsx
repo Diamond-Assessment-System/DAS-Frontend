@@ -5,6 +5,8 @@ import GoogleLoginComponent from './components/Login/Login';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import ErrorPage from './components/ErrorPage/ErrorPage';
+import AppointmentPage from './components/AppointmentPage/AppointmentPage';
+
 
 const MainLayout = ({ children }) => {
   return (
@@ -22,6 +24,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/" element={<MainLayout><HomePage /></MainLayout>} />
+        <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>
