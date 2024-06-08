@@ -2,20 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logodas.png";
 import { AccountCircle, Menu, Close } from "@mui/icons-material";
-import Cookies from 'js-cookie';
-import { signInWithGoogle } from '../path/to/your/signInWithGoogle';
+import Cookies from "js-cookie";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const account = Cookies.get('account');
+    const account = Cookies.get("account");
     if (account) {
       const parsedAccount = JSON.parse(account);
-      if (parsedAccount.name) {
+      if (parsedAccount.name && parsedAccount.avatar) {
         setUserName(parsedAccount.name);
+        setAvatarUrl(parsedAccount.avatar);
       }
     }
   }, []);
@@ -24,12 +25,8 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleLogin = async () => {
-    await signInWithGoogle((account) => {
-      if (account && account.name) {
-        setUserName(account.name);
-      }
-    });
+  const handleLoginClick = () => {
+    navigate("/login");
   };
 
   return (
@@ -50,7 +47,9 @@ const Header = () => {
         </div>
       </div>
       <nav
-        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"} absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
+        className={`md:flex ${
+          isMobileMenuOpen ? "block" : "hidden"
+        } absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
       >
         <ul className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0">
           <li
@@ -99,14 +98,25 @@ const Header = () => {
           Đặt Hẹn
         </button>
         {userName ? (
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={handleLoginClick}
+          >
             <span>Xin chào, {userName}!</span>
-            <AccountCircle style={{ color: "white", fontSize: 30 }} />
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt="User Avatar"
+                className="w-8 h-8 rounded-full"
+              />
+            ) : (
+              <AccountCircle style={{ color: "white", fontSize: 30 }} />
+            )}
           </div>
         ) : (
           <div
             className="cursor-pointer hidden md:block"
-            onClick={handleLogin}
+            onClick={handleLoginClick}
           >
             <AccountCircle style={{ color: "white", fontSize: 30 }} />
           </div>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import {signInWithGoogle} from "../../utils/authUtils";
-import illustration from "../../assets/loginbackground.png"; // Add your left-side illustration image here
+import { signInWithGoogle } from "../../utils/authUtils";
+import illustration from "../../assets/loginbackground.png";
+import Cookies from "js-cookie";
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
@@ -10,6 +11,7 @@ const GoogleLoginComponent = () => {
 
   const handleLoginSuccess = async (userInfo) => {
     setUser(userInfo);
+    Cookies.set("account", JSON.stringify(userInfo));
     navigate("/");
   };
 
