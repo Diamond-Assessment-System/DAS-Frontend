@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-
+import "../ManagerLayout/CommitmentPaper.css";
 const CommitmentPaper = () => {
   const [paper, setPaper] = useState("");
+  const [customers, setCustomers] = useState([
+    { id: 1, name: "John Doe", requestDate: "2023-06-15" },
+    { id: 2, name: "Jane Smith", requestDate: "2023-06-17" },
+    // Add more customers as needed
+  ]);
 
   const handleSave = () => {
     // Logic to save commitment paper
@@ -20,7 +25,7 @@ const CommitmentPaper = () => {
           onChange={(e) => setPaper(e.target.value)}
         />
       </div>
-      <button className="btn btn-primary" onClick={handleSave}>
+      <button className="btn btn-commit" onClick={handleSave}>
         Save
       </button>
     </div>

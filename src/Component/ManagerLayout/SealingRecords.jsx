@@ -59,7 +59,7 @@ const SealingRecords = () => {
           ))}
         </tbody>
       </table>
-      <button className="btn btn-primary" onClick={handleSave}>
+      <button className="btn btn-sealing" onClick={handleSave}>
         Save
       </button>
     </div>

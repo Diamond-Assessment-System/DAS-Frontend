@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../ManagerLayout/NavBarManager.css"; // Import the CSS file for styling
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -9,25 +10,23 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-100 border-b border-gray-200">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link className="text-xl font-bold text-gray-900" to="/">
-              Manager Portal
-            </Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-flex">
+          <div className="navbar-title">
+            <Link to="/">Manager Portal</Link>
           </div>
-          <div className="flex items-center -mr-2 md:hidden">
+          <div className="navbar-toggle">
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500"
+              className="navbar-button"
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
               {isOpen ? (
                 <svg
-                  className="block h-6 w-6"
+                  className="navbar-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -43,7 +42,7 @@ const Navbar = () => {
                 </svg>
               ) : (
                 <svg
-                  className="block h-6 w-6"
+                  className="navbar-icon"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -60,68 +59,30 @@ const Navbar = () => {
               )}
             </button>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <Link
-                className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/"
-              >
-                Dashboard
-              </Link>
-              <Link
-                className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/manage-pricing-timelines"
-              >
-                Manage Pricing & Timelines
-              </Link>
-              <Link
-                className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/sealing-records"
-              >
-                Sealing Records
-              </Link>
-              <Link
-                className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/commitment-paper"
-              >
-                Commitment Paper
-              </Link>
-            </div>
+          <div className="navbar-links">
+            <Link to="/manager">Dashboard</Link>
+            <Link to="/manager/manage-pricing-timelines">
+              Manage Pricing & Timelines
+            </Link>
+            <Link to="/manager/sealing-records">Sealing Records</Link>
+            <Link to="/manager/commitment-paper">Commitment Paper</Link>
           </div>
         </div>
       </div>
       {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link
-              className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/"
-              onClick={toggleMenu}
-            >
-              Dashboard
-            </Link>
-            <Link
-              className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/manage-pricing-timelines"
-              onClick={toggleMenu}
-            >
-              Manage Pricing & Timelines
-            </Link>
-            <Link
-              className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/sealing-records"
-              onClick={toggleMenu}
-            >
-              Sealing Records
-            </Link>
-            <Link
-              className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/commitment-paper"
-              onClick={toggleMenu}
-            >
-              Commitment Paper
-            </Link>
-          </div>
+        <div className="navbar-dropdown">
+          <Link to="/manager" onClick={toggleMenu}>
+            Dashboard
+          </Link>
+          <Link to="/manager/manage-pricing-timelines" onClick={toggleMenu}>
+            Manage Pricing & Timelines
+          </Link>
+          <Link to="/manager/sealing-records" onClick={toggleMenu}>
+            Sealing Records
+          </Link>
+          <Link to="/manager/commitment-paper" onClick={toggleMenu}>
+            Commitment Paper
+          </Link>
         </div>
       )}
     </nav>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../ManagerLayout/ManagePricingTimelines.css";
+
 const ManageOrderTimelines = () => {
   const [orders, setOrders] = useState([
     { id: 1, name: "Order 1", deliveryTime: "" },
@@ -21,7 +22,7 @@ const ManageOrderTimelines = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Manage Order Timelines</h1>
       <table className="table">
         <thead>
@@ -37,7 +38,7 @@ const ManageOrderTimelines = () => {
               <td>
                 <input
                   type="datetime-local"
-                  className="form-control"
+                  className="input-control"
                   value={order.deliveryTime}
                   onChange={(e) => handleTimeChange(order.id, e.target.value)}
                 />
@@ -49,6 +50,18 @@ const ManageOrderTimelines = () => {
       <button className="btn btn-primary" onClick={handleSave}>
         Save
       </button>
+
+      {/* Displaying List of Inspection Orders */}
+      {/* <div className="inspection-orders">
+        <h2>List of Inspection Orders</h2>
+        <ul>
+          {orders.map((order) => (
+            <li key={order.id}>
+              {order.name} - Delivery Time: {order.deliveryTime || "Not set"}
+            </li>
+          ))}
+        </ul>
+      </div> */}
     </div>
   );
 };
