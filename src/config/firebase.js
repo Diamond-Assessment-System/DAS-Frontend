@@ -1,6 +1,6 @@
 // firebase.js
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDmJRG3IrO-_IypKMLyUdL7B9sikgLe6dI",
@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "diamond-assessment-system",
   storageBucket: "diamond-assessment-system.appspot.com",
   messagingSenderId: "322740938511",
-  appId: "1:322740938511:web:fc53146135af52ab73807a"
+  appId: "1:322740938511:web:fc53146135af52ab73807a",
 };
 
 // Initialize Firebase

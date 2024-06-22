@@ -1,70 +1,66 @@
-.container-assetsmentlist{
-    margin-left: 200px;
-}
-.container-assetsmentlist button{
-	margin-left: 1045px;
-}
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
 .container {
-    width: 100%;
-    max-width: 900px;
-    margin: 20px auto;
-    background-color: rgba(0, 57, 87, 1);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	color: rgb(255, 255, 255);
+  width: 100%;
+  margin: 20px auto;
+  background-color: rgba(0, 57, 87, 1);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: rgb(255, 255, 255);
 }
 
 .invoice-title {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .invoice-title img {
-	width: 100px;
+  width: 100px;
 }
 
 .invoice-title h2 {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .invoice-details address {
-    margin-bottom: 20px;
-    line-height: 1.5;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .table {
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-	color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  margin-left: 0;
 }
 
-.table th, .table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-	color: #ffffff;
+.table th,
+.table td {
+  padding: 8px;
+  text-align: center;
+  color: #ffffff;
+  background-color: rgba(0, 57, 87, 1);
 }
 
 .table th {
-    background-color: #f9f9f9;
-	color: #ffffff;
+  background-color: rgba(0, 57, 87, 1);
+  color: #ffffff;
 }
 
 .table .line td {
-    border-top: 2px solid #ddd;
-	color: #ffffff;
+  color: rgba(0, 57, 87, 1);
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .identity p {
-    margin: 0;
-    font-weight: bold;
+  margin: 0;
+  font-weight: bold;
 }

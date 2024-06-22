@@ -4,7 +4,7 @@ import sampleImage from "../../assets/backgrounddas.png"; // Đảm bảo đư�
 function MyComponent() {
   return (
     <>
-      <div className="flex justify-center pt-20">
+      <div className="flex justify-center ">
         <img src={sampleImage} alt="Sample" className="h-full w-full" />
       </div>
     </>

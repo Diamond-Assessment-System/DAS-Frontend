@@ -1,7 +1,6 @@
 import { auth, googleProvider } from '../config/firebase';
-import Cookies from 'js-cookie';
 
-const signInWithGoogle = async (onLoginSuccess) => {
+const signInWithGoogle = async () => {
   try {
     const result = await auth.signInWithPopup(googleProvider);
     const user = result.user;
@@ -19,23 +18,24 @@ const signInWithGoogle = async (onLoginSuccess) => {
       const data = await response.json();
       const sessionId = data.sessionId;
       const account = data.account;
-      const expirationTime = new Date(Date.now() + 3600 * 1000); // Set expiration time to 1 hour from now
+      const expirationTime = Date.now() + 2 * 3600 * 1000; // Set expiration time to 2 hours from now
 
-      Cookies.set('sessionId', sessionId, { expires: expirationTime });
-      Cookies.set('idToken', idToken, { expires: expirationTime });
-      Cookies.set('expirationTime', expirationTime.toISOString(), { expires: expirationTime });
-      Cookies.set('account', JSON.stringify(account), { expires: expirationTime });
+      localStorage.setItem('sessionId', sessionId);
+      localStorage.setItem('idToken', idToken);
+      localStorage.setItem('expirationTime', expirationTime);
+      localStorage.setItem('account', JSON.stringify(account));
 
       console.log("Successfully authenticated");
       console.log("Account details:", account);
 
-      // Call the callback to update Header component
-      onLoginSuccess(account);
+      return account; // Return account details
     } else {
       console.error("Authentication failed");
+      throw new Error("Authentication failed");
     }
   } catch (error) {
     console.error("Error during Google Sign-In: ", error);
+    throw error; // Throw error to be handled by caller
   }
 };
 

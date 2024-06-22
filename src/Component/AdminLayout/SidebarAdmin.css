@@ -1,0 +1,33 @@
+aside {
+  width: 250px; 
+  background-color: #efeaea; 
+  color: #fff; 
+  padding: 20px;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  height: 100vh; 
+  overflow-y: auto; 
+  z-index: 1; 
+}
+
+nav ul {
+  list-style-type: none; /* Remove default list style */
+  padding: 0;
+}
+
+nav ul li {
+  margin: 10px 0; /* Space out list items */
+}
+
+.sidebarAdmin {
+  text-decoration: none; /* Remove underline from links */
+  color: #007bff; /* Example link color */
+  display: block;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.sidebarAdmin:hover {
+  background-color: #c7dcf4; /* Example hover effect */
+}
