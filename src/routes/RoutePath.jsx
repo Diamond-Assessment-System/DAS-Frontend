@@ -32,6 +32,12 @@ import CommitmentPaper from "../Component/ManagerLayout/CommitmentPaper.jsx";
 import Dashboard from "../Component/ManagerLayout/Dashboard";
 import AssetsmentList from "../Component/AssetmentList/AssetsmentList";
 import ManageOrderTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
+import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
+import Products from "../Component/AdminLayout/Product.jsx";
+import Orders from "../Component/AdminLayout/Order.jsx";
+import Customers from "../Component/AdminLayout/Customer.jsx";
+import Reports from "../Component/AdminLayout/Report.jsx";
+import Settings from "../Component/AdminLayout/Setting.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -101,7 +107,14 @@ const RoutePath = () => {
             element={<CommitmentPaper />}
           />
         </Route>
-
+        {/* <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route> */}
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />

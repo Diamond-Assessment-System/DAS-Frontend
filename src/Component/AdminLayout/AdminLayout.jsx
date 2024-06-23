@@ -1,11 +1,12 @@
-import Sidebar from "../components/Sidebar";
-const AdminLayout = ({ children }) => {
+import React from "react";
+import { Outlet } from "react-router-dom";
+import SidebarAdmin from "./SidebarAdmin";
+
+const AdminLayout = () => {
   return (
     <div>
-      <div style={{ display: "flex" }}>
-        <Sidebar />
-        <main style={{ flex: 1, padding: "20px" }}>{children}</main>
-      </div>
+      <SidebarAdmin />
+      <Outlet />
     </div>
   );
 };

@@ -1,43 +1,33 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import "../AdminLayout/SidebarAdmin.css";
 
 const SidebarAdmin = () => {
   return (
-    <aside>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/account" className="sidebarAdmin">
-              Account Management
-            </Link>
-          </li>
-          <li>
-            <Link to="/role" className="sidebarAdmin">
-              Role & Permission Management
-            </Link>
-          </li>
-          <li>
-            <Link to="/error" className="sidebarAdmin">
-              Error Reporting
-            </Link>
-          </li>
-          <li>
-            <Link to="/maintenance" className="sidebarAdmin">
-              System Maintenance
-            </Link>
-          </li>
-          <li>
-            <Link to="/update" className="sidebarAdmin">
-              System Update
-            </Link>
-          </li>
-          <li>
-            <Link to="/database" className="sidebarAdmin">
-              Database Management
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+    <div className="sidebar">
+      <h2>Diamond Store Admin</h2>
+      <ul>
+        <li>
+          <Link to="/dashboardadmin">Dashboard</Link>
+        </li>
+        <li>
+          <Link to="/products">Products</Link>
+        </li>
+        <li>
+          <Link to="/orders">Orders</Link>
+        </li>
+        <li>
+          <Link to="/customers">Customers</Link>
+        </li>
+        <li>
+          <Link to="/reports">Reports</Link>
+        </li>
+        <li>
+          <Link to="/settings">Settings</Link>
+        </li>
+      </ul>
+    </div>
   );
 };
+
 export default SidebarAdmin;

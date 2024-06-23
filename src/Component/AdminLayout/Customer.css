@@ -1,0 +1,21 @@
+.customers {
+    padding: 20px;
+}
+
+.customers table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customers table, .customers th, .customers td {
+    border: 1px solid #ddd;
+}
+
+.customers th, .customers td {
+    padding: 8px;
+    text-align: left;
+}
+
+.customers th {
+    background-color: #f2f2f2;
+}

@@ -1,0 +1,21 @@
+.orders {
+    padding: 20px;
+}
+
+.orders table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders table, .orders th, .orders td {
+    border: 1px solid #ddd;
+}
+
+.orders th, .orders td {
+    padding: 8px;
+    text-align: left;
+}
+
+.orders th {
+    background-color: #f2f2f2;
+}

@@ -70,19 +70,19 @@ const Navbar = () => {
               </Link>
               <Link
                 className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/manage-pricing-timelines"
+                to="/manager/manage-pricing-timelines"
               >
                 Manage Pricing & Timelines
               </Link>
               <Link
                 className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/sealing-records"
+                to="/manager/sealing-records"
               >
                 Sealing Records
               </Link>
               <Link
                 className="text-gray-900 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium"
-                to="/commitment-paper"
+                to="/manager/commitment-paper"
               >
                 Commitment Paper
               </Link>
@@ -102,21 +102,21 @@ const Navbar = () => {
             </Link>
             <Link
               className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/manage-pricing-timelines"
+              to="/manager/manage-pricing-timelines"
               onClick={toggleMenu}
             >
               Manage Pricing & Timelines
             </Link>
             <Link
               className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/sealing-records"
+              to="/manager/sealing-records"
               onClick={toggleMenu}
             >
               Sealing Records
             </Link>
             <Link
               className="text-gray-900 hover:text-gray-700 block px-3 py-2 rounded-md text-base font-medium"
-              to="/commitment-paper"
+              to="/manager/commitment-paper"
               onClick={toggleMenu}
             >
               Commitment Paper
