@@ -1,75 +1,71 @@
-
-  .report-container {
-    background-color: #eeb983;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .report-title {
-    color: #c0392b;
-    font-weight: bold;
-  }
-  
-
-  .section-title {
-    color: #fefefe;
-    font-weight: bold;
-    margin-bottom: 15px;
-    background-color: #f0b070;
-    padding: 5px;
-  
-  }
-  .section-title h3{
-    background-color: #cf9f6f;
-  }
-  .mb-4 {
-    margin-bottom: 1.5rem !important;
-  }
-  .mb-4 p{
-    color: black;
-    padding-left: 5px;
-  }
-  .card-text div {
-    margin-bottom: 5px;
-  }
-  
-  .img-fluid {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .text-center {
-    text-align: center;
-  }
-  
-  .description-section {
-    display: flex;
-    align-items: flex-end;
-  }
-  
-  
-  .image-container {
-    border: 1px solid #ccc;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%; /* or a fixed width */
-    height: 200px; /* Set a fixed height for the image container */
-    overflow: hidden;
+.report-container {
+  background-color: #eeb983;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-  
-  .uploaded-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* This ensures the image maintains its aspect ratio and fits within the container */
-  }
-  
-  .gold-outline{
-    border: 10px double #f0b070;
-    margin: 2px;
-    padding: 5px;
-  }
+
+.report-title {
+  color: #c0392b;
+  font-weight: bold;
+}
+
+.section-title {
+  color: #fefefe;
+  font-weight: bold;
+  margin-bottom: 15px;
+  background-color: #f0b070;
+  padding: 5px;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mb-4 p {
+  color: black;
+  padding-left: 5px;
+}
+
+.card-text div {
+  margin-bottom: 5px;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.description-section {
+  display: flex;
+  align-items: flex-end;
+}
+
+.image-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* or a fixed width */
+  height: 200px; /* Set a fixed height for the image container */
+  overflow: hidden;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* This ensures the image maintains its aspect ratio and fits within the container */
+}
+
+.gold-outline {
+  border: 10px double #f0b070;
+  margin: 2px;
+  padding: 5px;
+}

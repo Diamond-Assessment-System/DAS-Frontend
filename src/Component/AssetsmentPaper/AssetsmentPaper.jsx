@@ -12,7 +12,7 @@ const AssessmentPaper = () => {
   const [uploadedProportionImage, setUploadedProportionImage] = useState(null);
   const [uploadedClarityImage, setUploadedClarityImage] = useState(null);
   const navigate = useNavigate();
-  const reportRef = useRef(null); // Create a ref for the report
+  const reportRef = useRef(null);
 
   const [loggedAccount, setLoggedAccount] = useState({});
 
@@ -23,7 +23,6 @@ const AssessmentPaper = () => {
     }
   }, [navigate]);
 
-  // Function to handle proportion image upload
   const handleProportionImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -35,7 +34,6 @@ const AssessmentPaper = () => {
     }
   };
 
-  // Function to handle clarity image upload
   const handleClarityImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -47,7 +45,6 @@ const AssessmentPaper = () => {
     }
   };
 
-  // Function to navigate to the preview page
   const handlePreview = () => {
     if (uploadedProportionImage && uploadedClarityImage) {
       navigate('/assessmentstaff/assessmentbooking/:id/selection/info/summary/preview', {
@@ -159,13 +156,12 @@ const AssessmentPaper = () => {
           </Row>
         </div>
       </div>
-      {/* Preview button section */}
       <Row className="mb-4">
         <Col>
           <Button
             variant="primary"
             onClick={handlePreview}
-            disabled={!uploadedProportionImage || !uploadedClarityImage} // Disable button if images are not uploaded
+            disabled={!uploadedProportionImage || !uploadedClarityImage}
           >
             Preview
           </Button>

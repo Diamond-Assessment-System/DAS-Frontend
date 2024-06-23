@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import Axios for HTTP requests
+import axios from 'axios';
 import html2canvas from 'html2canvas';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
@@ -21,8 +21,9 @@ const AssessmentPaperPreview = () => {
                 scrollX: 0,
                 scrollY: 0,
                 scale: 1,
-                windowWidth: document.documentElement.offsetWidth,
-                windowHeight: document.documentElement.offsetHeight,
+                useCORS: true, // Enable cross-origin images
+                backgroundColor: null, // Ensure transparent background if needed
+                logging: true // Enable logging for debugging
             });
             const paperImage = canvas.toDataURL("image/png");
             const link = document.createElement('a');
@@ -34,41 +35,37 @@ const AssessmentPaperPreview = () => {
         }
     };
 
-    // Function to convert report to image and handle form submission
     const handleSubmit = async () => {
         try {
-            // Convert the report to an image
             const canvas = await html2canvas(reportRef.current, {
                 scrollX: 0,
                 scrollY: 0,
                 scale: 1,
-                windowWidth: document.documentElement.offsetWidth,
-                windowHeight: document.documentElement.offsetHeight,
+                useCORS: true,
+                backgroundColor: null,
+                logging: true
             });
             const paperImage = canvas.toDataURL("image/png");
 
-            // Prepare data object based on AssessmentPaperDto structure
             const assessmentData = {
-                sampleId: parseInt(id), // Assuming id is from useParams()
+                sampleId: parseInt(id),
                 type: loai,
                 size: parseFloat(size),
-                shape: "Round Brilliant", // Hardcoded for example
+                shape: "Round Brilliant",
                 color: colorGrade,
                 clarity: clarityGrade,
-                polish: 'Excellent', // Hardcoded for example
-                symmetry: 'Excellent', // Hardcoded for example
-                fluorescence: 'None', // Hardcoded for example
+                polish: 'Excellent',
+                symmetry: 'Excellent',
+                fluorescence: 'None',
                 weight: parseFloat(carat),
-                dateCreated: new Date().toISOString(), // Current date
-                paperImage, // Base64 image
-                accountId: loggedAccount.accountId, // Example account ID
+                dateCreated: new Date().toISOString(),
+                paperImage,
+                accountId: loggedAccount.accountId,
             };
 
-            // Make POST request to backend
             const response = await axios.post('http://localhost:8080/api/assessment-papers', assessmentData);
 
             console.log('Submission successful:', response.data);
-            // Optionally, navigate to another page or display a success message
         } catch (error) {
             console.error('Error submitting data:', error);
         }
@@ -76,7 +73,7 @@ const AssessmentPaperPreview = () => {
 
     return (
         <Container className="mt-5 report-container">
-            <div ref={reportRef}>
+            <div ref={reportRef} className="report-content">
                 <div className='gold-outline'>
                     <div className="text-center mb-4">
                         <h1 className="report-title">DAS REPORT #{id}</h1>
@@ -156,7 +153,6 @@ const AssessmentPaperPreview = () => {
                     </Row>
                 </div>
             </div>
-            {/* Buttons section */}
             <Row className="mb-4">
                 <Col>
                     <Button variant="primary" onClick={handleDownload}>
