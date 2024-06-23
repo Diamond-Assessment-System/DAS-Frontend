@@ -19,13 +19,6 @@ function SideBarCs() {
           <span className="mr-3">📄</span> Yêu Cầu Dịch Vụ
         </NavLink>
         <NavLink
-          to="/consultingstaff/assessmentpaper"
-          className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeClassName="bg-gray-300 font-semibold"
-        >
-          <span className="mr-3">📋</span> Đơn Giám Định
-        </NavLink>
-        <NavLink
           to="/consultingstaff/assetsmentpaper"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
           activeClassName="bg-gray-300 font-semibold"

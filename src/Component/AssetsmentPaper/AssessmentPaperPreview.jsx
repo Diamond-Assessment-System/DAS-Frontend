@@ -18,13 +18,17 @@ const AssessmentPaperPreview = () => {
 
     const handleDownload = async () => {
         try {
-            const canvas = await html2canvas(reportRef.current, {
-                scrollX: 0,
-                scrollY: 0,
-                scale: 1,
-                windowWidth: document.documentElement.offsetWidth,
-                windowHeight: document.documentElement.offsetHeight,
-            });
+            // Apply downloadable styles
+            const sectionTitles = reportRef.current.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => title.classList.add('section-title-download'));
+
+            // Generate canvas
+            const canvas = await html2canvas(reportRef.current);
+
+            // Revert styles
+            sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+
+            // Convert canvas to image and download
             const paperImage = canvas.toDataURL("image/png");
             const link = document.createElement('a');
             link.href = paperImage;
@@ -81,14 +85,16 @@ const AssessmentPaperPreview = () => {
             <div ref={reportRef}>
                 <div className='gold-outline'>
                     <div className="text-center mb-4">
-                        <h1 className="report-title">DAS REPORT #{id}</h1>
+                        <h1 className="report-title">DIAMOND ASSESSMENT REPORT #{id}</h1>
                         <h2 className="report-id"></h2>
                     </div>
                     <Row>
                         <Col md={4}>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">DAS Natural Grading Report</h3>
+                                <div className="section-title">
+                                    <h3>DAS NATURAL GRADING REPORT</h3>
+                                </div>                                  
                                     <p>May 12th, 2024</p>
                                     <p>DAS report number: 1234</p>
                                     <p>Shape and cutting style: {shape} {cuttingStyle}</p>
@@ -97,7 +103,9 @@ const AssessmentPaperPreview = () => {
                             </Row>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">GRADING RESULT</h3>
+                                <div className="section-title">
+                                <h3>GRADING RESULT</h3>
+                                </div>                                   
                                     <p>Carat Weight: {carat} carat</p>
                                     <p>Color Grade: {colorGrade}</p>
                                     <p>Clarity Grade: {clarityGrade}</p>
@@ -106,7 +114,11 @@ const AssessmentPaperPreview = () => {
                             </Row>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">ADDITIONAL GRADING INFORMATION</h3>
+
+                                <div className="section-title">
+                                <h3>ADDITIONAL GRADING INFORMATION</h3>
+                                </div>
+                                    
                                     <p>Polish: {polish}</p>
                                     <p>Symmetry: {symmetry}</p>
                                     <p>Fluorescence: {fluorescence}</p>
@@ -116,7 +128,10 @@ const AssessmentPaperPreview = () => {
                         <Col md={4}>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">PROPORTION</h3>
+                                <div className="section-title">
+                                <h3 >PROPORTION</h3>
+                                </div>
+                                    
                                     {uploadedProportionImage && (
                                         <div className="image-container">
                                             <img
@@ -130,7 +145,9 @@ const AssessmentPaperPreview = () => {
                             </Row>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">CLARITY CHARACTERISTICS</h3>
+                                <div className="section-title">
+                                    <h3>CLARITY CHARACTERISTICS</h3>
+                                </div>
                                     {uploadedClarityImage && (
                                         <div className="image-container">
                                             <img
@@ -146,7 +163,9 @@ const AssessmentPaperPreview = () => {
                         <Col md={4}>
                             <Row className="mb-4">
                                 <Col>
-                                    <h3 className="section-title">GRADING SCALE</h3>
+                                <div className="section-title">
+                                    <h3>GRADING SCALE</h3>
+                                </div>
                                     <img
                                         src={"/src/assets/All-Scales.jpg"}
                                         alt="Grading Scale"
