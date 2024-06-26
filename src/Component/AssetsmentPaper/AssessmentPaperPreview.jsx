@@ -73,7 +73,12 @@ const AssessmentPaperPreview = () => {
             // Make POST request to backend
             const response = await axios.post('http://localhost:8080/api/assessment-papers', assessmentData);
 
+            const status = 3;
+            const responseb = await axios.put(`http://localhost:8080/api/booking-samples/${id}/status/${status}`);
+
             console.log('Submission successful:', response.data);
+            console.log('Submission successful:', responseb.data);
+            navigate("/assessmentstaff");
             // Optionally, navigate to another page or display a success message
         } catch (error) {
             console.error('Error submitting data:', error);

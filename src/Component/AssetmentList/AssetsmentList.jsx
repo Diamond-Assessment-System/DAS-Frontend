@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../AssetmentList/AssetsmentList.css";
+// import "../AssetmentList/AssetsmentList.css";
 import getAccountFromId from "../../utils/getAccountFromId";
 import { parse, addHours, format } from "date-fns";
 import axios from "axios";
@@ -96,115 +96,65 @@ function AssetsmentList() {
     }
   };
   return (
-    <div className="container-assetsmentlist">
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12">
-            <div className="grid invoice">
-              <div className="grid-body">
-                <div className="invoice-title">
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <img src="../src/image/logo.png" alt="" />
-                    </div>
-                  </div>
-                  <br />
-                  <div className="row">
-                    <div className="col-xs-12">
-                      <h2>
-                        Hóa Đơn
-                        <br />
-                        <span className="small">
-                          Đơn hàng #{bookingData.bookingId}
-                        </span>
-                      </h2>
-                    </div>
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-xs-6">
-                    <address>
-                      <strong>Khách Hàng: {account.displayName}</strong>
-                      {account.phone ? `Số điện thoại: ${account.phone}` : ""}
-                      <br />
-                    </address>
-                  </div>
-                  <div className="col-xs-6">
-                    <address>
-                      <strong>Ngày Tạo Đơn:</strong>
-                      <br />
-                      {bookingData.dateCreated}
-                      <br />
-                      <strong>Ngày Hoàn Thành:</strong>
-                      <br />
-                      {completionDate}
-                      <br />
-                    </address>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-xs-6">
-                    <address>
-                      <strong>Phương Thức Thanh Toán:</strong>
-                      <br />
-                      {getPaymentTypeMeaning(bookingData.paymentType)}
-                      <br />
-                    </address>
-                  </div>
-                </div>
-                <div className="container">
-                  <div className="row">
-                    <h3>Dịch vụ:</h3>
-                    <h3>Tóm Tắt Đơn Hàng</h3>
-                    <br />
-                    <table className="table table-striped table-hover ">
-                      <thead>
-                        <tr className="">
-                          <th>
-                            <strong>#</strong>
-                          </th>
-                          <th className="text-center">
-                            <strong>Tên mẫu</strong>
-                          </th>
-                          <th className="text-center">
-                            <strong>Kích cỡ</strong>
-                          </th>
-                          <th className="text-right">
-                            <strong>Giá</strong>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {diamonds.map((diamond, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>
-                              <strong>{diamond.name}</strong>
-                            </td>
-                            <td className="text-center">{diamond.size}</td>
-                            <td className="text-right">${diamond.price}</td>
-                          </tr>
-                        ))}
-                        <tr>
-                          <td colSpan="2" />
-                          <td className="text-right">
-                            <strong>Tổng tiền</strong>
-                          </td>
-                          <td className="text-right">
-                            <strong>${totalPrice}</strong>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <Button type="primary" onClick={handleSubmit}>
-                  Submit
-                </Button>
-              </div>
-            </div>
+    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+      <div className="bg-white p-8 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center mb-6">
+          <img src="/src/assets/logodas.png" alt="Logo" className="w-32" />
+          <div>
+            <h2 className="text-2xl font-bold">Hóa Đơn</h2>
+            <p className="text-sm text-gray-600">Đơn hàng #{bookingData.bookingId}</p>
           </div>
+        </div>
+        <hr className="mb-6" />
+        <div className="flex justify-between mb-6">
+          <div>
+            <strong>Khách Hàng: {account.displayName}</strong>
+            <p>{account.phone ? `Số điện thoại: ${account.phone}` : ""}</p>
+          </div>
+          <div>
+            <strong>Ngày Tạo Đơn:</strong>
+            <p>{bookingData.dateCreated}</p>
+            <strong>Ngày Hoàn Thành:</strong>
+            <p>{completionDate}</p>
+          </div>
+        </div>
+        <div className="mb-6">
+          <strong>Phương Thức Thanh Toán:</strong>
+          <p>{getPaymentTypeMeaning(bookingData.paymentType)}</p>
+        </div>
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold">Dịch vụ:</h3>
+          <h3 className="text-xl font-semibold">Tóm Tắt Đơn Hàng</h3>
+          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden mt-4">
+            <thead className="bg-gray-800 text-white">
+              <tr>
+                <th className="py-4 px-4 text-left">#</th>
+                <th className="py-4 px-4 text-center">Tên mẫu</th>
+                <th className="py-4 px-4 text-center">Kích cỡ</th>
+                <th className="py-4 px-4 text-right">Giá</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">
+              {diamonds.map((diamond, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                  <td className="py-4 px-4">{index + 1}</td>
+                  <td className="py-4 px-4 text-center">{diamond.name}</td>
+                  <td className="py-4 px-4 text-center">{diamond.size}</td>
+                  <td className="py-4 px-4 text-right">${diamond.price}</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan="2" />
+                <td className="py-4 px-4 text-right font-bold">Tổng tiền</td>
+                <td className="py-4 px-4 text-right font-bold">${totalPrice}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="text-right">
+          <Button type="primary" onClick={handleSubmit} className="mt-4 w-32">
+            Submit
+          </Button>
         </div>
       </div>
     </div>

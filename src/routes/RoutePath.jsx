@@ -38,6 +38,12 @@ import AsPaperManager from "../Component/ManagerLayout/AsPaperManager.jsx";
 import AssessmentReceipt from "../Component/AssessmentReceipt/AssessmentReceipt.jsx";
 import ManagePricingTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
 import AssessmentPaperPreview from "../Component/AssetsmentPaper/AssessmentPaperPreview.jsx";
+import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/AssessmentPaperListCs.jsx";
+import ReceiptDetail from "../Component/AssessmentReceiptDetailPage/AssessmentReceiptDetail.jsx";
+import ProductSearch from "../Component/SearchProductPage/SearchProduct";
+import { EvaluateService } from "../Component/ServicePricePage/Service.jsx";
+import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
+import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -50,26 +56,33 @@ const RoutePath = () => {
           <Route path="about" element={<InfoPage />} />
           <Route path="makerequest" element={<AssessmentRequestCustomer />} />
           <Route path="success" element={<SuccessPage />} />
+          <Route path="lookup" element={<ProductSearch />} />
+          <Route path="services" element={<EvaluateService />} />
+          <Route path="diamonds" element={<DiamondInformation />} />
+          <Route path="account" element={<AccountInfo />} />
         </Route>
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
-          <Route path="assessmentrequest" element={<AssessmentRequestConsulting />}/>
-          <Route path="assessmentrequest/:id" element={<AssessmentRequestDetail />}/>
+          <Route path="assessmentrequest" element={<AssessmentRequestConsulting />} />
+          <Route path="assessmentrequest/:id" element={<AssessmentRequestDetail />} />
           {/* <Route path='assessmentrequest/:id/createbooking' element={<CreateAssessmentBooking />} /> */}
-          <Route path="assessmentrequest/:id/inputdiamonds" element={<AssessmentBookingDiamondInput />}/>
-          <Route path="assessmentrequest/:id/inputdiamonds/summary" element={<AssetsmentList />}/>
-          <Route path="receipt" element={<AssessmentReceipt />}/>
+          <Route path="assessmentrequest/:id/inputdiamonds" element={<AssessmentBookingDiamondInput />} />
+          <Route path="assessmentrequest/:id/inputdiamonds/summary" element={<AssetsmentList />} />
+          <Route path="assessmentpaperlist" element={<AssessmentPaperListCs />} />
+          <Route path="assessmentpaperlist/:id" element={<AssessmentPaperDetail />} />
+          <Route path="receipt" element={<AssessmentReceipt />} />
+          <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
         </Route>
 
         <Route path="/assessmentstaff" element={<AssessmentStaffLayout />}>
           <Route index element={<AssessmentBooking />} />
           <Route path="assessmentbooking" element={<AssessmentBooking />} />
           {/* <Route path='assessmentbooking/:id' element={<AssessmentBookingSample />} /> */}
-          <Route path="assessmentbooking/:id/selection" element={<SelectionForm />}/>
-          <Route path="assessmentbooking/:id/selection/info" element={<InfoForm />}/>
+          <Route path="assessmentbooking/:id/selection" element={<SelectionForm />} />
+          <Route path="assessmentbooking/:id/selection/info" element={<InfoForm />} />
           {/* <Route path="assessmentbooking/:id/selection/info/cut" element={<CutForm/>} /> */}
-          <Route path="assessmentbooking/:id/selection/info/summary" element={<AssetsmentPaper />}/>
-          <Route path="assessmentbooking/:id/selection/info/summary/preview" element={<AssessmentPaperPreview />}/>
+          <Route path="assessmentbooking/:id/selection/info/summary" element={<AssetsmentPaper />} />
+          <Route path="assessmentbooking/:id/selection/info/summary/preview" element={<AssessmentPaperPreview />} />
           <Route path="assessmentpaperlist" element={<AssessmentPaperList />} />
           <Route path="assessmentpaperlist/:id" element={<AssessmentPaperDetail />} />
         </Route>
@@ -78,7 +91,7 @@ const RoutePath = () => {
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
           <Route path="/manager/sealing-records" element={<SealingRecords />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
-          <Route path="/manager/assignwork" element={<AssignWork />} />
+          {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
         </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />

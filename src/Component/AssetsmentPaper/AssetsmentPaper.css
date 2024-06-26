@@ -1,19 +1,37 @@
 body {
     background-color: #faf7f4;
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
   
   .report-container {
     background-color: #eeb983;
-    padding: 20px;
+    /* padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    padding: 1.04%; /* 20px/1920px */
+    border-radius: 0.42%; /* 8px/1920px */
+    box-shadow: 0 0 0.52% rgba(0, 0, 0, 0.1); /* 10px/1920px */
     text-align: left;
     margin: 0; 
+    /* width: 210mm;
+    height: 297mm;
+    max-width: 100%;
+    max-height: 100%; */
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
   
   .report-title {
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    margin-top: 0.52%; /* 10px/1920px */
     margin-bottom: 0;
     color: #c0392b;
     font-weight: bold;
@@ -23,15 +41,18 @@ body {
   .report-id {
     color: #c0392b;
     font-weight: bold;
-    margin-top: -10px;
+    /* margin-top: -10px; */
+    margin-top: -0.52%; /* -10px/1920px */
   }
   
   .section-title {
     color: #fefefe;
     font-weight: bold;
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
+    margin-bottom: 0.78%; /* 15px/1920px */
     background-color: #f39d47;
-    padding: 5px;
+    /* padding: 5px; */
+    padding: 0.26%; /* 5px/1920px */
   
   }
 
@@ -41,15 +62,19 @@ body {
     width: auto;
   }
   .mb-4 {
-    margin-bottom: 1.5rem !important;
+    /* margin-bottom: 1.5rem !important; */
+    margin-bottom: 1.56%; /* 30px/1920px */
   }
   .mb-4 p{
     color: black;
-    padding-left: 5px;
+    /* padding-left: 5px; */
+    padding-left: 0.26%; /* 5px/1920px */
     font-size: 20px;
+    
   }
   .card-text div {
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+    margin-bottom: 0.26%; /* 5px/1920px */
   }
   
   .img-fluid {
@@ -70,8 +95,10 @@ body {
   
   
   .image-container {
-    border: 1px solid #ccc;
-    padding: 10px;
+    /* border: 1px solid #ccc;
+    padding: 10px; */
+    border: 0.052% solid #ccc; /* 1px/1920px */
+    padding: 0.52%; /* 10px/1920px */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,11 +115,15 @@ body {
   
   .gold-outline{
     border: 10px double #f0b070;
-    margin: 2px;
-    padding: 5px;
+    /* margin: 2px;
+    padding: 5px; */
+    margin: 0.10%; /* 2px/1920px */
+    padding: 0.26%; /* 5px/1920px */
   }
 
   .section-title-download {
-    padding-bottom: 10px;
+    padding-bottom: 15px;
+    padding-left: 10px;
     padding-top: 0;
+    margin: 0;
 }

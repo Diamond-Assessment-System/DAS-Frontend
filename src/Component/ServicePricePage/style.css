@@ -1,463 +1,90 @@
 .evaluate-service {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.div-2 {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.overlap,
+.overlap-2 {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.evaluation-service {
+    margin-bottom: 20px;
+}
+
+.p {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.rectangle {
     width: 100%;
+    height: 2px;
+    background-color: #000;
 }
 
-.evaluate-service .div-2 {
-    background-color: #ffffff;
-    height: 2607px;
-    overflow: hidden;
-    position: relative;
-    width: 1440px;
-}
-
-.evaluate-service .footer {
-    background-color: transparent;
-    height: 167px;
-    left: 0;
-    position: absolute;
-    top: 2440px;
-    width: 1442px;
-}
-
-.evaluate-service .overlap-group {
-    background-color: #000000;
-    height: 167px;
-    position: relative;
-    width: 1440px;
-}
-
-.evaluate-service .kim-c-ng-c-i-m-qu {
-    color: #ffffff;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 15px;
-    font-weight: 400;
-    left: 289px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 18px;
-    width: 638px;
-}
-
-.evaluate-service .removebg {
-    height: 127px;
-    left: 54px;
-    object-fit: cover;
-    position: absolute;
-    top: 21px;
-    width: 134px;
-}
-
-.evaluate-service .overlap {
-    height: 786px;
-    left: 167px;
-    position: absolute;
-    top: 228px;
-    width: 1184px;
-}
-
-.evaluate-service .evaluation-service {
-    height: 655px;
-    left: 56px;
-    position: absolute;
-    top: 0;
-    width: 1002px;
-}
-
-.evaluate-service .p {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 32px;
-    font-weight: 700;
-    left: 62px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 876px;
-}
-
-.evaluate-service .rectangle {
-    background-color: #ffd85187;
-    border: 1px solid;
-    border-color: #000000;
-    height: 600px;
-    left: 0;
-    position: absolute;
-    top: 55px;
-    width: 1000px;
-}
-
-.evaluate-service .frame-2 {
-    align-items: flex-start;
+.frame-2,
+.frame-3,
+.frame-wrapper {
     display: flex;
-    flex-direction: column;
-    height: 747px;
-    left: 0;
-    position: absolute;
-    top: 39px;
-    width: 1184px;
-}
-
-.evaluate-service .frame-3 {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    height: 498px;
-    margin-right: -21px;
-    position: relative;
-    width: 1205px;
-}
-
-.evaluate-service .frame-8 {
-    flex: 0 0 auto !important;
-    margin-right: -15px !important;
-}
-
-.evaluate-service .frame-instance {
-    font-size: 30px !important;
-    left: 372px !important;
-    width: 372px !important;
-}
-
-.evaluate-service .frame-8-instance {
-    font-size: 20px !important;
-    left: 744px !important;
-    width: 372px !important;
-}
-
-.evaluate-service .design-component-instance-node {
-    height: 96px !important;
-    margin-right: -15px !important;
-}
-
-.evaluate-service .frame-4 {
-    height: 127px !important;
-    margin-right: -15px !important;
-}
-
-.evaluate-service .frame-5 {
-    height: 124px !important;
-    margin-right: -15px !important;
-}
-
-.evaluate-service .frame-6 {
-    height: 137px !important;
-    margin-bottom: -34px !important;
-    margin-right: -15px !important;
-}
-
-.evaluate-service .frame-7 {
-    height: 127px !important;
-    margin-right: -36px !important;
-}
-
-.evaluate-service .frame-9 {
-    height: 122px !important;
-    margin-right: -36px !important;
-}
-
-.evaluate-service .overlap-2 {
-    height: 713px;
-    left: 167px;
-    position: absolute;
-    top: 1054px;
-    width: 1222px;
-}
-
-.evaluate-service .standards {
-    height: 713px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 1222px;
-}
-
-.evaluate-service .text-wrapper-2 {
-    color: #000000;
-    font-family: "Inter-Bold", Helvetica;
-    font-size: 32px;
-    font-weight: 700;
-    left: 223px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 0;
-    width: 662px;
-}
-
-.evaluate-service .overlap-3 {
-    height: 660px;
-    left: 0;
-    position: absolute;
-    top: 53px;
-    width: 1220px;
-}
-
-.evaluate-service .rectangle-2 {
-    background-color: #ffd85187;
-    border: 1px solid;
-    border-color: #000000;
-    height: 650px;
-    left: 54px;
-    position: absolute;
-    top: 10px;
-    width: 1000px;
-}
-
-.evaluate-service .frame-wrapper {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    height: 599px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 1220px;
-}
-
-.evaluate-service .frame-10 {
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    height: 541px;
-    position: relative;
-    width: 1220px;
-}
-
-.evaluate-service .frame-11 {
-    flex: 0 0 auto !important;
-}
-
-.evaluate-service .frame-12 {
-    left: 744px !important;
-    text-align: center !important;
-    width: 372px !important;
-}
-
-.evaluate-service .frame-13 {
-    height: 58px !important;
-}
-
-.evaluate-service .frame-14 {
-    font-size: 28px !important;
-    left: 372px !important;
-    width: 372px !important;
-}
-
-.evaluate-service .frame-15 {
-    font-size: 23px !important;
-    left: 744px !important;
-    width: 372px !important;
-}
-
-.evaluate-service .frame-16 {
-    height: 79px !important;
-}
-
-.evaluate-service .frame-17 {
-    height: 65px !important;
-}
-
-.evaluate-service .frame-18 {
-    height: 77px !important;
-}
-
-.evaluate-service .frame-19 {
-    height: 89px !important;
-}
-
-.evaluate-service .frame-20 {
-    height: 180px !important;
-    margin-bottom: -55px !important;
-}
-
-.evaluate-service .frame-21 {
-    height: 64px !important;
-    left: 0 !important;
-    position: absolute !important;
-    top: 649px !important;
-}
-
-.evaluate-service .frame-22 {
-    height: 180px !important;
-    left: 167px !important;
-    position: absolute !important;
-    top: 1767px !important;
-}
-
-.evaluate-service .frame-23 {
-    height: 180px !important;
-    left: 167px !important;
-    position: absolute !important;
-    top: 1947px !important;
-}
-
-.evaluate-service .frame-24 {
-    height: 70px !important;
-    left: 167px !important;
-    position: absolute !important;
-    top: 2127px !important;
-}
-
-.evaluate-service .frame-25 {
-    height: 203px !important;
-    left: 167px !important;
-    position: absolute !important;
-    top: 2197px !important;
-}
-
-.evaluate-service .header {
-    background-color: transparent;
-    height: 170px;
-    left: 0;
-    position: absolute;
-    top: -1px;
-    transform: rotate(-0.14deg);
-    width: 1440px;
-}
-
-.evaluate-service .group {
-    height: 170px;
-    position: relative;
-    width: 1450px;
-}
-
-.evaluate-service .overlap-group-2 {
-    height: 174px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 1440px;
-}
-
-.evaluate-service .img {
-    height: 170px;
-    left: 0;
-    position: absolute;
-    top: 2px;
-    transform: rotate(0.14deg);
-    width: 1440px;
-}
-
-.evaluate-service .text-wrapper-3 {
-    color: #ffffff;
-    display: block;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 572px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 70px;
-    width: 281px;
-}
-
-.evaluate-service .text-wrapper-4 {
-    color: #ffffff;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 339px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 68px;
-    width: 187px;
-}
-
-.evaluate-service .text-wrapper-5 {
-    color: #ffffff;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 182px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 68px;
-    width: 111px;
-}
-
-.evaluate-service .text-wrapper-6 {
-    color: #ffffff;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 899px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 70px;
-    width: 119px;
-}
-
-.evaluate-service .rectangle-wrapper {
-    align-items: flex-start;
-    display: inline-flex;
     flex-direction: column;
     gap: 10px;
-    left: 1079px;
+}
+
+.frame-content {
     padding: 10px;
-    position: absolute;
-    top: 44px;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
-.evaluate-service .rectangle-3 {
-    height: 84.34px;
-    margin-bottom: -13.17px;
-    margin-left: -9.07px;
-    margin-right: -9.04px;
-    margin-top: -5.17px;
-    position: relative;
-    transform: rotate(0.27deg);
-    width: 184.11px;
+.frame-8,
+.frame-4,
+.frame-5,
+.frame-6,
+.frame-7,
+.frame-9,
+.frame-11,
+.frame-13,
+.frame-16,
+.frame-17,
+.frame-18,
+.frame-19,
+.frame-20,
+.frame-21,
+.frame-22,
+.frame-23,
+.frame-24,
+.frame-25 {
+    border: 1px solid #ccc;
+    background-color: #fff;
 }
 
-.evaluate-service .user {
-    height: 53px;
-    left: 1326px;
-    object-fit: cover;
-    position: absolute;
-    top: 60px;
-    transform: rotate(0.14deg);
-    width: 53px;
-}
-
-.evaluate-service .logo-removebg {
-    height: 102px;
-    left: 12px;
-    object-fit: cover;
-    position: absolute;
-    top: 37px;
-    transform: rotate(0.14deg);
-    width: 130px;
-}
-
-.evaluate-service .text-wrapper-7 {
-    color: #0284c7;
-    font-family: "Inter-Regular", Helvetica;
-    font-size: 30px;
-    font-weight: 400;
-    left: 1099px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
+.text-wrapper-2 {
+    font-size: 24px;
+    font-weight: bold;
     text-align: center;
-    top: 66px;
-    width: 152px;
 }
 
-.evaluate-service .rectangle-4 {
-    height: 64px;
-    left: -5740px;
-    position: absolute;
-    top: 213px;
-    transform: rotate(0.14deg);
-    width: 160px;
+.rectangle-2 {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+}
+
+.overlap-3 {
+    position: relative;
+    margin-top: 20px;
+}
+
+.frame-10 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

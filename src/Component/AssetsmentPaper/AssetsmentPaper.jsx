@@ -94,7 +94,9 @@ const AssessmentPaper = () => {
               </Row>
               <Row className="mb-4">
                 <Col>
-                  <h3 className="section-title">GRADING RESULT</h3>
+                <div className="section-title">
+                  <h3>GRADING RESULT</h3>
+                </div>
                   <p>Carat Weight: {carat} carat</p>
                   <p>Color Grade: {colorGrade}</p>
                   <p>Clarity Grade: {clarityGrade}</p>

@@ -4,13 +4,14 @@ import Avatar from "@mui/material/Avatar";
 import { signInWithGoogle, signInWithPhoneNumber } from "../../utils/authUtils";
 import "../Login/Login.css";
 import illustration from "../../assets/loginbackground.png";
-import { Phone, Lock } from "@mui/icons-material"; // Import icons from Material-UI
+import { Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material"; // Import icons from Material-UI
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
+  const [showPassword, setShowPassword] = useState(false); // Show/hide password state
   const navigate = useNavigate();
   const [loginMethod, setLoginMethod] = useState("google");
 
@@ -67,8 +68,18 @@ const GoogleLoginComponent = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen w-full">
+    <div className="relative flex items-center justify-center min-h-screen w-full">
+      <button
+        className="home-button"
+        onClick={() => navigate("/")}
+      >
+        &#x2715;
+      </button>
       <div className="bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
         <div className="hidden md:flex w-1/2 bg-blue-800 items-center justify-center">
           <img
@@ -78,13 +89,7 @@ const GoogleLoginComponent = () => {
           />
         </div>
         <div className="w-full md:w-1/2 p-12">
-          <div className="flex justify-between items-center mb-8">
-            <Link
-              to="/"
-              className="absolute top-4 left-4 text-blue-500 hover:underline bg-blue-500 text-white py-2 px-4 rounded transition-all duration-300 hover:bg-blue-700"
-            >
-              Trang chủ
-            </Link>
+          <div className="flex justify-end mb-8">
             <div>
               {user ? (
                 <Avatar
@@ -160,16 +165,22 @@ const GoogleLoginComponent = () => {
                       required
                     />
                   </div>
-                  <div className="mb-4 flex items-center">
+                  <div className="mb-4 flex items-center show-hide-password">
                     <Lock className="text-gray-400 mr-3" />
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       placeholder="Mật khẩu"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="border border-gray-300 p-2 w-full rounded"
                       required
                     />
+                    <div
+                      className="eye-icon"
+                      onClick={toggleShowPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </div>
                   </div>
                   <button
                     type="submit"

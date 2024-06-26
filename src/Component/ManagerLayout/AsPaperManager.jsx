@@ -7,20 +7,31 @@ function AsPaperManager() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
   const [selectedActions, setSelectedActions] = useState({});
+  const [accounts, setAccounts] = useState([]);
+
+  const fetchSamples = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/booking-samples");
+      const filteredSamples = response.data.filter(sample => sample.status === 1);
+      setSamples(filteredSamples);
+    } catch (error) {
+      console.error("Error fetching the samples:", error);
+    }
+  };
+
+  const fetchAccounts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/accounts/role/3");
+      setAccounts(response.data);
+    } catch (error) {
+      console.error("Error fetching the accounts:", error);
+    }
+  };
 
   useEffect(() => {
-    // Fetch data from the backend API
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/booking-samples");
-        setSamples(response.data);
-      } catch (error) {
-        console.error("Error fetching the samples:", error);
-      }
-    };
-
-    fetchData();
-  }, []); // Empty dependency array to run effect only once on component mount
+    fetchSamples();
+    fetchAccounts();
+  }, []);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -43,12 +54,19 @@ function AsPaperManager() {
     }));
   };
 
-  const handleSubmit = (sampleId) => {
+  const handleSubmit = async (sampleId) => {
     const selectedAction = selectedActions[sampleId];
+    if (selectedAction) {
+      try {
+        await axios.put(`http://localhost:8080/api/booking-samples/${sampleId}/assign/${selectedAction}`);
+        fetchSamples();
+      } catch (error) {
+        console.error("Error assigning the staff:", error);
+      }
+    }
     if (selectedAction === "viewDetails") {
       navigate(`/assessmentstaff/assessmentbooking/${sampleId}/selection`);
     }
-    // Add more actions if needed
   };
 
   return (
@@ -57,7 +75,7 @@ function AsPaperManager() {
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đặt Hẹn</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead className="bg-blue-600 text-white">
+            <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
@@ -83,8 +101,11 @@ function AsPaperManager() {
                         value={selectedActions[sample.sampleId] || ""}
                       >
                         <option value="" disabled hidden>Select action</option>
-                        <option value="viewDetails">Xem chi tiết</option>
-                        {/* Add more options as needed */}
+                        {accounts.map(account => (
+                          <option key={account.accountId} value={account.accountId}>
+                            {account.displayName}
+                          </option>
+                        ))}
                       </select>
                       <button
                         onClick={() => handleSubmit(sample.sampleId)}

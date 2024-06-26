@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductSearch = () => {
@@ -11,16 +12,13 @@ const ProductSearch = () => {
         e.preventDefault();
 
         try {
-            // Perform API call to fetch base64 encoded image based on product code
-            const response = await fetch(`your-api-endpoint/${productCode}`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.text(); // Assuming API responds with base64 string
+            // Perform API call to fetch the assessment paper based on product code
+            const response = await axios.get(`http://localhost:8080/api/assessment-papers/${productCode}`);
+            const data = response.data;
 
             // Update states based on API response
             if (data) {
-                setImageData(data); // Store base64 encoded image data
+                setImageData(data.paperImage); // Store base64 encoded image data
                 setSearchResult(`Kết quả tìm kiếm cho mã giám định: ${productCode}`);
             } else {
                 setSearchResult(`Không tìm thấy sản phẩm với mã giám định: ${productCode}`);
@@ -56,7 +54,7 @@ const ProductSearch = () => {
             {searchResult && <Alert variant="info" className="mt-4">{searchResult}</Alert>}
             {imageData && (
                 <div className="mt-4">
-                    <img src={`data:image/jpeg;base64,${imageData}`} alt="Product" style={{ maxWidth: '100%' }} />
+                    <img src={imageData} alt="Product" style={{ maxWidth: '100%' }} />
                 </div>
             )}
         </Container>

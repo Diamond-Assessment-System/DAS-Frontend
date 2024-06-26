@@ -2,10 +2,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
+
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState("tatca");
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -61,6 +63,19 @@ function AssessmentRequestConsulting() {
     fetchBookings();
   }, []);
 
+  const handleStatusChange = (e) => {
+    setSelectedStatus(e.target.value);
+  };
+
+  const filteredBookings = bookings.filter((booking) => {
+    if (selectedStatus === "tatca") return true;
+    if (selectedStatus === "dangcho") return booking.status === 1;
+    if (selectedStatus === "datao") return booking.status === 2;
+    if (selectedStatus === "dahoantat") return booking.status === 3;
+    if (selectedStatus === "dahuy") return booking.status === 4;
+    return false;
+  });
+
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
@@ -68,25 +83,50 @@ function AssessmentRequestConsulting() {
           Danh Sách Đặt Hẹn
         </h4>
         <div className="radio-group">
-          <input type="radio" id="status1" name="status" defaultValue="tatca" />
+          <input
+            type="radio"
+            id="status1"
+            name="status"
+            value="tatca"
+            checked={selectedStatus === "tatca"}
+            onChange={handleStatusChange}
+          />
           <label htmlFor="status1">Tất Cả</label>
           <input
             type="radio"
             id="status2"
             name="status"
-            defaultValue="dangcho"
+            value="dangcho"
+            checked={selectedStatus === "dangcho"}
+            onChange={handleStatusChange}
           />
           <label htmlFor="status2">Đang Chờ</label>
-          <input type="radio" id="status3" name="status" defaultValue="datao" />
+          <input
+            type="radio"
+            id="status3"
+            name="status"
+            value="datao"
+            checked={selectedStatus === "datao"}
+            onChange={handleStatusChange}
+          />
           <label htmlFor="status3"> Đã Tạo </label>
           <input
             type="radio"
             id="status4"
             name="status"
-            defaultValue="dahoantat"
+            value="dahoantat"
+            checked={selectedStatus === "dahoantat"}
+            onChange={handleStatusChange}
           />
           <label htmlFor="status4">Đã Hoàn Tất</label>
-          <input type="radio" id="status5" name="status" defaultValue="dahuy" />
+          <input
+            type="radio"
+            id="status5"
+            name="status"
+            value="dahuy"
+            checked={selectedStatus === "dahuy"}
+            onChange={handleStatusChange}
+          />
           <label htmlFor="status5"> Đã Huỷ</label>
         </div>
 
@@ -105,7 +145,7 @@ function AssessmentRequestConsulting() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {bookings.map((booking) => (
+              {filteredBookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
@@ -133,8 +173,9 @@ function AssessmentRequestConsulting() {
                           )
                         }
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        disabled={booking.status !== 1}
                       >
-                        Xem chi tiết
+                        Tạo Booking
                       </button>
                     </div>
                   </td>

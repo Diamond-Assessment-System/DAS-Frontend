@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Radio, Button, Form, Typography, Row, Col } from 'antd';
+import axios from 'axios';
 
 const { Title } = Typography;
 
@@ -20,8 +21,16 @@ function SelectionForm() {
     }
   };
 
-  const handleSubmit = () => {
-    if (loai && (loai === 'Đá Giả Kim Cương' || (trangThai && xuatXu))) {
+  const handleSubmit = async () => {
+    if (loai === 'Đá Giả Kim Cương') {
+      try {
+        await axios.put(`http://localhost:8080/api/booking-samples/${id}/status/4`);
+        navigate('/assessmentstaff');
+      } catch (error) {
+        console.error('Error updating status:', error);
+        alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+      }
+    } else if (loai && trangThai && xuatXu) {
       const selectedOptions = { loai, trangThai, xuatXu };
       navigate(`/assessmentstaff/assessmentbooking/${id}/selection/info`, { state: selectedOptions });
     } else {
@@ -74,7 +83,7 @@ function SelectionForm() {
         <Col span={24}>
           <Form.Item className="flex justify-center">
             <Button type="primary" htmlType="submit" className="w-40 text-lg py-2">
-              Tiếp theo
+              {loai === 'Đá Giả Kim Cương' ? 'Kết thúc' : 'Tiếp theo'}
             </Button>
           </Form.Item>
         </Col>
