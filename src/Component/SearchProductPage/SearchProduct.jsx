@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -33,30 +33,42 @@ const ProductSearch = () => {
 
     return (
         <Container>
-            <h1 className="mt-5">Tra cứu thông tin sản phẩm</h1>
-            <p>
-                Đây là dịch vụ tra cứu của PNJL nhằm mục đích mang đến cho quý khách hàng sự tiện lợi, nhanh chóng và chính xác về những thông tin của sản phẩm trên bảng giám định đúng với những thông tin lưu trong cơ sở dữ liệu của PNJL.
-            </p>
-            <Form onSubmit={handleSubmit} className="d-flex mt-4">
-                <Form.Group controlId="productCode" className="mr-2 flex-grow-1">
-                    <Form.Label>Mã giám định</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={productCode}
-                        onChange={(e) => setProductCode(e.target.value)}
-                        placeholder="Nhập mã giám định"
-                    />
-                </Form.Group>
-                <Button variant="primary" type="submit" className="align-self-end">
-                    Tra cứu
-                </Button>
-            </Form>
-            {searchResult && <Alert variant="info" className="mt-4">{searchResult}</Alert>}
-            {imageData && (
-                <div className="mt-4">
-                    <img src={imageData} alt="Product" style={{ maxWidth: '100%' }} />
-                </div>
-            )}
+            <Row className="justify-content-center">
+                <Col md={8} className="text-center">
+                    <h1 className="mt-5 text-primary">Tra cứu thông tin sản phẩm</h1>
+                    <p className="text-muted">
+                        Đây là dịch vụ tra cứu của PNJL nhằm mục đích mang đến cho quý khách hàng sự tiện lợi, nhanh chóng và chính xác về những thông tin của sản phẩm trên bảng giám định đúng với những thông tin lưu trong cơ sở dữ liệu của PNJL.
+                    </p>
+                </Col>
+            </Row>
+            <Row className="justify-content-center mt-4">
+                <Col md={8}>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group controlId="productCode">
+                            <Form.Label className="text-secondary">Mã giám định</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={productCode}
+                                onChange={(e) => setProductCode(e.target.value)}
+                                placeholder="Nhập mã giám định"
+                                required
+                                style={{ borderColor: '#007bff' }}
+                            />
+                        </Form.Group>
+                        <div className="d-flex justify-content-center">
+                            <Button variant="primary" type="submit">
+                                Tra cứu
+                            </Button>
+                        </div>
+                    </Form>
+                    {searchResult && <Alert variant="info" className="mt-4 text-center">{searchResult}</Alert>}
+                    {imageData && (
+                        <div className="mt-4 text-center">
+                            <img src={imageData} alt="Product" style={{ maxWidth: '100%', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }} />
+                        </div>
+                    )}
+                </Col>
+            </Row>
         </Container>
     );
 };
