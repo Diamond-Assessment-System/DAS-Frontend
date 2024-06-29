@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "."; // Import the CSS file for styling
+// Import the CSS file for styling
 
 const CreateManageUsers = () => {
   const [users, setUsers] = useState([
