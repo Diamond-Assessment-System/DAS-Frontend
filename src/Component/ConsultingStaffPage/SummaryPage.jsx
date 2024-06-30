@@ -23,7 +23,7 @@
 //         // Fetch the assessment data
 //         const fetchData = async () => {
 //             try {
-//                 const response = await axios.get(`http://localhost:8080/api/assessmentpapers/${id}`);
+//                 const response = await axios.get(`https://das-backend.fly.dev/api/assessmentpapers/${id}`);
 //                 setAssessmentData(response.data);
 //             } catch (error) {
 //                 console.error('Error fetching data:', error);
@@ -67,7 +67,7 @@
 //                 sampleId: sampleId
 //             };
 
-//             const response = await axios.post('http://localhost:8080/api/assessmentpapers', assessmentPaperDto);
+//             const response = await axios.post('https://das-backend.fly.dev/api/assessmentpapers', assessmentPaperDto);
 //             console.log('Successfully submitted:', response.data);
 //         } catch (error) {
 //             console.error('Error submitting data:', error);

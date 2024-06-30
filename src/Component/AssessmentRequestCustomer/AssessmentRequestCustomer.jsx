@@ -41,6 +41,7 @@ function AssessmentRequest() {
         .min(1, "At least 1 sample"),
     }),
     onSubmit: (values) => {
+      if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
       const now = new Date();
 
       const data = {
@@ -51,9 +52,10 @@ function AssessmentRequest() {
         paymentStatus: 1,
         dateCreated: formatDateToLocalDateTime(now),
       };
+    
 
       axios
-        .post("http://localhost:8080/api/assessment-bookings", data)
+        .post("https://das-backend.fly.dev/api/assessment-bookings", data)
         .then((response) => {
           console.log("Success:", response.data);
           navigate("/success", { state: { ...response.data, ...data } });
@@ -61,6 +63,7 @@ function AssessmentRequest() {
         .catch((error) => {
           console.error("Error:", error);
         });
+      }
     },
   });
 

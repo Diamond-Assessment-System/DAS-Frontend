@@ -67,6 +67,30 @@ function AssessmentRequestConsulting() {
     setSelectedStatus(e.target.value);
   };
 
+  const handleCreateBooking = (booking) => {
+    switch (booking.status) {
+      // case 1:
+      //   if (window.confirm("Bạn có chắc chắn muốn tạo booking cho yêu cầu này không?")) {
+      //     navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+      //   }
+      //   break;
+      case 2:
+        alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
+        break;
+      case 3:
+        alert("Yêu cầu đã hoàn tất rồi, không thể tạo lại!");
+        break;
+      case 4:
+        alert("Yêu cầu đã bị hủy!");
+        break;
+      default:
+        navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+        // alert("Invalid!")
+        break;
+    }
+
+  };
+
   const filteredBookings = bookings.filter((booking) => {
     if (selectedStatus === "tatca") return true;
     if (selectedStatus === "dangcho") return booking.status === 1;
@@ -167,13 +191,9 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
                       <button
-                        onClick={() =>
-                          navigate(
-                            `/consultingstaff/assessmentrequest/${booking.bookingId}`
-                          )
-                        }
+                        onClick={() => handleCreateBooking(booking)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        disabled={booking.status !== 1}
+                        // disabled={booking.status !== 1}
                       >
                         Tạo Booking
                       </button>

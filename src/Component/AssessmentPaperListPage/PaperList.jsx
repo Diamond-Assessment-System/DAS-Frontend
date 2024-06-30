@@ -12,7 +12,7 @@ const AssessmentList = () => {
     useEffect(() => {
         const fetchAssessments = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/assessment-papers');
+                const response = await axios.get('https://das-backend.fly.dev/api/assessment-papers');
                 setAssessments(response.data);
             } catch (error) {
                 console.error('Error fetching assessment papers:', error);
