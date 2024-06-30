@@ -24,7 +24,7 @@ function SelectionForm() {
   const handleSubmit = async () => {
     if (loai === 'Đá Giả Kim Cương') {
       try {
-        await axios.put(`http://localhost:8080/api/booking-samples/${id}/status/4`);
+        await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/4`);
         navigate('/assessmentstaff');
       } catch (error) {
         console.error('Error updating status:', error);

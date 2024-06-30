@@ -9,7 +9,7 @@ function AssessmentPaperList() {
   const [assessmentPapers, setAssessmentPapers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/assessment-papers")
+    axios.get("https://das-backend.fly.dev/api/assessment-papers")
       .then(response => {
         setAssessmentPapers(response.data);
       })

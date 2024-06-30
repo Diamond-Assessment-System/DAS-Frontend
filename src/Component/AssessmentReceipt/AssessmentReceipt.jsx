@@ -50,7 +50,7 @@ function AssessmentReceipt() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/assessment-bookings"
+          "https://das-backend.fly.dev/api/assessment-bookings"
         );
         // Filter bookings where status is 2 or 3
         const filteredBookings = response.data.filter(

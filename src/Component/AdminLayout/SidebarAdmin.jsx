@@ -11,22 +11,22 @@ const Sidebar = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/create-manage-users">Manage Users</Link>
+          <Link to="/admin/create-manage-users">Manage Users</Link>
         </li>
         <li>
-          <Link to="/delete-suspend-users">Delete/Suspend Users</Link>
+          <Link to="/admin/block-suspend-users">Block User</Link>
         </li>
         <li>
-          <Link to="/assign-roles-permissions">Assign Roles</Link>
+          <Link to="/admin/assign-roles-permissions">Assign Roles</Link>
         </li>
         <li>
-          <Link to="/system-maintenance">System Maintenance</Link>
+          <Link to="/admin/system-maintenance">System Maintenance</Link>
         </li>
         <li>
-          <Link to="/system-update">System Update</Link>
+          <Link to="/admin/system-update">System Update</Link>
         </li>
         <li>
-          <Link to="/content-database">Content Database</Link>
+          <Link to="/admin/content-database">Content Database</Link>
         </li>
       </ul>
     </div>

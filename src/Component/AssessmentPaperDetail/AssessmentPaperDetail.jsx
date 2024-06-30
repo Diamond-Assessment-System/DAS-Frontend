@@ -9,7 +9,7 @@ function AssessmentPaperDetail() {
   useEffect(() => {
     const fetchAssessmentPaper = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/assessment-papers/${id}`);
+        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${id}`);
         setAssessmentPaper(response.data);
       } catch (error) {
         console.error("Error fetching assessment paper:", error);
