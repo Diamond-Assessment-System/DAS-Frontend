@@ -14,7 +14,7 @@ const Sidebar = () => {
           <Link to="/admin/create-manage-users">Manage Users</Link>
         </li>
         <li>
-          <Link to="/admin/delete-suspend-users">Delete/Suspend Users</Link>
+          <Link to="/admin/block-suspend-users">Block User</Link>
         </li>
         <li>
           <Link to="/admin/assign-roles-permissions">Assign Roles</Link>

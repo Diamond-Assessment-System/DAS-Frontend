@@ -105,7 +105,7 @@ const RoutePath = () => {
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<CreateManageUsers />} />
-          <Route path="/admin/delete-suspend-users" element={<DeleteSuspendUsers />} />
+          <Route path="/admin/block-suspend-users" element={<DeleteSuspendUsers />} />
           <Route path="/admin/assign-roles-permissions" element={<AssignRolesPermissions />} />
           <Route path="/admin/system-maintenance" element={<SystemMaintenance />} />
           <Route path="/admin/system-update" element={<SystemUpdate />} />

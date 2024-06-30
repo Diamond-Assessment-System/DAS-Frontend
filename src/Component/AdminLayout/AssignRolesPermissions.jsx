@@ -8,19 +8,24 @@ const AssignRolesPermissions = () => {
     { id: 3, email: "user3@example.com", role: "Admin" },
   ]);
 
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedRoles, setSelectedRoles] = useState({});
 
-  const handleAssignRole = (e) => {
-    e.preventDefault();
-    if (selectedUser && selectedRole) {
+  const handleSelectChange = (e, userId) => {
+    const selectedRole = e.target.value;
+    setSelectedRoles((prevState) => ({
+      ...prevState,
+      [userId]: selectedRole,
+    }));
+  };
+
+  const handleSubmit = (userId) => {
+    const selectedRole = selectedRoles[userId];
+    if (selectedRole) {
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user.id === selectedUser.id ? { ...user, role: selectedRole } : user
+          user.id === userId ? { ...user, role: selectedRole } : user
         )
       );
-      setSelectedUser(null);
-      setSelectedRole("");
     }
   };
 
@@ -39,46 +44,34 @@ const AssignRolesPermissions = () => {
             </thead>
             <tbody className="text-gray-700">
               {users.map((user) => (
-                <tr key={user.id}>
+                <tr key={user.id} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center align-middle">{user.email}</td>
                   <td className="py-4 px-4 text-center align-middle">{user.role}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    <button
-                      onClick={() => setSelectedUser(user)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Assign Role
-                    </button>
+                    <div className="flex items-center justify-center">
+                      <select
+                        onChange={(e) => handleSelectChange(e, user.id)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        value={selectedRoles[user.id] || ""}
+                      >
+                        <option value="" disabled hidden>Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Staff">Staff</option>
+                      </select>
+                      <button
+                        onClick={() => handleSubmit(user.id)}
+                        className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        {selectedUser && (
-          <form className="assign-roles-form" onSubmit={handleAssignRole}>
-            <h3 className="text-lg font-semibold text-gray-800 my-4">Assign Role to {selectedUser.email}</h3>
-            <label className="block mb-2 text-gray-700">
-              Role:
-              <select
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value)}
-                className="block w-full bg-white border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value="">Select Role</option>
-                <option value="Admin">Admin</option>
-                <option value="Manager">Manager</option>
-                <option value="Staff">Staff</option>
-              </select>
-            </label>
-            <button
-              type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Assign Role
-            </button>
-          </form>
-        )}
       </div>
     </div>
   );
