@@ -2,6 +2,68 @@ import React from "react";
 import "./style.css";
 
 export const EvaluateService = () => {
+    // Dummy data for service evaluation
+    const dummyData = [
+        { stt: 1, loaiDichVu: "Giám định thường", noiDung: [
+            "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.",
+            "Số lượng không hạn chế. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 2, loaiDichVu: "Giám định nhanh 3h", noiDung: [
+            "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.",
+            "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 3, loaiDichVu: "Giám định nhanh 48h", noiDung: [
+            "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.",
+            "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 4, loaiDichVu: "Niêm phong thường (Seal lại)", noiDung: [
+            "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.",
+            "Số lượng không hạn chế. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 5, loaiDichVu: "Niêm phong (Seal lại nhanh 3h)", noiDung: [
+            "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.",
+            "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 6, loaiDichVu: "Niêm phong (Seal lại nhanh 48h)", noiDung: [
+            "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.",
+            "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
+        ] },
+        { stt: 7, loaiDichVu: "Cấp lại giấy giám định", noiDung: [
+            "Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng."
+        ] },
+        { stt: 8, loaiDichVu: "Khắc mã số cạnh", noiDung: [
+            "Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.",
+            "Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm."
+        ] }
+    ];
+
+    // Dummy data for PNJLAB diamond standards
+    const dummyDiamondStandards = [
+        { stt: 1, tieuChuan: "Loại đá", noiDung: "Kim cương thiên nhiên (Natural Diamond)" },
+        { stt: 2, tieuChuan: "Kích thước (Measurements)", noiDung: "Từ 3.00mm trở lên." },
+        { stt: 3, tieuChuan: "Dạng cắt mài (Shape&cut)", noiDung: "Tất cả các dạng cắt mài." },
+        { stt: 4, tieuChuan: "Màu sắc (Color)", noiDung: "Thang tiêu chuẩn: Từ màu D đến Z" },
+        { stt: 5, tieuChuan: "Độ tinh khiết (Clarity)", noiDung: "Thang tiêu chuẩn: FL, IF, VVS1-VVS2, VS1-VS2, SI1-SI2, I1-I2-I3." },
+        { stt: 6, tieuChuan: "Cắt mài (Cut)", noiDung: [
+            "Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor",
+            "Chỉ thực hiện phân cấp với viên có dạng cắt mài (shape&cut): Round Brilliant."
+        ] },
+        { stt: 7, tieuChuan: "Tỉ lệ cắt mài (Proportions)", noiDung: "Đo các thông số tỉ lệ cắt mài viên đá." },
+        { stt: 8, tieuChuan: "Mài bóng (Polish) Đối xứng (Symmetry)", noiDung: [
+            "Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor",
+            "Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm."
+        ] },
+        { stt: 9, tieuChuan: "Phát quang (Fluorescence)", noiDung: [
+            "Thang tiêu chuẩn: None, Faint, Medium, Strong, Very Strong.",
+            "Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm."
+        ] },
+        { stt: 10, tieuChuan: "Niêm phong (Ép Seal)", noiDung: "Tất cả viên đá được PNJLab thực hiện giám định." },
+        { stt: 11, tieuChuan: "Giấy giám định (Diamond Grading Report)", noiDung: [
+            "Phát hành Giấy giám định những viên có kích thước (size) trên 4.00mm.",
+            "Không phát hành Giấy giám định những viên có kích thước (size) từ 3.00 đến 3.99mm."
+        ] }
+    ];
+
     return (
         <div className="evaluate-service mt-20">
             <div className="section">
@@ -16,85 +78,19 @@ export const EvaluateService = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Giám định thường</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.</li>
-                                        <li>Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Giám định nhanh 3h</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Giám định nhanh 48h</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Niêm phong thường (Seal lại)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.</li>
-                                        <li>Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Niêm phong (Seal lại nhanh 3h)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Niêm phong (Seal lại nhanh 48h)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Cấp lại giấy giám định</td>
-                                <td>
-                                    <ul>
-                                        <li>Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Khắc mã số cạnh</td>
-                                <td>
-                                    <ul>
-                                        <li>Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.</li>
-                                        <li>Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
+                            {dummyData.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.stt}</td>
+                                    <td>{item.loaiDichVu}</td>
+                                    <td>
+                                        <ul>
+                                            {item.noiDung.map((detail, idx) => (
+                                                <li key={idx}>{detail}</li>
+                                            ))}
+                                        </ul>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -111,89 +107,23 @@ export const EvaluateService = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Loại đá</td>
-                                <td>Kim cương thiên nhiên (Natural Diamond)</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Kích thước (Measurements)</td>
-                                <td>Từ 3.00mm trở lên.</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Dạng cắt mài (Shape&cut)</td>
-                                <td>Tất cả các dạng cắt mài.</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Màu sắc (Color)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Từ màu D đến Z</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Độ tinh khiết (Clarity)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: FL, IF, VVS1-VVS2, VS1-VS2, SI1-SI2, I1-I2-I3.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Cắt mài (Cut)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor</li>
-                                        <li>Chỉ thực hiên phân cấp với viên có dạng cắt mài (shape&cut): Round Brilliant.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Tỉ lệ cắt mài (Proportions)</td>
-                                <td>Đo các thông số tỉ lệ cắt mài viên đá.</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Mài bóng (Polish) Đối xứng (Symmetry)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor</li>
-                                        <li>Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Phát quang (Fluorescence)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: None, Faint, Medium, Strong, Very Strong.</li>
-                                        <li>Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Niêm phong (Ép Seal)</td>
-                                <td>Tất cả viên đá được PNJLab thực hiện giám định.</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Giấy giám định (Diamond Grading Report)</td>
-                                <td>
-                                    <ul>
-                                        <li>Phát hành Giấy giám định những viên có kích thước (size) trên 4.00mm.</li>
-                                        <li>Không phát hành Giấy giám định những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
+                            {dummyDiamondStandards.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.stt}</td>
+                                    <td>{item.tieuChuan}</td>
+                                    <td>
+                                        {typeof item.noiDung === "string" ? (
+                                            item.noiDung
+                                        ) : (
+                                            <ul>
+                                                {item.noiDung.map((detail, idx) => (
+                                                    <li key={idx}>{detail}</li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
