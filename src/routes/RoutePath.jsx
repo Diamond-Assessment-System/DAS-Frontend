@@ -45,6 +45,13 @@ import ProductSearch from "../Component/SearchProductPage/SearchProduct";
 import { EvaluateService } from "../Component/ServicePricePage/Service.jsx";
 import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
 import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
+import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
+import CreateManageUsers from "../Component/AdminLayout/CreateManageUsers.jsx";
+import DeleteSuspendUsers from "../Component/AdminLayout/DeleteSuspendUsers.jsx";
+import AssignRolesPermissions from "../Component/AdminLayout/AssignRolesPermissions.jsx";
+import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
+import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
+import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -95,6 +102,15 @@ const RoutePath = () => {
           {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
+        </Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<CreateManageUsers />} />
+          <Route path="/admin/delete-suspend-users" element={<DeleteSuspendUsers />} />
+          <Route path="/admin/assign-roles-permissions" element={<AssignRolesPermissions />} />
+          <Route path="/admin/system-maintenance" element={<SystemMaintenance />} />
+          <Route path="/admin/system-update" element={<SystemUpdate />} />
+          <Route path="/admin/content-database" element={<ContentDatabase />} />
+          <Route path="/admin/create-manage-users" element={<CreateManageUsers />} />
         </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />
