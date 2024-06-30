@@ -42,6 +42,9 @@ const AssessmentPaperPreview = () => {
     // Function to convert report to image and handle form submission
     const handleSubmit = async () => {
         try {
+            const sectionTitles = reportRef.current.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => title.classList.add('section-title-download'));
+
             // Convert the report to an image
             const canvas = await html2canvas(reportRef.current, {
                 scrollX: 0,
@@ -50,6 +53,10 @@ const AssessmentPaperPreview = () => {
                 windowWidth: document.documentElement.offsetWidth,
                 windowHeight: document.documentElement.offsetHeight,
             });
+
+            // Revert styles
+            sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+
             const paperImage = canvas.toDataURL("image/png");
 
             // Prepare data object based on AssessmentPaperDto structure
