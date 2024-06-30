@@ -1,8 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SidebarAdmin";
-import "../AdminLayout/AdminLayout.css"; // Make sure to create and import a CSS file
-
+import "../AdminLayout/AdminLayout.css"; 
 const AdminLayout = () => {
   return (
     <div className="admin-layout">

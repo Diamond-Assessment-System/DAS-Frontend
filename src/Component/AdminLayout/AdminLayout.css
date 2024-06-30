@@ -1,13 +1,9 @@
-/* .admin-layout {
+.admin-layout {
     display: flex;
 }
 
-.sidebar {
-    width: 200px;
-}
 
 .content {
     flex-grow: 1;
-    padding-left: 200px;
     overflow: auto;
-} */
+}
