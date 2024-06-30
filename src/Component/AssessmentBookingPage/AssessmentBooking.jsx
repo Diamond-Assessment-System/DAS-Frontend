@@ -13,7 +13,7 @@ function AssessmentBooking() {
     // Fetch data from the backend API
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/booking-samples");
+        const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
         setSamples(response.data);
       } catch (error) {
         console.error("Error fetching the samples:", error);

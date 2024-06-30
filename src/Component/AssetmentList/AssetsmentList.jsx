@@ -65,7 +65,7 @@ function AssetsmentList() {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/assessment-bookings/proceed/${bookingData.bookingId}`,
+        `https://das-backend.fly.dev/api/assessment-bookings/proceed/${bookingData.bookingId}`,
         data
       );
       console.log("Response:", response.data);
@@ -87,7 +87,7 @@ function AssetsmentList() {
       }));
 
       const response = await axios.post(
-        "http://localhost:8080/api/booking-samples/samples",
+        "https://das-backend.fly.dev/api/booking-samples/samples",
         samplesData
       );
       console.log("Booking Samples created:", response.data);

@@ -11,7 +11,7 @@ function AsPaperManager() {
 
   const fetchSamples = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/booking-samples");
+      const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
       const filteredSamples = response.data.filter(sample => sample.status === 1);
       setSamples(filteredSamples);
     } catch (error) {
@@ -21,7 +21,7 @@ function AsPaperManager() {
 
   const fetchAccounts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/accounts/role/3");
+      const response = await axios.get("https://das-backend.fly.dev/api/accounts/role/3");
       setAccounts(response.data);
     } catch (error) {
       console.error("Error fetching the accounts:", error);
@@ -58,7 +58,7 @@ function AsPaperManager() {
     const selectedAction = selectedActions[sampleId];
     if (selectedAction) {
       try {
-        await axios.put(`http://localhost:8080/api/booking-samples/${sampleId}/assign/${selectedAction}`);
+        await axios.put(`https://das-backend.fly.dev/api/booking-samples/${sampleId}/assign/${selectedAction}`);
         fetchSamples();
       } catch (error) {
         console.error("Error assigning the staff:", error);

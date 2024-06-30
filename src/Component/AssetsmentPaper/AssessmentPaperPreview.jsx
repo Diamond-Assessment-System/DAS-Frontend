@@ -71,10 +71,10 @@ const AssessmentPaperPreview = () => {
             };
 
             // Make POST request to backend
-            const response = await axios.post('http://localhost:8080/api/assessment-papers', assessmentData);
+            const response = await axios.post('https://das-backend.fly.dev/api/assessment-papers', assessmentData);
 
             const status = 3;
-            const responseb = await axios.put(`http://localhost:8080/api/booking-samples/${id}/status/${status}`);
+            const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
 
             console.log('Submission successful:', response.data);
             console.log('Submission successful:', responseb.data);
