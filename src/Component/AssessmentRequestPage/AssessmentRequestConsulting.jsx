@@ -158,14 +158,14 @@ function AssessmentRequestConsulting() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-left align-middle">Mã yêu cầu</th>
-                <th className="py-4 px-4 text-left align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-left align-middle">
+                <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
+                <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
+                <th className="py-4 px-4 text-center align-middle">
                   Số Lượng Kim Cương
                 </th>
-                <th className="py-4 px-4 text-left align-middle">Ngày tạo</th>
-                <th className="py-4 px-4 text-left align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-left align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
+                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">

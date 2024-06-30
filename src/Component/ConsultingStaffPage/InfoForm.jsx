@@ -39,11 +39,16 @@ function InfoForm() {
       symmetry,
       fluorescence,
     };
-
-    navigate(
-      `/assessmentstaff/assessmentbooking/${id}/selection/info/summary`,
-      { state: reportData }
-    );
+    if (window.confirm("Bạn có chắc chắn muốn tiếp tục không?")) {
+      navigate(
+        `/assessmentstaff/assessmentbooking/${id}/selection/info/summary`,
+        { state: reportData }
+      );
+    }
+    // navigate(
+    //   `/assessmentstaff/assessmentbooking/${id}/selection/info/summary`,
+    //   { state: reportData }
+    // );
   };
 
   return (
