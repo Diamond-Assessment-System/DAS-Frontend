@@ -4,34 +4,34 @@ import "./style.css";
 export const EvaluateService = () => {
     // Dummy data for service evaluation
     const dummyData = [
-        { stt: 1, loaiDichVu: "Giám định thường", noiDung: [
+        { stt: 1, loaiDichVu: "Giám định thường", gia: "500,000 VNĐ", noiDung: [
             "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.",
             "Số lượng không hạn chế. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 2, loaiDichVu: "Giám định nhanh 3h", noiDung: [
+        { stt: 2, loaiDichVu: "Giám định nhanh 3h", gia: "1,000,000 VNĐ", noiDung: [
             "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.",
             "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 3, loaiDichVu: "Giám định nhanh 48h", noiDung: [
+        { stt: 3, loaiDichVu: "Giám định nhanh 48h", gia: "800,000 VNĐ", noiDung: [
             "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.",
             "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 4, loaiDichVu: "Niêm phong thường (Seal lại)", noiDung: [
+        { stt: 4, loaiDichVu: "Niêm phong thường (Seal lại)", gia: "300,000 VNĐ", noiDung: [
             "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.",
             "Số lượng không hạn chế. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 5, loaiDichVu: "Niêm phong (Seal lại nhanh 3h)", noiDung: [
+        { stt: 5, loaiDichVu: "Niêm phong (Seal lại nhanh 3h)", gia: "600,000 VNĐ", noiDung: [
             "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.",
             "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 6, loaiDichVu: "Niêm phong (Seal lại nhanh 48h)", noiDung: [
+        { stt: 6, loaiDichVu: "Niêm phong (Seal lại nhanh 48h)", gia: "500,000 VNĐ", noiDung: [
             "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.",
             "Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định."
         ] },
-        { stt: 7, loaiDichVu: "Cấp lại giấy giám định", noiDung: [
+        { stt: 7, loaiDichVu: "Cấp lại giấy giám định", gia: "200,000 VNĐ", noiDung: [
             "Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng."
         ] },
-        { stt: 8, loaiDichVu: "Khắc mã số cạnh", noiDung: [
+        { stt: 8, loaiDichVu: "Khắc mã số cạnh", gia: "150,000 VNĐ", noiDung: [
             "Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.",
             "Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm."
         ] }
@@ -74,6 +74,7 @@ export const EvaluateService = () => {
                             <tr>
                                 <th>STT</th>
                                 <th>LOẠI DỊCH VỤ</th>
+                                <th>GIÁ</th>
                                 <th>NỘI DUNG</th>
                             </tr>
                         </thead>
@@ -82,6 +83,7 @@ export const EvaluateService = () => {
                                 <tr key={index}>
                                     <td>{item.stt}</td>
                                     <td>{item.loaiDichVu}</td>
+                                    <td>{item.gia}</td>
                                     <td>
                                         <ul>
                                             {item.noiDung.map((detail, idx) => (
