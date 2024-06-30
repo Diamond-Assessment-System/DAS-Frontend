@@ -52,6 +52,7 @@ import AssignRolesPermissions from "../Component/AdminLayout/AssignRolesPermissi
 import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
+import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -68,6 +69,7 @@ const RoutePath = () => {
           <Route path="services" element={<EvaluateService />} />
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
+          <Route path="history" element={<CustomerHistory />} />
         </Route>
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
