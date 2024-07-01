@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 
 export const EvaluateService = () => {
+    
+    const serviceData = [
+        { serviceId: "1", serviceName: "Giám định thường", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "100 000" },
+        { serviceId: "2", serviceName: "Giám định nhanh 3h", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "200 000" },
+        { serviceId: "3", serviceName: "Giám định nhanh 48h", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "300 000" },
+        { serviceId: "4", serviceName: "Niêm phong thường (Seal lại)", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "400 000" },
+        { serviceId: "5", serviceName: "Niêm phong (Seal lại nhanh 3h)", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "500 000" },
+        { serviceId: "6", serviceName: "Niêm phong (Seal lại nhanh 48h)", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "600 000" },
+        { serviceId: "7", serviceName: "Cấp lại giấy giám định", description: "Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng.", price: "700 000" },
+        { serviceId: "8", serviceName: "Khắc mã số cạnh", description: "Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.<br />Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm.", price: "800 000" },
+      ];
+
+    const standardData = [
+        { standardId: "1", standardName: "Loại đá", description: "Kim cương thiên nhiên (Natural Diamond)" },
+        { standardId: "2", standardName: "Kích thước (Measurements)", description: "Từ 3.00mm trở lên."},
+        { standardId: "3", standardName: "Dạng cắt mài (Shape&cut)", description: "Tất cả các dạng cắt mài."},
+        { standardId: "4", standardName: "Màu sắc (Color)", description: "Thang tiêu chuẩn: Từ màu D đến Z"},
+        { standardId: "5", standardName: "	Độ tinh khiết (Clarity)", description: "Thang tiêu chuẩn: FL, IF, VVS1-VVS2, VS1-VS2, SI1-SI2, I1-I2-I3."},
+        { standardId: "6", standardName: "	Cắt mài (Cut)", description: "Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor.<br />Chỉ thực hiên phân cấp với viên có dạng cắt mài (shape&cut): Round Brilliant."},
+        { standardId: "7", standardName: "	Tỉ lệ cắt mài (Proportions)", description: "Đo các thông số tỉ lệ cắt mài viên đá."},
+        { standardId: "8", standardName: "	Mài bóng (Polish)", description: "Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor.<br />Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm."},
+        { standardId: "9", standardName: "	Đối xứng (Symmetry)", description: "Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor.<br />Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm."},
+        { standardId: "10", standardName: "	Phát quang (Fluorescence)", description: "Thang tiêu chuẩn: None, Faint, Medium, Strong, Very Strong.<br />Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm."},
+        { standardId: "11", standardName: "Niêm phong (Ép Seal)", description: "Tất cả viên đá được PNJLab thực hiện giám định."},
+        { standardId: "12", standardName: "	Giấy giám định (Diamond Grading Report)", description: "Phát hành Giấy giám định những viên có kích thước (size) trên 4.00mm.<br />Không phát hành Giấy giám định những viên có kích thước (size) từ 3.00 đến 3.99mm."},
+
+      ];
+
+
+
     return (
+        
         <div className="evaluate-service mt-20">
             <div className="section">
                 <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
@@ -13,88 +44,19 @@ export const EvaluateService = () => {
                                 <th>STT</th>
                                 <th>LOẠI DỊCH VỤ</th>
                                 <th>NỘI DUNG</th>
+                                <th>GIÁ DỊCH VỤ</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Giám định thường</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.</li>
-                                        <li>Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
+                        {serviceData.map((service, index) => (
+                            <tr key={index}>
+                                <td>{service.serviceId}</td>
+                                <td>{service.serviceName}</td>
+                                <td dangerouslySetInnerHTML={{ __html: service.description }}></td>
+                                <td>{service.price}</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Giám định nhanh 3h</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Giám định nhanh 48h</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Niêm phong thường (Seal lại)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.</li>
-                                        <li>Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Niêm phong (Seal lại nhanh 3h)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Niêm phong (Seal lại nhanh 48h)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.</li>
-                                        <li>Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Cấp lại giấy giám định</td>
-                                <td>
-                                    <ul>
-                                        <li>Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Khắc mã số cạnh</td>
-                                <td>
-                                    <ul>
-                                        <li>Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.</li>
-                                        <li>Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
+                        ))}
+                            
                         </tbody>
                     </table>
                 </div>
@@ -111,89 +73,14 @@ export const EvaluateService = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Loại đá</td>
-                                <td>Kim cương thiên nhiên (Natural Diamond)</td>
+                        {standardData.map((standard, index) => (
+                            <tr key={index}>
+                                <td>{standard.standardId}</td>
+                                <td>{standard.standardName}</td>
+                                <td dangerouslySetInnerHTML={{ __html: standard.description }}></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Kích thước (Measurements)</td>
-                                <td>Từ 3.00mm trở lên.</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Dạng cắt mài (Shape&cut)</td>
-                                <td>Tất cả các dạng cắt mài.</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Màu sắc (Color)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Từ màu D đến Z</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Độ tinh khiết (Clarity)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: FL, IF, VVS1-VVS2, VS1-VS2, SI1-SI2, I1-I2-I3.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Cắt mài (Cut)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor</li>
-                                        <li>Chỉ thực hiên phân cấp với viên có dạng cắt mài (shape&cut): Round Brilliant.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Tỉ lệ cắt mài (Proportions)</td>
-                                <td>Đo các thông số tỉ lệ cắt mài viên đá.</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>Mài bóng (Polish) Đối xứng (Symmetry)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: Excellent, Very Good, Good, Fair, Poor</li>
-                                        <li>Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>Phát quang (Fluorescence)</td>
-                                <td>
-                                    <ul>
-                                        <li>Thang tiêu chuẩn: None, Faint, Medium, Strong, Very Strong.</li>
-                                        <li>Không thực hiện phân cấp những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Niêm phong (Ép Seal)</td>
-                                <td>Tất cả viên đá được PNJLab thực hiện giám định.</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Giấy giám định (Diamond Grading Report)</td>
-                                <td>
-                                    <ul>
-                                        <li>Phát hành Giấy giám định những viên có kích thước (size) trên 4.00mm.</li>
-                                        <li>Không phát hành Giấy giám định những viên có kích thước (size) từ 3.00 đến 3.99mm.</li>
-                                    </ul>
-                                </td>
-                            </tr>
+                        ))}
+                            
                         </tbody>
                     </table>
                 </div>
