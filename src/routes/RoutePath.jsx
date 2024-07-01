@@ -54,7 +54,7 @@ import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
 import ServiceAdmin from "../Component/AdminLayout/ServiceAdmin.jsx";
-
+import SealForm from "../Component/Sealing/Formseal.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -120,6 +120,7 @@ const RoutePath = () => {
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/sealing" element={<SealForm />} />
       </Routes>
     </BrowserRouter>
   );
