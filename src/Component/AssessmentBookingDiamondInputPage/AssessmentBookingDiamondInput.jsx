@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AssessmentBookingDiamondInput.css';
 import axios from 'axios';
+import ProgressBar from '../Progressbar/ProgressBar';
 
 const AssessmentBookingDiamondInput = () => {
   const navigate = useNavigate();
@@ -103,21 +104,29 @@ const AssessmentBookingDiamondInput = () => {
     }
   };
 
+  const progressBar = () =>{
+
+  }
+  
   return (
-    <div className="assessment-booking-diamond-input">
-      <Form
-        form={form}
-        onValuesChange={handleFormChange}
-        layout="horizontal"
-        style={{ maxWidth: 1200, margin: '0 auto' }}
-      >
-        {renderDiamondFields()}
-        <Form.Item>
-          <Button type="primary" onClick={handleNextClick}>
-            Next
-          </Button>
-        </Form.Item>
-      </Form>
+    <div>
+      <ProgressBar />
+
+      <div className="assessment-booking-diamond-input">
+        <Form
+          form={form}
+          onValuesChange={handleFormChange}
+          layout="horizontal"
+          style={{ maxWidth: 1200, margin: '0 auto' }}
+        >
+          {renderDiamondFields()}
+          <Form.Item>
+            <Button type="primary" onClick={handleNextClick}>
+              Next
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };
