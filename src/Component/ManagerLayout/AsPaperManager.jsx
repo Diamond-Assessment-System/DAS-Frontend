@@ -3,13 +3,19 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import Pagination from "../Paginate/Pagination"; 
+import '../ManagerLayout/AsPaperManager.css'; 
 
 function AsPaperManager() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
   const [selectedActions, setSelectedActions] = useState({});
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   const fetchSamples = async () => {
     try {
@@ -36,6 +42,17 @@ function AsPaperManager() {
     fetchSamples();
     fetchAccounts();
   }, []);
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(samples.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(samples.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, samples]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % samples.length;
+    setItemOffset(newOffset);
+  };
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -97,7 +114,7 @@ function AsPaperManager() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {samples.map((sample) => (
+              {currentItems.map((sample) => (
                 <tr key={sample.sampleId}>
                   <td className="py-4 px-4 text-center align-middle">{`#${sample.bookingId}`}</td>
                   <td className="py-4 px-4 text-center align-middle">{`${sample.name}`}</td>
@@ -132,6 +149,7 @@ function AsPaperManager() {
             </tbody>
           </table>
         </div>
+        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );
