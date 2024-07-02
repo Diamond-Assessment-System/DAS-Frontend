@@ -71,11 +71,13 @@ const AssessmentBookingDiamondInput = () => {
             name={`diamond${i + 1}Size`}
             rules={[{ required: true, message: 'Nhập kích cỡ!' }]}
           >
-            <Input onChange={(e) => {
-              const size = parseFloat(e.target.value);
-              const price = calculatePrice(size);
-              form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
-            }} />
+            <Input
+              onChange={(e) => {
+                const size = parseFloat(e.target.value);
+                const price = calculatePrice(size);
+                form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
+              }}
+            />
           </Form.Item>
           <Form.Item label="Số tiền ước tính" name={`diamond${i + 1}Price`}>
             <Input disabled />
@@ -86,17 +88,19 @@ const AssessmentBookingDiamondInput = () => {
         </div>
       );
     }
-    return diamondFields;
+    return <div className="diamond-fields-container">{diamondFields}</div>;
   };
 
   const handleNextClick = () => {
-    navigate('/consultingstaff/assessmentrequest/' + id + '/inputdiamonds/summary', {
-      state: {
-        diamonds: samples,
-        bookingData,
-        serviceData
-      }
-    });
+    if (window.confirm("Thông tin đã xác thực?")) {
+      navigate('/consultingstaff/assessmentrequest/' + id + '/inputdiamonds/summary', {
+        state: {
+          diamonds: samples,
+          bookingData,
+          serviceData
+        }
+      });
+    }
   };
 
   return (
@@ -104,8 +108,8 @@ const AssessmentBookingDiamondInput = () => {
       <Form
         form={form}
         onValuesChange={handleFormChange}
-        layout="vertical"
-        style={{ maxWidth: 600, margin: '0 auto' }}
+        layout="horizontal"
+        style={{ maxWidth: 1200, margin: '0 auto' }}
       >
         {renderDiamondFields()}
         <Form.Item>
