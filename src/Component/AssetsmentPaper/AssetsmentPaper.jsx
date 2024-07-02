@@ -4,10 +4,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { handleSession } from "../../utils/sessionUtils";
-import Spinner from "../Spinner/Spinner";
 
 const AssessmentPaper = () => {
-  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const {
     loai,
