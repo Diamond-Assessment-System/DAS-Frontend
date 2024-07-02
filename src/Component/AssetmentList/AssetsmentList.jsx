@@ -7,12 +7,13 @@ import { parse, addHours, format } from "date-fns";
 import axios from "axios";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { handleSession } from "../../utils/sessionUtils";
+import Spinner from "../Spinner/Spinner";
 
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
   const { diamonds, bookingData, serviceData } = location.state || {};
-
+  const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [account, setAccount] = useState({});
   const [completionDate, setCompletionDate] = useState("");
@@ -93,8 +94,19 @@ function AssetsmentList() {
       console.log("Booking Samples created:", response.data);
     } catch (error) {
       console.error("Error creating booking samples:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg">

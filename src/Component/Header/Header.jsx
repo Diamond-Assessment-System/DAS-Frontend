@@ -129,7 +129,7 @@ const Header = () => {
                 {userName}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="#/lich-su-dat-hen">Lịch sử đặt hẹn</Dropdown.Item>
+                <Dropdown.Item href="/history">Lịch sử đặt hẹn</Dropdown.Item>
                 <Dropdown.Item href="/account">Thông tin cá nhân</Dropdown.Item>
                 <Dropdown.Item href="/lookup">Dò giấy giám định</Dropdown.Item>
                 <Dropdown.Divider />

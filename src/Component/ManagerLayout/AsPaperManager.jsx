@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
+import Spinner from "../Spinner/Spinner";
 
 function AsPaperManager() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
   const [selectedActions, setSelectedActions] = useState({});
   const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchSamples = async () => {
     try {
@@ -25,6 +27,8 @@ function AsPaperManager() {
       setAccounts(response.data);
     } catch (error) {
       console.error("Error fetching the accounts:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,6 +72,14 @@ function AsPaperManager() {
       navigate(`/assessmentstaff/assessmentbooking/${sampleId}/selection`);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">

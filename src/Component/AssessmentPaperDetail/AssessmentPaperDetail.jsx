@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Spinner from "../Spinner/Spinner";
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [assessmentPaper, setAssessmentPaper] = useState(null);
 
   useEffect(() => {
@@ -13,22 +15,38 @@ function AssessmentPaperDetail() {
         setAssessmentPaper(response.data);
       } catch (error) {
         console.error("Error fetching assessment paper:", error);
-      }
+      } finally{
+        setLoading(false);
+      } 
     };
     fetchAssessmentPaper();
   }, [id]);
 
   const downloadImage = () => {
-    const link = document.createElement("a");
-    link.href = assessmentPaper.paperImage;
-    link.download = "AssessmentPaperDetail.png";
-    link.click();
+    if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+      const link = document.createElement("a");
+      link.href = assessmentPaper.paperImage;
+      link.download = "AssessmentPaperDetail.png";
+      link.click();
+    }
+    // const link = document.createElement("a");
+    // link.href = assessmentPaper.paperImage;
+    // link.download = "AssessmentPaperDetail.png";
+    // link.click();
   };
 
-  if (!assessmentPaper) {
-    return <div>Loading...</div>;
-  }
+  // if (!assessmentPaper) {
+  //   return <div>Loading...</div>;
+  // }
 
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
+  
   return (
     <div id="assessment-paper-detail" className="p-10 bg-gray-50">
       <h1 className="text-2xl font-bold mb-4">Assessment Paper Images</h1>

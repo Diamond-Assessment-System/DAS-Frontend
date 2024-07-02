@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './AssessmentList.css';
+import Spinner from "../Spinner/Spinner";
 
 const AssessmentList = () => {
     const [assessments, setAssessments] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAssessments = async () => {
@@ -16,6 +18,8 @@ const AssessmentList = () => {
                 setAssessments(response.data);
             } catch (error) {
                 console.error('Error fetching assessment papers:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -25,7 +29,14 @@ const AssessmentList = () => {
     const viewDetail = (id) => {
         navigate(`/assessment-detail/${id}`);
     };
-
+    
+    if (loading) {
+        return (
+          <div className="loading-indicator">
+            <Spinner />
+          </div>
+        );
+      }
     return (
         <Container className="mt-5">
             <h1 className="text-center mb-4">Assessment Papers</h1>
