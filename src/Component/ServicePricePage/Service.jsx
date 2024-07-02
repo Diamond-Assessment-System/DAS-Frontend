@@ -53,7 +53,7 @@ export const EvaluateService = () => {
                                 <td>{service.serviceId}</td>
                                 <td>{service.serviceName}</td>
                                 <td dangerouslySetInnerHTML={{ __html: service.description }}></td>
-                                <td>{service.price}</td>
+                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.price} VND</td>
                             </tr>
                         ))}
                             

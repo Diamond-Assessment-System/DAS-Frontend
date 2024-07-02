@@ -22,17 +22,48 @@ function AssessmentBooking() {
 
     fetchData();
   }, []); // Empty dependency array to run effect only once on component mount
+  // const getStatusClass = (status) => {
+  //   switch (status) {
+  //     case 'Pending':
+  //       return 'text-yellow-500';
+  //     case 'Completed':
+  //       return 'text-green-500';
+  //     case 'Cancelled':
+  //       return 'text-red-500';
+  //     default:
+  //       return 'text-gray-500';
+  //   }
+  // };
+
   const getStatusClass = (status) => {
     switch (status) {
-      case 'Pending':
-        return 'text-yellow-500';
-      case 'Completed':
-        return 'text-green-500';
-      case 'Cancelled':
-        return 'text-red-500';
+      case 3:
+        return "status-completed";
+      case 4:
+        return "status-canceled";
+      case 2:
+        return "status-assessing";
       default:
-        return 'text-gray-500';
+        return "";
     }
+  };
+
+  const handleShowDetails = (sample) => {
+    switch (sample.status) {
+      case 2:
+        navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/selection`);
+        break;
+      case 3: //hoan thanh
+        navigate(`/consultingstaff/assessmentpaperlist/${sample.sampleId}`)
+        break;
+      case 4:
+        alert("Yêu cầu đã bị hủy!");
+        break;
+      default:
+        alert("Invalid!");
+        break;
+    }
+
   };
 //  const [bookings] = useState([
 //     { bookingId: 1, serviceId: 1, quantity: 3, dateCreated: '2023-06-15', status: 'Pending' },
@@ -68,11 +99,11 @@ function AssessmentBooking() {
                 <td className="py-4 px-4 align-middle">{`#${sample.bookingId}`}</td>
                 <td className="py-4 px-4 align-middle">{`${sample.name}`}</td>
                 <td className="py-4 px-4 align-middle">{sample.size}</td>
-                <td className={`py-4 px-4 align-middle`}>{getSampleStatusMeaning(sample.status)}</td>
+                <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}><h3>{getSampleStatusMeaning(sample.status)}</h3></td>
                 <td className="py-4 px-4 align-middle">
                   <div className="flex items-center justify-center">
                     <button
-                      onClick={() => navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/selection`)}
+                      onClick={() => handleShowDetails(sample)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       Xem chi tiết
