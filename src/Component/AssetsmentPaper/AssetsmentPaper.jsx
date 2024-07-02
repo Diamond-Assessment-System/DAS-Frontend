@@ -61,13 +61,16 @@ const AssessmentPaper = () => {
 
   const handlePreview = () => {
     if (uploadedProportionImage && uploadedClarityImage) {
-      navigate('/assessmentstaff/assessmentbooking/:id/selection/info/summary/preview', {
-        state: {
-          id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
-          shape, cuttingStyle, polish, symmetry, fluorescence,
-          uploadedProportionImage, uploadedClarityImage, loggedAccount
-        }
-      });
+      if (window.confirm("Thông tin đã xác thực?")) {
+        navigate('/assessmentstaff/assessmentbooking/:id/selection/info/summary/preview', {
+          state: {
+            id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
+            shape, cuttingStyle, polish, symmetry, fluorescence,
+            uploadedProportionImage, uploadedClarityImage, loggedAccount
+          }
+        });
+      }
+      
     } else {
       alert("Please upload both the Proportion and Clarity images before proceeding.");
     }

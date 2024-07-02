@@ -1,35 +1,67 @@
-import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Card, Form, Button } from 'react-bootstrap';
 import './AccountInfo.css'; // Assuming you have a CSS file for styling
 
 const AccountInfo = () => {
-    // Dummy account data
-    const account = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
-        phone: '123-456-7890',
-        address: '123 Main St, Springfield, IL',
+    const [account, setAccount] = useState({
+        displayName: '',
+        email: '',
+        phone: ''
+    });
+    const [phone, setPhone] = useState('');
+
+    useEffect(() => {
+        const storedAccount = JSON.parse(localStorage.getItem('account'));
+        if (storedAccount) {
+            setAccount(storedAccount);
+            setPhone(storedAccount.phone);
+        }
+    }, []);
+
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
+    };
+
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        const updatedAccount = { ...account, phone };
+        setAccount(updatedAccount);
+        localStorage.setItem('account', JSON.stringify(updatedAccount));
+        alert('Account information updated!');
     };
 
     return (
         <Container className="account-info-container">
-            <Row className="justify-content-md-center">
-                <Col md={6}>
-                    <Card className="account-card">
-                        <Card.Header className="account-card-header">Account Information</Card.Header>
-                        <Card.Body>
-                            <Card.Title className="account-card-title">{account.name}</Card.Title>
-                            <Card.Text>
-                                <strong>Email:</strong> {account.email}
-                                <br />
-                                <strong>Phone:</strong> {account.phone}
-                                <br />
-                                <strong>Address:</strong> {account.address}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
+            <Card className="account-card">
+                <div className="account-card-body">
+                    <div className="account-avatar">
+                        <img src="https://via.placeholder.com/150" alt="Avatar" />
+                    </div>
+                    <div className="account-details">
+                        <Form onSubmit={handleUpdate}>
+                            <Form.Group className="form-group" controlId="formDisplayName">
+                                <Form.Label>Họ và tên:</Form.Label>
+                                <Form.Control type="text" readOnly value={account.displayName} />
+                            </Form.Group>
+                            <Form.Group className="form-group" controlId="formPhone">
+                                <Form.Label>Số điện thoại:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    value={phone}
+                                    onChange={handlePhoneChange}
+                                />
+                            </Form.Group>
+                            <Form.Group className="form-group" controlId="formEmail">
+                                <Form.Label>Email:</Form.Label>
+                                <Form.Control type="text" readOnly value={account.email} />
+                            </Form.Group>
+                            <Button variant="primary" type="submit">
+                                Update
+                            </Button>
+                        </Form>
+                    </div>
+                </div>
+            </Card>
         </Container>
     );
 };

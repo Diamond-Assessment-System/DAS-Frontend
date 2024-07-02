@@ -2,21 +2,46 @@ import "./AssessmentPaperList.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Spinner from "../Spinner/Spinner";
 
 function AssessmentPaperList() {
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(true);
   const [assessmentPapers, setAssessmentPapers] = useState([]);
 
+  // useEffect(() => {
+  //   axios.get("https://das-backend.fly.dev/api/assessment-papers")
+  //     .then(response => {
+  //       setAssessmentPapers(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error("There was an error fetching the assessment papers!", error);
+  //     });
+  // }, []);
+
   useEffect(() => {
-    axios.get("https://das-backend.fly.dev/api/assessment-papers")
-      .then(response => {
+    const fetchAssessmentPapers = async () => {
+      try {
+        const response = await axios.get("https://das-backend.fly.dev/api/assessment-papers");
         setAssessmentPapers(response.data);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error("There was an error fetching the assessment papers!", error);
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAssessmentPapers();
   }, []);
+  
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">

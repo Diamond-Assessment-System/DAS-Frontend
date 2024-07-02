@@ -29,3 +29,65 @@ table th{
 .booking-container{
     width: 100%;
 }
+
+.status-completed {
+    color: #3cb371 ;
+    text-align: center;
+  }
+  
+  .status-completed h3 {
+    color: #3cb371 ;
+    background-color: #76ff7b61;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+  }
+  
+  .status-canceled {
+    color: #dc143c;
+    text-align: center;
+  }
+  
+  .status-canceled h3 {
+    color: #dc143c;
+    background-color: #ff999967 ;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+  }
+  
+  .status-assessing {
+    color: #ff7f50;
+    text-align: center;
+  }
+  
+  .status-assessing h3 {
+    color: #ff7f50;
+    background-color: #ffc87c6c ;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+
+  }
+
+  .status-opened {
+    color: #ff1dce ;
+    text-align: center;
+  }
+  
+  .status-opened h3 {
+    color: #ff1dce ;
+    background-color: #fbaed265 ;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 50%;
+    display: inline-block;
+    margin: 0;
+
+  }

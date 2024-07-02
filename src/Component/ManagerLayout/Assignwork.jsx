@@ -2,11 +2,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
+import Spinner from "../Spinner/Spinner";
 
 function AssignWork() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [selectedActions, setSelectedActions] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -85,8 +87,18 @@ function AssignWork() {
       ));
     } catch (error) {
       console.error("Error cancelling the booking:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
