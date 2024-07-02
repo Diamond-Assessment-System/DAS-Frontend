@@ -72,15 +72,6 @@ const SidebarAdmin = () => {
             Content Database
           </NavLink>
         </li>
-        <li className="admin-sidebar-item">
-          <NavLink
-            to="/admin/services"
-            className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-            activeClassName="bg-gray-300 font-semibold"
-          >
-            Services
-          </NavLink>
-        </li>
       </ul>
     </div>
   );

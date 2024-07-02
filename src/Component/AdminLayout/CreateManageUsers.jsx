@@ -8,29 +8,24 @@ const CreateManageUsers = () => {
     { id: 3, name: "Alice Johnson", email: "alice@example.com", role: "Staff" },
   ]);
 
-  const [editingUser, setEditingUser] = useState(null);
-  const [editUserData, setEditUserData] = useState({
-    name: "",
-    email: "",
-    role: "Staff"
-  });
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserRole, setNewUserRole] = useState("Staff");
 
-  const handleEditUser = (user) => {
-    setEditingUser(user.id);
-    setEditUserData({ name: user.name, email: user.email, role: user.role });
-  };
-
-  const handleUpdateUser = (e) => {
+  const handleCreateUser = (e) => {
     e.preventDefault();
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === editingUser
-          ? { ...user, name: editUserData.name, email: editUserData.email, role: editUserData.role }
-          : user
-      )
-    );
-    setEditingUser(null);
-    setEditUserData({ name: "", email: "", role: "Staff" });
+    if (newUserName && newUserEmail && newUserRole) {
+      const newUser = {
+        id: users.length + 1,
+        name: newUserName,
+        email: newUserEmail,
+        role: newUserRole,
+      };
+      setUsers([...users, newUser]);
+      setNewUserName("");
+      setNewUserEmail("");
+      setNewUserRole("Staff");
+    }
   };
 
   const handleDeleteUser = (userId) => {
@@ -39,17 +34,58 @@ const CreateManageUsers = () => {
     console.log(`Deleting user with ID ${userId}`);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditUserData({ ...editUserData, [name]: value });
-  };
-
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Manage User Accounts
+          Create and Manage User Accounts
         </h2>
+        <form className="manage-users-form mb-4" onSubmit={handleCreateUser}>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">
+              User Name:
+              <input
+                type="text"
+                value={newUserName}
+                onChange={(e) => setNewUserName(e.target.value)}
+                required
+                className="block w-full mt-1 bg-white border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">
+              Email:
+              <input
+                type="email"
+                value={newUserEmail}
+                onChange={(e) => setNewUserEmail(e.target.value)}
+                required
+                className="block w-full mt-1 bg-white border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </label>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">
+              Role:
+              <select
+                value={newUserRole}
+                onChange={(e) => setNewUserRole(e.target.value)}
+                required
+                className="block w-full mt-1 bg-white border border-gray-300 rounded py-2 px-4 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="Staff">Staff</option>
+                <option value="Customer">Customer</option>
+              </select>
+            </label>
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Create User
+          </button>
+        </form>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -63,71 +99,16 @@ const CreateManageUsers = () => {
             <tbody className="text-gray-700">
               {users.map((user) => (
                 <tr key={user.id} className="hover:bg-gray-100">
+                  <td className="py-4 px-4 text-center align-middle">{user.name}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.email}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.role}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {editingUser === user.id ? (
-                      <input
-                        type="text"
-                        name="name"
-                        value={editUserData.name}
-                        onChange={handleInputChange}
-                        className="w-full py-2 px-3 border rounded focus:outline-none focus:shadow-outline"
-                      />
-                    ) : (
-                      user.name
-                    )}
-                  </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {editingUser === user.id ? (
-                      <input
-                        type="email"
-                        name="email"
-                        value={editUserData.email}
-                        onChange={handleInputChange}
-                        className="w-full py-2 px-3 border rounded focus:outline-none focus:shadow-outline"
-                      />
-                    ) : (
-                      user.email
-                    )}
-                  </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {editingUser === user.id ? (
-                      <select
-                        name="role"
-                        value={editUserData.role}
-                        onChange={handleInputChange}
-                        className="w-full py-2 px-3 border rounded focus:outline-none focus:shadow-outline"
-                      >
-                        <option value="Staff">Staff</option>
-                        <option value="Customer">Customer</option>
-                      </select>
-                    ) : (
-                      user.role
-                    )}
-                  </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {editingUser === user.id ? (
-                      <button
-                        onClick={handleUpdateUser}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Update
-                      </button>
-                    ) : (
-                      <div>
-                        <button
-                          onClick={() => handleEditUser(user)}
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteUser(user.id)}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}

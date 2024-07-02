@@ -53,8 +53,7 @@ import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
-import ServiceAdmin from "../Component/AdminLayout/ServiceAdmin.jsx";
-import SealForm from "../Component/Sealing/Formseal.jsx";
+
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -114,13 +113,11 @@ const RoutePath = () => {
           <Route path="/admin/system-update" element={<SystemUpdate />} />
           <Route path="/admin/content-database" element={<ContentDatabase />} />
           <Route path="/admin/create-manage-users" element={<CreateManageUsers />} />
-          <Route path="/admin/services" element={<ServiceAdmin />} />
-         </Route>
+        </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
         <Route path="*" element={<ErrorPage />} />
-        <Route path="/sealing" element={<SealForm />} />
       </Routes>
     </BrowserRouter>
   );
