@@ -3,13 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
+import Pagination from "../Paginate/Pagination"; 
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -67,6 +72,17 @@ function AssessmentRequestConsulting() {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(bookings.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(bookings.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, bookings]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % bookings.length;
+    setItemOffset(newOffset);
+  };
+
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
   };
@@ -92,7 +108,6 @@ function AssessmentRequestConsulting() {
         // alert("Invalid!")
         break;
     }
-
   };
 
   const filteredBookings = bookings.filter((booking) => {
@@ -216,6 +231,7 @@ function AssessmentRequestConsulting() {
             </tbody>
           </table>
         </div>
+        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );

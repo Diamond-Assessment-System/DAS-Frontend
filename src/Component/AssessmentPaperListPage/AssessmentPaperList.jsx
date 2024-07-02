@@ -3,21 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner/Spinner";
-
+import Pagination from "../Paginate/Pagination"; 
 function AssessmentPaperList() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [assessmentPapers, setAssessmentPapers] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get("https://das-backend.fly.dev/api/assessment-papers")
-  //     .then(response => {
-  //       setAssessmentPapers(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("There was an error fetching the assessment papers!", error);
-  //     });
-  // }, []);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchAssessmentPapers = async () => {
@@ -33,7 +27,17 @@ function AssessmentPaperList() {
 
     fetchAssessmentPapers();
   }, []);
-  
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(assessmentPapers.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(assessmentPapers.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, assessmentPapers]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % assessmentPapers.length;
+    setItemOffset(newOffset);
+  };
 
   if (loading) {
     return (
@@ -59,7 +63,7 @@ function AssessmentPaperList() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {assessmentPapers.map((paper) => (
+              {currentItems.map((paper) => (
                 <tr key={paper.diamondId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{paper.diamondId}</td>
                   <td className="py-4 px-4 text-center">{paper.accountId}</td>
@@ -80,6 +84,7 @@ function AssessmentPaperList() {
             </tbody>
           </table>
         </div>
+        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );

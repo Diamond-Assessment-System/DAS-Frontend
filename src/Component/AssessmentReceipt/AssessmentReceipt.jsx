@@ -3,11 +3,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
+import Pagination from "../Paginate/Pagination";
 
 function AssessmentReceipt() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -69,6 +74,16 @@ function AssessmentReceipt() {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(bookings.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(bookings.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, bookings]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % bookings.length;
+    setItemOffset(newOffset);
+  };
 
   if (loading) {
     return (
@@ -97,7 +112,7 @@ function AssessmentReceipt() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {bookings.map((booking) => (
+              {currentItems.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 text-center">
@@ -135,6 +150,7 @@ function AssessmentReceipt() {
             </tbody>
           </table>
         </div>
+        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );
