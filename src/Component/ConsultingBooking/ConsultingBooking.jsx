@@ -3,12 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../ConsultingBooking/ConsultingBooking.css";
-import Spinner from "../Spinner/Spinner";
-
 function ConsultingBooking() {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch data from the backend API
@@ -20,22 +17,12 @@ function ConsultingBooking() {
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, []); // Empty dependency array to run effect only once on component mount
 
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
-  
   return (
     <div className="booking-container">
       <div className="step text-4xl font-bold">

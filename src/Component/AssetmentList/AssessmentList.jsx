@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./AssessmentList.css";
-import Spinner from "../Spinner/Spinner";
 
 const dummyData = [
     { id: 1, name: "Diamond A", price: 5000 },
@@ -13,7 +12,6 @@ const dummyData = [
 function AssessmentList() {
     const [assessments, setAssessments] = useState([]);
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Simulate fetching data
@@ -24,14 +22,6 @@ function AssessmentList() {
         navigate("/details", { state: { assessment } });
     };
 
-    if (loading) {
-        return (
-          <div className="loading-indicator">
-            <Spinner />
-          </div>
-        );
-      }
-      
     return (
         <div className="container-assessmentlist">
             <h2>Assessment List</h2>

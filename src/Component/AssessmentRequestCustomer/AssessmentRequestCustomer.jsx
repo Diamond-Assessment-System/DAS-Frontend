@@ -5,19 +5,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
-import Spinner from "../Spinner/Spinner";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
     }
-    setLoading(false);
   }, [navigate]);
 
   const formatDateToLocalDateTime = (date) => {
@@ -65,21 +62,10 @@ function AssessmentRequest() {
         })
         .catch((error) => {
           console.error("Error:", error);
-        })
-        .finally(() => {
-          setLoading(false);
         });
       }
     },
   });
-
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto p-4 mt-20 max-w-xl">

@@ -1,7 +1,6 @@
 import { Button, DatePicker, Form, InputNumber } from "antd";
 import Input from "antd/es/input/Input";
 import "../RequestBooking/RequestBookingContent.css";
-import Spinner from "../Spinner/Spinner";
 
 function RequestBookingContent() {
   const { RangePicker } = DatePicker;

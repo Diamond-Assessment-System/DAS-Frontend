@@ -2,13 +2,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
-import Spinner from "../Spinner/Spinner";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
   const getStatusClass = (status) => {
@@ -59,8 +57,6 @@ function AssessmentRequestConsulting() {
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -103,14 +99,6 @@ function AssessmentRequestConsulting() {
     if (selectedStatus === "dahuy") return booking.status === 4;
     return false;
   });
-
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <div className="w-full">
@@ -170,14 +158,14 @@ function AssessmentRequestConsulting() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
-                <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-center align-middle">
+                <th className="py-4 px-4 text-left align-middle">Mã yêu cầu</th>
+                <th className="py-4 px-4 text-left align-middle">Dịch vụ</th>
+                <th className="py-4 px-4 text-left align-middle">
                   Số Lượng Kim Cương
                 </th>
-                <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
-                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-left align-middle">Ngày tạo</th>
+                <th className="py-4 px-4 text-left align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-left align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">

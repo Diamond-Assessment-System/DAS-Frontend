@@ -129,9 +129,9 @@ const Header = () => {
                 {userName}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item href="/history">Lịch sử đặt hàng</Dropdown.Item>
-                <Dropdown.Item href="/account">Thông tin cá nhân</Dropdown.Item>
-                <Dropdown.Item href="/lookup">Dò giấy giám định</Dropdown.Item>
+                <Dropdown.Item href="#/lich-su-dat-hen">Lịch sử đặt hẹn</Dropdown.Item>
+                <Dropdown.Item href="#/thong-tin-ca-nhan">Thông tin cá nhân</Dropdown.Item>
+                <Dropdown.Item href="#/do-giay-giam-dinh">Dò giấy giám định</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item onClick={handleLogout} className="text-danger">Đăng xuất</Dropdown.Item>
               </Dropdown.Menu>

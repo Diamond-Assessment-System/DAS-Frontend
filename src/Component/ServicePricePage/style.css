@@ -36,10 +36,7 @@
 
 .service-table th {
     background-color: #1a3679;
-    text-align: center;
 }
-
-
 
 .service-table ul {
     list-style-type: none;
@@ -49,9 +46,4 @@
 
 .service-table li {
     margin-bottom: 5px;
-}
-
-.price-td{
-    text-align: right;
-    color: red;
 }

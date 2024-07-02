@@ -17,82 +17,71 @@ const AssessmentPaperPreview = () => {
     const reportRef = useRef(null);
 
     const handleDownload = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
-            try {
-                // Apply downloadable styles
-                const sectionTitles = reportRef.current.querySelectorAll('.section-title');
-                sectionTitles.forEach(title => title.classList.add('section-title-download'));
+        try {
+            // Apply downloadable styles
+            const sectionTitles = reportRef.current.querySelectorAll('.section-title');
+            sectionTitles.forEach(title => title.classList.add('section-title-download'));
 
-                // Generate canvas
-                const canvas = await html2canvas(reportRef.current);
+            // Generate canvas
+            const canvas = await html2canvas(reportRef.current);
 
-                // Revert styles
-                sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+            // Revert styles
+            sectionTitles.forEach(title => title.classList.remove('section-title-download'));
 
-                // Convert canvas to image and download
-                const paperImage = canvas.toDataURL("image/png");
-                const link = document.createElement('a');
-                link.href = paperImage;
-                link.download = `Assessment_Paper_${id}.png`;
-                link.click();
-            } catch (error) {
-                console.error('Error generating image:', error);
-            }
+            // Convert canvas to image and download
+            const paperImage = canvas.toDataURL("image/png");
+            const link = document.createElement('a');
+            link.href = paperImage;
+            link.download = `Assessment_Paper_${id}.png`;
+            link.click();
+        } catch (error) {
+            console.error('Error generating image:', error);
         }
     };
 
     // Function to convert report to image and handle form submission
     const handleSubmit = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
-            try {
-                const sectionTitles = reportRef.current.querySelectorAll('.section-title');
-                sectionTitles.forEach(title => title.classList.add('section-title-download'));
+        try {
+            // Convert the report to an image
+            const canvas = await html2canvas(reportRef.current, {
+                scrollX: 0,
+                scrollY: 0,
+                scale: 1,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight,
+            });
+            const paperImage = canvas.toDataURL("image/png");
 
-                // Convert the report to an image
-                const canvas = await html2canvas(reportRef.current, {
-                    scrollX: 0,
-                    scrollY: 0,
-                    scale: 1,
-                    windowWidth: document.documentElement.offsetWidth,
-                    windowHeight: document.documentElement.offsetHeight,
-                });
+            // Prepare data object based on AssessmentPaperDto structure
+            const assessmentData = {
+                sampleId: parseInt(id), // Assuming id is from useParams()
+                type: loai,
+                size: parseFloat(size),
+                shape: `${shape} ${cuttingStyle}`,
+                cuttingStyle,
+                color: colorGrade,
+                clarity: clarityGrade,
+                polish,
+                symmetry,
+                fluorescence,
+                weight: parseFloat(carat),
+                dateCreated: new Date().toISOString(), // Current date
+                paperImage, // Base64 image
+                accountId: loggedAccount.accountId, // Example account ID
+            };
 
-                // Revert styles
-                sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+            // Make POST request to backend
+            const response = await axios.post('https://das-backend.fly.dev/api/assessment-papers', assessmentData);
 
-                const paperImage = canvas.toDataURL("image/png");
+            const status = 3;
+            const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
 
-                // Prepare data object based on AssessmentPaperDto structure
-                const assessmentData = {
-                    sampleId: parseInt(id), // Assuming id is from useParams()
-                    type: loai,
-                    size: parseFloat(size),
-                    shape: `${shape} ${cuttingStyle}`,
-                    cuttingStyle,
-                    color: colorGrade,
-                    clarity: clarityGrade,
-                    polish,
-                    symmetry,
-                    fluorescence,
-                    weight: parseFloat(carat),
-                    dateCreated: new Date().toISOString(), // Current date
-                    paperImage, // Base64 image
-                    accountId: loggedAccount.accountId, // Example account ID
-                };
-
-                // Make POST request to backend
-                const response = await axios.post('https://das-backend.fly.dev/api/assessment-papers', assessmentData);
-
-                const status = 3;
-                const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
-                window.alert("Đã Submit thành công!");
-                console.log('Submission successful:', response.data);
-                console.log('Submission successful:', responseb.data);
-                navigate("/assessmentstaff");
-                // Optionally, navigate to another page or display a success message
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
+            console.log('Submission successful:', response.data);
+            console.log('Submission successful:', responseb.data);
+            navigate("/assessmentstaff");
+            // Optionally, navigate to another page or display a success message
+        } catch (error) {
+            console.error('Error submitting data:', error);
         }
     };
 
@@ -195,8 +184,8 @@ const AssessmentPaperPreview = () => {
             </div>
             {/* Buttons section */}
             <Row className="mb-4">
-                <Col className='flexxx'>
-                    <Button variant="success" onClick={handleDownload} className="downnn">
+                <Col>
+                    <Button variant="primary" onClick={handleDownload}>
                         Download
                     </Button>
                     <Button variant="success" onClick={handleSubmit} className="ml-3">

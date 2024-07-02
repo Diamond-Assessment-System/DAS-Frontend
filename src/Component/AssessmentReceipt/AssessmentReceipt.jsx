@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
-import Spinner from "../Spinner/Spinner";
 
 function AssessmentReceipt() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
 
   const getStatusClass = (status) => {
@@ -61,22 +59,11 @@ function AssessmentReceipt() {
         setBookings(filteredBookings);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchBookings();
   }, []);
-
-
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <div className="w-full">

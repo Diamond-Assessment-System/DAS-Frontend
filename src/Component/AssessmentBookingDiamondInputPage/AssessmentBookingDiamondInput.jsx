@@ -3,15 +3,12 @@ import { Form, Input, Button } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AssessmentBookingDiamondInput.css';
 import axios from 'axios';
-import Spinner from "../Spinner/Spinner";
-import ProgressBar from '../Progressbar/ProgressBar';
 
 const AssessmentBookingDiamondInput = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { bookingData, serviceData, numberOfSamples, id } = location.state || {}; 
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(true);
 
   const [diamondPrices, setDiamondPrices] = useState([]);
   const [service, setService] = useState(serviceData);
@@ -24,8 +21,6 @@ const AssessmentBookingDiamondInput = () => {
         setDiamondPrices(response.data);
       } catch (error) {
         console.error("Error fetching the prices:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -76,13 +71,11 @@ const AssessmentBookingDiamondInput = () => {
             name={`diamond${i + 1}Size`}
             rules={[{ required: true, message: 'Nhập kích cỡ!' }]}
           >
-            <Input
-              onChange={(e) => {
-                const size = parseFloat(e.target.value);
-                const price = calculatePrice(size);
-                form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
-              }}
-            />
+            <Input onChange={(e) => {
+              const size = parseFloat(e.target.value);
+              const price = calculatePrice(size);
+              form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
+            }} />
           </Form.Item>
           <Form.Item label="Số tiền ước tính" name={`diamond${i + 1}Price`}>
             <Input disabled />
@@ -93,52 +86,34 @@ const AssessmentBookingDiamondInput = () => {
         </div>
       );
     }
-    return <div className="diamond-fields-container">{diamondFields}</div>;
+    return diamondFields;
   };
 
   const handleNextClick = () => {
-    if (window.confirm("Thông tin đã xác thực?")) {
-      navigate('/consultingstaff/assessmentrequest/' + id + '/inputdiamonds/summary', {
-        state: {
-          diamonds: samples,
-          bookingData,
-          serviceData
-        }
-      });
-    }
+    navigate('/consultingstaff/assessmentrequest/' + id + '/inputdiamonds/summary', {
+      state: {
+        diamonds: samples,
+        bookingData,
+        serviceData
+      }
+    });
   };
 
-  const progressBar = () =>{
-
-  }
-  
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
-  
   return (
-    <div>
-      <ProgressBar />
-
-      <div className="assessment-booking-diamond-input">
-        <Form
-          form={form}
-          onValuesChange={handleFormChange}
-          layout="horizontal"
-          style={{ maxWidth: 1200, margin: '0 auto' }}
-        >
-          {renderDiamondFields()}
-          <Form.Item>
-            <Button type="primary" onClick={handleNextClick}>
-              Next
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+    <div className="assessment-booking-diamond-input">
+      <Form
+        form={form}
+        onValuesChange={handleFormChange}
+        layout="vertical"
+        style={{ maxWidth: 600, margin: '0 auto' }}
+      >
+        {renderDiamondFields()}
+        <Form.Item>
+          <Button type="primary" onClick={handleNextClick}>
+            Next
+          </Button>
+        </Form.Item>
+      </Form>
     </div>
   );
 };
