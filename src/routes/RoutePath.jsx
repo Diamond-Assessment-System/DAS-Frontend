@@ -53,6 +53,7 @@ import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
+import SealList from "../Component/Sealing/SealList.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -70,6 +71,7 @@ const RoutePath = () => {
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
+          <Route path="/sealist" element={<SealList />} />
         </Route>
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
@@ -118,6 +120,7 @@ const RoutePath = () => {
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
         <Route path="*" element={<ErrorPage />} />
+        
       </Routes>
     </BrowserRouter>
   );
