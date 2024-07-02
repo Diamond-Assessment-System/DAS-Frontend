@@ -5,10 +5,12 @@ import { parse, addHours, format } from "date-fns";
 import axios from "axios";
 import getAccountFromId from "../../utils/getAccountFromId";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
+import Spinner from "../Spinner/Spinner";
 
 function ReceiptDetail() {
   const { bookingId } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const [diamonds, setDiamonds] = useState([]);
   const [bookingData, setBookingData] = useState({});
@@ -36,11 +38,21 @@ function ReceiptDetail() {
         setCompletionDate(format(completedDate, "yyyy-MM-dd"));
       } catch (error) {
         console.error("Error fetching booking details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBookingDetails();
   }, [bookingId]);
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">

@@ -2,11 +2,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
+import Spinner from "../Spinner/Spinner";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
   const getStatusClass = (status) => {
@@ -57,6 +59,8 @@ function AssessmentRequestConsulting() {
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -99,6 +103,14 @@ function AssessmentRequestConsulting() {
     if (selectedStatus === "dahuy") return booking.status === 4;
     return false;
   });
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">

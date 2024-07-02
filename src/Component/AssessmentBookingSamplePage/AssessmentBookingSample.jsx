@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import Spinner from "../Spinner/Spinner";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,6 +15,8 @@ function AssessmentRequestConsulting() {
         setRequests(response.data);
       } catch (error) {
         console.error("Error fetching the requests:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,6 +49,13 @@ function AssessmentRequestConsulting() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">

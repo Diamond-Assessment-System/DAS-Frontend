@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AssessmentBookingDiamondInput.css';
 import axios from 'axios';
+import Spinner from "../Spinner/Spinner";
 import ProgressBar from '../Progressbar/ProgressBar';
 
 const AssessmentBookingDiamondInput = () => {
@@ -10,6 +11,7 @@ const AssessmentBookingDiamondInput = () => {
   const location = useLocation();
   const { bookingData, serviceData, numberOfSamples, id } = location.state || {}; 
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(true);
 
   const [diamondPrices, setDiamondPrices] = useState([]);
   const [service, setService] = useState(serviceData);
@@ -22,6 +24,8 @@ const AssessmentBookingDiamondInput = () => {
         setDiamondPrices(response.data);
       } catch (error) {
         console.error("Error fetching the prices:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -106,6 +110,14 @@ const AssessmentBookingDiamondInput = () => {
 
   const progressBar = () =>{
 
+  }
+  
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
   }
   
   return (

@@ -3,10 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AssessmentBooking.css";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
+import Spinner from "../Spinner/Spinner"; // Import the Spinner component
 
 function AssessmentBooking() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
 
   useEffect(() => {
@@ -17,6 +19,8 @@ function AssessmentBooking() {
         setSamples(response.data);
       } catch (error) {
         console.error("Error fetching the samples:", error);
+      } finally {
+        setLoading(false); // Set loading to false after data is fetched
       }
     };
 
@@ -80,6 +84,15 @@ function AssessmentBooking() {
 //     { bookingId: 10, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
     
 //   ]);
+
+if (loading) {
+  return (
+    <div className="loading-indicator">
+      <Spinner />
+    </div>
+  );
+}
+
   return (
     <div>
 

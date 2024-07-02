@@ -5,9 +5,11 @@ import axios from 'axios'; // Import Axios for HTTP requests
 import html2canvas from 'html2canvas';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
+import Spinner from "../Spinner/Spinner";
 
 const AssessmentPaperPreview = () => {
     const location = useLocation();
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const {
         id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
