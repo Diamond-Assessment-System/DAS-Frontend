@@ -75,10 +75,10 @@ function ReceiptDetail() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden mt-4">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-left">#</th>
+                <th className="py-4 px-4 text-center">STT</th>
                 <th className="py-4 px-4 text-center">Tên mẫu</th>
                 <th className="py-4 px-4 text-center">Kích cỡ</th>
-                <th className="py-4 px-4 text-right">Giá</th>
+                <th className="py-4 px-4 text-center">Giá</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -87,7 +87,7 @@ function ReceiptDetail() {
                   <td className="py-4 px-4">{index + 1}</td>
                   <td className="py-4 px-4 text-center">{diamond.name}</td>
                   <td className="py-4 px-4 text-center">{diamond.size}</td>
-                  <td className="py-4 px-4 text-right">${diamond.price}</td>
+                  <td className="py-4 px-4 text-center">${diamond.price}</td>
                 </tr>
               ))}
               <tr>
