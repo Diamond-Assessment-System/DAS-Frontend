@@ -12,7 +12,7 @@ const ProductSearch = () => {
     const [pearlCode, setPearlCode] = useState('');
     const [searchResult, setSearchResult] = useState(null);
     const [imageData, setImageData] = useState(null); // State to hold base64 image data
-    const [loading, setLoading] = useState(true);
+    //const [loading, setLoading] = useState(true);
 
     const handleSubmit = async (e, productCode) => {
         e.preventDefault();
@@ -34,18 +34,19 @@ const ProductSearch = () => {
             console.error('Error fetching data:', error);
             setSearchResult('Đã xảy ra lỗi khi tìm kiếm sản phẩm.');
             setImageData(null); // Clear image data on error
-        } finally {
-            setLoading(false);
-          }
+        } 
+        // finally {
+        //     setLoading(false);
+        //   }
     };
 
-    if (loading) {
-        return (
-          <div className="loading-indicator">
-            <Spinner />
-          </div>
-        );
-      }
+    // if (loading) {
+    //     return (
+    //       <div className="loading-indicator">
+    //         <Spinner />
+    //       </div>
+    //     );
+    //   }
 
     return (
         <Container className="mt-5">
