@@ -54,7 +54,7 @@ function AssessmentRequestConsulting() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings"
+          "https://das-backend.fly.dev/api/assessment-bookings/ordered"
         );
         setBookings(response.data);
       } catch (error) {
