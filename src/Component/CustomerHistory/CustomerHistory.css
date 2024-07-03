@@ -33,7 +33,9 @@ tbody td {
   background-color: #76ff7b61;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
-
+  width: 50%;
+  display: inline-block;
+  margin: 0;
 }
 
 .status-canceled {
@@ -45,7 +47,9 @@ tbody td {
   background-color: #ff999967 ;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
-
+  width: 50%;
+  display: inline-block;
+  margin: 0;
 }
 
 .status-assessing {
@@ -57,5 +61,7 @@ tbody td {
   background-color: #ffc87c6c ;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
-
+  width: 50%;
+  display: inline-block;
+  margin: 0;
 }

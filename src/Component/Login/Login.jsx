@@ -72,14 +72,6 @@ const GoogleLoginComponent = () => {
     setShowPassword(!showPassword);
   };
 
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
-
   return (
     <div className="relative flex items-center justify-center min-h-screen w-full">
       <button

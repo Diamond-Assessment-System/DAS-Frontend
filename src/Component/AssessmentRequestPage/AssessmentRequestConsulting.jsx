@@ -19,11 +19,11 @@ function AssessmentRequestConsulting() {
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
-        return "text-yellow-500";
+        return "status-pending";
       case 2:
-        return "text-green-500";
+        return "status-completedd";
       case 3:
-        return "text-red-500";
+        return "status-canceled";
       default:
         return "text-gray-500";
     }
@@ -59,7 +59,7 @@ function AssessmentRequestConsulting() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings"
+          "https://das-backend.fly.dev/api/assessment-bookings/ordered"
         );
         setBookings(response.data);
       } catch (error) {
@@ -181,6 +181,7 @@ function AssessmentRequestConsulting() {
           <label htmlFor="status5"> Đã Huỷ</label>
         </div>
 
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -208,12 +209,8 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {booking.dateCreated}
                   </td>
-                  <td
-                    className={`py-4 px-4 align-middle ${getStatusClass(
-                      booking.status
-                    )}`}
-                  >
-                    {getStatusText(booking.status)}
+                  <td className={`py-4 px-4 align-middle ${getStatusClass(booking.status)}`}>
+                    <h3>{getStatusText(booking.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">

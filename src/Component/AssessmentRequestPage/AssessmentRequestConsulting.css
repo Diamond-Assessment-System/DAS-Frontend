@@ -52,3 +52,48 @@ table th{
     background-color: #007bff;
     color: #fff;
   }
+  .overflow-x-auto{
+    padding-top: 15px;
+  }
+
+  .status-completed {
+    color: #3cb371 ;
+  }
+  
+  .status-completedd h3 {
+    color: #3cb371 ;
+    background-color: #76ff7b61;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 70%;
+    display: inline-block;
+    margin: 0;
+  }
+  
+  .status-canceled {
+    color: #dc143c;
+  }
+  
+  .status-canceled h3 {
+    color: #dc143c;
+    background-color: #ff999967 ;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 70%;
+    display: inline-block;
+    margin: 0;
+  }
+  
+  .status-pending {
+    color: #ff7f50;
+  }
+  
+  .status-pending h3 {
+    color: #ff7f50;
+    background-color: #ffc87c6c ;
+    border-radius: 50px;
+    padding: 10px 5px 10px 5px;
+    width: 70%;
+    display: inline-block;
+    margin: 0;
+  }

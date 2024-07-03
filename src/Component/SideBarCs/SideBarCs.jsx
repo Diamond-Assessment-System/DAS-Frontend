@@ -7,28 +7,28 @@ function SideBarCs() {
         <NavLink
           to="/"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-3">🏠</span> Trang Chủ
         </NavLink>
         <NavLink
           to="/consultingstaff/assessmentrequest"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-3">📄</span> Yêu Cầu Dịch Vụ
         </NavLink>
         <NavLink
           to="/consultingstaff/assessmentpaperlist"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-3">📋</span> Giấy Giám Định
         </NavLink>
         <NavLink
           to="/consultingstaff/receipt"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-3">📋</span> Biên Nhận Giám Định
         </NavLink>

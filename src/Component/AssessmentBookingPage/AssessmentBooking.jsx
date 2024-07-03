@@ -3,44 +3,36 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AssessmentBooking.css";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
-import Spinner from "../Spinner/Spinner"; 
-import Pagination from "../Paginate/Pagination"; 
+import Spinner from "../Spinner/Spinner"; // Import the Spinner component
+import { handleSession } from "../../utils/sessionUtils";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
-  const [currentItems, setCurrentItems] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 10;
+  const [loggedAccount, setLoggedAccount] = useState([]);
+
 
   useEffect(() => {
-    // Fetch data from the backend API
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
-        setSamples(response.data);
-      } catch (error) {
-        console.error("Error fetching the samples:", error);
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
+    const initialize = async () => {
+      const loggedAccount = handleSession(navigate);
+      if (loggedAccount) {
+        setLoggedAccount(loggedAccount);
+        try {
+          const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/assessment-account/${loggedAccount.accountId}`);
+          setSamples(response.data);
+        } catch (error) {
+          console.error("Error fetching the samples:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []); // Empty dependency array to run effect only once on component mount
-
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(samples.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(samples.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, samples]);
-
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % samples.length;
-    setItemOffset(newOffset);
-  };
+    initialize();
+  }, [navigate]);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -72,60 +64,57 @@ function AssessmentBooking() {
         alert("Invalid!");
         break;
     }
+
   };
 
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <div className="loading-indicator">
+      <Spinner />
+    </div>
+  );
+}
 
   return (
-    <div className="w-full">
-      <div className="max-w-full mx-auto p-4">
-        <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đặt Hẹn</h4>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
-                <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
-                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700">
-              {currentItems.map((sample) => (
-                <tr key={sample.sampleId}>
-                  <td className="py-4 px-4 align-middle">{`#${sample.bookingId}`}</td>
-                  <td className="py-4 px-4 align-middle">{`${sample.name}`}</td>
-                  <td className="py-4 px-4 align-middle">{sample.size}</td>
-                  <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}><h3>{getSampleStatusMeaning(sample.status)}</h3></td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => handleShowDetails(sample)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Xem chi tiết
-                      </button>
-                      <select className="bg-gray-200 rounded p-2">
-                        <option value="1">Đang chờ</option>
-                        <option value="2">Đã phân việc</option>
-                        <option value="3">Đã hoàn thành</option>
-                        <option value="4">Đã hủy</option>
-                      </select>
-                    </div>
-                  </td>
+    <div>
+
+      <div className="w-full">
+        <div className="max-w-full mx-auto p-4">
+          <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đặt Hẹn</h4>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead className="bg-gray-800 text-white">
+                <tr>
+                  <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
+                  <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
+                  <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
+                  <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                  <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-gray-700">
+                {samples.map((sample) => (
+                  <tr key={sample.sampleId}>
+                    <td className="py-4 px-4 align-middle">{`#${sample.bookingId}`}</td>
+                    <td className="py-4 px-4 align-middle">{`${sample.name}`}</td>
+                    <td className="py-4 px-4 align-middle">{sample.size}</td>
+                    <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}><h3>{getSampleStatusMeaning(sample.status)}</h3></td>
+                    <td className="py-4 px-4 align-middle">
+                      <div className="flex items-center justify-center">
+                        <button
+                          onClick={() => handleShowDetails(sample)}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Xem chi tiết
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );
