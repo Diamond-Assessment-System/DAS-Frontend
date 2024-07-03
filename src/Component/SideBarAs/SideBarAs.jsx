@@ -7,21 +7,21 @@ function SideBarAs() {
         <NavLink
           to="/"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800 text-sm whitespace-nowrap"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-2 text-lg">🏠</span> Trang Chủ
         </NavLink>
         <NavLink
           to="/assessmentstaff/assessmentbooking"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800 text-sm whitespace-nowrap"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-2 text-lg">📄</span> Đơn Hàng Dịch Vụ
         </NavLink>
         <NavLink
           to="/assessmentstaff/assessmentpaperlist"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800 text-sm whitespace-nowrap"
-          activeClassName="bg-gray-300 font-semibold"
+          activeclassname="bg-gray-300 font-semibold"
         >
           <span className="mr-2 text-lg">📋</span> Giấy Giám Định
         </NavLink>
