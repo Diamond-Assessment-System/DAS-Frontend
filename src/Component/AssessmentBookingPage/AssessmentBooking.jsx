@@ -4,40 +4,35 @@ import { useNavigate } from "react-router-dom";
 import "./AssessmentBooking.css";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner"; // Import the Spinner component
+import { handleSession } from "../../utils/sessionUtils";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
+  const [loggedAccount, setLoggedAccount] = useState([]);
 
 
   useEffect(() => {
-    // Fetch data from the backend API
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
-        setSamples(response.data);
-      } catch (error) {
-        console.error("Error fetching the samples:", error);
-      } finally {
-        setLoading(false); // Set loading to false after data is fetched
+    const initialize = async () => {
+      const loggedAccount = handleSession(navigate);
+      if (loggedAccount) {
+        setLoggedAccount(loggedAccount);
+        try {
+          const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/assessment-account/${loggedAccount.accountId}`);
+          setSamples(response.data);
+        } catch (error) {
+          console.error("Error fetching the samples:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []); // Empty dependency array to run effect only once on component mount
-  // const getStatusClass = (status) => {
-  //   switch (status) {
-  //     case 'Pending':
-  //       return 'text-yellow-500';
-  //     case 'Completed':
-  //       return 'text-green-500';
-  //     case 'Cancelled':
-  //       return 'text-red-500';
-  //     default:
-  //       return 'text-gray-500';
-  //   }
-  // };
+    initialize();
+  }, [navigate]);
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -71,19 +66,6 @@ function AssessmentBooking() {
     }
 
   };
-//  const [bookings] = useState([
-//     { bookingId: 1, serviceId: 1, quantity: 3, dateCreated: '2023-06-15', status: 'Pending' },
-//     { bookingId: 2, serviceId: 2, quantity: 1, dateCreated: '2023-06-14', status: 'Completed' },
-//     { bookingId: 3, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 4, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 5, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 6, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 7, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 8, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 9, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-//     { bookingId: 10, serviceId: 3, quantity: 5, dateCreated: '2023-06-13', status: 'Cancelled' },
-    
-//   ]);
 
 if (loading) {
   return (
