@@ -54,6 +54,7 @@ import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
 import SealList from "../Component/Sealing/SealList.jsx";
+import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -72,6 +73,7 @@ const RoutePath = () => {
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
           <Route path="/sealist" element={<SealList />} />
+          <Route path="successbooking" element={<SuccessBooking />} />
         </Route>
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />

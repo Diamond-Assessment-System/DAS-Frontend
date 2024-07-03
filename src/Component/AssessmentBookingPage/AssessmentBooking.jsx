@@ -112,6 +112,12 @@ function AssessmentBooking() {
                       >
                         Xem chi tiết
                       </button>
+                      <select className="bg-gray-200 rounded p-2">
+                        <option value="1">Đang chờ</option>
+                        <option value="2">Đã phân việc</option>
+                        <option value="3">Đã hoàn thành</option>
+                        <option value="4">Đã hủy</option>
+                      </select>
                     </div>
                   </td>
                 </tr>
