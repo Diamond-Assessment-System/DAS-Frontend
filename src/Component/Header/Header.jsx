@@ -50,7 +50,7 @@ const Header = () => {
     <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full z-50">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <img className="h-12" src={logo} alt="DAS Logo" />
+          <img className="h-12" src='./logodas.png' alt="DAS Logo" />
         </div>
         <div
           className="md:hidden ml-4 cursor-pointer"
