@@ -36,6 +36,7 @@ import RegisterComponent from "../Component/Register/RegisterComponent.jsx";
 import AssignWork from "../Component/ManagerLayout/Assignwork.jsx";
 import AsPaperManager from "../Component/ManagerLayout/AsPaperManager.jsx";
 import AssessmentReceipt from "../Component/AssessmentReceipt/AssessmentReceipt.jsx";
+import ManagerHistory from "../Component/ManagerLayout/ManagerHistory.jsx";
 import ManagePricingTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
 import AssessmentPaperPreview from "../Component/AssetsmentPaper/AssessmentPaperPreview.jsx";
 import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/AssessmentPaperListCs.jsx";
@@ -46,6 +47,12 @@ import DiamondInformation from "../Component/DiamondInformationPage/DiamondInfor
 import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
 import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
 import CreateManageUsers from "../Component/AdminLayout/CreateManageUsers.jsx";
+import DeleteSuspendUsers from "../Component/AdminLayout/DeleteSuspendUsers.jsx";
+import AssignRolesPermissions from "../Component/AdminLayout/AssignRolesPermissions.jsx";
+import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
+import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
+import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
+import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -62,6 +69,7 @@ const RoutePath = () => {
           <Route path="services" element={<EvaluateService />} />
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
+          <Route path="history" element={<CustomerHistory />} />
         </Route>
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
@@ -131,14 +139,28 @@ const RoutePath = () => {
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
           {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
+          <Route path="/manager/managerhistory" element={<ManagerHistory />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<CreateManageUsers />} />
-          {/* <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
-          <Route path="/manager/sealing-records" element={<SealingRecords />} />
-          <Route path="/manager/commitment-paper" element={<Commitpaper />} />
-          {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
-          <Route path="/admin/manageuser" element={<CreateManageUsers />} />
+          <Route
+            path="/admin/block-suspend-users"
+            element={<DeleteSuspendUsers />}
+          />
+          <Route
+            path="/admin/assign-roles-permissions"
+            element={<AssignRolesPermissions />}
+          />
+          <Route
+            path="/admin/system-maintenance"
+            element={<SystemMaintenance />}
+          />
+          <Route path="/admin/system-update" element={<SystemUpdate />} />
+          <Route path="/admin/content-database" element={<ContentDatabase />} />
+          <Route
+            path="/admin/create-manage-users"
+            element={<CreateManageUsers />}
+          />
         </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />

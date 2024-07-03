@@ -13,7 +13,7 @@ function AssessmentBooking() {
     // Fetch data from the backend API
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/booking-samples");
+        const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
         setSamples(response.data);
       } catch (error) {
         console.error("Error fetching the samples:", error);
@@ -55,11 +55,11 @@ function AssessmentBooking() {
         <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
           <thead className="bg-gray-800 text-white">
             <tr>
-              <th className="py-4 px-4 text-left align-middle">Mã đơn hàng</th>
-              <th className="py-4 px-4 text-left align-middle">Tên mẫu</th>
-              <th className="py-4 px-4 text-left align-middle">Kích cỡ</th>
-              <th className="py-4 px-4 text-left align-middle">Trạng Thái</th>
-              <th className="py-4 px-4 text-left align-middle">Chi Tiết</th>
+              <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
+              <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
+              <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
+              <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+              <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">

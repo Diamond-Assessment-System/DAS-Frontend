@@ -52,7 +52,7 @@ function AssessmentRequestConsulting() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/assessment-bookings"
+          "https://das-backend.fly.dev/api/assessment-bookings"
         );
         setBookings(response.data);
       } catch (error) {
@@ -65,6 +65,30 @@ function AssessmentRequestConsulting() {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
+  };
+
+  const handleCreateBooking = (booking) => {
+    switch (booking.status) {
+      // case 1:
+      //   if (window.confirm("Bạn có chắc chắn muốn tạo booking cho yêu cầu này không?")) {
+      //     navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+      //   }
+      //   break;
+      case 2:
+        alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
+        break;
+      case 3:
+        alert("Yêu cầu đã hoàn tất rồi, không thể tạo lại!");
+        break;
+      case 4:
+        alert("Yêu cầu đã bị hủy!");
+        break;
+      default:
+        navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+        // alert("Invalid!")
+        break;
+    }
+
   };
 
   const filteredBookings = bookings.filter((booking) => {
@@ -134,14 +158,14 @@ function AssessmentRequestConsulting() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-left align-middle">Mã yêu cầu</th>
-                <th className="py-4 px-4 text-left align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-left align-middle">
+                <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
+                <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
+                <th className="py-4 px-4 text-center align-middle">
                   Số Lượng Kim Cương
                 </th>
-                <th className="py-4 px-4 text-left align-middle">Ngày tạo</th>
-                <th className="py-4 px-4 text-left align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-left align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
+                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -167,13 +191,9 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
                       <button
-                        onClick={() =>
-                          navigate(
-                            `/consultingstaff/assessmentrequest/${booking.bookingId}`
-                          )
-                        }
+                        onClick={() => handleCreateBooking(booking)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        disabled={booking.status !== 1}
+                        // disabled={booking.status !== 1}
                       >
                         Tạo Booking
                       </button>

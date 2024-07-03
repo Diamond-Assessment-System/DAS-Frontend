@@ -13,7 +13,7 @@ const AssessmentRequestDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/assessment-bookings/${id}`);
+        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
         setBooking(response.data);
         const serviceData = await getServiceFromId(response.data.serviceId);
         setService(serviceData);
@@ -25,6 +25,12 @@ const AssessmentRequestDetail = () => {
     fetchData();
   }, [id]);
 
+  const handleBookingClick = () => {
+    if (window.confirm("Bạn có chắc chắn muốn đặt hẹn cho yêu cầu này không?")) {
+      navigate(`/consultingstaff/assessmentrequest/${id}/inputdiamonds`, { state: { bookingData: booking, serviceData: service, numberOfSamples: booking.quantities, id } });
+    }
+  };
+
   return (
     <div className="p-6 bg-white shadow-md rounded-lg">
       <h2 className='text-2xl font-bold mb-4'>Chi tiết đặt hẹn giám định</h2>
@@ -35,7 +41,7 @@ const AssessmentRequestDetail = () => {
       <p className='text-xl mb-2'>Ngày tạo: <span className='font-semibold'>{booking.dateCreated}</span></p>
       <button
         className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-150'
-        onClick={() => navigate(`/consultingstaff/assessmentrequest/${id}/inputdiamonds`, { state: { bookingData: booking, serviceData: service, numberOfSamples: booking.quantities, id } })}
+        onClick={handleBookingClick}
       >
         Đặt Hẹn
       </button>

@@ -9,7 +9,7 @@ function AssessmentPaperDetail() {
   useEffect(() => {
     const fetchAssessmentPaper = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/assessment-papers/${id}`);
+        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${id}`);
         setAssessmentPaper(response.data);
       } catch (error) {
         console.error("Error fetching assessment paper:", error);
@@ -19,10 +19,16 @@ function AssessmentPaperDetail() {
   }, [id]);
 
   const downloadImage = () => {
-    const link = document.createElement("a");
-    link.href = assessmentPaper.paperImage;
-    link.download = "AssessmentPaperDetail.png";
-    link.click();
+    if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+      const link = document.createElement("a");
+      link.href = assessmentPaper.paperImage;
+      link.download = "AssessmentPaperDetail.png";
+      link.click();
+    }
+    // const link = document.createElement("a");
+    // link.href = assessmentPaper.paperImage;
+    // link.download = "AssessmentPaperDetail.png";
+    // link.click();
   };
 
   if (!assessmentPaper) {

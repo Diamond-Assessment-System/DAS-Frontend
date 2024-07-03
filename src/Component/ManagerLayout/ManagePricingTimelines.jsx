@@ -37,37 +37,53 @@ const ManageOrderTimelines = () => {
   };
 
   return (
-    <div className="container">
-      <h2 className="title">Manage Assessment Services</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Service Type</th>
-            <th>Price</th>
-            <th>Timeline</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {services.map((service) => (
-            <tr key={service.id}>
-              <td className="id">{service.id}</td>
-              <td className="type">{service.type}</td>
-              <td className="price">{service.price}</td>
-              <td className="timeline">{service.timeline}</td>
-              <td className="details">
-                <button
-                  className="details-button"
-                  onClick={() => viewDetails(service.id)}
-                >
-                  View Details
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="w-full">
+      <div className="max-w-full mx-auto p-4">
+        <h4 className="text-lg font-semibold text-gray-800 mb-4">
+          Manage Assessment Services
+        </h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+            <thead className="bg-blue-600 text-white">
+              <tr>
+                <th className="py-4 px-4 text-center align-middle">ID</th>
+                <th className="py-4 px-4 text-center align-middle">
+                  Service Type
+                </th>
+                <th className="py-4 px-4 text-center align-middle">Price</th>
+                <th className="py-4 px-4 text-center align-middle">Timeline</th>
+                <th className="py-4 px-4 text-center align-middle">Details</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">
+              {services.map((service) => (
+                <tr key={service.id}>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {service.id}
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {service.type}
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {service.price}
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {service.timeline}
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => viewDetails(service.id)}
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

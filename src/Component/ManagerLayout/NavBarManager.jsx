@@ -96,6 +96,13 @@ const Navbar = () => {
           >
             Assign Sample
           </Link>
+          <Link
+            to="/manager/managerhistory"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            History Booking
+          </Link>
         </div>
       </div>
       {isOpen && (
@@ -137,6 +144,13 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             Assign Assessment Paper
+          </Link>
+          <Link
+            to="/manager/managerhistory"
+            className="navbar-dropdown-link"
+            onClick={toggleMenu}
+          >
+            History Booking
           </Link>
         </div>
       )}

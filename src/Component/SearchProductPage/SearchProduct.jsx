@@ -17,7 +17,7 @@ const ProductSearch = () => {
 
         try {
             // Perform API call to fetch the assessment paper based on product code
-            const response = await axios.get(`http://localhost:8080/api/assessment-papers/${productCode}`);
+            const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${productCode}`);
             const data = response.data;
 
             // Update states based on API response

@@ -10,7 +10,7 @@ function AssessmentRequestConsulting() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/assessmentrequests");
+        const response = await axios.get("https://das-backend.fly.dev/api/assessmentrequests");
         setRequests(response.data);
       } catch (error) {
         console.error("Error fetching the requests:", error);

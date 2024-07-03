@@ -20,11 +20,11 @@ function ReceiptDetail() {
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        const bookingResponse = await axios.get(`http://localhost:8080/api/assessment-bookings/${bookingId}`);
+        const bookingResponse = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}`);
         setBookingData(bookingResponse.data);
-        const serviceResponse = await axios.get(`http://localhost:8080/api/services/${bookingResponse.data.serviceId}`);
+        const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${bookingResponse.data.serviceId}`);
         setServiceData(serviceResponse.data);
-        const diamondsResponse = await axios.get(`http://localhost:8080/api/booking-samples/booking/${bookingId}`);
+        const diamondsResponse = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${bookingId}`);
         setDiamonds(diamondsResponse.data);
 
         const accountData = await getAccountFromId(bookingResponse.data.accountId);

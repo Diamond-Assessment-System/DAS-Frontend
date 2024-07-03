@@ -51,7 +51,7 @@ function AssignWork() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/assessment-bookings"
+          "https://das-backend.fly.dev/api/assessment-bookings"
         );
         setBookings(response.data);
       } catch (error) {
@@ -75,12 +75,11 @@ function AssignWork() {
     if (selectedAction === "viewDetails") {
       navigate(`/consultingstaff/assessmentrequest/${bookingId}`);
     }
-    // Add more actions if needed
   };
 
   const handleCancel = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:8080/api/assessment-bookings/${bookingId}/cancel`);
+      await axios.put(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}/cancel`);
       setBookings(bookings.map((booking) =>
         booking.bookingId === bookingId ? { ...booking, status: 3 } : booking
       ));
@@ -139,7 +138,6 @@ function AssignWork() {
                       >
                         <option value="" disabled hidden>Select action</option>
                         <option value="viewDetails">Xem chi tiết</option>
-                        {/* Add more options as needed */}
                       </select>
                       <button
                         onClick={() => handleSubmit(booking.bookingId)}

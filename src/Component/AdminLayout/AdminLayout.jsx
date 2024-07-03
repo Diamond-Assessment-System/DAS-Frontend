@@ -1,12 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SidebarAdmin";
-
+import "../AdminLayout/AdminLayout.css"; 
 const AdminLayout = () => {
   return (
-    <div>
+    <div className="admin-layout">
       <Sidebar />
-      <Outlet />
+      <div className="content">
+        <Outlet />
+      </div>
     </div>
   );
 };
