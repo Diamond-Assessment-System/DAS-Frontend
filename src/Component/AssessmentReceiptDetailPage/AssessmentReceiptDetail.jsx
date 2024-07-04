@@ -6,6 +6,7 @@ import axios from "axios";
 import getAccountFromId from "../../utils/getAccountFromId";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import { getBookingResponseUrl, getServiceResponseUrl, getDiamondResponseUrl } from "../../utils/apiEndPoints";
 
 function ReceiptDetail() {
   const { bookingId } = useParams();
@@ -22,11 +23,14 @@ function ReceiptDetail() {
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        const bookingResponse = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}`);
+        //const bookingResponse = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}`);
+        const bookingResponse = await axios.get(getBookingResponseUrl(bookingId));
         setBookingData(bookingResponse.data);
-        const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${bookingResponse.data.serviceId}`);
+        //const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${bookingResponse.data.serviceId}`);
+        const serviceResponse = await axios.get(getServiceResponseUrl(bookingResponse.data.serviceId));
         setServiceData(serviceResponse.data);
-        const diamondsResponse = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${bookingId}`);
+        //const diamondsResponse = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${bookingId}`);
+        const diamondsResponse = await axios.get(getDiamondResponseUrl(bookingId));
         setDiamonds(diamondsResponse.data);
 
         const accountData = await getAccountFromId(bookingResponse.data.accountId);

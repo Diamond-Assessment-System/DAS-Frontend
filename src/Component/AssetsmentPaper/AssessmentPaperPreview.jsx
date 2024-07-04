@@ -5,6 +5,7 @@ import axios from 'axios'; // Import Axios for HTTP requests
 import html2canvas from 'html2canvas';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
+import { ASSESSMENT_PAPER_URL, getBookingSampleStatusUrl } from "../../utils/apiEndPoints";
 
 const AssessmentPaperPreview = () => {
     const location = useLocation();
@@ -81,10 +82,11 @@ const AssessmentPaperPreview = () => {
                 };
 
                 // Make POST request to backend
-                const response = await axios.post('https://das-backend.fly.dev/api/assessment-papers', assessmentData);
+                const response = await axios.post(ASSESSMENT_PAPER_URL, assessmentData);
 
                 const status = 3;
-                const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
+                //const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
+                const responseb = await axios.put(getBookingSampleStatusUrl(id, status));
                 window.alert("Đã Submit thành công!");
                 console.log('Submission successful:', response.data);
                 console.log('Submission successful:', responseb.data);

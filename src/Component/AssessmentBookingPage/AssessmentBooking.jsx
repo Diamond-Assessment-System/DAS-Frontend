@@ -5,6 +5,7 @@ import "./AssessmentBooking.css";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner"; // Import the Spinner component
 import { handleSession } from "../../utils/sessionUtils";
+import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
-          const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/assessment-account/${loggedAccount.accountId}`);
+          const response = await axios.get(BOOKING_SAMPLES_URL);
           setSamples(response.data);
         } catch (error) {
           console.error("Error fetching the samples:", error);

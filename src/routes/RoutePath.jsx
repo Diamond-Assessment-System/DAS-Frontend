@@ -73,7 +73,7 @@ const RoutePath = () => {
           <Route path="history" element={<CustomerHistory />} />
           <Route path="/sealist" element={<SealList />} />
         </Route>
-        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
+        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}> 
           <Route index element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest" element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest/:id" element={<AssessmentRequestDetail />} />

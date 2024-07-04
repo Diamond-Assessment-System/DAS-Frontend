@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
+import { ASSESSMENT_REQUEST_URL } from "../../utils/apiEndPoints";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
@@ -53,9 +54,7 @@ function AssessmentRequestConsulting() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings/ordered"
-        );
+        const response = await axios.get(ASSESSMENT_REQUEST_URL);
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);

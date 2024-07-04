@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import "./AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
+import { ASSESSMENT_BOOKINGS_URL } from "../../utils/apiEndPoints";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
@@ -58,7 +59,7 @@ function AssessmentRequest() {
     
 
       axios
-        .post("https://das-backend.fly.dev/api/assessment-bookings", data)
+        .post(ASSESSMENT_BOOKINGS_URL, data)
         .then((response) => {
           console.log("Success:", response.data);
           navigate("/success", { state: { ...response.data, ...data } });

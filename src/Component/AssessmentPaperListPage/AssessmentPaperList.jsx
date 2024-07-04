@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner/Spinner";
+import { ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
 
 function AssessmentPaperList() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ function AssessmentPaperList() {
   useEffect(() => {
     const fetchAssessmentPapers = async () => {
       try {
-        const response = await axios.get("https://das-backend.fly.dev/api/assessment-papers");
+        const response = await axios.get(ASSESSMENT_PAPER_URL);
         setAssessmentPapers(response.data);
       } catch (error) {
         console.error("There was an error fetching the assessment papers!", error);

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
+import { ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
 
 function AssessmentReceipt() {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ function AssessmentReceipt() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings"
+          ASSESSMENT_BOOKING_URL
         );
         // Filter bookings where status is 2 or 3
         const filteredBookings = response.data.filter(
