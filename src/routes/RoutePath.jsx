@@ -57,6 +57,7 @@ import SealList from "../Component/Sealing/SealList.jsx";
 import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
 import SealHistory from "../Component/Sealing/SealHistory.jsx";
+import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -109,6 +110,7 @@ const RoutePath = () => {
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
           <Route path="/manager/sealing-records" element={<SealingRecords />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
+          <Route path="/manager/commitpaperimage" element={<CommitmentPaperImage />} />
           {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
