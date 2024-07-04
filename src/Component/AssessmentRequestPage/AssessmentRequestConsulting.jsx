@@ -9,6 +9,7 @@ function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
@@ -62,6 +63,7 @@ function AssessmentRequestConsulting() {
           "https://das-backend.fly.dev/api/assessment-bookings/ordered"
         );
         setBookings(response.data);
+        setFilteredBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
       } finally {
@@ -74,26 +76,36 @@ function AssessmentRequestConsulting() {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(bookings.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(bookings.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, bookings]);
+    setCurrentItems(filteredBookings.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredBookings.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, filteredBookings]);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % bookings.length;
+    const newOffset = (event.selected * itemsPerPage) % filteredBookings.length;
     setItemOffset(newOffset);
   };
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
+    const status = e.target.value;
+    let filteredData = bookings;
+
+    if (status !== "tatca") {
+      filteredData = bookings.filter((booking) => {
+        if (status === "dangcho") return booking.status === 1;
+        if (status === "datao") return booking.status === 2;
+        if (status === "dahoantat") return booking.status === 3;
+        if (status === "dahuy") return booking.status === 4;
+        return false;
+      });
+    }
+
+    setFilteredBookings(filteredData);
+    setItemOffset(0); // Reset to first page when filters change
   };
 
   const handleCreateBooking = (booking) => {
     switch (booking.status) {
-      // case 1:
-      //   if (window.confirm("Bạn có chắc chắn muốn tạo booking cho yêu cầu này không?")) {
-      //     navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
-      //   }
-      //   break;
       case 2:
         alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
         break;
@@ -105,19 +117,9 @@ function AssessmentRequestConsulting() {
         break;
       default:
         navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
-        // alert("Invalid!")
         break;
     }
   };
-
-  const filteredBookings = bookings.filter((booking) => {
-    if (selectedStatus === "tatca") return true;
-    if (selectedStatus === "dangcho") return booking.status === 1;
-    if (selectedStatus === "datao") return booking.status === 2;
-    if (selectedStatus === "dahoantat") return booking.status === 3;
-    if (selectedStatus === "dahuy") return booking.status === 4;
-    return false;
-  });
 
   if (loading) {
     return (
@@ -181,7 +183,6 @@ function AssessmentRequestConsulting() {
           <label htmlFor="status5"> Đã Huỷ</label>
         </div>
 
-
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -197,7 +198,7 @@ function AssessmentRequestConsulting() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {filteredBookings.map((booking) => (
+              {currentItems.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
