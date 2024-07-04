@@ -5,7 +5,6 @@ import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination"; 
 
 function SuccessBooking() {
-
   const [bookings, setBookings] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,11 +15,11 @@ function SuccessBooking() {
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
-        return "text-yellow-500"; // Đang Hoàn Thành
+        return "text-yellow-500"; 
       case 2:
-        return "text-green-500"; // Đã Hoàn Thành
+        return "text-green-500"; 
       case 3:
-        return "text-red-500"; // Đã Huỷ
+        return "text-red-500"; 
       default:
         return "text-gray-500";
     }
@@ -54,10 +53,8 @@ function SuccessBooking() {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get(
-        "https://das-backend.fly.dev/api/assessment-bookings"
-      );
-      setBookings(response.data);
+      const response = await axios.get("https://das-backend.fly.dev/api/assessment-bookings");
+      setBookings(response.data.filter((booking) => booking.status === 1));
     } catch (error) {
       console.error("Error fetching the bookings:", error);
     } finally {
@@ -70,10 +67,9 @@ function SuccessBooking() {
   }, []);
 
   useEffect(() => {
-    const filteredBookings = bookings.filter((booking) => booking.status === 1);
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(filteredBookings.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredBookings.length / itemsPerPage));
+    setCurrentItems(bookings.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(bookings.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, bookings]);
 
   const handlePageClick = (event) => {
@@ -84,21 +80,16 @@ function SuccessBooking() {
   const handleCompleteBooking = async (booking) => {
     if (window.confirm("Bạn có chắc chắn muốn hoàn thành yêu cầu này không?")) {
       try {
-        // Update booking status to "Đã Hoàn Thành"
         await axios.put(
           `https://das-backend.fly.dev/api/assessment-bookings/${booking.bookingId}`,
           { status: 2 }
         );
 
-        // Remove the completed booking from the current state
-        setBookings((prevBookings) =>
-          prevBookings.filter((b) => b.bookingId !== booking.bookingId)
-        );
-
-        setCurrentItems((prevItems) =>
-          prevItems.filter((b) => b.bookingId !== booking.bookingId)
-        );
-
+        const updatedBookings = bookings.filter((b) => b.bookingId !== booking.bookingId);
+        setBookings(updatedBookings);
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(updatedBookings.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(updatedBookings.length / itemsPerPage));
       } catch (error) {
         console.error("Error updating the booking status:", error);
       }
