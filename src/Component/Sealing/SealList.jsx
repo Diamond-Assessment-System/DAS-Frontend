@@ -16,7 +16,7 @@ function SealList() {
 
   const fetchDiamonds = async () => {
     try {
-      const response = await axios.get("SEAL_LIST_URL");
+      const response = await axios.get(SEAL_LIST_URL);
       setDiamonds(response.data);
     } catch (error) {
       console.error("Error fetching diamonds:", error);
