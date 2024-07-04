@@ -103,7 +103,7 @@ function AsPaperManager() {
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
-        <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đặt Hẹn</h4>
+        <h4 className="text-lg font-semibold text-gray-800 mb-4">Assign Role</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
