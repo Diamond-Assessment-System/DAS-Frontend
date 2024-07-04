@@ -1,9 +1,9 @@
+// src/components/SealList.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../Paginate/Pagination"; 
-import '../Sealing/SealList.css'; 
-import { SEAL_LIST_URL } from "../../utils/apiEndPoints"
+import Pagination from "../Paginate/Pagination";
+import '../Sealing/SealList.css';
+import { createDummyData } from "../Sealing/Dummydata";
 
 function SealList() {
   const navigate = useNavigate();
@@ -12,22 +12,20 @@ function SealList() {
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [message, setMessage] = useState("");
+
   const itemsPerPage = 10;
 
-  const fetchDiamonds = async () => {
-    try {
-      const response = await axios.get(SEAL_LIST_URL);
-      setDiamonds(response.data);
-    } catch (error) {
-      console.error("Error fetching diamonds:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchDiamonds();
+    createDummyData();  // Tạo dữ liệu giả
+    fetchDiamonds();    // Lấy dữ liệu từ localStorage
   }, []);
+
+  const fetchDiamonds = () => {
+    const diamondsData = JSON.parse(localStorage.getItem('diamonds')) || [];
+    setDiamonds(diamondsData);
+    setLoading(false);
+  };
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -40,6 +38,22 @@ function SealList() {
     setItemOffset(newOffset);
   };
 
+  const selectDiamond = (diamond) => {
+    let selectedDiamonds = JSON.parse(localStorage.getItem('selectedDiamonds')) || [];
+    selectedDiamonds.push(diamond);
+    localStorage.setItem('selectedDiamonds', JSON.stringify(selectedDiamonds));
+
+    // Remove the selected diamond from the list
+    const updatedDiamonds = diamonds.filter(d => d.diamondId !== diamond.diamondId);
+    localStorage.setItem('diamonds', JSON.stringify(updatedDiamonds));
+    setDiamonds(updatedDiamonds);
+    setMessage(`Viên kim cương ${diamond.diamondId} đã được chọn.`);
+  };
+
+  const navigateToSelectedDiamonds = () => {
+    navigate('/sealselect');
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -48,6 +62,7 @@ function SealList() {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Kim Cương Cần Seal</h4>
+        {message && <div className="mb-4 text-green-500">{message}</div>}
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -57,6 +72,7 @@ function SealList() {
                 <th className="py-4 px-4 text-center align-middle">Tên khách hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Chọn</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -74,12 +90,26 @@ function SealList() {
                       Chi tiết
                     </button>
                   </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    <button
+                      onClick={() => selectDiamond(diamond)}
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                      Chọn
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+        <button
+          onClick={navigateToSelectedDiamonds}
+          className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:shadow-outline"
+        >
+          Xem Kim Cương Đã Chọn
+        </button>
       </div>
     </div>
   );
