@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import getServiceFromId from '../../utils/getServiceFromId';
 import Spinner from "../Spinner/Spinner";
+import { getAssessmentDetailUrl } from "../../utils/apiEndPoints";
 
 const AssessmentRequestDetail = () => {
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ const AssessmentRequestDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
+        //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
+        const response = await axios.get(getAssessmentDetailUrl(id));
         setBooking(response.data);
         const serviceData = await getServiceFromId(response.data.serviceId);
         setService(serviceData);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
+import { getAssessmentPaperDetaillUrl } from "../../utils/apiEndPoints";
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
@@ -11,7 +12,8 @@ function AssessmentPaperDetail() {
   useEffect(() => {
     const fetchAssessmentPaper = async () => {
       try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${id}`);
+       //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${id}`);
+        const response = await axios.get(getAssessmentPaperDetaillUrl(id));
         setAssessmentPaper(response.data);
       } catch (error) {
         console.error("Error fetching assessment paper:", error);

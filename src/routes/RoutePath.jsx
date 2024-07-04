@@ -75,7 +75,7 @@ const RoutePath = () => {
           <Route path="/sealist" element={<SealList />} />
           <Route path="successbooking" element={<SuccessBooking />} />
         </Route>
-        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
+        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}> 
           <Route index element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest" element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest/:id" element={<AssessmentRequestDetail />} />

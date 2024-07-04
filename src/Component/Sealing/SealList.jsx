@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Paginate/Pagination"; 
 import '../Sealing/SealList.css'; 
+import { SEAL_LIST_URL } from "../../utils/apiEndPoints"
 
 function SealList() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function SealList() {
 
   const fetchDiamonds = async () => {
     try {
-      const response = await axios.get("https://your-api-url.com/api/diamonds-to-seal");
+      const response = await axios.get("SEAL_LIST_URL");
       setDiamonds(response.data);
     } catch (error) {
       console.error("Error fetching diamonds:", error);

@@ -3,16 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
-import Pagination from "../Paginate/Pagination";
+import { ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
 
 function AssessmentReceipt() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
-  const [currentItems, setCurrentItems] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 10;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -57,7 +53,7 @@ function AssessmentReceipt() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings"
+          ASSESSMENT_BOOKING_URL
         );
         // Filter bookings where status is 2 or 3
         const filteredBookings = response.data.filter(
@@ -74,16 +70,6 @@ function AssessmentReceipt() {
     fetchBookings();
   }, []);
 
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(bookings.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(bookings.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, bookings]);
-
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % bookings.length;
-    setItemOffset(newOffset);
-  };
 
   if (loading) {
     return (
@@ -112,7 +98,7 @@ function AssessmentReceipt() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {currentItems.map((booking) => (
+              {bookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 text-center">
@@ -150,7 +136,6 @@ function AssessmentReceipt() {
             </tbody>
           </table>
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );

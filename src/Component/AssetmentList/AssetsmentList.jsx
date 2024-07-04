@@ -8,6 +8,7 @@ import axios from "axios";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
+import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
 
 function AssetsmentList() {
   const location = useLocation();
@@ -54,26 +55,29 @@ function AssetsmentList() {
   }, [diamonds, bookingData, serviceData, navigate]);
 
   const handleSubmit = async () => {
+    if (window.confirm("Bạn có chắc chắn muốn submit không?")) {
     // Prepare data object to send
-    const data = {
-      status: 2,
-      consultingAccountId: loggedAccount.accountId,
-      sampleReturnDate: completionDate,
-      paymentStatus: 2,
-      totalPrice: totalPrice,
-      dateReceived: format(new Date(), "yyyy-MM-dd"),
-    };
+      const data = {
+        status: 2,
+        consultingAccountId: loggedAccount.accountId,
+        sampleReturnDate: completionDate,
+        paymentStatus: 2,
+        totalPrice: totalPrice,
+        dateReceived: format(new Date(), "yyyy-MM-dd"),
+      };
 
-    try {
-      const response = await axios.put(
-        `https://das-backend.fly.dev/api/assessment-bookings/proceed/${bookingData.bookingId}`,
-        data
-      );
-      console.log("Response:", response.data);
-      await createBookingSamples();
-      navigate("/consultingstaff");
-    } catch (error) {
-      console.error("Error submitting assessment booking:", error);
+      try {
+        const response = await axios.put(
+          //`https://das-backend.fly.dev/api/assessment-bookings/proceed/${bookingData.bookingId}`,
+          geAssessmentSummaryDetailUrl(bookingData.bookingId),
+          data
+        );
+        console.log("Response:", response.data);
+        await createBookingSamples();
+        navigate("/consultingstaff");
+      } catch (error) {
+        console.error("Error submitting assessment booking:", error);
+      }
     }
   };
   const createBookingSamples = async () => {
@@ -99,13 +103,13 @@ function AssetsmentList() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="loading-indicator">
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">

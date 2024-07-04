@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Radio, Button, Form, Typography, Row, Col } from 'antd';
 import axios from 'axios';
+import { getCancelAssessmentlUrl } from "../../utils/apiEndPoints";
 
 const { Title } = Typography;
 
@@ -24,7 +25,8 @@ function SelectionForm() {
   const handleSubmit = async () => {
     if (loai === 'Đá Giả Kim Cương') {
       try {
-        await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/4`);
+        //await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/4`);
+        await axios.put(getCancelAssessmentlUrl(id));
         navigate('/assessmentstaff');
       } catch (error) {
         console.error('Error updating status:', error);

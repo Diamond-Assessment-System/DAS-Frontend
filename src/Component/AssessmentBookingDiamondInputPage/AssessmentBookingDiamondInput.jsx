@@ -5,6 +5,7 @@ import './AssessmentBookingDiamondInput.css';
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
 import ProgressBar from '../Progressbar/ProgressBar';
+import { SERVICE_PRICE_LIST_URL } from "../../utils/apiEndPoints";
 
 const AssessmentBookingDiamondInput = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const AssessmentBookingDiamondInput = () => {
   useEffect(() => {
     const fetchDiamondPrices = async () => {
       try {
-        const response = await axios.get("https://das-backend.fly.dev/api/service-price-lists");
+        const response = await axios.get(SERVICE_PRICE_LIST_URL);
         setDiamondPrices(response.data);
       } catch (error) {
         console.error("Error fetching the prices:", error);

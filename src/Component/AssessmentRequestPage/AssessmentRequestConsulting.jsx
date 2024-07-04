@@ -3,19 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
-import Pagination from "../Paginate/Pagination"; 
+import { ASSESSMENT_REQUEST_URL } from "../../utils/apiEndPoints";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
-  const [filteredBookings, setFilteredBookings] = useState([]);
-  const [currentItems, setCurrentItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
-  const itemsPerPage = 10;
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -59,11 +54,8 @@ function AssessmentRequestConsulting() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings/ordered"
-        );
+        const response = await axios.get(ASSESSMENT_REQUEST_URL);
         setBookings(response.data);
-        setFilteredBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
       } finally {
@@ -74,38 +66,17 @@ function AssessmentRequestConsulting() {
     fetchBookings();
   }, []);
 
-  useEffect(() => {
-    const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(filteredBookings.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredBookings.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, filteredBookings]);
-
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % filteredBookings.length;
-    setItemOffset(newOffset);
-  };
-
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
-    const status = e.target.value;
-    let filteredData = bookings;
-
-    if (status !== "tatca") {
-      filteredData = bookings.filter((booking) => {
-        if (status === "dangcho") return booking.status === 1;
-        if (status === "datao") return booking.status === 2;
-        if (status === "dahoantat") return booking.status === 3;
-        if (status === "dahuy") return booking.status === 4;
-        return false;
-      });
-    }
-
-    setFilteredBookings(filteredData);
-    setItemOffset(0); // Reset to first page when filters change
   };
 
   const handleCreateBooking = (booking) => {
     switch (booking.status) {
+      // case 1:
+      //   if (window.confirm("Bạn có chắc chắn muốn tạo booking cho yêu cầu này không?")) {
+      //     navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+      //   }
+      //   break;
       case 2:
         alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
         break;
@@ -117,9 +88,20 @@ function AssessmentRequestConsulting() {
         break;
       default:
         navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
+        // alert("Invalid!")
         break;
     }
+
   };
+
+  const filteredBookings = bookings.filter((booking) => {
+    if (selectedStatus === "tatca") return true;
+    if (selectedStatus === "dangcho") return booking.status === 1;
+    if (selectedStatus === "datao") return booking.status === 2;
+    if (selectedStatus === "dahoantat") return booking.status === 3;
+    if (selectedStatus === "dahuy") return booking.status === 4;
+    return false;
+  });
 
   if (loading) {
     return (
@@ -183,6 +165,7 @@ function AssessmentRequestConsulting() {
           <label htmlFor="status5"> Đã Huỷ</label>
         </div>
 
+
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -198,7 +181,7 @@ function AssessmentRequestConsulting() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {currentItems.map((booking) => (
+              {filteredBookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
@@ -218,6 +201,7 @@ function AssessmentRequestConsulting() {
                       <button
                         onClick={() => handleCreateBooking(booking)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        // disabled={booking.status !== 1}
                       >
                         Tạo Booking
                       </button>
@@ -228,7 +212,6 @@ function AssessmentRequestConsulting() {
             </tbody>
           </table>
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
     </div>
   );

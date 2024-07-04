@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './SearchProduct.css'; // Import the custom CSS file
 import Spinner from "../Spinner/Spinner";
+import { getAssessmentPaperUrl } from "../../utils/apiEndPoints";
 
 const ProductSearch = () => {
     const [diamondCode, setDiamondCode] = useState('');
@@ -19,7 +20,8 @@ const ProductSearch = () => {
 
         try {
             // Perform API call to fetch the assessment paper based on product code
-            const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${productCode}`);
+            //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${productCode}`);
+            const response = await axios.get(getAssessmentPaperUrl(productCode));
             const data = response.data;
 
             // Update states based on API response

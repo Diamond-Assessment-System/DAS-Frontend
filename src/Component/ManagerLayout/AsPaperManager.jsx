@@ -5,6 +5,7 @@ import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination"; 
 import '../ManagerLayout/AsPaperManager.css'; 
+import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
 
 function AsPaperManager() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function AsPaperManager() {
 
   const fetchSamples = async () => {
     try {
-      const response = await axios.get("https://das-backend.fly.dev/api/booking-samples");
+      const response = await axios.get(BOOKING_SAMPLES_URL);
       const filteredSamples = response.data.filter(sample => sample.status === 1);
       setSamples(filteredSamples);
     } catch (error) {
@@ -29,7 +30,7 @@ function AsPaperManager() {
 
   const fetchAccounts = async () => {
     try {
-      const response = await axios.get("https://das-backend.fly.dev/api/accounts/role/3");
+      const response = await axios.get(USERS_ROLE_3_URL);
       setAccounts(response.data);
     } catch (error) {
       console.error("Error fetching the accounts:", error);
@@ -79,7 +80,8 @@ function AsPaperManager() {
     const selectedAction = selectedActions[sampleId];
     if (selectedAction) {
       try {
-        await axios.put(`https://das-backend.fly.dev/api/booking-samples/${sampleId}/assign/${selectedAction}`);
+        //await axios.put(`https://das-backend.fly.dev/api/booking-samples/${sampleId}/assign/${selectedAction}`);
+        await axios.put(getExecuteActionUrl(sampleId, selectedAction));
         fetchSamples();
       } catch (error) {
         console.error("Error assigning the staff:", error);
