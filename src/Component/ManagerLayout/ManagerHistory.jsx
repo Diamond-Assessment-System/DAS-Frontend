@@ -1,36 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import getAllBookings from "../../utils/getAllBookingsForManager";
 
 function ManagerHistory() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const dummyOrders = [
-      {
-        orderId: "12345",
-        customerName: "John Doe",
-        service: "Dry Cleaning",
-        receiptTime: "2023-06-28T14:30:00Z",
-        deliveryTime: "2023-06-29T14:30:00Z",
-      },
-      {
-        orderId: "12346",
-        customerName: "Jane Smith",
-        service: "Laundry",
-        receiptTime: "2023-06-27T10:00:00Z",
-        deliveryTime: "2023-06-28T10:00:00Z",
-      },
-      {
-        orderId: "12347",
-        customerName: "Alice Johnson",
-        service: "Ironing",
-        receiptTime: "2023-06-26T09:00:00Z",
-        deliveryTime: "2023-06-27T09:00:00Z",
-      },
-    ];
+    const fetchData = async () => {
+      try {
+        const bookingHistory = await getAllBookings();
+        setOrders(bookingHistory);
+      } catch (error) {
+        console.error("Error fetching booking history:", error);
+      }
+    };
 
-    setOrders(dummyOrders);
+    fetchData();
   }, []);
 
   const viewDetails = (orderId) => {
@@ -55,15 +41,15 @@ function ManagerHistory() {
             </thead>
             <tbody className="text-gray-700">
               {orders.map((order) => (
-                <tr key={order.orderId}>
-                  <td className="py-4 px-4 text-center align-middle">{`#${order.orderId}`}</td>
-                  <td className="py-4 px-4 text-center align-middle">{order.customerName}</td>
-                  <td className="py-4 px-4 text-center align-middle">{order.service}</td>
-                  <td className="py-4 px-4 text-center align-middle">{new Date(order.receiptTime).toLocaleString()}</td>
-                  <td className="py-4 px-4 text-center align-middle">{new Date(order.deliveryTime).toLocaleString()}</td>
+                <tr key={order.bookingId}>
+                  <td className="py-4 px-4 text-center align-middle">{`#${order.bookingId}`}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.accountName}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.serviceName}</td>
+                  <td className="py-4 px-4 text-center align-middle">{new Date(order.dateCreated).toLocaleString()}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.dateReceived ? new Date(order.dateReceived).toLocaleString() : 'N/A'}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
-                      onClick={() => viewDetails(order.orderId)}
+                      onClick={() => viewDetails(order.bookingId)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       Xem chi tiết
