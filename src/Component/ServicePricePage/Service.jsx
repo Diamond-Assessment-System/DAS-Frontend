@@ -1,18 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { SERVICES_URL } from "../../utils/apiEndPoints";
+import Spinner from "../Spinner/Spinner";
 import "./style.css";
 
 export const EvaluateService = () => {
+    const [serviceData, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+          try {
+            const response = await axios.get(SERVICES_URL);
+            setServices(response.data);
+          } catch (error) {
+            console.error("Error fetching the services:", error);
+          } finally {
+            setLoading(false);
+          }
+        };
     
-    const serviceData = [
-        { serviceId: "1", serviceName: "Giám định thường", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "100 000" },
-        { serviceId: "2", serviceName: "Giám định nhanh 3h", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "200 000" },
-        { serviceId: "3", serviceName: "Giám định nhanh 48h", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "300 000" },
-        { serviceId: "4", serviceName: "Niêm phong thường (Seal lại)", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "400 000" },
-        { serviceId: "5", serviceName: "Niêm phong (Seal lại nhanh 3h)", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "500 000" },
-        { serviceId: "6", serviceName: "Niêm phong (Seal lại nhanh 48h)", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "600 000" },
-        { serviceId: "7", serviceName: "Cấp lại giấy giám định", description: "Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng.", price: "700 000" },
-        { serviceId: "8", serviceName: "Khắc mã số cạnh", description: "Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.<br />Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm.", price: "800 000" },
-      ];
+        fetchServices();
+      }, []);
+    
+    // const serviceData = [
+    //     { serviceId: "1", serviceName: "Giám định thường", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "100 000" },
+    //     { serviceId: "2", serviceName: "Giám định nhanh 3h", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "200 000" },
+    //     { serviceId: "3", serviceName: "Giám định nhanh 48h", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "300 000" },
+    //     { serviceId: "4", serviceName: "Niêm phong thường (Seal lại)", description: "Thời gian gửi thực hiện giám định tùy theo từng thời điểm gửi.<br />Số lượng không hạn chế. Bảng giá dịch vụ theo qui định.", price: "400 000" },
+    //     { serviceId: "5", serviceName: "Niêm phong (Seal lại nhanh 3h)", description: "Thời gian thực hiện giám định trong 3 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "500 000" },
+    //     { serviceId: "6", serviceName: "Niêm phong (Seal lại nhanh 48h)", description: "Thời gian thực hiện giám định trong 48 giờ làm việc tính từ lúc nhận sản phẩm vào.<br />Số lượng gửi tùy từng thời điểm. Bảng giá dịch vụ theo qui định.", price: "600 000" },
+    //     { serviceId: "7", serviceName: "Cấp lại giấy giám định", description: "Thực hiện cấp lại giấy giám định theo yêu cầu khách hàng.", price: "700 000" },
+    //     { serviceId: "8", serviceName: "Khắc mã số cạnh", description: "Thực hiện khắc mã số cạnh trên viên đá theo yêu cầu.<br />Chỉ thực hiện khắc những viên đá có kích thước (size) trên 4.00mm.", price: "800 000" },
+    //   ];
 
     const standardData = [
         { standardId: "1", standardName: "Loại đá", description: "Kim cương thiên nhiên (Natural Diamond)" },
@@ -30,7 +50,13 @@ export const EvaluateService = () => {
 
       ];
 
-
+      if (loading) {
+        return (
+          <div className="loading-indicator">
+            <Spinner />
+          </div>
+        );
+      }
 
     return (
         
@@ -44,16 +70,18 @@ export const EvaluateService = () => {
                                 <th>STT</th>
                                 <th>LOẠI DỊCH VỤ</th>
                                 <th>NỘI DUNG</th>
+                                <th>THỜI GIAN</th>
                                 <th>GIÁ DỊCH VỤ</th>
                             </tr>
                         </thead>
                         <tbody>
                         {serviceData.map((service, index) => (
                             <tr key={index}>
-                                <td>{service.serviceId}</td>
+                                <td>{index + 1}</td>
                                 <td>{service.serviceName}</td>
-                                <td dangerouslySetInnerHTML={{ __html: service.description }}></td>
-                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.price} VND</td>
+                                <td dangerouslySetInnerHTML={{ __html: service.serviceDescription }}></td>
+                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.serviceTime}h</td>
+                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.servicePrice} VND</td>
                             </tr>
                         ))}
                             
