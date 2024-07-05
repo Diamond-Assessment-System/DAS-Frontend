@@ -4,9 +4,11 @@ import "../AdminLayout/DeleteSuspendUsers.css";
 import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
 import { changeAccountStatus } from "../../utils/changeAccountStatus"; // Adjust path as needed
+import Spinner from "../Spinner/Spinner";
 
 const DeleteSuspendUsers = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
@@ -14,6 +16,8 @@ const DeleteSuspendUsers = () => {
       setUsers(accounts);
     } catch (error) {
       console.error('Error fetching accounts:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,6 +45,14 @@ const DeleteSuspendUsers = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
+  
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">

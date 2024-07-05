@@ -3,9 +3,11 @@ import "../AdminLayout/AssignRolesPermissions.css";
 import { getAllAccounts } from "../../utils/getAllAccounts";
 import { getRoleMeaning } from "../../utils/getStatusMeaning";
 import { changeAccountRole } from "../../utils/changeAccountRole";
+import Spinner from "../Spinner/Spinner";
 
 const AssignRolesPermissions = () => {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedRoles, setSelectedRoles] = useState({});
 
   useEffect(() => {
@@ -15,6 +17,8 @@ const AssignRolesPermissions = () => {
         setUsers(usersData);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -29,23 +33,33 @@ const AssignRolesPermissions = () => {
     }));
   };
 
-  const handleSubmit = async (accountId) => {
+  const handleSubmit = async (accountId, displayName) => {
     const selectedRole = selectedRoles[accountId];
     if (selectedRole) {
-      try {
-        await changeAccountRole(accountId, selectedRole);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.accountId === accountId ? { ...user, role: selectedRole } : user
-          )
-        );
-        alert('Role updated successfully');
-      } catch (error) {
-        console.error('Error changing user role:', error);
-        alert('Failed to update role');
+        if (window.confirm("Bạn chắc chắn muốn thêm role này cho " + displayName + " ?")) {
+        try {
+          await changeAccountRole(accountId, selectedRole);
+          setUsers((prevUsers) =>
+            prevUsers.map((user) =>
+              user.accountId === accountId ? { ...user, role: selectedRole } : user
+            )
+          );
+          alert('Role updated successfully');
+        } catch (error) {
+          console.error('Error changing user role:', error);
+          alert('Failed to update role');
+        }
       }
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -84,7 +98,7 @@ const AssignRolesPermissions = () => {
                         <option value="5">Admin</option>
                       </select>
                       <button
-                        onClick={() => handleSubmit(user.accountId)}
+                        onClick={() => handleSubmit(user.accountId, user.displayName)}
                         className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Submit
