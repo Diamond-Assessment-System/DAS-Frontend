@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "../ManagerLayout/ManagePricingTimeline.css";
 import { SERVICES_URL } from "../../utils/apiEndPoints";
@@ -8,11 +8,13 @@ const ManageOrderTimelines = () => {
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
   const [editingService, setEditingService] = useState(null);
+  const formRef = useRef(null); // Create a ref for the form
   const [formValues, setFormValues] = useState({
     serviceId: "",
     serviceName: "",
     serviceDescription: "",
     serviceStatus: "",
+    serviceType: "",
     servicePrice: "",
     serviceTime: "",
   });
@@ -32,6 +34,25 @@ const ManageOrderTimelines = () => {
     fetchServices();
   }, []);
 
+  useEffect(() => {
+    if (editingService) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [editingService]);
+
+  const getServiceTypeText = (type) => {
+    switch (type) {
+      case 1:
+        return "Giám định";
+      case 2:
+        return "Niêm phong";
+      case 3:
+        return "Cấp giấy";
+      default:
+        return "NULL";
+    }
+  };
+
   const editService = (service) => {
     setEditingService(service);
     setFormValues({
@@ -39,6 +60,7 @@ const ManageOrderTimelines = () => {
       serviceName: service.serviceName,
       serviceDescription: service.serviceDescription,
       serviceStatus: service.serviceStatus,
+      serviceType: service.serviceType,
       servicePrice: service.servicePrice,
       serviceTime: service.serviceTime,
     });
@@ -51,6 +73,7 @@ const ManageOrderTimelines = () => {
       serviceName: "",
       serviceDescription: "",
       serviceStatus: "",
+      serviceType: "",
       servicePrice: "",
       serviceTime: "",
     });
@@ -89,6 +112,7 @@ const ManageOrderTimelines = () => {
           serviceName: "",
           serviceDescription: "",
           serviceStatus: "",
+          serviceType: "",
           servicePrice: "",
           serviceTime: "",
         });
@@ -106,6 +130,7 @@ const ManageOrderTimelines = () => {
         serviceName: "",
         serviceDescription: "",
         serviceStatus: "",
+        serviceType: "",
         servicePrice: "",
         serviceTime: "",
       });
@@ -140,6 +165,7 @@ const ManageOrderTimelines = () => {
                 <th className="py-4 px-4 text-center align-middle">Name</th>
                 <th className="py-4 px-4 text-center align-middle">Description</th>
                 <th className="py-4 px-4 text-center align-middle">Status</th>
+                <th className="py-4 px-4 text-center align-middle">Type</th>
                 <th className="py-4 px-4 text-center align-middle">Price</th>
                 <th className="py-4 px-4 text-center align-middle">Time</th>
                 <th className="py-4 px-4 text-center align-middle">Action</th>
@@ -158,6 +184,9 @@ const ManageOrderTimelines = () => {
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     {service.serviceStatus}
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {getServiceTypeText(service.serviceType)}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     {service.servicePrice}VND
@@ -179,7 +208,7 @@ const ManageOrderTimelines = () => {
           </table>
         </div>
         {editingService && (
-          <div className="mt-4">
+          <div ref={formRef} className="mt-4"> {/* Add ref to the form container */}
             <h4 className="text-lg font-semibold text-gray-800 mb-4">
               {formValues.serviceId ? "Edit Service" : "Add Service"}
             </h4>
@@ -233,6 +262,26 @@ const ManageOrderTimelines = () => {
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="serviceType"
+                >
+                  Type
+                </label>
+                <select
+                  name="serviceType"
+                  value={formValues.serviceType}
+                  onChange={handleInputChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="">Select Type</option>
+                  <option value="1">Giám định</option>
+                  <option value="2">Niêm phong</option>
+                  <option value="3">Cấp giấy</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label
