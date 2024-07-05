@@ -30,60 +30,75 @@ const AssessmentPaperPreview = () => {
     loggedAccount,
   } = location.state || {};
   const reportRef = useRef(null);
-  const [qrCodeUrl, setQrCodeUrl] = useState(null); // State to hold QR code URL
-  const [generatedImageUrl, setGeneratedImageUrl] = useState(null); // State to hold the generated image URL
+  const [qrCodeUrl, setQrCodeUrl] = useState(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
 
   useEffect(() => {
-    const generateQrCode = async () => {
-      if (generatedImageUrl) {
-        try {
-          const url = await QRCode.toDataURL(generatedImageUrl);
-          setQrCodeUrl(url);
-        } catch (error) {
-          console.error("Error generating QR code:", error);
-        }
-      }
-    };
-
-    generateQrCode();
-  }, [generatedImageUrl]);
-
-  const handleDownload = async () => {
-    if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+    const generateImageAndQrCode = async () => {
       try {
-        // Apply downloadable styles
         const sectionTitles =
           reportRef.current.querySelectorAll(".section-title");
         sectionTitles.forEach((title) =>
           title.classList.add("section-title-download")
         );
 
-        // Generate canvas
         const canvas = await html2canvas(reportRef.current);
 
-        // Revert styles
         sectionTitles.forEach((title) =>
           title.classList.remove("section-title-download")
         );
 
-        // Convert canvas to image and simulate upload to get a URL
         const paperImage = canvas.toDataURL("image/png");
-        // Simulate uploading and getting a URL
-        const uploadedImageUrl = paperImage; // Replace this with actual upload logic to get a URL
+
+        // Simulate uploading to a server and getting a public URL
+        const uploadedImageUrl = await simulateUpload(paperImage, id);
         setGeneratedImageUrl(uploadedImageUrl);
 
-        // Download the image
-        const link = document.createElement("a");
-        link.href = paperImage;
-        link.download = `Assessment_Paper_${id}.png`;
-        link.click();
+        if (uploadedImageUrl) {
+          const qrUrl = await QRCode.toDataURL(uploadedImageUrl);
+          setQrCodeUrl(qrUrl);
+        }
       } catch (error) {
-        console.error("Error generating image:", error);
+        console.error("Error generating image or QR code:", error);
       }
+    };
+
+    generateImageAndQrCode();
+  }, []);
+
+  const simulateUpload = async (imageData, id) => {
+    // Simulate an upload process and return a publicly accessible URL
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`); // Replace with actual upload URL logic
+      }, 1000);
+    });
+  };
+
+  const handleDownload = async () => {
+    try {
+      const sectionTitles =
+        reportRef.current.querySelectorAll(".section-title");
+      sectionTitles.forEach((title) =>
+        title.classList.add("section-title-download")
+      );
+
+      const canvas = await html2canvas(reportRef.current);
+
+      sectionTitles.forEach((title) =>
+        title.classList.remove("section-title-download")
+      );
+
+      const paperImage = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = paperImage;
+      link.download = `Assessment_Paper_${id}.png`;
+      link.click();
+    } catch (error) {
+      console.error("Error generating image for download:", error);
     }
   };
 
-  // Function to convert report to image and handle form submission
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
       try {
@@ -93,7 +108,6 @@ const AssessmentPaperPreview = () => {
           title.classList.add("section-title-download")
         );
 
-        // Convert the report to an image
         const canvas = await html2canvas(reportRef.current, {
           scrollX: 0,
           scrollY: 0,
@@ -102,16 +116,14 @@ const AssessmentPaperPreview = () => {
           windowHeight: document.documentElement.offsetHeight,
         });
 
-        // Revert styles
         sectionTitles.forEach((title) =>
           title.classList.remove("section-title-download")
         );
 
         const paperImage = canvas.toDataURL("image/png");
 
-        // Prepare data object based on AssessmentPaperDto structure
         const assessmentData = {
-          sampleId: parseInt(id), // Assuming id is from useParams()
+          sampleId: parseInt(id),
           type: loai,
           size: parseFloat(size),
           shape: `${shape} ${cuttingStyle}`,
@@ -122,12 +134,11 @@ const AssessmentPaperPreview = () => {
           symmetry,
           fluorescence,
           weight: parseFloat(carat),
-          dateCreated: new Date().toISOString(), // Current date
-          paperImage, // Base64 image
-          accountId: loggedAccount.accountId, // Example account ID
+          dateCreated: new Date().toISOString(),
+          paperImage,
+          accountId: loggedAccount.accountId,
         };
 
-        // Make POST request to backend
         const response = await axios.post(
           "https://das-backend.fly.dev/api/assessment-papers",
           assessmentData
@@ -141,7 +152,6 @@ const AssessmentPaperPreview = () => {
         console.log("Submission successful:", response.data);
         console.log("Submission successful:", responseb.data);
         navigate("/assessmentstaff");
-        // Optionally, navigate to another page or display a success message
       } catch (error) {
         console.error("Error submitting data:", error);
       }
