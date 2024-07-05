@@ -66,7 +66,8 @@ const ManageOrderTimelines = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (window.confirm("Bạn muốn lưu thay đổi?")) {
+    const confirmMessage = formValues.serviceId ? "Bạn có chắc chắn muốn lưu các thay đổi này?" : "Bạn có chắc chắn muốn thêm dịch vụ này?";
+    if (window.confirm(confirmMessage)) {
       try {
         if (formValues.serviceId) {
           // Update existing service
@@ -153,8 +154,7 @@ const ManageOrderTimelines = () => {
                   <td className="py-4 px-4 text-center align-middle">
                     {service.serviceName}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {service.serviceDescription}
+                  <td className="py-4 px-4 text-center align-middle" dangerouslySetInnerHTML={{ __html: service.serviceDescription }}>
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     {service.serviceStatus}
@@ -210,8 +210,7 @@ const ManageOrderTimelines = () => {
                 >
                   Description
                 </label>
-                <input
-                  type="text"
+                <textarea
                   name="serviceDescription"
                   value={formValues.serviceDescription}
                   onChange={handleInputChange}
