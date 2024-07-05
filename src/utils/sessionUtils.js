@@ -36,4 +36,5 @@ export const checkRole = (navigate, role) => {
   if (account && account.role !== role) {
     navigate('/');
   }
+
 };
