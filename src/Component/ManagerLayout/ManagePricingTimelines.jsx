@@ -47,7 +47,7 @@ const ManageOrderTimelines = () => {
       case 2:
         return "Niêm phong";
       case 3:
-        return "Cấp giấy";
+        return "Khác";
       default:
         return "NULL";
     }
@@ -280,7 +280,7 @@ const ManageOrderTimelines = () => {
                   <option value="">Select Type</option>
                   <option value="1">Giám định</option>
                   <option value="2">Niêm phong</option>
-                  <option value="3">Cấp giấy</option>
+                  <option value="3">Khác</option>
                 </select>
               </div>
               <div className="mb-4">
