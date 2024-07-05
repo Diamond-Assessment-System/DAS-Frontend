@@ -1,31 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../AdminLayout/AssignRolesPermissions.css";
+import { getAllAccounts } from "../../utils/getAllAccounts";
+import { getRoleMeaning } from "../../utils/getStatusMeaning";
+import { changeAccountRole } from "../../utils/changeAccountRole";
 
 const AssignRolesPermissions = () => {
-  const [users, setUsers] = useState([
-    { id: 1, email: "user1@example.com", role: "Staff" },
-    { id: 2, email: "user2@example.com", role: "Manager" },
-    { id: 3, email: "user3@example.com", role: "Admin" },
-  ]);
-
+  const [users, setUsers] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState({});
 
-  const handleSelectChange = (e, userId) => {
-    const selectedRole = e.target.value;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersData = await getAllAccounts();
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleSelectChange = (e, accountId) => {
+    const selectedRole = parseInt(e.target.value, 10);
     setSelectedRoles((prevState) => ({
       ...prevState,
-      [userId]: selectedRole,
+      [accountId]: selectedRole,
     }));
   };
 
-  const handleSubmit = (userId) => {
-    const selectedRole = selectedRoles[userId];
+  const handleSubmit = async (accountId) => {
+    const selectedRole = selectedRoles[accountId];
     if (selectedRole) {
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === userId ? { ...user, role: selectedRole } : user
-        )
-      );
+      try {
+        await changeAccountRole(accountId, selectedRole);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.accountId === accountId ? { ...user, role: selectedRole } : user
+          )
+        );
+        alert('Role updated successfully');
+      } catch (error) {
+        console.error('Error changing user role:', error);
+        alert('Failed to update role');
+      }
     }
   };
 
@@ -37,30 +55,36 @@ const AssignRolesPermissions = () => {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">User Email</th>
+                <th className="py-4 px-4 text-center align-middle">Name</th>
+                <th className="py-4 px-4 text-center align-middle">Email</th>
+                <th className="py-4 px-4 text-center align-middle">Phone</th>
                 <th className="py-4 px-4 text-center align-middle">Current Role</th>
                 <th className="py-4 px-4 text-center align-middle">New Role</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {users.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-100">
-                  <td className="py-4 px-4 text-center align-middle">{user.email}</td>
-                  <td className="py-4 px-4 text-center align-middle">{user.role}</td>
+                <tr key={user.accountId} className="hover:bg-gray-100">
+                  <td className="py-4 px-4 text-center align-middle">{user.displayName}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.email || "No email"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.phone || "No phone"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{getRoleMeaning(user.role)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <div className="flex items-center justify-center">
                       <select
-                        onChange={(e) => handleSelectChange(e, user.id)}
+                        onChange={(e) => handleSelectChange(e, user.accountId)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        value={selectedRoles[user.id] || ""}
+                        value={selectedRoles[user.accountId] || ""}
                       >
                         <option value="" disabled hidden>Select Role</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Staff">Staff</option>
+                        <option value="1">Customer</option>
+                        <option value="2">Consulting Staff</option>
+                        <option value="3">Assessment Staff</option>
+                        <option value="4">Manager</option>
+                        <option value="5">Admin</option>
                       </select>
                       <button
-                        onClick={() => handleSubmit(user.id)}
+                        onClick={() => handleSubmit(user.accountId)}
                         className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Submit

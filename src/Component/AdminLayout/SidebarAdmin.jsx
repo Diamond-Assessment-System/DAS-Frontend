@@ -18,7 +18,7 @@ const SidebarAdmin = () => {
             🏠 Home
           </NavLink>
         </li>
-        <li className="admin-sidebar-item">
+        {/* <li className="admin-sidebar-item">
           <NavLink
             to="/admin/create-manage-users"
             className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
@@ -26,7 +26,7 @@ const SidebarAdmin = () => {
           >
             Manage Users
           </NavLink>
-        </li>
+        </li> */}
         <li className="admin-sidebar-item">
           <NavLink
             to="/admin/block-suspend-users"
@@ -45,7 +45,7 @@ const SidebarAdmin = () => {
             Assign Roles
           </NavLink>
         </li>
-        <li className="admin-sidebar-item">
+        {/* <li className="admin-sidebar-item">
           <NavLink
             to="/admin/system-maintenance"
             className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
@@ -71,7 +71,7 @@ const SidebarAdmin = () => {
           >
             Content Database
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

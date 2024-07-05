@@ -53,11 +53,40 @@ function getPaymentTypeMeaning(type) {
         return "Unknown payment status";
     }
   }
+  function getRoleMeaning(role) {
+    switch (role) {
+      case 1:
+        return "Customer";
+      case 2:
+        return "Consulting Staff";
+      case 3:
+        return "Assessment Staff";
+      case 4:
+        return "Manager";
+      case 5:
+        return "Admin";
+      default:
+        return "Unknown role";
+    }
+  }
+
+  function getAccountStatusMeaning(status){
+    switch(status){
+      case 1:
+        return "Hoạt động";
+      case 2:
+        return "Đã chặn";
+      default:
+        return "Unknown";
+    }
+  }
 
 export {
   getBookingStatusMeaning,
   getSampleStatusMeaning,
   getPaymentTypeMeaning,
-  getPaymentStatusMeaning
+  getPaymentStatusMeaning,
+  getRoleMeaning,
+  getAccountStatusMeaning
 };
 

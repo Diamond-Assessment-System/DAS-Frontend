@@ -1,20 +1,44 @@
-import React, { useState } from "react";
-import "../AdminLayout/DeleteSuspendUsers.css"; 
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "../AdminLayout/DeleteSuspendUsers.css";
+import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
+import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
+import { changeAccountStatus } from "../../utils/changeAccountStatus"; // Adjust path as needed
 
 const DeleteSuspendUsers = () => {
-  const [users, setUsers] = useState([
-    { id: 1, email: "user1@example.com", displayName: "user1", status: 1},
-    { id: 2, email: "user2@example.com", displayName: "user2", status: 1},
-    { id: 3, email: "user3@example.com", displayName: "user3", status: 1},
-  ]);
+  const [users, setUsers] = useState([]);
 
-  const handleBlockUser = (userId) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === userId ? { ...user, status: 0 } : user
-      )
-    );
-    console.log(`Blocking user with ID ${userId}`);
+  const fetchUsers = async () => {
+    try {
+      const accounts = await getAllAccounts();
+      setUsers(accounts);
+    } catch (error) {
+      console.error('Error fetching accounts:', error);
+    }
+  };
+
+  // Fetch users on component mount
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const toggleUserStatus = async (userId, currentStatus) => {
+    try {
+      const newStatus = currentStatus === 1 ? 2 : 1; // Toggle between 1 (active) and 2 (blocked)
+      const confirmed = window.confirm(`Are you sure you want to ${currentStatus === 1 ? "block" : "unblock"} this user?`);
+      
+      if (confirmed) {
+        await changeAccountStatus(userId, newStatus);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.accountId === userId ? { ...user, accountStatus: newStatus } : user
+          )
+        );
+        console.log(`User status updated for ID ${userId}`);
+      }
+    } catch (error) {
+      console.error('Error updating user status:', error);
+    }
   };
 
   return (
@@ -28,26 +52,29 @@ const DeleteSuspendUsers = () => {
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="py-4 px-4 text-center align-middle">User Id</th>
-                <th className="py-4 px-4 text-center align-middle">User Email</th>
-                <th className="py-4 px-4 text-center align-middle">Display Name</th>
+                <th className="py-4 px-4 text-center align-middle">Name</th>
+                <th className="py-4 px-4 text-center align-middle">Email</th>
+                <th className="py-4 px-4 text-center align-middle">Phone</th>
                 <th className="py-4 px-4 text-center align-middle">Status</th>
                 <th className="py-4 px-4 text-center align-middle">Actions</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {users.map((user) => (
-                <tr key={user.id} className={`hover:bg-gray-100 ${user.status === 0 ? "bg-red-100" : ""}`}>
-                  <td className="py-4 px-4 text-center align-middle">{user.id}</td>
-                  <td className="py-4 px-4 text-center align-middle">{user.email}</td>
+                <tr key={user.accountId} className={`hover:bg-gray-100 ${user.accountStatus === 2 ? "bg-red-100" : (user.accountStatus === 1 ? "bg-green-100" : "")}`}>
+                  <td className="py-4 px-4 text-center align-middle">{user.accountId}</td>
                   <td className="py-4 px-4 text-center align-middle">{user.displayName}</td>
-                  <td className="py-4 px-4 text-center align-middle">{user.status}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.email || "No Email"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.phone || "No Phone"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{getAccountStatusMeaning(user.accountStatus)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
-                      onClick={() => handleBlockUser(user.id)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      disabled={user.status === 0}
+                      onClick={() => toggleUserStatus(user.accountId, user.accountStatus)}
+                      className={`${
+                        user.accountStatus === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
+                      } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                     >
-                      Block User
+                      {user.accountStatus === 1 ? "Block User" : "Unblock User"}
                     </button>
                   </td>
                 </tr>
