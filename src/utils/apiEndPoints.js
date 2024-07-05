@@ -22,6 +22,9 @@ export const getBookingResponseUrl = (bookingId) => `${API_BASE_URL}/api/assessm
 // ServiceResponse
 export const getServiceResponseUrl = (serviceId) => `${API_BASE_URL}/api/services/${serviceId}`;
 
+// Services
+export const SERVICES_URL = `${API_BASE_URL}/api/services`;
+
 // DiamondResponse
 export const getDiamondResponseUrl = (bookingId) => `${API_BASE_URL}/api/booking-samples/booking/${bookingId}`;
 

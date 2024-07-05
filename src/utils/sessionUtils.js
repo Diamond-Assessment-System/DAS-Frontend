@@ -30,3 +30,11 @@ export const checkSession = () => {
   }
   return null;
 };
+
+export const checkRole = (navigate, role) => {
+  const account = checkSession();
+  if (account && account.role !== role) {
+    navigate('/');
+  }
+
+};

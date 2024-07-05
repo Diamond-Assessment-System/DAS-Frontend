@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logodas.png";
+import logo from "../../assets/logodas.png"; // Ensure the path to the logo is correct
 import { AccountCircle, Menu, Close } from "@mui/icons-material";
 import { handleSession, clearSession, checkSession } from '../../utils/sessionUtils';
 import { Dropdown } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
+
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
@@ -50,7 +51,7 @@ const Header = () => {
     <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full z-50">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <img className="h-12" src='./logodas.png' alt="DAS Logo" />
+          <img className="h-12" src={logo} alt="DAS Logo" />
         </div>
         <div
           className="md:hidden ml-4 cursor-pointer"
