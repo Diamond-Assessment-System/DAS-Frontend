@@ -57,6 +57,8 @@ import SealList from "../Component/Sealing/SealList.jsx";
 import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
 import SealHistory from "../Component/Sealing/SealHistory.jsx";
+import ReprintedBooking from "../Component/AssessmentPaperReprinted/ReprintedBooking.jsx";
+import ReprintedPaperPage from "../Component/AssessmentPaperReprinted/ReprintedPaperPage.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -79,7 +81,7 @@ const RoutePath = () => {
           <Route path="/sealhistory" element={<SealHistory />} />
           <Route path="successbooking" element={<SuccessBooking />} />
         </Route>
-        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}> 
+        <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest" element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest/:id" element={<AssessmentRequestDetail />} />
@@ -90,6 +92,8 @@ const RoutePath = () => {
           <Route path="assessmentpaperlist/:id" element={<AssessmentPaperDetail />} />
           <Route path="receipt" element={<AssessmentReceipt />} />
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
+          <Route path="reprintpaper" element={<ReprintedBooking />} />
+          <Route path="reprintpaper/:id" element={<ReprintedPaperPage />} />
         </Route>
 
         <Route path="/assessmentstaff" element={<AssessmentStaffLayout />}>
@@ -114,19 +118,19 @@ const RoutePath = () => {
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<CreateManageUsers />} />
+          <Route index element={<DeleteSuspendUsers />} />
           <Route path="/admin/block-suspend-users" element={<DeleteSuspendUsers />} />
           <Route path="/admin/assign-roles-permissions" element={<AssignRolesPermissions />} />
-          <Route path="/admin/system-maintenance" element={<SystemMaintenance />} />
-          <Route path="/admin/system-update" element={<SystemUpdate />} />
-          <Route path="/admin/content-database" element={<ContentDatabase />} />
-          <Route path="/admin/create-manage-users" element={<CreateManageUsers />} />
+          {/* <Route path="/admin/system-maintenance" element={<SystemMaintenance />} /> */}
+          {/* <Route path="/admin/system-update" element={<SystemUpdate />} /> */}
+          {/* <Route path="/admin/content-database" element={<ContentDatabase />} /> */}
+          {/* <Route path="/admin/create-manage-users" element={<CreateManageUsers />} /> */}
         </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
         <Route path="*" element={<ErrorPage />} />
-        
+
       </Routes>
     </BrowserRouter>
   );
