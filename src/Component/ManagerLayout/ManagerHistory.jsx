@@ -5,6 +5,7 @@ import getAllBookings from "../../utils/getAllBookingsForManager";
 function ManagerHistory() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,10 +24,26 @@ function ManagerHistory() {
     navigate(`/order-details/${orderId}`);
   };
 
+  const removeDiacritics = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const filteredOrders = orders.filter(order =>
+    removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
+    order.bookingId.toString().includes(searchQuery)
+  );
+
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Lịch Sử Đơn Hàng</h4>
+        <input
+          type="text"
+          placeholder="Search by customer name or booking ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-blue-600 text-white">
@@ -40,7 +57,7 @@ function ManagerHistory() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {orders.map((order) => (
+              {filteredOrders.map((order) => (
                 <tr key={order.bookingId}>
                   <td className="py-4 px-4 text-center align-middle">{`#${order.bookingId}`}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.accountName}</td>
