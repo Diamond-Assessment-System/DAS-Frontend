@@ -4,6 +4,10 @@ import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
 import "./style.css";
 
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
 export const EvaluateService = () => {
     const [serviceData, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -59,58 +63,57 @@ export const EvaluateService = () => {
       }
 
     return (
-        
-        <div className="evaluate-service mt-20">
-            <div className="section">
-                <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
-                <div className="table-container">
-                    <table className="service-table">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>LOẠI DỊCH VỤ</th>
-                                <th>NỘI DUNG</th>
-                                <th>GIÁ DỊCH VỤ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {serviceData.map((service, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{service.serviceName}</td>
-                                <td dangerouslySetInnerHTML={{ __html: service.serviceDescription }}></td>
-                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.servicePrice} VND</td>
-                            </tr>
-                        ))}
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div className="section">
-                <p className="header">TIÊU CHUẨN GIÁM ĐỊNH KIM CƯƠNG PNJLAB</p>
-                <div className="table-container">
-                    <table className="service-table">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>TIÊU CHUẨN GIÁM ĐỊNH</th>
-                                <th>NỘI DUNG</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {standardData.map((standard, index) => (
-                            <tr key={index}>
-                                <td>{standard.standardId}</td>
-                                <td>{standard.standardName}</td>
-                                <td dangerouslySetInnerHTML={{ __html: standard.description }}></td>
-                            </tr>
-                        ))}
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+      <div className="evaluate-service mt-20">
+      <div className="section">
+        <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
+        <div className="table-container">
+          <table className="service-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>LOẠI DỊCH VỤ</th>
+                <th>NỘI DUNG</th>
+                <th>GIÁ DỊCH VỤ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {serviceData.map((service, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{service.serviceName}</td>
+                  <td dangerouslySetInnerHTML={{ __html: service.serviceDescription }}></td>
+                  <td style={{ textAlign: "right", paddingRight: "10px" }}>
+                    {formatPrice(service.servicePrice)} VND
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+      </div>
+      <div className="section">
+        <p className="header">TIÊU CHUẨN GIÁM ĐỊNH KIM CƯƠNG PNJLAB</p>
+        <div className="table-container">
+          <table className="service-table">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>TIÊU CHUẨN GIÁM ĐỊNH</th>
+                <th>NỘI DUNG</th>
+              </tr>
+            </thead>
+            <tbody>
+              {standardData.map((standard, index) => (
+                <tr key={index}>
+                  <td>{standard.standardId}</td>
+                  <td>{standard.standardName}</td>
+                  <td dangerouslySetInnerHTML={{ __html: standard.description }}></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     );
 };

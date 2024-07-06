@@ -53,6 +53,10 @@ const ManageOrderTimelines = () => {
     }
   };
 
+  const formatPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+
   const editService = (service) => {
     setEditingService(service);
     setFormValues({
@@ -189,10 +193,10 @@ const ManageOrderTimelines = () => {
                     {getServiceTypeText(service.serviceType)}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {service.servicePrice}VND
+                    {formatPrice(service.servicePrice)} VND
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {service.serviceTime}h
+                    {service.serviceTime} h
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
