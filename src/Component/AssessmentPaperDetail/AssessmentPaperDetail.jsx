@@ -24,22 +24,44 @@ function AssessmentPaperDetail() {
     fetchAssessmentPaper();
   }, [id]);
 
-  const downloadImage = () => {
-    if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
-      const link = document.createElement("a");
-      link.href = assessmentPaper.paperImage;
-      link.download = "AssessmentPaperDetail.png";
-      link.click();
-    }
-    // const link = document.createElement("a");
-    // link.href = assessmentPaper.paperImage;
-    // link.download = "AssessmentPaperDetail.png";
-    // link.click();
-  };
+  // const downloadImage = () => {
+  //   if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+  //     const link = document.createElement("a");
+  //     link.href = assessmentPaper.paperImage;
+  //     link.download = "AssessmentPaperDetail.png";
+  //     link.click();
+  //   }
+  //   // const link = document.createElement("a");
+  //   // link.href = assessmentPaper.paperImage;
+  //   // link.download = "AssessmentPaperDetail.png";
+  //   // link.click();
+  // };
 
   // if (!assessmentPaper) {
   //   return <div>Loading...</div>;
   // }
+  const downloadImage = async () => {
+    if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+      try {
+        // Giả sử assessmentPaper chứa thông tin cần thiết bao gồm cả ID và tên file gốc
+        const fileName = `AssessmentPaper_${assessmentPaper.id}_${assessmentPaper.originalFileName}.pdf`;
+  
+        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/download/${fileName}`, {
+          responseType: 'blob', // Đảm bảo nhận về dữ liệu nhị phân
+        });
+  
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (error) {
+        console.error("Error downloading the image:", error);
+      }
+    }
+  };
 
   if (loading) {
     return (
