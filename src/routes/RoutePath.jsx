@@ -61,6 +61,8 @@ import ReprintedPaperPage from "../Component/AssessmentPaperReprinted/ReprintedP
 import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
 import ZirconDetail from "../Component/DiamondInformationPage/ZirconDetail.jsx";
 import TanzaniteDetail from "../Component/DiamondInformationPage/TanzaniteDetail.jsx";
+import AquamarineDetail from "../Component/DiamondInformationPage/AquamarineDetail.jsx";
+import CoralDetail from "../Component/DiamondInformationPage/CoralDetail.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -84,6 +86,8 @@ const RoutePath = () => {
           <Route path="successbooking" element={<SuccessBooking />} />
           <Route path="/diamonds/zircon" element={<ZirconDetail />} />
           <Route path="/diamonds/tanzanite" element={<TanzaniteDetail />} />
+          <Route path="/diamonds/aquamarine" element={<AquamarineDetail />} />
+          <Route path="/diamonds/sanho" element={<CoralDetail />} />
           </Route>
 
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>

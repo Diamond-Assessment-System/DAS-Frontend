@@ -1,20 +1,21 @@
 import React from 'react';
-import './ZirconDetail.css'; // Import CSS file for styling
+import './Detail.css'; // Import CSS file for styling
 import ZirconImage from '../../assets/ZIRCON2.png'; // Import Zircon image
+import Zircon from '../../assets/Zircon.jpg'
 
 const ZirconDetail = () => {
   return (
-    <div className="zircon-detail">
+    <div className="detail">
       <br /><br />
-      <div className="zircon-detail-header">
-        <img src={ZirconImage} alt="Zircon" className="zircon-detail-image" />
-        <div className="zircon-detail-header-text">
+      <div className="detail-header">
+        <img src={Zircon} alt="Zircon" className="detail-image" />
+        <div className="detail-header-text">
           <h1>ZIRCON</h1>
           <p>Zircon là loại đá đa màu sắc, có độ khúc xạ và lửa cao.</p>
         </div>
       </div>
-      <div className="zircon-detail-content">
-        <div className="zircon-detail-info" style={{ textAlign: 'center' }}>
+      <div className="detail-content">
+        <div className="detail-info" style={{ textAlign: 'center' }}>
           <h2>TỔNG QUAN</h2>
           <p>Zircon là loại đá đa màu sắc, có độ khúc xạ và lửa cao.</p>
           <p><strong>Khoáng vật:</strong> Zircon</p>
@@ -30,14 +31,14 @@ const ZirconDetail = () => {
           <p><strong>Tỷ trọng:</strong> 3.90 – 4.73</p>
           <p><strong>Độ cứng Mohs:</strong> 6 – 7.5</p>
         </div>
-        <div className="zircon-detail-image-right">
+        <div className="detail-image-right">
           <img src={ZirconImage} alt="Zircon" /> {/* Thay ảnh bằng ảnh khác nếu cần */}
           <p>Viên zircon màu cam với độ bão hòa cao.</p>
           <p>Nguồn: John Dyer, Zircon Super Trillion courtesy of John Dyer & Co.</p>
-          <p><strong>ZIRCON – LOẠI ĐÁ QUÝ CỦA THÁNG 12</strong></p>
+          {/* <p><strong>ZIRCON – LOẠI ĐÁ QUÝ CỦA THÁNG 12</strong></p> */}
         </div>
       </div>
-      <div className="zircon-detail-description">
+      <div className="detail-description">
         <h2>ZIRCON – LOẠI ĐÁ QUÝ CỦA THÁNG 12</h2>
         <p>
           Zircon là một trong những loại đá được biết đến vì sở hữu sự rực rỡ và lấp lánh nhiều màu sắc hay còn được gọi là “lửa”. Trong suốt thời đại Trung cổ, Zircon – một trong những loại đá đại diện cho những ai sinh vào tháng 12, được cho là sẽ giúp người đeo ngủ ngon và xua đuổi tà ma. Ngoài ra, đạo Hindu còn đề cập đến Zircon cùng với Hessonite Garnet là một trong chín loại đá quý Navaratna (Navaratna – “chín viên đá quý”, được biết đến là loại bùa mạnh nhất trong đạo Hindu. Chín loại đá quý này đại diện cho các thiên thể trong chiêm tinh học của Ấn Độ). Khi đeo các loại đá quý Navaratna cùng nhau, các loại đá quý này sẽ bảo vệ người đeo và mang lại sự giàu có, trí tuệ và sức khỏe tốt.
