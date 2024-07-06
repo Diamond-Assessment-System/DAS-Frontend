@@ -9,18 +9,19 @@
   background-color: #f9f9f9;
 }
 
-.header {
+.headerr {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
-.header .left,
-.header .right {
+.headerr .left,
+.headerr .right {
   width: 45%;
 }
 
-.header p {
+.headerr p {
   margin: 5px 0;
 }
 

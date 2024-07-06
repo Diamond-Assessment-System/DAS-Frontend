@@ -42,7 +42,7 @@ const CommitmentPaperPage = () => {
     return (
         <div className="paper-container">
             <div className="paper-content" ref={paperRef}>
-                <div className="header">
+                <div className="headerr">
                     <div className="left">
                         <p>CƠ QUAN, ĐƠN VỊ....</p>
                         <p>Số: ....................</p>
