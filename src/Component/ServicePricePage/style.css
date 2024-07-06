@@ -11,6 +11,8 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .table-container {
