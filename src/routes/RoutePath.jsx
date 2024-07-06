@@ -43,7 +43,6 @@ import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/Assessme
 import ReceiptDetail from "../Component/AssessmentReceiptDetailPage/AssessmentReceiptDetail.jsx";
 import ProductSearch from "../Component/SearchProductPage/SearchProduct";
 import { EvaluateService } from "../Component/ServicePricePage/Service.jsx";
-import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
 import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
 import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
 import CreateManageUsers from "../Component/AdminLayout/CreateManageUsers.jsx";
@@ -59,6 +58,9 @@ import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
 import SealHistory from "../Component/Sealing/SealHistory.jsx";
 import ReprintedBooking from "../Component/AssessmentPaperReprinted/ReprintedBooking.jsx";
 import ReprintedPaperPage from "../Component/AssessmentPaperReprinted/ReprintedPaperPage.jsx";
+import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
+import ZirconDetail from "../Component/DiamondInformationPage/ZirconDetail.jsx";
+import TanzaniteDetail from "../Component/DiamondInformationPage/TanzaniteDetail.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -80,7 +82,10 @@ const RoutePath = () => {
           <Route path="/sealselect" element={<SelectedDiamonds />} />
           <Route path="/sealhistory" element={<SealHistory />} />
           <Route path="successbooking" element={<SuccessBooking />} />
-        </Route>
+          <Route path="/diamonds/zircon" element={<ZirconDetail />} />
+          <Route path="/diamonds/tanzanite" element={<TanzaniteDetail />} />
+          </Route>
+
         <Route path="/consultingstaff" element={<ConsultingStaffLayout />}>
           <Route index element={<AssessmentRequestConsulting />} />
           <Route path="assessmentrequest" element={<AssessmentRequestConsulting />} />
