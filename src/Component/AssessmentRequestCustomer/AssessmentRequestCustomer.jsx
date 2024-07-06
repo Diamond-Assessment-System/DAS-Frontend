@@ -6,18 +6,31 @@ import * as Yup from "yup";
 import "./AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
-import { ASSESSMENT_BOOKINGS_URL } from "../../utils/apiEndPoints";
+import { ASSESSMENT_BOOKINGS_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(SERVICES_URL);
+        console.log("Fetched services: ", response.data); // Log the fetched services
+        setServices(response.data);
+      } catch (error) {
+        console.error("Error fetching the services:", error);
+      }
+    };
+
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
     }
+
+    fetchServices();
     setLoading(false);
   }, [navigate]);
 
@@ -27,7 +40,6 @@ function AssessmentRequest() {
     const year = date.getFullYear();
     return `${year}-${month}-${day}`;
   };
-  
 
   const formik = useFormik({
     initialValues: {
@@ -46,30 +58,31 @@ function AssessmentRequest() {
     }),
     onSubmit: (values) => {
       if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
-      const now = new Date();
+        const now = new Date();
+        const selectedService = services.find(service => service.serviceId === parseInt(values.serviceId));
 
-      const data = {
-        ...values,
-        serviceId: parseInt(values.serviceId),
-        accountId: loggedAccount.accountId,
-        status: 1,
-        paymentStatus: 1,
-        dateCreated: formatDateToLocalDateTime(now),
-      };
-    
+        const data = {
+          ...values,
+          serviceId: parseInt(values.serviceId),
+          accountId: loggedAccount.accountId,
+          status: 1,
+          paymentStatus: 1,
+          dateCreated: formatDateToLocalDateTime(now),
+          serviceName: selectedService ? selectedService.serviceName : "Unknown Service"
+        };
 
-      axios
-        .post(ASSESSMENT_BOOKINGS_URL, data)
-        .then((response) => {
-          console.log("Success:", response.data);
-          navigate("/success", { state: { ...response.data, ...data } });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        axios
+          .post(ASSESSMENT_BOOKINGS_URL, data)
+          .then((response) => {
+            console.log("Success:", response.data);
+            navigate("/success", { state: { ...response.data, ...data } });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       }
     },
   });
@@ -139,8 +152,11 @@ function AssessmentRequest() {
             }`}
           >
             <option value="" label="Chọn Dịch Vụ" />
-            <option value="1" label="Giám Định Kim Cương 24H" />
-            <option value="2" label="Giám Định Kim Cương 48H" />
+            {services.map((service) => (
+              <option key={service.serviceId} value={service.serviceId}>
+                {service.serviceName}
+              </option>
+            ))}
           </select>
           {formik.touched.serviceId && formik.errors.serviceId ? (
             <div className="text-red-500 text-xs italic mt-2">
