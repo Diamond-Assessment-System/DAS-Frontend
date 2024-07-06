@@ -1,0 +1,68 @@
+/* ZirconDetail.css */
+.zircon-detail {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .zircon-detail-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .zircon-detail-header-text {
+    margin-left: 20px;
+  }
+  
+  .zircon-detail-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .zircon-detail-content {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .zircon-detail-info {
+    flex: 1;
+  }
+  
+  .zircon-detail-info h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .zircon-detail-info ul {
+    margin-top: 10px;
+  }
+  
+  .zircon-detail-info ul li {
+    list-style-type: none;
+    margin-bottom: 5px;
+  }
+  
+  .zircon-detail-image-right {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .zircon-detail-image-right img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .zircon-detail-description {
+    margin-top: 20px;
+  }
+  
+  .zircon-detail-description h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
