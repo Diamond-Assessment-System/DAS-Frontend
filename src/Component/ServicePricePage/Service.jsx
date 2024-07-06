@@ -70,7 +70,6 @@ export const EvaluateService = () => {
                                 <th>STT</th>
                                 <th>LOẠI DỊCH VỤ</th>
                                 <th>NỘI DUNG</th>
-                                <th>THỜI GIAN</th>
                                 <th>GIÁ DỊCH VỤ</th>
                             </tr>
                         </thead>
@@ -80,7 +79,6 @@ export const EvaluateService = () => {
                                 <td>{index + 1}</td>
                                 <td>{service.serviceName}</td>
                                 <td dangerouslySetInnerHTML={{ __html: service.serviceDescription }}></td>
-                                <td style={{textAlign: "right", paddingRight: "10px"}}>{service.serviceTime}h</td>
                                 <td style={{textAlign: "right", paddingRight: "10px"}}>{service.servicePrice} VND</td>
                             </tr>
                         ))}
