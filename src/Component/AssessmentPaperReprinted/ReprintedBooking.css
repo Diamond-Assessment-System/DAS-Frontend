@@ -60,7 +60,7 @@ table th{
     padding-top: 15px;
 }
 
-.status-completed {
+.status-completedd {
     color: #3cb371;
 }
 
@@ -74,11 +74,11 @@ table th{
     margin: 0;
 }
 
-.status-canceled {
+.status-canceledd {
     color: #dc143c;
 }
 
-.status-canceled h3 {
+.status-canceledd h3 {
     color: #dc143c;
     background-color: #ff999967;
     border-radius: 50px;
@@ -88,11 +88,11 @@ table th{
     margin: 0;
 }
 
-.status-pending {
+.status-pendingg {
     color: #ff7f50;
 }
 
-.status-pending h3 {
+.status-pendingg h3 {
     color: #ff7f50;
     background-color: #ffc87c6c;
     border-radius: 50px;

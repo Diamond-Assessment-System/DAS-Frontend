@@ -15,11 +15,11 @@ function ReprintedBooking() {
     const getStatusClass = (status) => {
         switch (status) {
             case 1:
-                return "status-pending";
+                return "status-pendingg";
             case 2:
                 return "status-completedd";
             case 3:
-                return "status-canceled";
+                return "status-canceledd";
             default:
                 return "text-gray-500";
         }
