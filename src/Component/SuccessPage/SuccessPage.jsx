@@ -7,16 +7,16 @@ const SuccessPage = () => {
   const location = useLocation();
   const { state } = location;
 
-  const getServiceText = (serviceId) => {
-    switch (serviceId) {
-      case 1:
-        return "Giám Định Kim Cương 24H";
-      case 2:
-        return "Giám Định Kim Cương 48H";
-      default:
-        return "Unknown Service";
-    }
-  };
+  // const getServiceText = (serviceId) => {
+  //   switch (serviceId) {
+  //     case 1:
+  //       return "Giám Định Kim Cương 24H";
+  //     case 2:
+  //       return "Giám Định Kim Cương 48H";
+  //     default:
+  //       return "Unknown Service";
+  //   }
+  // };
 
   return (
     <div className="success-page">
@@ -33,7 +33,7 @@ const SuccessPage = () => {
           <h2>Mã giao dịch: #{state.bookingId}</h2>
           <div className="appointment-details">
             <p>Số Điện Thoại: {state.phone}</p>
-            <p>Dịch Vụ: {getServiceText(parseInt(state.serviceId))}</p>
+            <p>Dịch Vụ: {state.serviceName}</p>
             <p>Số Lượng (Viên): {state.quantities}</p>
             <p>Ngày Đặt Hẹn: {state.dateCreated}</p>
           </div>
