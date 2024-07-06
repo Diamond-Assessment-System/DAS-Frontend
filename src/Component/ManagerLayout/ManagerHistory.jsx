@@ -5,7 +5,7 @@ import getAllBookings from "../../utils/getAllBookingsForManager";
 function ManagerHistory() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); 
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +30,7 @@ function ManagerHistory() {
 
   const filteredOrders = orders.filter(order =>
     removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
-    order.bookingId.toString().includes(searchQuery)
+    order.bookingId.toString().toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
