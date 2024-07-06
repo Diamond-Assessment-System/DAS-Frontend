@@ -1,20 +1,21 @@
 import React from 'react';
-import './ZirconDetail.css'; // Import CSS file for styling
-import Tanzanite from '../../assets/tanzanite.png'; // Import Tanzanite image
+import './Detail.css'; // Import CSS file for styling
+import TanzaniteImage from '../../assets/tanzanite.png'; // Import Tanzanite image
+import Tanzanite from '../../assets/Tanzanite.jpg'
 
 const TanzaniteDetail = () => {
   return (
-    <div className="zircon-detail">
+    <div className="detail">
       <br /><br />
-      <div className="zircon-detail-header">
-        <img src={Tanzanite} alt="Tanzanite" className="zircon-detail-image" />
-        <div className="zircon-detail-header-text">
+      <div className="detail-header">
+        <img src={Tanzanite} alt="Tanzanite" className="detail-image" />
+        <div className="detail-header-text">
           <h1>TANZANITE</h1>
           <p>Tanzanite là loại đá có màu pha trộn giữa màu tím rực rỡ, màu tía đậm và màu xanh dương</p>
         </div>
       </div>
-      <div className="zircon-detail-content">
-        <div className="zircon-detail-info" style={{ textAlign: 'center' }}>
+      <div className="detail-content">
+        <div className="detail-info" style={{ textAlign: 'center' }}>
           <h2>TỔNG QUAN</h2>
           <p>
             Tanzanite là loại đá có màu pha trộn giữa màu tím rực rỡ, màu tía đậm và màu xanh dương, loại đá này chỉ được tìm thấy ở một nơi duy nhất trên thế giới – đồi Merelani ở phía bắc Tanzania.
@@ -27,14 +28,14 @@ const TanzaniteDetail = () => {
           <p><strong>Tỷ trọng:</strong> 3.35</p>
           <p><strong>Độ cứng Mohs:</strong> 6 – 7</p>
         </div>
-        <div className="zircon-detail-image-right">
-          <img src={Tanzanite} alt="Tanzanite" /> {/* Thay ảnh bằng ảnh khác nếu cần */}
+        <div className="detail-image-right">
+          <img src={TanzaniteImage} alt="Tanzanite" /> {/* Thay ảnh bằng ảnh khác nếu cần */}
           <p>Viên tanzanite màu xanh lam tím với độ bão hòa cao.</p>
           <p>Nguồn: Image Source</p>
           <p><strong>TANZANITE – LOẠI ĐÁ QUÝ CỦA THÁNG 12</strong></p>
         </div>
       </div>
-      <div className="zircon-detail-description">
+      <div className="detail-description">
         <h2>TANZANITE – LOẠI ĐÁ QUÝ CỦA THÁNG 12</h2>
         <p>
           Tanzanite là loại đá quý đại diện cho những ai có sinh nhật vào tháng 12 – là loại đá có màu xanh lam tím thuộc nhóm khoáng vật Zoisite, nó là loại đá quý tương đối mới trong thế giới đá màu, thường được mô tả là “mịn như nhung” để chỉ màu sắc đậm, bão hòa và độ tinh khiết cao. Đặc điểm độc đáo của loại đá này là tính đa sắc – có thể thấy ba màu riêng biệt khi xoay viên đá theo ba hướng khác nhau.
