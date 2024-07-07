@@ -76,7 +76,7 @@ const Navbar = () => {
             Sealing Records
           </Link>
           <Link
-            to="/manager/commitment-paper"
+            to="/manager/commit"
             className="navbar-link"
             onClick={toggleMenu}
           >
@@ -125,7 +125,7 @@ const Navbar = () => {
             Sealing Records
           </Link>
           <Link
-            to="/manager/commitment-paper"
+            to="/manager/commit"
             className="navbar-dropdown-link"
             onClick={toggleMenu}
           >

@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { toPng } from "html-to-image";
-import '../ManagerLayout/Commitpaper.css';
+import { useNavigate } from "react-router-dom";
 
-const CommitmentPaperPage = () => {
-    const location = useLocation();
-    const { bookingId } = location.state;
+const Commitment = () => {
     const [formData, setFormData] = useState({
         creationDate: '',
-        userName: 'Nguyễn Văn A',
-        bookingId: bookingId,
-        title: '',
+        userName: 'John Doe',
+        bookingId: '123456',
+        title: 'Kiểm định chất lượng',
         description: '',
         signature: ''
     });
@@ -32,9 +29,10 @@ const CommitmentPaperPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        toPng(paperRef.current, { backgroundColor: 'white' })
+        toPng(paperRef.current)
             .then((dataUrl) => {
-                navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
+                console.log("Generated image data URL:", dataUrl);
+                navigate('/manager/managerhistory');
             })
             .catch((error) => {
                 console.error('Error generating image:', error);
@@ -43,7 +41,7 @@ const CommitmentPaperPage = () => {
 
     return (
         <div className="paper-container">
-            <div className="paper-content" ref={paperRef} style={{ backgroundColor: 'white' }}>
+            <div className="paper-content" ref={paperRef}>
                 <div className="headerr">
                     <div className="left">
                         <p>CƠ QUAN, ĐƠN VỊ DAS STORE</p>
@@ -75,7 +73,7 @@ const CommitmentPaperPage = () => {
                 </div>
                 <div className="field">
                     <p>Hôm nay, vào ngày {formData.creationDate.split('-')[2]} tháng {formData.creationDate.split('-')[1]} năm {formData.creationDate.split('-')[0]}</p>
-                    <p>Tại: ...................................................</p>
+                    <p>Tại: ..............</p>
                     <div className="field">
                     <label className="label">Mô tả:</label>
                     <textarea
@@ -112,4 +110,4 @@ const CommitmentPaperPage = () => {
     );
 };
 
-export default CommitmentPaperPage;
+export default Commitment;
