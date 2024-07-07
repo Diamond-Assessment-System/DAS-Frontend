@@ -1,99 +1,85 @@
-/* .stepper{
-    margin-left: 180px;
-    font-size: 20px;
- 
-}
-.stepper h4 {
-    border: 1px ;
-    -webkit-box-shadow: 1px 1px 7px 4px rgba(0,0,0,0.3); 
-    box-shadow: 1px 1px 7px 4px rgba(0,0,0,0.2);
-    padding: 3px;
-    margin-right: 50px;
-}
-.table{
-    margin-left: 130px;
-}
-table{
-    width: 100%;
-    
-}
-table td{
-    text-align: center;
-    color: rgba(0, 57, 87, 1);
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
-
-}
-table th{
-    color: aliceblue;
-    background-color: rgba(2, 132, 199, 0.7);
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
-} */
 .radio-group {
-    display: flex;
-    gap: 10px;
-  }
-  .radio-group label {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    border: 2px solid #007bff;
-    border-radius: 30px;
-    cursor: pointer;
-    background-color: #fff;
-    color: #007bff;
-    font-family: Arial, sans-serif;
-  }
-  .radio-group input[type="radio"] {
-    display: none;
-  }
-  .radio-group input[type="radio"]:checked + label {
-    background-color: #007bff;
-    color: #fff;
-  }
-  .overflow-x-auto{
-    padding-top: 15px;
-  }
+  display: flex;
+  gap: 10px;
+}
 
-  .status-completed {
-    color: #3cb371 ;
-  }
-  
-  .status-completedd h3 {
-    color: #3cb371 ;
-    background-color: #76ff7b61;
-    border-radius: 50px;
-    padding: 10px 5px 10px 5px;
-    width: 70%;
-    display: inline-block;
-    margin: 0;
-  }
-  
-  .status-canceled {
-    color: #dc143c;
-  }
-  
-  .status-canceled h3 {
-    color: #dc143c;
-    background-color: #ff999967 ;
-    border-radius: 50px;
-    padding: 10px 5px 10px 5px;
-    width: 70%;
-    display: inline-block;
-    margin: 0;
-  }
-  
-  .status-pending {
-    color: #ff7f50;
-  }
-  
-  .status-pending h3 {
-    color: #ff7f50;
-    background-color: #ffc87c6c ;
-    border-radius: 50px;
-    padding: 10px 5px 10px 5px;
-    width: 70%;
-    display: inline-block;
-    margin: 0;
-  }
+.radio-group label {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: 2px solid #007bff;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: #fff;
+  color: #007bff;
+  font-family: Arial, sans-serif;
+}
+
+.radio-group input[type="radio"] {
+  display: none;
+}
+
+.radio-group input[type="radio"]:checked+label {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.overflow-x-auto {
+  padding-top: 15px;
+}
+
+.status-completed {
+  color: #3cb371;
+}
+
+.status-completedd h3 {
+  color: #3cb371;
+  background-color: #76ff7b61;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 70%;
+  display: inline-block;
+  margin: 0;
+}
+
+.status-complete-booking {
+  color: #005bb1;
+}
+
+.status-complete-booking h3 {
+  color: #7057ff;
+  background-color: #5537ff61;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 70%;
+  display: inline-block;
+  margin: 0;
+}
+
+.status-canceled {
+  color: #dc143c;
+}
+
+.status-canceled h3 {
+  color: #dc143c;
+  background-color: #ff999967;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 70%;
+  display: inline-block;
+  margin: 0;
+}
+
+.status-pending {
+  color: #ff7f50;
+}
+
+.status-pending h3 {
+  color: #ff7f50;
+  background-color: #ffc87c6c;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 70%;
+  display: inline-block;
+  margin: 0;
+}

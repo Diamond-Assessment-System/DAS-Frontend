@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
+import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
+import getServiceFromId from "../../utils/getServiceFromId"; // Adjust the import path if necessary
 
 function AssessmentReceipt() {
   const navigate = useNavigate();
@@ -23,43 +25,23 @@ function AssessmentReceipt() {
     }
   };
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 1:
-        return "Đang chờ";
-      case 2:
-        return "Đã tạo booking";
-      case 3:
-        return "Đã hủy";
-      default:
-        return "Không xác định";
-    }
-  };
-
-  const getServiceText = (service) => {
-    switch (service) {
-      case 1:
-        return "Giám định kim cương";
-      case 2:
-        return "Niêm phong kim cương";
-      case 3:
-        return "Cấp lại giấy giám định";
-      default:
-        return "Không xác định";
-    }
-  };
-
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(
-          ASSESSMENT_BOOKING_URL
-        );
-        // Filter bookings where status is 2 or 3
+        const response = await axios.get(ASSESSMENT_BOOKING_URL);
         const filteredBookings = response.data.filter(
           (booking) => booking.status === 2 || booking.status === 3
         );
-        setBookings(filteredBookings);
+
+        // Fetch service names for each booking
+        const bookingsWithServiceNames = await Promise.all(
+          filteredBookings.map(async (booking) => {
+            const service = await getServiceFromId(booking.serviceId);
+            return { ...booking, serviceName: service.serviceName };
+          })
+        );
+
+        setBookings(bookingsWithServiceNames);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
       } finally {
@@ -69,7 +51,6 @@ function AssessmentReceipt() {
 
     fetchBookings();
   }, []);
-
 
   if (loading) {
     return (
@@ -102,7 +83,7 @@ function AssessmentReceipt() {
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 text-center">
-                    {getServiceText(booking.serviceId)}
+                    {booking.serviceName}
                   </td>
                   <td className="py-4 px-4 text-center">
                     {booking.quantities}
@@ -115,7 +96,7 @@ function AssessmentReceipt() {
                       booking.status
                     )}`}
                   >
-                    {getStatusText(booking.status)}
+                    {getBookingStatusMeaning(booking.status)}
                   </td>
                   <td className="py-4 px-4 text-center">
                     <div className="flex items-center justify-center">

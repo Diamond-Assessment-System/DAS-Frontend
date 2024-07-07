@@ -57,13 +57,14 @@ import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
 import SealHistory from "../Component/Sealing/SealHistory.jsx";
 import ReprintedBooking from "../Component/AssessmentPaperReprinted/ReprintedBooking.jsx";
-//import ReprintedPaperPage from "../Component/AssessmentPaperReprinted/ReprintedPaperPage.jsx";
+
 import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
 import ZirconDetail from "../Component/DiamondInformationPage/ZirconDetail.jsx";
 import TanzaniteDetail from "../Component/DiamondInformationPage/TanzaniteDetail.jsx";
 import AquamarineDetail from "../Component/DiamondInformationPage/AquamarineDetail.jsx";
 import CoralDetail from "../Component/DiamondInformationPage/CoralDetail.jsx";
 import LookupPaperpage from "../Component/AssessmentPaperReprinted/LookupPaperpage.jsx";
+import SealForm from "../Component/Sealing/SealForm.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -82,8 +83,8 @@ const RoutePath = () => {
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
           <Route path="/sealist" element={<SealList />} />
-          <Route path="/sealselect" element={<SelectedDiamonds />} />
-          <Route path="/sealhistory" element={<SealHistory />} />
+          {/* <Route path="/sealselect" element={<SelectedDiamonds />} />
+          <Route path="/sealhistory" element={<SealHistory />} /> */}
           <Route path="successbooking" element={<SuccessBooking />} />
           <Route path="/diamonds/zircon" element={<ZirconDetail />} />
           <Route path="/diamonds/tanzanite" element={<TanzaniteDetail />} />
@@ -121,7 +122,10 @@ const RoutePath = () => {
         <Route path="/manager" element={<ManagerLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
-          <Route path="/manager/sealing-records" element={<SealingRecords />} />
+          <Route path="/manager/sealing-records" element={<SealList />} />
+          <Route path="/manager/sealform" element={<SealForm />} />
+          <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
+          <Route path="/manager/sealhistory" element={<SealHistory />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
           {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />

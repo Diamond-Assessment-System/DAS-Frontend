@@ -109,10 +109,6 @@ const AssessmentBookingDiamondInput = () => {
     }
   };
 
-  const progressBar = () =>{
-
-  }
-  
   if (loading) {
     return (
       <div className="loading-indicator">
@@ -120,7 +116,7 @@ const AssessmentBookingDiamondInput = () => {
       </div>
     );
   }
-  
+
   return (
     <div>
       <ProgressBar />

@@ -23,11 +23,11 @@ const CustomerHistory = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case "Completed":
-        return "status-completed";
+        return "status-completedCH";
       case "Canceled":
-        return "status-canceled";
+        return "status-canceledCH";
       case "Assessing":
-        return "status-assessing";
+        return "status-assessingCH";
       default:
         return "";
     }

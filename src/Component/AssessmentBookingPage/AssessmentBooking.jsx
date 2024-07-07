@@ -24,7 +24,7 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
-          const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
+          const response = await axios.get(`${BOOKING_SAMPLES_URL}`);
           setSamples(response.data);
         } catch (error) {
           console.error("Error fetching the samples:", error);

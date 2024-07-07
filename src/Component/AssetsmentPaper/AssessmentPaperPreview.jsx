@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios for HTTP requests
+import axios from "axios";
 import html2canvas from "html2canvas";
 import QRCode from "qrcode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
+import { format } from "date-fns";
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -32,12 +33,14 @@ const AssessmentPaperPreview = () => {
   const reportRef = useRef(null);
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
+  const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
+    setCurrentDate(format(new Date(), "yyyy/MM/dd - HH:mm:ss"));
+
     const generateImageAndQrCode = async () => {
       try {
-        const sectionTitles =
-          reportRef.current.querySelectorAll(".section-title");
+        const sectionTitles = reportRef.current.querySelectorAll(".section-title");
         sectionTitles.forEach((title) =>
           title.classList.add("section-title-download")
         );
@@ -50,7 +53,6 @@ const AssessmentPaperPreview = () => {
 
         const paperImage = canvas.toDataURL("image/png");
 
-        // Simulate uploading to a server and getting a public URL
         const uploadedImageUrl = await simulateUpload(paperImage, id);
         setGeneratedImageUrl(uploadedImageUrl);
 
@@ -64,21 +66,19 @@ const AssessmentPaperPreview = () => {
     };
 
     generateImageAndQrCode();
-  }, []);
+  }, [id]);
 
   const simulateUpload = async (imageData, id) => {
-    // Simulate an upload process and return a publicly accessible URL
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`); // Replace with actual upload URL logic
+        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`);
       }, 1000);
     });
   };
 
   const handleDownload = async () => {
     try {
-      const sectionTitles =
-        reportRef.current.querySelectorAll(".section-title");
+      const sectionTitles = reportRef.current.querySelectorAll(".section-title");
       sectionTitles.forEach((title) =>
         title.classList.add("section-title-download")
       );
@@ -102,8 +102,7 @@ const AssessmentPaperPreview = () => {
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
       try {
-        const sectionTitles =
-          reportRef.current.querySelectorAll(".section-title");
+        const sectionTitles = reportRef.current.querySelectorAll(".section-title");
         sectionTitles.forEach((title) =>
           title.classList.add("section-title-download")
         );
@@ -145,12 +144,11 @@ const AssessmentPaperPreview = () => {
         );
 
         const status = 3;
-        const responseb = await axios.put(
+        await axios.put(
           `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
         );
         window.alert("Đã Submit thành công!");
         console.log("Submission successful:", response.data);
-        console.log("Submission successful:", responseb.data);
         navigate("/assessmentstaff");
       } catch (error) {
         console.error("Error submitting data:", error);
@@ -164,7 +162,6 @@ const AssessmentPaperPreview = () => {
         <div className="gold-outline">
           <div className="text-center mb-4">
             <h1 className="report-title">DIAMOND ASSESSMENT REPORT #{id}</h1>
-            <h2 className="report-id"></h2>
           </div>
           <Row>
             <Col md={4}>
@@ -173,7 +170,7 @@ const AssessmentPaperPreview = () => {
                   <div className="section-title">
                     <h3>DAS NATURAL GRADING REPORT</h3>
                   </div>
-                  <p>May 12th, 2024</p>
+                  <p>Date assessed: {currentDate}</p>
                   <p>DAS report number: 1234</p>
                   <p>
                     Shape and cutting style: {shape} {cuttingStyle}
@@ -270,7 +267,6 @@ const AssessmentPaperPreview = () => {
           </Row>
         </div>
       </div>
-      {/* Buttons section */}
       <Row className="mb-4">
         <Col className="flexxx">
           <Button variant="success" onClick={handleDownload} className="downnn">

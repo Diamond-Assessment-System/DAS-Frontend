@@ -10,24 +10,14 @@ function AssessmentPaperListCs() {
   const [loading, setLoading] = useState(true);
   const [assessmentPapers, setAssessmentPapers] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get("https://das-backend.fly.dev/api/assessment-papers")
-  //     .then(response => {
-  //       setAssessmentPapers(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("There was an error fetching the assessment papers!", error);
-  //     });
-  // }, []);
-
   useEffect(() => {
     const fetchAssessmentPapers = async () => {
       try {
         const response = await axios.get(ASSESSMENT_PAPER_URL);
-        setAssessmentPapers(response.data);
+        const sortedPapers = response.data.sort((a, b) => b.diamondId - a.diamondId);
+        setAssessmentPapers(sortedPapers);
       } catch (error) {
-        setError("There was an error fetching the assessment papers!");
-        console.error(error);
+        console.error("There was an error fetching the assessment papers!", error);
       } finally {
         setLoading(false);
       }
@@ -43,11 +33,6 @@ function AssessmentPaperListCs() {
       </div>
     );
   }
-
-  // if (error) {
-  //   return <div className="error-message">{error}</div>;
-  // }
-
 
   return (
     <div className="w-full">

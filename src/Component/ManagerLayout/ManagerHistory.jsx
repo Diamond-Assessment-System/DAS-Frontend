@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 
 function ManagerHistory() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -14,6 +16,8 @@ function ManagerHistory() {
         setOrders(bookingHistory);
       } catch (error) {
         console.error("Error fetching booking history:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -32,6 +36,14 @@ function ManagerHistory() {
     removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
     order.bookingId.toString().toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
