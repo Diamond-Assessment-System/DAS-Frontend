@@ -24,12 +24,12 @@ tbody td {
   text-align: center;
 }
 
-.status-completed {
-  color: #3cb371 ;
+.status-completedCH {
+  color: #3cb371;
 }
 
-.status-completed h3 {
-  color: #3cb371 ;
+.status-completedCH h3 {
+  color: #3cb371;
   background-color: #76ff7b61;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
@@ -38,13 +38,13 @@ tbody td {
   margin: 0;
 }
 
-.status-canceled {
+.status-canceledCH {
   color: #dc143c;
 }
 
-.status-canceled h3 {
+.status-canceledCH h3 {
   color: #dc143c;
-  background-color: #ff999967 ;
+  background-color: #ff999967;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
   width: 50%;
@@ -52,13 +52,13 @@ tbody td {
   margin: 0;
 }
 
-.status-assessing {
+.status-assessingCH {
   color: #ff7f50;
 }
 
-.status-assessing h3 {
+.status-assessingCH h3 {
   color: #ff7f50;
-  background-color: #ffc87c6c ;
+  background-color: #ffc87c6c;
   border-radius: 50px;
   padding: 10px 5px 10px 5px;
   width: 50%;

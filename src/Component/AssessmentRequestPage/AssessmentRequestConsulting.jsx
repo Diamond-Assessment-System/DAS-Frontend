@@ -215,7 +215,6 @@ function AssessmentRequestConsulting() {
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-                <th className="py-4 px-4 text-center align-middle">Hủy</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">

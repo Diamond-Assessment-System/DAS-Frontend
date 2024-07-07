@@ -1,4 +1,3 @@
-// src/components/SealList.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../Paginate/Pagination";
@@ -39,19 +38,12 @@ function SealList() {
   };
 
   const selectDiamond = (diamond) => {
-    let selectedDiamonds = JSON.parse(localStorage.getItem('selectedDiamonds')) || [];
-    selectedDiamonds.push(diamond);
-    localStorage.setItem('selectedDiamonds', JSON.stringify(selectedDiamonds));
-
-    // Remove the selected diamond from the list
-    const updatedDiamonds = diamonds.filter(d => d.diamondId !== diamond.diamondId);
-    localStorage.setItem('diamonds', JSON.stringify(updatedDiamonds));
-    setDiamonds(updatedDiamonds);
-    setMessage(`Viên kim cương ${diamond.diamondId} đã được chọn.`);
+    // Navigate to the SealForm component with the selected diamond
+    navigate('/manager/sealform', { state: { diamond } });
   };
 
   const navigateToSelectedDiamonds = () => {
-    navigate('/sealselect');
+    navigate('/manager/sealselect');
   };
 
   if (loading) {
