@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperDetaillUrl } from "../../utils/apiEndPoints";
+import { format } from "date-fns";
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
@@ -12,14 +13,17 @@ function AssessmentPaperDetail() {
   useEffect(() => {
     const fetchAssessmentPaper = async () => {
       try {
-       //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${id}`);
         const response = await axios.get(getAssessmentPaperDetaillUrl(id));
-        setAssessmentPaper(response.data);
+        const formattedData = {
+          ...response.data,
+          dateCreated: format(new Date(response.data.dateCreated), "yyyy/MM/dd - HH:mm:ss")
+        };
+        setAssessmentPaper(formattedData);
       } catch (error) {
         console.error("Error fetching assessment paper:", error);
-      } finally{
+      } finally {
         setLoading(false);
-      } 
+      }
     };
     fetchAssessmentPaper();
   }, [id]);
@@ -31,37 +35,7 @@ function AssessmentPaperDetail() {
       link.download = "AssessmentPaperDetail.png";
       link.click();
     }
-    // const link = document.createElement("a");
-    // link.href = assessmentPaper.paperImage;
-    // link.download = "AssessmentPaperDetail.png";
-    // link.click();
   };
-
-  if (!assessmentPaper) {
-    return <div>Loading...</div>;
-  }
-  // const downloadImage = async () => {
-  //   if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
-  //     try {
-  //       // Giả sử assessmentPaper chứa thông tin cần thiết bao gồm cả ID và tên file gốc
-  //       const fileName = `AssessmentPaper_${assessmentPaper.id}_${assessmentPaper.originalFileName}.pdf`;
-  
-  //       const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/download/${fileName}`, {
-  //         responseType: 'blob', // Đảm bảo nhận về dữ liệu nhị phân
-  //       });
-  
-  //       const url = window.URL.createObjectURL(new Blob([response.data]));
-  //       const link = document.createElement('a');
-  //       link.href = url;
-  //       link.setAttribute('download', fileName);
-  //       document.body.appendChild(link);
-  //       link.click();
-  //       document.body.removeChild(link);
-  //     } catch (error) {
-  //       console.error("Error downloading the image:", error);
-  //     }
-  //   }
-  // };
 
   if (loading) {
     return (
@@ -70,7 +44,15 @@ function AssessmentPaperDetail() {
       </div>
     );
   }
-  
+
+  if (!assessmentPaper) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div id="assessment-paper-detail" className="p-10 bg-gray-50">
       <h1 className="text-2xl font-bold mb-4">Assessment Paper Images</h1>

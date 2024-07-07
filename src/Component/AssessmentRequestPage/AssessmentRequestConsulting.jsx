@@ -243,6 +243,13 @@ function AssessmentRequestConsulting() {
                         >
                           {booking.status === 2 ? "Hoàn Thành" : "Tạo Booking"}
                         </button>
+                      </div>
+                    )}
+                  </td>
+                  <td className="py-4 px-4 align-middle">
+                    {booking.status !== 4 && (
+                      <div className="flex items-center justify-center space-x-2">
+                        
                         {booking.status === 1 && (
                           <button
                             onClick={() => handleCancelBooking(booking)}
