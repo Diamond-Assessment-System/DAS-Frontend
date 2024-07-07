@@ -8,19 +8,19 @@ const { Option } = Select;
 function SealForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const diamond = location.state?.diamond || {};
-  const orderId = location.state?.orderId;
+  const sample = location.state?.sample || {};
+  const bookingId = location.state?.bookingId;
 
   const handleSubmit = (values) => {
-    // Combine diamond data with form values
-    const diamondData = { ...diamond, ...values };
-    // Store the diamond data in localStorage
-    let selectedDiamonds = JSON.parse(localStorage.getItem('selectedDiamonds')) || [];
-    selectedDiamonds.push(diamondData);
-    localStorage.setItem('selectedDiamonds', JSON.stringify(selectedDiamonds));
+    // Combine sample data with form values
+    const sampleData = { ...sample, ...values };
+    // Store the sample data in localStorage
+    let selectedSamples = JSON.parse(localStorage.getItem('selectedSamples')) || [];
+    selectedSamples.push(sampleData);
+    localStorage.setItem('selectedSamples', JSON.stringify(selectedSamples));
 
-    console.log('Form data submitted:', diamondData);
-    navigate('/manager/commitment-paper', { state: { diamondData, orderId } });
+    console.log('Form data submitted:', sampleData);
+    navigate('/manager/commitment-paper', { state: { sampleData, bookingId } });
   };
 
   return (
