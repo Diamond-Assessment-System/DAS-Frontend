@@ -74,7 +74,7 @@ function ReprintedBooking() {
         switch (booking.status) {
 
             case 2:
-                navigate(`/assessmentstaff/assessmentpaperlist/${paper.diamondId}`);
+                navigate(`lookuppaper`);
                 break;
             case 3:
                 alert("Yêu cầu đã hoàn tất rồi, không thể tạo lại!");
@@ -111,7 +111,7 @@ function ReprintedBooking() {
         <div className="w-full">
             <div className="max-w-full mx-auto p-4">
                 <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                    Danh Sách Đặt Hẹn
+                    Cấp Lại Giấy Giám Định
                 </h4>
                 <div className="radio-group">
                     <input
