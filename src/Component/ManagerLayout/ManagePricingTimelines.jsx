@@ -6,6 +6,16 @@ import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
 
 const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInputChange }) => {
+  const formatPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    const formattedValue = value.replace(/\s/g, '');
+    handleInputChange({ target: { name, value: formattedValue } });
+  };
+
   return (
     <Modal show={show} onHide={handleClose} className="custom-modal">
       <Modal.Header closeButton>
@@ -44,13 +54,28 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
               required
             />
           </Form.Group>
+          <Form.Group controlId="formServiceType">
+            <Form.Label>Type</Form.Label>
+            <Form.Control
+              as="select"
+              name="serviceType"
+              value={formValues.serviceType}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Type</option>
+              <option value="1">Giám định</option>
+              <option value="2">Niêm phong</option>
+              <option value="3">Khác</option>
+            </Form.Control>
+          </Form.Group>
           <Form.Group controlId="formServicePrice">
             <Form.Label>Price</Form.Label>
             <Form.Control
-              type="number"
+              type="text"
               name="servicePrice"
-              value={formValues.servicePrice}
-              onChange={handleInputChange}
+              value={formatPrice(formValues.servicePrice)}
+              onChange={handlePriceChange}
               required
             />
           </Form.Group>
@@ -87,24 +112,42 @@ const ManageOrderTimelines = () => {
     serviceName: "",
     serviceDescription: "",
     serviceStatus: "",
+    serviceType: "",
     servicePrice: "",
     serviceTime: "",
   });
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await axios.get(SERVICES_URL);
-        setServices(response.data);
-      } catch (error) {
-        console.error("Error fetching the services:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(SERVICES_URL);
+      setServices(response.data);
+    } catch (error) {
+      console.error("Error fetching the services:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchServices();
   }, []);
+
+  const formatPrice = (price) => {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+
+  const getServiceTypeText = (type) => {
+    switch (type) {
+      case 1:
+        return "Giám định";
+      case 2:
+        return "Niêm phong";
+      case 3:
+        return "Khác";
+      default:
+        return "NULL";
+    }
+  };
 
   const editService = (service) => {
     setFormValues({
@@ -112,6 +155,7 @@ const ManageOrderTimelines = () => {
       serviceName: service.serviceName,
       serviceDescription: service.serviceDescription,
       serviceStatus: service.serviceStatus,
+      serviceType: service.serviceType,
       servicePrice: service.servicePrice,
       serviceTime: service.serviceTime,
     });
@@ -124,6 +168,7 @@ const ManageOrderTimelines = () => {
       serviceName: "",
       serviceDescription: "",
       serviceStatus: "",
+      serviceType: "",
       servicePrice: "",
       serviceTime: "",
     });
@@ -145,21 +190,17 @@ const ManageOrderTimelines = () => {
       try {
         if (formValues.serviceId) {
           await axios.put(`${SERVICES_URL}/${formValues.serviceId}`, formValues);
-          setServices((prevServices) =>
-            prevServices.map((service) =>
-              service.serviceId === formValues.serviceId ? formValues : service
-            )
-          );
         } else {
-          const response = await axios.post(SERVICES_URL, formValues);
-          setServices((prevServices) => [...prevServices, response.data]);
+          await axios.post(SERVICES_URL, formValues);
         }
         setShowModal(false);
+        fetchServices(); // Reload the data
         setFormValues({
           serviceId: "",
           serviceName: "",
           serviceDescription: "",
           serviceStatus: "",
+          serviceType: "",
           servicePrice: "",
           serviceTime: "",
         });
@@ -204,6 +245,7 @@ const ManageOrderTimelines = () => {
                 <th className="py-4 px-4 text-center align-middle">Name</th>
                 <th className="py-4 px-4 text-center align-middle">Description</th>
                 <th className="py-4 px-4 text-center align-middle">Status</th>
+                <th className="py-4 px-4 text-center align-middle">Type</th>
                 <th className="py-4 px-4 text-center align-middle">Price</th>
                 <th className="py-4 px-4 text-center align-middle">Time</th>
                 <th className="py-4 px-4 text-center align-middle">Action</th>
@@ -224,10 +266,13 @@ const ManageOrderTimelines = () => {
                     {service.serviceStatus}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {service.servicePrice} VND
+                    {getServiceTypeText(service.serviceType)}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {service.serviceTime} h
+                    {formatPrice(service.servicePrice)} VND
+                  </td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {service.serviceTime}h
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     <Button
