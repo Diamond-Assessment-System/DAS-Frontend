@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2 } from "../../utils/countBookingSamples";
 import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
+import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2, countBookingSamplesByBookingIdWithStatus4 } from "../../utils/countBookingSamples";
 
 function ManagerHistory() {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ function ManagerHistory() {
         const sampleCountsData = {};
         for (const order of bookingHistory) {
           const allSamplesCount = await countAllBookingSamplesByBookingId(order.bookingId);
-          const status1or2SamplesCount = await countBookingSamplesByBookingIdWithStatus1or2(order.bookingId);
+          const status1or2SamplesCount = await countBookingSamplesByBookingIdWithStatus4(order.bookingId);
           sampleCountsData[order.bookingId] = {
             allSamplesCount,
             status1or2SamplesCount,

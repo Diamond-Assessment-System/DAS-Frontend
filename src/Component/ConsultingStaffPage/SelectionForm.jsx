@@ -27,7 +27,7 @@ function SelectionForm() {
   const handleSubmit = async () => {
     if (loai === 'Đá Giả Kim Cương') {
       try {
-        //await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/4`);
+        //await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/5`);
         await axios.put(getCancelAssessmentlUrl(id));
         navigate('/assessmentstaff');
       } catch (error) {

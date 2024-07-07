@@ -52,6 +52,7 @@ import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
+import CustomerAssessmentPaperDetail from "../Component/CustomerHistory/CustomerHistoryDetail.jsx";
 import SealList from "../Component/Sealing/SealList.jsx";
 import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
@@ -84,6 +85,7 @@ const RoutePath = () => {
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
+          <Route path="history/:id" element={<CustomerAssessmentPaperDetail />} />
           <Route path="/sealist" element={<SealList />} />
           {/* <Route path="/sealselect" element={<SelectedDiamonds />} />
           <Route path="/sealhistory" element={<SealHistory />} /> */}

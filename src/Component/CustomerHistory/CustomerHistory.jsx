@@ -1,37 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { handleSession } from "../../utils/sessionUtils";
+import Spinner from "../Spinner/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CustomerHistory/CustomerHistory.css";
 
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
 const CustomerHistory = () => {
   const navigate = useNavigate();
-  const requestData = [
-    { orderId: "1", sampleName: "Sample 1", size: 5, status: "Completed", date: "28-6-2024" },
-    { orderId: "2", sampleName: "Sample 2", size: 4, status: "Canceled", date: "28-6-2024" },
-    { orderId: "3", sampleName: "Sample 3", size: 7, status: "Assessing", date: "28-6-2024" },
-    { orderId: "4", sampleName: "Sample 4", size: 3, status: "Assessing", date: "28-6-2024" },
-    { orderId: "5", sampleName: "Sample 5", size: 10, status: "Completed", date: "28-6-2024" },
-    { orderId: "6", sampleName: "Sample 6", size: 4, status: "Canceled", date: "28-6-2024" },
-    { orderId: "7", sampleName: "Sample 7", size: 5, status: "Assessing", date: "28-6-2024" },
-    { orderId: "8", sampleName: "Sample 8", size: 2, status: "Assessing", date: "28-6-2024" },
-  ];
+  const [loading, setLoading] = useState(true);
+  const [history, setHistory] = useState([]);
+  const [loggedAccount, setLoggedAccount] = useState({});
 
-  const handleDetails = (orderId) => {
-    navigate(`/customer-history/${orderId}`);
+  useEffect(() => {
+    const account = handleSession(navigate);
+    if (account) {
+      setLoggedAccount(account);
+      fetchHistory(account.accountId);
+    }
+  }, [navigate]);
+
+  const fetchHistory = async (accountId) => {
+    try {
+      const response = await axios.get('https://das-backend.fly.dev/api/booking-samples');
+      const filteredHistory = response.data.filter(sample => sample.accountId === accountId);
+      setHistory(filteredHistory);
+    } catch (error) {
+      console.error("Error fetching the history:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDetails = (sample) => {
+    switch (sample.status) {
+      case 1:
+        window.alert("Đang chờ nhân viên xác nhận");
+        break;
+      case 2:
+        window.alert("Đang thực hiện giám định");
+        break;
+      case 3:
+        navigate(`/history/${sample.sampleId}`);
+        break;
+      case 4:
+        window.alert("Đã bị hủy, không thể xem");
+        break;
+      default:
+        break;
+    }
   };
 
   const getStatusClass = (status) => {
     switch (status) {
-      case "Completed":
-        return "status-completedCH";
-      case "Canceled":
-        return "status-canceledCH";
-      case "Assessing":
+      case 1:
+        return "status-openedCH";
+      case 2:
         return "status-assessingCH";
+      case 3:
+        return "status-completedCH";
+      case 4:
+        return "status-canceledCH";
       default:
         return "";
     }
   };
+
+  const getStatusMeaning = (status) => {
+    switch (status) {
+      case 1:
+        return "Đã Mở";
+      case 2:
+        return "Đang Giám Định";
+      case 3:
+        return "Đã Hoàn Thành";
+      case 4:
+        return "Đã Hủy";
+      default:
+        return "Unknown status";
+  }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -44,23 +104,27 @@ const CustomerHistory = () => {
                 <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
-                <th className="py-4 px-4 text-center align-middle">Ngày yêu cầu</th>
+                <th className="py-4 px-4 text-center align-middle">Giá</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {requestData.map((sample, index) => (
+              {history.map((sample, index) => (
                 <tr key={index}>
-                  <td className="py-4 px-4 align-middle">{sample.orderId}</td>
-                  <td className="py-4 px-4 align-middle">{sample.sampleName}</td>
+                  <td className="py-4 px-4 align-middle">{sample.bookingId}</td>
+                  <td className="py-4 px-4 align-middle">{sample.name}</td>
                   <td className="py-4 px-4 align-middle">{sample.size}</td>
-                  <td className="py-4 px-4 align-middle">{sample.date}</td>
-                  <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}><h3>{sample.status}</h3></td>
+                  <td className="py-4 px-4 align-middle">
+                    {formatPrice(sample.price)} VND
+                  </td>
+                  <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
+                    <h3>{getStatusMeaning(sample.status)}</h3>
+                  </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
                       <button
-                        onClick={() => handleDetails(sample.orderId)}
+                        onClick={() => handleDetails(sample)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Xem chi tiết
