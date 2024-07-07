@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-// import "../AssetmentList/AssetsmentList.css";
-import getAccountFromId from "../../utils/getAccountFromId";
 import { parse, addHours, format } from "date-fns";
 import axios from "axios";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
@@ -31,7 +29,6 @@ function AssetsmentList() {
       setTotalPrice(total);
     }
 
-    // Fetch account data using bookingData.accountId
     const fetchAccount = async () => {
       try {
         const accountData = await getAccountFromId(bookingData.accountId);
@@ -47,28 +44,26 @@ function AssetsmentList() {
 
     const createdDate = parse(
       bookingData.dateCreated,
-      "yyyy-MM-dd",
+      "yyyy/MM/dd - HH:mm:ss",
       new Date()
     );
     const completedDate = addHours(createdDate, serviceData.serviceTime);
-    setCompletionDate(format(completedDate, "yyyy-MM-dd"));
+    setCompletionDate(format(completedDate, "yyyy/MM/dd - HH:mm:ss"));
   }, [diamonds, bookingData, serviceData, navigate]);
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn submit không?")) {
-    // Prepare data object to send
       const data = {
         status: 2,
         consultingAccountId: loggedAccount.accountId,
         sampleReturnDate: completionDate,
         paymentStatus: 2,
         totalPrice: totalPrice,
-        dateReceived: format(new Date(), "yyyy-MM-dd"),
+        dateReceived: format(new Date(), "yyyy/MM/dd - HH:mm:ss"),
       };
 
       try {
         const response = await axios.put(
-          //`https://das-backend.fly.dev/api/assessment-bookings/proceed/${bookingData.bookingId}`,
           geAssessmentSummaryDetailUrl(bookingData.bookingId),
           data
         );
@@ -80,11 +75,12 @@ function AssetsmentList() {
       }
     }
   };
+
   const createBookingSamples = async () => {
     try {
       const samplesData = diamonds.map((diamond) => ({
-        status: 1, // Assuming status 1 means active or something similar
-        isDiamond: 1, // Assuming it's a diamond sample
+        status: 1,
+        isDiamond: 1,
         name: diamond.name,
         size: diamond.size,
         price: diamond.price,
@@ -102,14 +98,6 @@ function AssetsmentList() {
       setLoading(false);
     }
   };
-
-  // if (loading) {
-  //   return (
-  //     <div className="loading-indicator">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">

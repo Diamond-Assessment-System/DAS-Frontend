@@ -23,23 +23,19 @@ function ReceiptDetail() {
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
-        //const bookingResponse = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}`);
         const bookingResponse = await axios.get(getBookingResponseUrl(bookingId));
         setBookingData(bookingResponse.data);
-        //const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${bookingResponse.data.serviceId}`);
         const serviceResponse = await axios.get(getServiceResponseUrl(bookingResponse.data.serviceId));
         setServiceData(serviceResponse.data);
-        //const diamondsResponse = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${bookingId}`);
         const diamondsResponse = await axios.get(getDiamondResponseUrl(bookingId));
         setDiamonds(diamondsResponse.data);
 
         const accountData = await getAccountFromId(bookingResponse.data.accountId);
         setAccount(accountData);
 
-
         const createdDate = parse(bookingResponse.data.dateCreated, "yyyy-MM-dd", new Date());
         const completedDate = addHours(createdDate, serviceResponse.data.serviceTime);
-        setCompletionDate(format(completedDate, "yyyy-MM-dd"));
+        setCompletionDate(format(completedDate, "yyyy/MM/dd - HH:mm:ss"));
       } catch (error) {
         console.error("Error fetching booking details:", error);
       } finally {
@@ -49,6 +45,11 @@ function ReceiptDetail() {
 
     fetchBookingDetails();
   }, [bookingId]);
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, "yyyy/MM/dd - HH:mm:ss");
+  };
 
   if (loading) {
     return (
@@ -76,7 +77,7 @@ function ReceiptDetail() {
           </div>
           <div>
             <strong>Ngày Tạo Đơn:</strong>
-            <p>{bookingData.dateCreated}</p>
+            <p>{formatDateTime(bookingData.dateCreated)}</p>
             <strong>Ngày Hoàn Thành:</strong>
             <p>{completionDate}</p>
           </div>

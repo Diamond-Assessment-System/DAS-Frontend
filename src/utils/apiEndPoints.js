@@ -58,7 +58,9 @@ export const USERS_ROLE_3_URL = `${API_BASE_URL}/api/accounts/role/3`;
 // ExecuteAction
 export const getExecuteActionUrl = (sampleId, selectedAction) => `${API_BASE_URL}/api/booking-samples/${sampleId}/assign/${selectedAction}`;
 
+// Submit Commitment Paper
 
+export const CONSULTING_COMMITMENT_PAPER = `${API_BASE_URL}/api/commitment-papers`;
 
 
 

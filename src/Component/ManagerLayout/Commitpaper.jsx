@@ -1,24 +1,46 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toPng } from "html-to-image";
+import getAccountFromId from '../../utils/getAccountFromId'; // Đường dẫn tới file getAccountFromId
+import getBookingFromId from '../../utils/getBookingFromId'; // Đường dẫn tới file getBookingFromId
+import { CONSULTING_COMMITMENT_PAPER } from '../../utils/apiEndPoints'; // Đường dẫn tới apiEndPoints
+import axios from 'axios';
 import './Commitpaper.css';
 
 const CommitmentPaperPage = () => {
     const [formData, setFormData] = useState({
         creationDate: '',
-        userName: 'Nguyễn Văn A',
-        orderId: 'DH001',
+        userName: '',
+        orderId: '',
         title: '',
         description: '',
         signature: ''
     });
-    const navigate = useNavigate();
+    const [bookingId, setBookingId] = useState('DH001'); // Đặt giá trị này theo cách bạn nhận được bookingId
     const paperRef = useRef();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        setFormData(prevData => ({ ...prevData, creationDate: today }));
-    }, []);
+        const fetchData = async () => {
+            try {
+                // Lấy thông tin đơn hàng và tài khoản từ API
+                const bookingData = await getBookingFromId(bookingId);
+                const accountData = await getAccountFromId(bookingData.accountId);
+
+                setFormData({
+                    creationDate: new Date().toISOString().split('T')[0],
+                    orderId: bookingId,
+                    title: bookingData.title,
+                    description: '',
+                    userName: `Ông/Bà ${accountData.fullName}`
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [bookingId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,15 +50,27 @@ const CommitmentPaperPage = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        toPng(paperRef.current)
-            .then((dataUrl) => {
-                navigate('/manager/commitpaperimage', { state: { imageUrl: dataUrl } });
-            })
-            .catch((error) => {
-                console.error('Error generating image:', error);
+        try {
+            // Tạo biên bản và lấy ảnh dưới dạng URL
+            const dataUrl = await toPng(paperRef.current, {
+                bgcolor: '#fff',
+                width: 2100, // 210mm = 21cm = 2100px
+                height: 2970 // 297mm = 29.7cm = 2970px
             });
+
+            // Gửi dữ liệu lên API
+            await axios.post(CONSULTING_COMMITMENT_PAPER, {
+                ...formData,
+                imageUrl: dataUrl
+            });
+
+            // Điều hướng đến trang xem ảnh của biên bản
+            navigate('/manager/commitpaperimage', { state: { imageUrl: dataUrl } });
+        } catch (error) {
+            console.error('Error submitting the form:', error);
+        }
     };
 
     return (
@@ -45,7 +79,7 @@ const CommitmentPaperPage = () => {
                 <div className="headerr">
                     <div className="left">
                         <p>CƠ QUAN, ĐƠN VỊ....</p>
-                        <p>Số: ....................</p>
+                        <p>Số: {formData.orderId}</p>
                     </div>
                     <div className="right">
                         <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
@@ -68,7 +102,7 @@ const CommitmentPaperPage = () => {
                     <p>Đơn hàng: {formData.orderId}</p>
                 </div>
                 <div className="field">
-                    <p>Người dùng: Ông/Bà {formData.userName}</p>
+                    <p>Người dùng: {formData.userName}</p>
                 </div>
                 <div className="field">
                     <label className="label">Mô tả:</label>
