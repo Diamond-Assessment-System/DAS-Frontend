@@ -5,6 +5,7 @@ import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingI
 import '../Sealing/SealList.css';
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import { countAllBookingSamplesByBookingId } from "../../utils/countBookingSamples";
 
 function SealList() {
   const navigate = useNavigate();

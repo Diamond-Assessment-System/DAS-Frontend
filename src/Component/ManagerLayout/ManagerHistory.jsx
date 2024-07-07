@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2 } from "../../utils/countBookingSamples";
 
 function ManagerHistory() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ function ManagerHistory() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("tatca");
+  const [sampleCounts, setSampleCounts] = useState({});
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,8 +22,20 @@ function ManagerHistory() {
       try {
         const bookingHistory = await getAllBookings();
         setOrders(bookingHistory);
+
+        // Fetch sample counts for each booking
+        const sampleCountsData = {};
+        for (const order of bookingHistory) {
+          const allSamplesCount = await countAllBookingSamplesByBookingId(order.bookingId);
+          const status1or2SamplesCount = await countBookingSamplesByBookingIdWithStatus1or2(order.bookingId);
+          sampleCountsData[order.bookingId] = {
+            allSamplesCount,
+            status1or2SamplesCount,
+          };
+        }
+        setSampleCounts(sampleCountsData);
       } catch (error) {
-        console.error("Error fetching booking history:", error);
+        console.error("Error fetching booking history or sample counts:", error);
       } finally {
         setLoading(false);
       }
@@ -150,6 +164,7 @@ function ManagerHistory() {
                 <th className="py-4 px-4 text-center align-middle">Thời gian nhận</th>
                 <th className="py-4 px-4 text-center align-middle">Thời gian trả hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Số lượng</th>
                 <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
@@ -162,6 +177,9 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{new Date(order.dateCreated).toLocaleString()}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.dateReceived ? new Date(order.dateReceived).toLocaleString() : 'N/A'}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
+                  <td className="py-4 px-4 text-center align-middle">
+                    {sampleCounts[order.bookingId] ? `${sampleCounts[order.bookingId].status1or2SamplesCount} / ${sampleCounts[order.bookingId].allSamplesCount}` : 'Loading...'}
+                  </td>
                   <td className="py-4 px-4 text-center align-middle">
                     {order.status === 3 && (
                       <>
