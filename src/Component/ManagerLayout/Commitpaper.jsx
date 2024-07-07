@@ -5,7 +5,7 @@ import '../ManagerLayout/Commitpaper.css';
 
 const CommitmentPaperPage = () => {
     const location = useLocation();
-    const { sampleData, bookingId } = location.state;
+    const { bookingId } = location.state;
     const [formData, setFormData] = useState({
         creationDate: '',
         userName: 'Nguyễn Văn A',

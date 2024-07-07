@@ -130,7 +130,7 @@ const RoutePath = () => {
           {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
-          <Route path="/manager/managerhistory/:id/samplelist" element={<ManagerHistory />} />
+          {/* <Route path="/manager/managerhistory/:id/samplelist" element={<ManagerHistory />} /> */}
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
