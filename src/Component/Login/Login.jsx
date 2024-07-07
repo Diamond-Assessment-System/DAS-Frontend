@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { signInWithGoogle, signInWithPhoneNumber } from "../../utils/authUtils";
-import "../Login/Login.css";
+import { Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import illustration from "../../assets/loginbackground.png";
-import { Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material"; // Import icons from Material-UI
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
-  const [showPassword, setShowPassword] = useState(false); // Show/hide password state
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [loginMethod, setLoginMethod] = useState("google");
 
@@ -38,11 +37,11 @@ const GoogleLoginComponent = () => {
 
   const handleLoginFailure = (error) => {
     console.error("Login Failed", error);
-    setLoading(false); // Reset loading state on failure
+    setLoading(false);
   };
 
   const loginWithGoogle = async () => {
-    if (loading) return; // Prevent multiple clicks
+    if (loading) return;
     setLoading(true);
     try {
       const userInfo = await signInWithGoogle();
@@ -50,13 +49,13 @@ const GoogleLoginComponent = () => {
     } catch (error) {
       handleLoginFailure(error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
   const loginWithPhoneNumber = async (e) => {
     e.preventDefault();
-    if (loading) return; // Prevent multiple clicks
+    if (loading) return;
     setLoading(true);
     try {
       const userInfo = await signInWithPhoneNumber(phoneNumber, password);
@@ -64,7 +63,7 @@ const GoogleLoginComponent = () => {
     } catch (error) {
       handleLoginFailure(error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -73,34 +72,23 @@ const GoogleLoginComponent = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen w-full">
-      <button
-        className="home-button"
-        onClick={() => navigate("/")}
-      >
-        &#x2715;
-      </button>
-      <div className="bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
-        <div className="hidden md:flex w-1/2 bg-blue-800 items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
+        <button
+          className="absolute top-4 right-4 text-black text-2xl"
+          onClick={() => navigate("/")}
+        >
+          &#x2715;
+        </button>
+        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-blue-800">
           <img
             src={illustration}
             alt="Illustration"
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full md:w-1/2 p-12">
-          <div className="flex justify-end mb-8">
-            <div>
-              {user ? (
-                <Avatar
-                  src={user.picture}
-                  alt={user.name}
-                  className="w-10 h-10 mx-2"
-                />
-              ) : null}
-            </div>
-          </div>
-          <div className="flex flex-col items-center mb-8">
+        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center items-center">
+          <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
             <h2 className="text-xl text-gray-800 mt-2">
               We Value Your Diamond!
@@ -120,13 +108,13 @@ const GoogleLoginComponent = () => {
             </div>
           ) : (
             <>
-              <div className="mb-4 flex justify-around">
+              <div className="mb-4 flex justify-around w-full">
                 <button
                   className={`${
                     loginMethod === "google"
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 rounded w-full mx-2`}
+                  } py-2 px-4 rounded transition-all duration-200`}
                   onClick={() => setLoginMethod("google")}
                 >
                   Đăng nhập Google
@@ -136,7 +124,7 @@ const GoogleLoginComponent = () => {
                     loginMethod === "phone"
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 rounded w-full mx-2`}
+                  } py-2 px-4 rounded transition-all duration-200`}
                   onClick={() => setLoginMethod("phone")}
                 >
                   Đăng nhập SĐT
@@ -153,7 +141,7 @@ const GoogleLoginComponent = () => {
                   {loading ? "Loading..." : "Dùng tài khoản Google"}
                 </button>
               ) : (
-                <form onSubmit={loginWithPhoneNumber} className="mb-4">
+                <form onSubmit={loginWithPhoneNumber} className="mb-4 w-full">
                   <div className="mb-4 flex items-center">
                     <Phone className="text-gray-400 mr-3" />
                     <input
@@ -165,7 +153,7 @@ const GoogleLoginComponent = () => {
                       required
                     />
                   </div>
-                  <div className="mb-4 flex items-center show-hide-password">
+                  <div className="mb-4 flex items-center relative">
                     <Lock className="text-gray-400 mr-3" />
                     <input
                       type={showPassword ? "text" : "password"}
@@ -176,7 +164,7 @@ const GoogleLoginComponent = () => {
                       required
                     />
                     <div
-                      className="eye-icon"
+                      className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
                       onClick={toggleShowPassword}
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}

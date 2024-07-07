@@ -63,7 +63,7 @@ export const EvaluateService = () => {
       }
 
     return (
-      <div className="evaluate-service mt-20">
+      <div className="evaluate-service">
       <div className="section">
         <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
         <div className="table-container">
