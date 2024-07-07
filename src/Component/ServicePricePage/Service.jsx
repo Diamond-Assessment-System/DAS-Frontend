@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
-import "./style.css";
+import "./Service.css";
 
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
