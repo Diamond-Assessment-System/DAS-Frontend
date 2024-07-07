@@ -1,0 +1,24 @@
+/* src/Component/ManagerLayout/Dashboard.css */
+.dashboard {
+    padding: 20px;
+  }
+  
+  .total-revenue {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .charts {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px; /* Adding gap between the charts */
+  }
+  
+  .chart-container {
+    flex: 1; /* Ensure each chart takes up equal space */
+    min-width: 300px;
+    max-width: 45%; /* Ensure they don't take up more than 45% of the width each */
+    margin: 20px 0;
+  }
+  

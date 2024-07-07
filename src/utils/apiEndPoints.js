@@ -63,8 +63,3 @@ export const getExecuteActionUrl = (sampleId, selectedAction) => `${API_BASE_URL
 
 
 
-
-
-
-
-
