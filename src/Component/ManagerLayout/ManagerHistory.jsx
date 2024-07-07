@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Spinner from "../Spinner/Spinner";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 
 function ManagerHistory() {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -16,8 +14,6 @@ function ManagerHistory() {
         setOrders(bookingHistory);
       } catch (error) {
         console.error("Error fetching booking history:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -25,7 +21,7 @@ function ManagerHistory() {
   }, []);
 
   const viewDetails = (orderId) => {
-    navigate(`/order-details/${orderId}`);
+    navigate(`/manager/sealing-records`, { state: { orderId } });
   };
 
   const removeDiacritics = (str) => {
@@ -36,14 +32,6 @@ function ManagerHistory() {
     removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
     order.bookingId.toString().toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  if (loading) {
-    return (
-      <div className="loading-indicator">
-        <Spinner />
-      </div>
-    );
-  }
 
   return (
     <div className="w-full">
@@ -71,7 +59,7 @@ function ManagerHistory() {
             <tbody className="text-gray-700">
               {filteredOrders.map((order) => (
                 <tr key={order.bookingId}>
-                  <td className="py-4 px-4 text-center align-middle">{`#${order.bookingId}`}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.bookingId}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.accountName}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.serviceName}</td>
                   <td className="py-4 px-4 text-center align-middle">{new Date(order.dateCreated).toLocaleString()}</td>
@@ -81,7 +69,7 @@ function ManagerHistory() {
                       onClick={() => viewDetails(order.bookingId)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Xem chi tiết
+                      Niêm Phong
                     </button>
                   </td>
                 </tr>
