@@ -68,7 +68,7 @@ const AssessmentPaper = () => {
       if (window.confirm("Thông tin đã xác thực?")) {
         navigate(`/assessmentstaff/assessmentbooking/${id}/selection/info/summary/preview`, {
           state: {
-            id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
+            id, loai, trangThai, xuatXu, carat, measurement, colorGrade, clarityGrade, cutGrade, size,
             shape, cuttingStyle, polish, symmetry, fluorescence,
             uploadedProportionImage, uploadedClarityImage, loggedAccount
           }
