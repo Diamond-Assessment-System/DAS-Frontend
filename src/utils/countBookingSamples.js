@@ -24,7 +24,19 @@ const countBookingSamplesByBookingIdWithStatus1or2 = async (bookingId) => {
   }
 };
 
+const countBookingSamplesByBookingIdWithStatus4 = async (bookingId) => {
+  try {
+    const response = await axios.get(`${BOOKING_SAMPLES_URL}/count-sealed`, {
+      params: { bookingId }
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`There was an error counting booking samples with status 4 for booking id ${bookingId}!`, error);
+  }
+}
+
 export {
   countAllBookingSamplesByBookingId,
-  countBookingSamplesByBookingIdWithStatus1or2
+  countBookingSamplesByBookingIdWithStatus1or2,
+  countBookingSamplesByBookingIdWithStatus4
 };
