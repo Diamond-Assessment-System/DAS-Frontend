@@ -4,6 +4,7 @@ import Pagination from "../Paginate/Pagination";
 import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingId"; 
 import '../Sealing/SealList.css';
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
+import Spinner from "../Spinner/Spinner";
 
 function SealList() {
   const navigate = useNavigate();
@@ -28,9 +29,9 @@ function SealList() {
     try {
       const samplesData = await getBookingSamplesByBookingId(bookingId);
       setSamples(samplesData);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching booking samples:', error);
+    } finally {
       setLoading(false);
     }
   };
@@ -50,8 +51,17 @@ function SealList() {
     navigate('/manager/sealform', { state: { sample, bookingId } });
   };
 
+  const isSealed = (sample) => {
+    const selectedSamples = JSON.parse(localStorage.getItem('selectedSamples')) || [];
+    return selectedSamples.some(s => s.sampleId === sample.sampleId);
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -87,12 +97,14 @@ function SealList() {
                     </button>
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
-                    <button
-                      onClick={() => selectSample(sample)}
-                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Chọn
-                    </button>
+                    {sample.status === 3 && !isSealed(sample) && (
+                      <button
+                        onClick={() => selectSample(sample)}
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Chọn
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

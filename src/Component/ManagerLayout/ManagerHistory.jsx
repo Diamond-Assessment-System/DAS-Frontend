@@ -13,7 +13,7 @@ function ManagerHistory() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  const [itemsPerPage] = useState(5); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,13 +34,17 @@ function ManagerHistory() {
     navigate(`/manager/sealing-records`, { state: { bookingId } });
   };
 
+  const completeSealing = (bookingId) => {
+    navigate(`/manager/commitment-paper`, { state: { bookingId } });
+  };
+
   const removeDiacritics = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
-    setCurrentPage(1); // Reset to the first page when the status changes
+    setCurrentPage(1); 
   };
 
   const filteredOrders = orders.filter(order => {
@@ -146,7 +150,7 @@ function ManagerHistory() {
                 <th className="py-4 px-4 text-center align-middle">Thời gian nhận</th>
                 <th className="py-4 px-4 text-center align-middle">Thời gian trả hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -159,12 +163,22 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.dateReceived ? new Date(order.dateReceived).toLocaleString() : 'N/A'}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    <button
-                      onClick={() => viewDetails(order.bookingId)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Niêm Phong
-                    </button>
+                    {order.status === 3 && (
+                      <>
+                        <button
+                          onClick={() => viewDetails(order.bookingId)}
+                          className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
+                        >
+                          Niêm Phong
+                        </button>
+                        <button
+                          onClick={() => completeSealing(order.bookingId)}
+                          className="btn-small bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Hoàn Thành
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

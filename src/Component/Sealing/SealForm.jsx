@@ -12,15 +12,13 @@ function SealForm() {
   const bookingId = location.state?.bookingId;
 
   const handleSubmit = (values) => {
-    // Combine sample data with form values
-    const sampleData = { ...sample, ...values };
-    // Store the sample data in localStorage
+    const sampleData = { ...sample, ...values, status: 4 }; // Update status to indicate it has been sealed
     let selectedSamples = JSON.parse(localStorage.getItem('selectedSamples')) || [];
     selectedSamples.push(sampleData);
     localStorage.setItem('selectedSamples', JSON.stringify(selectedSamples));
 
     console.log('Form data submitted:', sampleData);
-    navigate('/manager/commitment-paper', { state: { sampleData, bookingId } });
+    navigate('/manager/sealing-records', { state: { bookingId } });
   };
 
   return (
@@ -196,7 +194,7 @@ function SealForm() {
         </Button>
         <Button
           type="default"
-          onClick={() => navigate('/manager/sealist')}
+          onClick={() => navigate('/manager/sealing-records', { state: { bookingId } })}
           className="mt-4 w-40 text-lg py-2 ml-4"
         >
           Cancel
