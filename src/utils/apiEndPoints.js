@@ -68,3 +68,5 @@ export const CONSULTING_COMMITMENT_PAPER = `${API_BASE_URL}/api/commitment-paper
 export const BOOKING_SAMPLE_COUNT_URL = `${API_BASE_URL}/api/booking-samples`;
 
 
+export const COMMITMENT_PAPER_URL = `${API_BASE_URL}/api/commitment-papers`;
+
