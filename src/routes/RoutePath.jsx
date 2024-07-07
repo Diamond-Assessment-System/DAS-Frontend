@@ -65,6 +65,8 @@ import AquamarineDetail from "../Component/DiamondInformationPage/AquamarineDeta
 import CoralDetail from "../Component/DiamondInformationPage/CoralDetail.jsx";
 import LookupPaperpage from "../Component/AssessmentPaperReprinted/LookupPaperpage.jsx";
 import SealForm from "../Component/Sealing/SealForm.jsx";
+import Commitment from "../Component/ManagerLayout/Commitment.jsx";
+import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
@@ -127,10 +129,10 @@ const RoutePath = () => {
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
           <Route path="/manager/sealhistory" element={<SealHistory />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
-          {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
-          {/* <Route path="/manager/managerhistory/:id/samplelist" element={<ManagerHistory />} /> */}
+          <Route path="/manager/commit" element={<Commitment />} />
+          <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
