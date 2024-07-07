@@ -136,9 +136,16 @@ const CombinedDashboard = () => {
 
   return (
     <div className="dashboard">
-      <h1>Manager Dashboard</h1>
-      <div className="total-revenue">
-        <h2>Total Revenue: {totalRevenue.toLocaleString()} VND</h2>
+      <h1 className="dashboard-title">Manager Dashboard</h1>
+      <div className="summary-cards">
+        <div className="summary-card">
+          <h3>Total Revenue</h3>
+          <p>{totalRevenue.toLocaleString()} VND</p>
+        </div>
+        <div className="summary-card">
+          <h3>Total Bookings</h3>
+          <p>{bookingData.length}</p>
+        </div>
       </div>
       <div className="charts">
         <div className="chart-container">
