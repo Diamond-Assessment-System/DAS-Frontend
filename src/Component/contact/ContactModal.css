@@ -1,25 +1,72 @@
+/* General modal styling */
 .contact-modal {
   display: flex;
   background-color: #1a2639; /* Màu nền xanh đen */
-  color: #fff; /* Màu chữ trắng */
+  color: #f8f9fa; /* Màu chữ trắng sáng */
+  border-radius: 8px; /* Bo tròn các góc */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Đổ bóng cho modal */
+}
+
+.contact-modal .modal-header {
+  border-bottom: 1px solid #444; /* Đường viền dưới của phần đầu */
+  padding-bottom: 1rem; /* Khoảng cách dưới của phần đầu */
+}
+
+.contact-modal .modal-footer {
+  border-top: 1px solid #444; /* Đường viền trên của phần chân */
+  padding-top: 1rem; /* Khoảng cách trên của phần chân */
+}
+
+.contact-modal .btn-close {
+  background: none;
+  border: none;
+  color: #f8f9fa; /* Màu chữ trắng sáng */
+  opacity: 0.8;
+}
+
+.contact-modal .btn-close:hover {
+  opacity: 1;
 }
 
 .contact-modal-left,
 .contact-modal-right {
   flex: 1;
+  padding: 20px; /* Khoảng cách padding */
 }
 
-.contact-modal {
-  display: flex;
-  background-color: #1a2639; /* Màu nền xanh đen */
-  color: #fff; /* Màu chữ trắng */
+/* Text styling */
+.contact-modal h2,
+.contact-modal p {
+  font-family: 'Roboto', sans-serif; /* Font chữ */
+  font-size: 16px; /* Kích thước font chữ chính */
+  line-height: 1.6; /* Độ cao dòng */
+  color: #f8f9fa; /* Màu chữ trắng sáng */
 }
 
-.contact-modal-left,
-.contact-modal-right {
-  flex: 1;
+.contact-modal h2 {
+  font-size: 1.5rem; /* Kích thước tiêu đề */
+  font-weight: bold; /* Độ đậm của tiêu đề */
+  margin-bottom: 1rem; /* Khoảng cách dưới của tiêu đề */
 }
 
+.contact-modal p {
+  margin-bottom: 10px; /* Khoảng cách giữa các đoạn văn */
+}
+
+.contact-modal .contact-icon {
+  font-size: 1.2rem; /* Kích thước biểu tượng */
+  color: #CCA866; /* Màu của biểu tượng */
+  margin-right: 8px; /* Khoảng cách phía bên phải của biểu tượng */
+}
+
+.contact-modal h5.modal-title {
+  font-size: 1.5rem; /* Kích thước tiêu đề modal */
+  font-weight: bold; /* Độ đậm của tiêu đề modal */
+  margin-bottom: 1rem; /* Khoảng cách dưới của tiêu đề modal */
+  color: #f8f9fa; /* Màu chữ trắng sáng */
+}
+
+/* Button styling */
 .btn-circle {
   position: fixed;
   bottom: 40px;
