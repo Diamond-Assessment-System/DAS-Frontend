@@ -95,3 +95,19 @@
 .right-signature p {
   margin: 5px 0;
 }
+
+.centered-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.centered-input {
+  text-align: center;
+  width: 50%;
+}
+
+.textarea {
+  height: 100px;
+  resize: vertical;
+}

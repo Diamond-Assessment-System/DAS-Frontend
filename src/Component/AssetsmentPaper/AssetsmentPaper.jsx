@@ -183,6 +183,7 @@ const AssessmentPaper = () => {
       <Row className="mb-4">
         <Col>
           <Button
+            style={{width:100}}
             variant="primary"
             onClick={handlePreview}
             disabled={!uploadedProportionImage || !uploadedClarityImage}

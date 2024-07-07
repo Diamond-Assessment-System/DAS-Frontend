@@ -9,6 +9,7 @@ function SealForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const diamond = location.state?.diamond || {};
+  const orderId = location.state?.orderId;
 
   const handleSubmit = (values) => {
     // Combine diamond data with form values
@@ -19,7 +20,7 @@ function SealForm() {
     localStorage.setItem('selectedDiamonds', JSON.stringify(selectedDiamonds));
 
     console.log('Form data submitted:', diamondData);
-    navigate('/manager/sealselect');
+    navigate('/manager/commitment-paper', { state: { diamondData, orderId } });
   };
 
   return (

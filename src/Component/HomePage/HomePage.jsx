@@ -5,7 +5,7 @@ import ContactModal from "../contact/ContactModal"; // Đảm bảo đường d�
 function MyComponent() {
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center" style={{ marginTop: -8}}>
         <img src={sampleImage} alt="Sample" className="h-full w-full" />
         <ContactModal />
       </div>

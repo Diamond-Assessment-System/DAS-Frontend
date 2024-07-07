@@ -1,4 +1,4 @@
-/* ProductSearch.css */
+/* SearchProduct.css */
 
 body {
     font-family: Arial, sans-serif;
@@ -19,7 +19,6 @@ p {
 
 .search-form {
     background-color: #f5f1e6;
-    /* Light yellow background */
     padding: 2rem;
     border-radius: 8px;
 }
@@ -28,7 +27,6 @@ p {
     font-size: 1.2rem;
     font-weight: bold;
     color: #d4af37;
-    /* Gold color for section titles */
     margin-bottom: 0.5rem;
 }
 
@@ -45,14 +43,12 @@ p {
     height: calc(2.5em + .75rem + 2px);
     font-size: 1rem;
     background-color: #1c3d6e;
-    /* Dark blue button */
     color: #fff;
     border: none;
 }
 
 .search-form .btn:hover {
     background-color: #142b4f;
-    /* Darker blue on hover */
 }
 
 .text-muted {

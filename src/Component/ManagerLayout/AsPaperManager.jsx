@@ -31,6 +31,8 @@ function AsPaperManager() {
       setSamples(filteredSamples);
     } catch (error) {
       console.error("Error fetching the samples:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

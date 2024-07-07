@@ -19,14 +19,14 @@ const Footer = () => {
 
   return (
     <footer className="bg-black text-white py-8 w-full">
-      <div className="flex flex-col md:flex-row justify-between items-center px-8 space-y-8 md:space-y-0 w-full">
+      <div className="flex flex-col md:flex-row px-8 space-y-8 md:space-y-0 w-full justify-between">
         {/* Logo Section */}
-        <div className="flex justify-center md:justify-start w-full md:w-auto">
+        <div className="md:justify-start">
           <img src={logo} alt="DAS Logo" className="h-20" />
         </div>
 
         {/* Navigation Section */}
-        <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 text-center md:text-left">
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 text-center md:text-left">
           {navigationItems.map((item, index) => (
             <p
               key={index}
@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="text-center md:text-left space-y-2 w-full md:w-auto">
+        <div className="text-center md:text-left space-y-2 ">
           <p>Địa Chỉ: {address}</p>
           <p>Email: {email}</p>
           <p>SDT: {phone}</p>
