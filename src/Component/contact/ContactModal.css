@@ -1,4 +1,27 @@
 /* General modal styling */
+.phone-icon {
+  animation: phone-ring 1s infinite;
+}
+
+@keyframes phone-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+
 .contact-modal {
   display: flex;
   background-color: #1a2639; /* Màu nền xanh đen */
@@ -95,8 +118,8 @@
 }
 
 .btn.btn-primary {
-  width: 40px; /* Điều chỉnh kích thước chiều rộng */
-  height: 40px; /* Điều chỉnh kích thước chiều cao */
+  width: 50px; /* Điều chỉnh kích thước chiều rộng */
+  height: 50px; /* Điều chỉnh kích thước chiều cao */
   padding: 0; /* Xóa padding để button nhìn gọn hơn */
   font-size: 14px; /* Điều chỉnh kích thước font chữ */
 }
