@@ -1,9 +1,10 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL } from "../../utils/apiEndPoints";
+import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Assuming you have this file in the api directory
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
@@ -12,13 +13,19 @@ function AssessmentRequestConsulting() {
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
         return "status-pending";
       case 2:
-        return "status-completed";
+        return "status-complete-booking";
       case 3:
+        return "status-completed";
+      case 4:
         return "status-canceled";
       default:
         return "text-gray-500";
@@ -32,6 +39,8 @@ function AssessmentRequestConsulting() {
       case 2:
         return "Đã tạo booking";
       case 3:
+        return "Đã hoàn thành";
+      case 4:
         return "Đã hủy";
       default:
         return "Không xác định";
@@ -68,32 +77,47 @@ function AssessmentRequestConsulting() {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
+    setCurrentPage(1); // Reset to the first page when the status changes
   };
 
-  const handleCreateBooking = (booking) => {
-    switch (booking.status) {
-      case 2:
-        alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
-        break;
-      case 3:
-        alert("Yêu cầu đã hoàn tất rồi, không thể tạo lại!");
-        break;
-      case 4:
-        alert("Yêu cầu đã bị hủy!");
-        break;
-      default:
-        navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
-        break;
+  const handleCreateBooking = async (booking) => {
+    if (booking.status === 2) {
+      try {
+        // Update the booking status to 'Đã Hoàn Thành' (status 3) using the new API
+        await changeBookingStatus(booking.bookingId, 3);
+        // Update the booking status locally
+        setBookings((prevBookings) =>
+          prevBookings.map((b) =>
+            b.bookingId === booking.bookingId
+              ? { ...b, status: 3 }
+              : b
+          )
+        );
+        alert("Đã cập nhật trạng thái booking thành 'Đã Hoàn Thành'.");
+      } catch (error) {
+        console.error("Error updating the booking status:", error);
+      }
+    } else {
+      navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
     }
   };
 
-  const handleDeleteBooking = async (bookingId) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa yêu cầu này không?")) {
+  const handleCancelBooking = async (booking) => {
+    if (booking.status === 1) {
       try {
-        await axios.delete(`${ASSESSMENT_REQUEST_URL}/${bookingId}`);
-        setBookings(bookings.filter((booking) => booking.bookingId !== bookingId));
+        // Update the booking status to 'Đã Hủy' (status 4) using the new API
+        await changeBookingStatus(booking.bookingId, 4);
+        // Update the booking status locally
+        setBookings((prevBookings) =>
+          prevBookings.map((b) =>
+            b.bookingId === booking.bookingId
+              ? { ...b, status: 4 }
+              : b
+          )
+        );
+        alert("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
       } catch (error) {
-        console.error("Error deleting the booking:", error);
+        console.error("Error updating the booking status:", error);
       }
     }
   };
@@ -106,6 +130,16 @@ function AssessmentRequestConsulting() {
     if (selectedStatus === "dahuy") return booking.status === 4;
     return false;
   });
+
+  // Calculate the indices for the current page
+  const indexOfLastBooking = currentPage * itemsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
+  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (loading) {
     return (
@@ -148,7 +182,7 @@ function AssessmentRequestConsulting() {
             checked={selectedStatus === "datao"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status3">Đã Tạo</label>
+          <label htmlFor="status3"> Đã Tạo </label>
           <input
             type="radio"
             id="status4"
@@ -166,7 +200,7 @@ function AssessmentRequestConsulting() {
             checked={selectedStatus === "dahuy"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status5">Đã Huỷ</label>
+          <label htmlFor="status5"> Đã Huỷ</label>
         </div>
 
         <div className="overflow-x-auto">
@@ -175,44 +209,78 @@ function AssessmentRequestConsulting() {
               <tr>
                 <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
                 <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-center align-middle">Số Lượng Kim Cương</th>
+                <th className="py-4 px-4 text-center align-middle">
+                  Số Lượng Kim Cương
+                </th>
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Hủy</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {filteredBookings.map((booking) => (
+              {currentBookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
                     {getServiceText(booking.serviceId)}
                   </td>
-                  <td className="py-4 px-4 align-middle">{booking.quantities}</td>
-                  <td className="py-4 px-4 align-middle">{booking.dateCreated}</td>
+                  <td className="py-4 px-4 align-middle">
+                    {booking.quantities}
+                  </td>
+                  <td className="py-4 px-4 align-middle">
+                    {booking.dateCreated}
+                  </td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(booking.status)}`}>
                     <h3>{getStatusText(booking.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center space-x-2">
-                      <button
-                        onClick={() => handleCreateBooking(booking)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline text-sm"
-                      >
-                        Tạo Booking
-                      </button>
-                      <button
-                        onClick={() => handleDeleteBooking(booking.bookingId)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline text-sm"
-                      >
-                        Xoá
-                      </button>
-                    </div>
+                    {booking.status !== 4 && (
+                      <div className="flex items-center justify-center space-x-2">
+                        <button
+                          onClick={() => handleCreateBooking(booking)}
+                          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${booking.status === 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          disabled={booking.status === 3}
+                        >
+                          {booking.status === 2 ? "Hoàn Thành" : "Tạo Booking"}
+                        </button>
+                        {booking.status === 1 && (
+                          <button
+                            onClick={() => handleCancelBooking(booking)}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            disabled={booking.status === 2 || booking.status === 3}
+                          >
+                            Hủy
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Trang Trước
+          </button>
+          <div>
+            Trang {currentPage} / {totalPages}
+          </div>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Trang Sau
+          </button>
         </div>
       </div>
     </div>
