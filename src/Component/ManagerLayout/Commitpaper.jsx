@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toPng } from "html-to-image";
 import '../ManagerLayout/Commitpaper.css';
+import getOrderDetails from "../../utils/getOrderDetails"; // Assume you have a function to get order details
+import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
 
 const CommitmentPaperPage = () => {
     const location = useLocation();
@@ -18,9 +20,18 @@ const CommitmentPaperPage = () => {
     const paperRef = useRef();
 
     useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        setFormData(prevData => ({ ...prevData, creationDate: today }));
-    }, []);
+        const fetchOrderDetails = async () => {
+            const orderDetails = await getOrderDetails(bookingId);
+            setFormData(prevData => ({
+                ...prevData,
+                creationDate: orderDetails.creationDate || new Date().toISOString().split('T')[0],
+                userName: orderDetails.userName || 'Nguyễn Văn A',
+                title: orderDetails.title || '',
+                description: orderDetails.description || ''
+            }));
+        };
+        fetchOrderDetails();
+    }, [bookingId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,15 +41,20 @@ const CommitmentPaperPage = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        toPng(paperRef.current, { backgroundColor: 'white' })
-            .then((dataUrl) => {
-                navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
-            })
-            .catch((error) => {
-                console.error('Error generating image:', error);
-            });
+        try {
+            // Change the status of the booking to "Đã Seal"
+            await changeSampleStatus(bookingId, 4);
+
+            // Generate the image of the commitment paper
+            const dataUrl = await toPng(paperRef.current, { backgroundColor: 'white' });
+
+            // Navigate to the download page with the generated image URL
+            navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
+        } catch (error) {
+            console.error('Error generating image or changing status:', error);
+        }
     };
 
     return (
