@@ -7,6 +7,8 @@ import Spinner from "../Spinner/Spinner";
 import { handleSession } from "../../utils/sessionUtils";
 import Pagination from "../Paginate/Pagination";
 import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
+import getBookingFromId from "../../utils/getBookingFromId";
+import { parse, isBefore, differenceInHours } from 'date-fns';
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -24,8 +26,23 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
+          // Lấy dữ liệu mẫu
           const response = await axios.get(`${BOOKING_SAMPLES_URL}`);
-          setSamples(response.data);
+          const samplesData = response.data;
+
+          // Fetch samplereturndate cho từng mẫu
+          const samplesWithReturnDate = await Promise.all(samplesData.map(async (sample) => {
+            try {
+              const booking = await getBookingFromId(sample.bookingId);
+              return { ...sample, samplereturndate: booking.sampleReturnDate };
+            } catch (error) {
+              console.error(`Error fetching booking for sample ${sample.bookingId}:`, error);
+              // Nếu có lỗi, trả về giá trị mặc định cho samplereturndate
+              return { ...sample, samplereturndate: null };
+            }
+          }));
+
+          setSamples(samplesWithReturnDate);
         } catch (error) {
           console.error("Error fetching the samples:", error);
         } finally {
@@ -82,6 +99,32 @@ function AssessmentBooking() {
     }
   };
 
+  const getReturnDateStatusClass = (returnDate) => {
+    const now = new Date();
+
+    // Nếu returnDate là null, không áp dụng lớp màu sắc
+    if (!returnDate) {
+      return "";
+    }
+
+    // Chuyển đổi samplereturndate thành đối tượng Date
+    const returnDateTime = parse(returnDate, 'yyyy/MM/dd - HH:mm:ss', new Date());
+
+    if (isBefore(now, returnDateTime)) {
+      const diffInHours = differenceInHours(returnDateTime, now);
+
+      if (diffInHours <= 3) {
+        return "bg-yellow-200"; // Màu vàng nếu còn dưới 3 tiếng
+      }
+    }
+
+    if (isBefore(returnDateTime, now)) {
+      return "bg-red-200"; // Màu đỏ nếu quá hạn
+    }
+
+    return ""; // Màu mặc định nếu còn nhiều hơn 3 tiếng
+  };
+
   if (loading) {
     return (
       <div className="loading-indicator">
@@ -102,17 +145,28 @@ function AssessmentBooking() {
                 <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Thời Hạn</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {currentItems.map((sample) => (
-                <tr key={sample.sampleId} className="hover:bg-gray-100">
+                <tr
+                  key={sample.sampleId}
+                  className={`hover:bg-gray-100 ${getReturnDateStatusClass(sample.samplereturndate)}`}
+                >
                   <td className="py-4 px-4 align-middle">{`#${sample.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">{`${sample.name}`}</td>
                   <td className="py-4 px-4 align-middle">{sample.size}</td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
                     <h3>{getSampleStatusMeaning(sample.status)}</h3>
+                  </td>
+                  <td className="py-4 px-4 align-middle">
+                    {sample.samplereturndate ? (
+                      <span>{sample.samplereturndate}</span>
+                    ) : (
+                      <span>Chưa có thông tin</span>
+                    )}
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
