@@ -68,7 +68,7 @@ import LookupPaperpage from "../Component/AssessmentPaperReprinted/LookupPaperpa
 import SealForm from "../Component/Sealing/SealForm.jsx";
 import Commitment from "../Component/ManagerLayout/Commitment.jsx";
 import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
-
+import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -109,6 +109,7 @@ const RoutePath = () => {
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
           <Route path="reprintpaper" element={<ReprintedBooking />} />
           <Route path="reprintpaper/lookuppaper" element={<LookupPaperpage />} />
+          <Route path="/consultingstaff/sealdiamond" element={<SealDiamondPage />} />
         </Route>
 
         <Route path="/assessmentstaff" element={<AssessmentStaffLayout />}>
