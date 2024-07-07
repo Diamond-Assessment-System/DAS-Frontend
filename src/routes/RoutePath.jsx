@@ -9,7 +9,7 @@ import CustomerLayout from "../layout/CustomerLayout";
 import HomePage from "../Component/HomePage/HomePage";
 import GoogleLoginComponent from "../Component/Login/Login";
 import InfoForm from "../Component/ConsultingStaffPage/InfoForm";
-import CutForm from "../Component/ConsultingStaffPage/CutForm";
+
 // import SummaryPage from '../Component/ConsultingStaffPage/SummaryPage'
 import ErrorPage from "../Component/ErrorPage/ErrorPage";
 import SelectionForm from "../Component/ConsultingStaffPage/SelectionForm";

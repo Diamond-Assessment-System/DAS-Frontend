@@ -21,13 +21,14 @@ function InfoForm() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { loai, trangThai, xuatXu } = location.state || {};
+  const { loai, trangThai, xuatXu, measurement } = location.state || {};
 
   const handleSubmit = () => {
     const reportData = {
       loai,
       trangThai,
       xuatXu,
+      measurement,
       carat,
       colorGrade,
       clarityGrade,
@@ -45,10 +46,7 @@ function InfoForm() {
         { state: reportData }
       );
     }
-    // navigate(
-    //   `/assessmentstaff/assessmentbooking/${id}/selection/info/summary`,
-    //   { state: reportData }
-    // );
+
   };
 
   return (

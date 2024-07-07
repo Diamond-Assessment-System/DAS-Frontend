@@ -11,6 +11,7 @@ const AssessmentPaper = () => {
     loai,
     trangThai,
     xuatXu,
+    measurement,
     carat,
     colorGrade,
     clarityGrade,
@@ -64,13 +65,13 @@ const AssessmentPaper = () => {
       if (window.confirm("Thông tin đã xác thực?")) {
         navigate('/assessmentstaff/assessmentbooking/:id/selection/info/summary/preview', {
           state: {
-            id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
+            id, loai, trangThai, xuatXu, measurement, carat, colorGrade, clarityGrade, cutGrade, size,
             shape, cuttingStyle, polish, symmetry, fluorescence,
             uploadedProportionImage, uploadedClarityImage, loggedAccount
           }
         });
       }
-      
+
     } else {
       alert("Please upload both the Proportion and Clarity images before proceeding.");
     }
@@ -92,14 +93,15 @@ const AssessmentPaper = () => {
                   <p>May 12th, 2024</p>
                   <p>DAS report number: 1234</p>
                   <p>Shape and cutting style: {shape} {cuttingStyle}</p>
-                  <p>Measurement: 7.72-7.74x4.54mm</p>
+                  <p>Measurement: {measurement}</p>
+                  <p>Size: {size}</p>
                 </Col>
               </Row>
               <Row className="mb-4">
                 <Col>
-                <div className="section-title">
-                  <h3>GRADING RESULT</h3>
-                </div>
+                  <div className="section-title">
+                    <h3>GRADING RESULT</h3>
+                  </div>
                   <p>Carat Weight: {carat} carat</p>
                   <p>Color Grade: {colorGrade}</p>
                   <p>Clarity Grade: {clarityGrade}</p>
