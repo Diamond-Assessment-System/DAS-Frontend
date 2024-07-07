@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { parse, addHours, format } from "date-fns";
 import axios from "axios";
@@ -16,7 +15,6 @@ function ReceiptDetail() {
   const [diamonds, setDiamonds] = useState([]);
   const [bookingData, setBookingData] = useState({});
   const [serviceData, setServiceData] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0);
   const [account, setAccount] = useState({});
   const [completionDate, setCompletionDate] = useState("");
 
@@ -33,9 +31,8 @@ function ReceiptDetail() {
         const accountData = await getAccountFromId(bookingResponse.data.accountId);
         setAccount(accountData);
 
-        const createdDate = parse(bookingResponse.data.dateCreated, "yyyy-MM-dd", new Date());
-        const completedDate = addHours(createdDate, serviceResponse.data.serviceTime);
-        setCompletionDate(format(completedDate, "yyyy/MM/dd - HH:mm:ss"));
+        const receivedDate = new Date(bookingResponse.data.dateReceived);
+        const completedDate = new Date(addHours(bookingResponse.data.dateReceived, serviceResponse.data.serviceTime));
       } catch (error) {
         console.error("Error fetching booking details:", error);
       } finally {
@@ -45,11 +42,6 @@ function ReceiptDetail() {
 
     fetchBookingDetails();
   }, [bookingId]);
-
-  const formatDateTime = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, "yyyy/MM/dd - HH:mm:ss");
-  };
 
   if (loading) {
     return (
@@ -77,7 +69,9 @@ function ReceiptDetail() {
           </div>
           <div>
             <strong>Ngày Tạo Đơn:</strong>
-            <p>{formatDateTime(bookingData.dateCreated)}</p>
+            <p>{bookingData.dateCreated}</p>
+            <strong>Ngày Nhận Mẫu:</strong>
+            <p>{bookingData.dateReceived}</p>
             <strong>Ngày Hoàn Thành:</strong>
             <p>{completionDate}</p>
           </div>
