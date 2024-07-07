@@ -5,26 +5,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './LookupPaperpage.css'; // Import the custom CSS file
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperUrl } from "../../utils/apiEndPoints";
+import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
 
 const LookupPaperpage = () => {
     const [diamondCode, setDiamondCode] = useState('');
-    const [gemstoneCode, setGemstoneCode] = useState('');
-    const [jadeCode, setJadeCode] = useState('');
-    const [pearlCode, setPearlCode] = useState('');
     const [searchResult, setSearchResult] = useState(null);
     const [imageData, setImageData] = useState(null); // State to hold base64 image data
-    //const [loading, setLoading] = useState(true);
 
     const handleSubmit = async (e, productCode) => {
         e.preventDefault();
 
         try {
-            // Perform API call to fetch the assessment paper based on product code
-            //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-papers/${productCode}`);
             const response = await axios.get(getAssessmentPaperUrl(productCode));
             const data = response.data;
 
-            // Update states based on API response
             if (data) {
                 setImageData(data.paperImage); // Store base64 encoded image data
                 setSearchResult(`Kết quả tìm kiếm cho mã giám định: ${productCode}`);
@@ -37,18 +31,29 @@ const LookupPaperpage = () => {
             setSearchResult('Đã xảy ra lỗi khi tìm kiếm sản phẩm.');
             setImageData(null); // Clear image data on error
         }
-        // finally {
-        //     setLoading(false);
-        //   }
     };
 
-    // if (loading) {
-    //     return (
-    //       <div className="loading-indicator">
-    //         <Spinner />
-    //       </div>
-    //     );
-    //   }
+    const handlePrint = () => {
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Print Report</title>');
+        printWindow.document.write('<style>@media print { @page { size: A4 landscape; margin: 0; } body { margin: 0; display: flex; flex-direction: column; align-items: center; } .print-image { width: 297mm; height: 210mm; object-fit: contain; } }</style>');
+        printWindow.document.write('</head><body>');
+
+        const frontImage = new Image();
+        const backImage = new Image();
+        frontImage.src = frontImageFile;
+        backImage.src = imageData;
+
+        frontImage.onload = () => {
+            printWindow.document.write(`<div style="page-break-after: always;"><img src="${frontImageFile}" alt="Front Image" class="print-image"></div>`);
+            backImage.onload = () => {
+                printWindow.document.write(`<div><img src="${imageData}" alt="Back Image" class="print-image"></div>`);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.print();
+            };
+        };
+    };
 
     return (
         <Container className="mt-5">
@@ -82,7 +87,11 @@ const LookupPaperpage = () => {
             {searchResult && <Alert variant="info" className="mt-4">{searchResult}</Alert>}
             {imageData && (
                 <div className="mt-4">
-                    <img src={imageData} alt="Product" style={{ maxWidth: '100%' }} />
+                    <img src={frontImageFile} alt="Front Image" style={{ maxWidth: '100%' }} />
+                    <img src={imageData} alt="Back Image" style={{ maxWidth: '100%', marginTop: '10px' }} />
+                    <Button variant="success" className="mt-3" onClick={handlePrint}>
+                        Print Report
+                    </Button>
                 </div>
             )}
         </Container>

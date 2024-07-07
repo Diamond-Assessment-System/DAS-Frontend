@@ -57,7 +57,6 @@ import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
 import SealHistory from "../Component/Sealing/SealHistory.jsx";
 import ReprintedBooking from "../Component/AssessmentPaperReprinted/ReprintedBooking.jsx";
-import ReprintedPaperPage from "../Component/AssessmentPaperReprinted/ReprintedPaperPage.jsx";
 import DiamondInformation from "../Component/DiamondInformationPage/DiamondInformation.jsx";
 import ZirconDetail from "../Component/DiamondInformationPage/ZirconDetail.jsx";
 import TanzaniteDetail from "../Component/DiamondInformationPage/TanzaniteDetail.jsx";
