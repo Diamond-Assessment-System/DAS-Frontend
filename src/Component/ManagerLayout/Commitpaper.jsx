@@ -5,11 +5,11 @@ import '../ManagerLayout/Commitpaper.css';
 
 const CommitmentPaperPage = () => {
     const location = useLocation();
-    const { diamondData, orderId } = location.state;
+    const { sampleData, bookingId } = location.state;
     const [formData, setFormData] = useState({
         creationDate: '',
         userName: 'Nguyễn Văn A',
-        orderId: orderId,
+        bookingId: bookingId,
         title: '',
         description: '',
         signature: ''
@@ -86,7 +86,7 @@ const CommitmentPaperPage = () => {
                         required
                     ></textarea>
                 </div>
-                    <p>Đơn hàng: {formData.orderId}</p>
+                    <p>Đơn hàng: {formData.bookingId}</p>
                 </div>
                 <div className="field">
                     <p>Người dùng: Ông/Bà {formData.userName}</p>

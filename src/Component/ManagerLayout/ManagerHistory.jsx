@@ -20,8 +20,8 @@ function ManagerHistory() {
     fetchData();
   }, []);
 
-  const viewDetails = (orderId) => {
-    navigate(`/manager/sealing-records`, { state: { orderId } });
+  const viewDetails = (bookingId) => {
+    navigate(`/manager/sealing-records`, { state: { bookingId } });
   };
 
   const removeDiacritics = (str) => {
