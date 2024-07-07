@@ -5,7 +5,7 @@ import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingI
 import '../Sealing/SealList.css';
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import { countAllBookingSamplesByBookingId } from "../../utils/countBookingSamples";
+import { changeSampleStatus } from "../../utils/changeSampleStatus";
 
 function SealList() {
   const navigate = useNavigate();
@@ -57,6 +57,19 @@ function SealList() {
     return selectedSamples.some(s => s.sampleId === sample.sampleId);
   };
 
+  const updateSampleStatus = async (sampleId) => {
+    try {
+      await changeSampleStatus(sampleId, 4);
+      setSamples((prevSamples) =>
+        prevSamples.map((sample) =>
+          sample.sampleId === sampleId ? { ...sample, status: 4 } : sample
+        )
+      );
+    } catch (error) {
+      console.error('Error updating sample status:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading-indicator">
@@ -78,7 +91,6 @@ function SealList() {
                 <th className="py-4 px-4 text-center align-middle">Mã mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng thái</th>
-                <th className="py-4 px-4 text-center align-middle">Chi tiết</th>
                 <th className="py-4 px-4 text-center align-middle">Chọn</th>
               </tr>
             </thead>
@@ -90,14 +102,6 @@ function SealList() {
                   <td className="py-4 px-4 text-center align-middle">{sample.name}</td>
                   <td className="py-4 px-4 text-center align-middle">{getSampleStatusMeaning(sample.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    <button
-                      onClick={() => navigate(`/samples/${sample.sampleId}`)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Chi tiết
-                    </button>
-                  </td>
-                  <td className="py-4 px-4 text-center align-middle">
                     {sample.status === 3 && !isSealed(sample) && (
                       <button
                         onClick={() => selectSample(sample)}
@@ -105,6 +109,9 @@ function SealList() {
                       >
                         Chọn
                       </button>
+                    )}
+                    {sample.status === 4 && (
+                      <span className="text-green-500 font-bold">Đã niêm phong</span>
                     )}
                   </td>
                 </tr>

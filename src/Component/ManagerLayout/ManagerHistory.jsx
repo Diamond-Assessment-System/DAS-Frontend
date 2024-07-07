@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
 import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2, countBookingSamplesByBookingIdWithStatus4 } from "../../utils/countBookingSamples";
 
 function ManagerHistory() {
@@ -15,12 +16,13 @@ function ManagerHistory() {
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); 
+  const [itemsPerPage] = useState(5);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const bookingHistory = await getAllBookings();
+        console.log("Booking History:", bookingHistory);
         setOrders(bookingHistory);
 
         // Fetch sample counts for each booking
@@ -33,6 +35,7 @@ function ManagerHistory() {
             status1or2SamplesCount,
           };
         }
+        console.log("Sample Counts Data:", sampleCountsData);
         setSampleCounts(sampleCountsData);
       } catch (error) {
         console.error("Error fetching booking history or sample counts:", error);
@@ -48,7 +51,17 @@ function ManagerHistory() {
     navigate(`/manager/sealing-records`, { state: { bookingId } });
   };
 
-  const completeSealing = (bookingId) => {
+  const completeOrder = async (bookingId) => {
+    try {
+      // Change the order status to "Đã Hoàn Thành"
+      await changeSampleStatus(bookingId, 3);
+      window.location.reload(); // Reload the page to refresh the status
+    } catch (error) {
+      console.error("Error completing order:", error);
+    }
+  };
+
+  const createCommitmentPaper = (bookingId) => {
     navigate(`/manager/commitment-paper`, { state: { bookingId } });
   };
 
@@ -58,11 +71,12 @@ function ManagerHistory() {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
-  const filteredOrders = orders.filter(order => {
-    const matchesSearchQuery = removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
+  const filteredOrders = orders.filter((order) => {
+    const matchesSearchQuery =
+      removeDiacritics(order.accountName.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase())) ||
       order.bookingId.toString().toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = selectedStatus === "tatca" || order.status.toString() === selectedStatus;
 
@@ -178,11 +192,21 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.dateReceived ? new Date(order.dateReceived).toLocaleString() : 'N/A'}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {sampleCounts[order.bookingId] ? `${sampleCounts[order.bookingId].status1or2SamplesCount} / ${sampleCounts[order.bookingId].allSamplesCount}` : 'Loading...'}
+                    {sampleCounts[order.bookingId]
+                      ? `${sampleCounts[order.bookingId].status1or2SamplesCount} / ${sampleCounts[order.bookingId].allSamplesCount}`
+                      : "Loading..."}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
+                    {order.status === 2 && (
+                      <button
+                        onClick={() => completeOrder(order.bookingId)}
+                        className="btn-small bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Hoàn Thành
+                      </button>
+                    )}
                     {order.status === 3 && (
-                      <>
+                      <div className="btn-container">
                         <button
                           onClick={() => viewDetails(order.bookingId)}
                           className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
@@ -190,12 +214,12 @@ function ManagerHistory() {
                           Niêm Phong
                         </button>
                         <button
-                          onClick={() => completeSealing(order.bookingId)}
+                          onClick={() => createCommitmentPaper(order.bookingId)}
                           className="btn-small bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
                         >
-                          Hoàn Thành
+                          Biên Nhận
                         </button>
-                      </>
+                      </div>
                     )}
                   </td>
                 </tr>
