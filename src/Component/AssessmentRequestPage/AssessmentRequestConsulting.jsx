@@ -17,7 +17,7 @@ function AssessmentRequestConsulting() {
       case 1:
         return "status-pending";
       case 2:
-        return "status-completedd";
+        return "status-completed";
       case 3:
         return "status-canceled";
       default:
@@ -72,11 +72,6 @@ function AssessmentRequestConsulting() {
 
   const handleCreateBooking = (booking) => {
     switch (booking.status) {
-      // case 1:
-      //   if (window.confirm("Bạn có chắc chắn muốn tạo booking cho yêu cầu này không?")) {
-      //     navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
-      //   }
-      //   break;
       case 2:
         alert("Yêu cầu này đã được tạo booking rồi, không thể tạo lại.");
         break;
@@ -88,10 +83,19 @@ function AssessmentRequestConsulting() {
         break;
       default:
         navigate(`/consultingstaff/assessmentrequest/${booking.bookingId}`);
-        // alert("Invalid!")
         break;
     }
+  };
 
+  const handleDeleteBooking = async (bookingId) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa yêu cầu này không?")) {
+      try {
+        await axios.delete(`${ASSESSMENT_REQUEST_URL}/${bookingId}`);
+        setBookings(bookings.filter((booking) => booking.bookingId !== bookingId));
+      } catch (error) {
+        console.error("Error deleting the booking:", error);
+      }
+    }
   };
 
   const filteredBookings = bookings.filter((booking) => {
@@ -144,7 +148,7 @@ function AssessmentRequestConsulting() {
             checked={selectedStatus === "datao"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status3"> Đã Tạo </label>
+          <label htmlFor="status3">Đã Tạo</label>
           <input
             type="radio"
             id="status4"
@@ -162,9 +166,8 @@ function AssessmentRequestConsulting() {
             checked={selectedStatus === "dahuy"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status5"> Đã Huỷ</label>
+          <label htmlFor="status5">Đã Huỷ</label>
         </div>
-
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
@@ -172,9 +175,7 @@ function AssessmentRequestConsulting() {
               <tr>
                 <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
                 <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-center align-middle">
-                  Số Lượng Kim Cương
-                </th>
+                <th className="py-4 px-4 text-center align-middle">Số Lượng Kim Cương</th>
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
@@ -187,23 +188,24 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {getServiceText(booking.serviceId)}
                   </td>
-                  <td className="py-4 px-4 align-middle">
-                    {booking.quantities}
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    {booking.dateCreated}
-                  </td>
+                  <td className="py-4 px-4 align-middle">{booking.quantities}</td>
+                  <td className="py-4 px-4 align-middle">{booking.dateCreated}</td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(booking.status)}`}>
                     <h3>{getStatusText(booking.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center space-x-2">
                       <button
                         onClick={() => handleCreateBooking(booking)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        // disabled={booking.status !== 1}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline text-sm"
                       >
                         Tạo Booking
+                      </button>
+                      <button
+                        onClick={() => handleDeleteBooking(booking.bookingId)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline text-sm"
+                      >
+                        Xoá
                       </button>
                     </div>
                   </td>
