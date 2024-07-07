@@ -16,6 +16,7 @@ const AssessmentPaperPreview = () => {
     loai,
     trangThai,
     xuatXu,
+    measurement,
     carat,
     colorGrade,
     clarityGrade,
@@ -126,6 +127,7 @@ const AssessmentPaperPreview = () => {
           type: loai,
           size: parseFloat(size),
           shape: `${shape} ${cuttingStyle}`,
+          measurement: `${measurement}`,
           cuttingStyle,
           color: colorGrade,
           clarity: clarityGrade,
@@ -133,7 +135,7 @@ const AssessmentPaperPreview = () => {
           symmetry,
           fluorescence,
           weight: parseFloat(carat),
-          dateCreated: new Date().toISOString(),
+          dateCreated: format(new Date(), 'yyyy/MM/dd - HH:mm:ss'),
           paperImage,
           accountId: loggedAccount.accountId,
         };
@@ -175,7 +177,8 @@ const AssessmentPaperPreview = () => {
                   <p>
                     Shape and cutting style: {shape} {cuttingStyle}
                   </p>
-                  <p>Measurement: 7.72-7.74x4.54mm</p>
+                  <p>Measurement: {measurement}</p>
+                  <p>Size: {size}</p>
                 </Col>
               </Row>
               <Row className="mb-4">

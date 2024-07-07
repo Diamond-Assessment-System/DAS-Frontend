@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Radio, Button, Form, Typography, Row, Col } from 'antd';
+import { Radio, Button, Form, Typography, Row, Col, Input } from 'antd';
 import axios from 'axios';
 import { getCancelAssessmentlUrl } from "../../utils/apiEndPoints";
 
@@ -10,6 +10,7 @@ function SelectionForm() {
   const [loai, setLoai] = useState('');
   const [trangThai, setTrangThai] = useState('');
   const [xuatXu, setXuatXu] = useState('');
+  const [measurement, setMeasurement] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -19,6 +20,7 @@ function SelectionForm() {
     if (value === 'Đá Giả Kim Cương') {
       setTrangThai(''); // Reset trạng thái
       setXuatXu(''); // Reset xuất xứ
+      setMeasurement(''); // Reset kích thước
     }
   };
 
@@ -32,8 +34,8 @@ function SelectionForm() {
         console.error('Error updating status:', error);
         alert('Có lỗi xảy ra khi cập nhật trạng thái.');
       }
-    } else if (loai && trangThai && xuatXu) {
-      const selectedOptions = { loai, trangThai, xuatXu };
+    } else if (loai && trangThai && xuatXu && measurement) {
+      const selectedOptions = { loai, trangThai, xuatXu, measurement }; // Thêm kích thước vào dữ liệu gửi đi
       navigate(`/assessmentstaff/assessmentbooking/${id}/selection/info`, { state: selectedOptions });
     } else {
       alert('Vui lòng chọn tất cả các thuộc tính.');
@@ -80,6 +82,20 @@ function SelectionForm() {
               <Radio value="Tự Nhiên" className="text-lg">Natural</Radio>
               <Radio value="Nhân Tạo" className="text-lg">Non-Natural</Radio>
             </Radio.Group>
+          </Form.Item>
+        </Col>
+        <Col span={24}>
+          <Form.Item
+            label={<span className="font-bold text-lg">Measurement</span>}
+            className="mb-6"
+            required
+          >
+            <Input
+              placeholder="Enter measurement (e.g., 3.35-3.7x4.1 mm)"
+              value={measurement}
+              onChange={(e) => setMeasurement(e.target.value)}
+              disabled={loai === 'Đá Giả Kim Cương'} // Disable trường nhập nếu loại là "Đá Giả Kim Cương"
+            />
           </Form.Item>
         </Col>
         <Col span={24}>
