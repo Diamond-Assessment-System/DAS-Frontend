@@ -13,6 +13,10 @@ function AssessmentRequestConsulting() {
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
@@ -73,6 +77,7 @@ function AssessmentRequestConsulting() {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
+    setCurrentPage(1); // Reset to the first page when the status changes
   };
 
   const handleCreateBooking = async (booking) => {
@@ -125,6 +130,16 @@ function AssessmentRequestConsulting() {
     if (selectedStatus === "dahuy") return booking.status === 4;
     return false;
   });
+
+  // Calculate the indices for the current page
+  const indexOfLastBooking = currentPage * itemsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
+  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (loading) {
     return (
@@ -200,11 +215,11 @@ function AssessmentRequestConsulting() {
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-
+                <th className="py-4 px-4 text-center align-middle">Hủy</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {filteredBookings.map((booking) => (
+              {currentBookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
@@ -224,20 +239,20 @@ function AssessmentRequestConsulting() {
                       <div className="flex items-center justify-center space-x-2">
                         <button
                           onClick={() => handleCreateBooking(booking)}
-                          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${booking.status === 3 ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${booking.status === 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
                           disabled={booking.status === 3}
                         >
                           {booking.status === 2 ? "Hoàn Thành" : "Tạo Booking"}
                         </button>
-                        <button
-                          onClick={() => handleCancelBooking(booking)}
-                          className={`bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${booking.status === 2 || booking.status === 3 ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
-                          disabled={booking.status === 2 || booking.status === 3}
-                        >
-                          Hủy
-                        </button>
+                        {booking.status === 1 && (
+                          <button
+                            onClick={() => handleCancelBooking(booking)}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            disabled={booking.status === 2 || booking.status === 3}
+                          >
+                            Hủy
+                          </button>
+                        )}
                       </div>
                     )}
                   </td>
@@ -245,6 +260,27 @@ function AssessmentRequestConsulting() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="flex justify-between items-center mt-4">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Trang Trước
+          </button>
+          <div>
+            Trang {currentPage} / {totalPages}
+          </div>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Trang Sau
+          </button>
         </div>
       </div>
     </div>
