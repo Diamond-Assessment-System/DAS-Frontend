@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function getBookingFromId(id) {
     try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/booking/${bookingId}`);
+        const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
         return response.data; // Return the fetched service data
     } catch (error) {
         if (error.response) {

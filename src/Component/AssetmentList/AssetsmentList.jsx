@@ -7,6 +7,7 @@ import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
 import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
+import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 
 function AssetsmentList() {
   const location = useLocation();
@@ -47,9 +48,23 @@ function AssetsmentList() {
       "yyyy/MM/dd - HH:mm:ss",
       new Date()
     );
-    const completedDate = addHours(createdDate, serviceData.serviceTime);
+
+    const receiveDate = new Date();
+    const completedDate = addHours(receiveDate, serviceData.serviceTime);
     setCompletionDate(format(completedDate, "yyyy/MM/dd - HH:mm:ss"));
   }, [diamonds, bookingData, serviceData, navigate]);
+
+  const formatDateToLocalDateTime = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+  };
+
+  const receiveDate = formatDateToLocalDateTime(new Date());
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn submit không?")) {
@@ -98,6 +113,7 @@ function AssetsmentList() {
       setLoading(false);
     }
   };
+ 
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
@@ -118,6 +134,8 @@ function AssetsmentList() {
           <div>
             <strong>Ngày Tạo Đơn:</strong>
             <p>{bookingData.dateCreated}</p>
+            <strong>Ngày Nhận Mẫu:</strong>
+            <p>{receiveDate}</p>
             <strong>Ngày Hoàn Thành:</strong>
             <p>{completionDate}</p>
           </div>
