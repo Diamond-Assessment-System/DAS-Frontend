@@ -1,213 +1,288 @@
-import React, { useRef } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import Axios for HTTP requests
-import html2canvas from 'html2canvas';
+import React, { useRef, useEffect, useState } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios for HTTP requests
+import html2canvas from "html2canvas";
+import QRCode from "qrcode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
-import { ASSESSMENT_PAPER_URL, getBookingSampleStatusUrl } from "../../utils/apiEndPoints";
 
 const AssessmentPaperPreview = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const {
-        id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
-        shape, cuttingStyle, polish, symmetry, fluorescence,
-        uploadedProportionImage, uploadedClarityImage, loggedAccount
-    } = location.state || {};
-    const reportRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const {
+    id,
+    loai,
+    trangThai,
+    xuatXu,
+    carat,
+    colorGrade,
+    clarityGrade,
+    cutGrade,
+    size,
+    shape,
+    cuttingStyle,
+    polish,
+    symmetry,
+    fluorescence,
+    uploadedProportionImage,
+    uploadedClarityImage,
+    loggedAccount,
+  } = location.state || {};
+  const reportRef = useRef(null);
+  const [qrCodeUrl, setQrCodeUrl] = useState(null);
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
 
-    const handleDownload = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
-            try {
-                // Apply downloadable styles
-                const sectionTitles = reportRef.current.querySelectorAll('.section-title');
-                sectionTitles.forEach(title => title.classList.add('section-title-download'));
+  useEffect(() => {
+    const generateImageAndQrCode = async () => {
+      try {
+        const sectionTitles =
+          reportRef.current.querySelectorAll(".section-title");
+        sectionTitles.forEach((title) =>
+          title.classList.add("section-title-download")
+        );
 
-                // Generate canvas
-                const canvas = await html2canvas(reportRef.current);
+        const canvas = await html2canvas(reportRef.current);
 
-                // Revert styles
-                sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+        sectionTitles.forEach((title) =>
+          title.classList.remove("section-title-download")
+        );
 
-                // Convert canvas to image and download
-                const paperImage = canvas.toDataURL("image/png");
-                const link = document.createElement('a');
-                link.href = paperImage;
-                link.download = `Assessment_Paper_${id}.png`;
-                link.click();
-            } catch (error) {
-                console.error('Error generating image:', error);
-            }
+        const paperImage = canvas.toDataURL("image/png");
+
+        // Simulate uploading to a server and getting a public URL
+        const uploadedImageUrl = await simulateUpload(paperImage, id);
+        setGeneratedImageUrl(uploadedImageUrl);
+
+        if (uploadedImageUrl) {
+          const qrUrl = await QRCode.toDataURL(uploadedImageUrl);
+          setQrCodeUrl(qrUrl);
         }
+      } catch (error) {
+        console.error("Error generating image or QR code:", error);
+      }
     };
 
-    // Function to convert report to image and handle form submission
-    const handleSubmit = async () => {
-        if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
-            try {
-                const sectionTitles = reportRef.current.querySelectorAll('.section-title');
-                sectionTitles.forEach(title => title.classList.add('section-title-download'));
+    generateImageAndQrCode();
+  }, []);
 
-                // Convert the report to an image
-                const canvas = await html2canvas(reportRef.current, {
-                    scrollX: 0,
-                    scrollY: 0,
-                    scale: 1,
-                    windowWidth: document.documentElement.offsetWidth,
-                    windowHeight: document.documentElement.offsetHeight,
-                });
+  const simulateUpload = async (imageData, id) => {
+    // Simulate an upload process and return a publicly accessible URL
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`); // Replace with actual upload URL logic
+      }, 1000);
+    });
+  };
 
-                // Revert styles
-                sectionTitles.forEach(title => title.classList.remove('section-title-download'));
+  const handleDownload = async () => {
+    try {
+      const sectionTitles =
+        reportRef.current.querySelectorAll(".section-title");
+      sectionTitles.forEach((title) =>
+        title.classList.add("section-title-download")
+      );
 
-                const paperImage = canvas.toDataURL("image/png");
+      const canvas = await html2canvas(reportRef.current);
 
-                // Prepare data object based on AssessmentPaperDto structure
-                const assessmentData = {
-                    sampleId: parseInt(id), // Assuming id is from useParams()
-                    type: loai,
-                    size: parseFloat(size),
-                    shape: `${shape} ${cuttingStyle}`,
-                    cuttingStyle,
-                    color: colorGrade,
-                    clarity: clarityGrade,
-                    polish,
-                    symmetry,
-                    fluorescence,
-                    weight: parseFloat(carat),
-                    dateCreated: new Date().toISOString(), // Current date
-                    paperImage, // Base64 image
-                    accountId: loggedAccount.accountId, // Example account ID
-                };
+      sectionTitles.forEach((title) =>
+        title.classList.remove("section-title-download")
+      );
 
-                // Make POST request to backend
-                const response = await axios.post(ASSESSMENT_PAPER_URL, assessmentData);
+      const paperImage = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = paperImage;
+      link.download = `Assessment_Paper_${id}.png`;
+      link.click();
+    } catch (error) {
+      console.error("Error generating image for download:", error);
+    }
+  };
 
-                const status = 3;
-                //const responseb = await axios.put(`https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`);
-                const responseb = await axios.put(getBookingSampleStatusUrl(id, status));
-                window.alert("Đã Submit thành công!");
-                console.log('Submission successful:', response.data);
-                console.log('Submission successful:', responseb.data);
-                navigate("/assessmentstaff");
-                // Optionally, navigate to another page or display a success message
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
-        }
-    };
+  const handleSubmit = async () => {
+    if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
+      try {
+        const sectionTitles =
+          reportRef.current.querySelectorAll(".section-title");
+        sectionTitles.forEach((title) =>
+          title.classList.add("section-title-download")
+        );
 
-    return (
-        <Container className="mt-5 report-container">
-            <div ref={reportRef}>
-                <div className='gold-outline'>
-                    <div className="text-center mb-4">
-                        <h1 className="report-title">DIAMOND ASSESSMENT REPORT #{id}</h1>
-                        <h2 className="report-id"></h2>
-                    </div>
-                    <Row>
-                        <Col md={4}>
-                            <Row className="mb-4">
-                                <Col>
-                                <div className="section-title">
-                                    <h3>DAS NATURAL GRADING REPORT</h3>
-                                </div>                                  
-                                    <p>May 12th, 2024</p>
-                                    <p>DAS report number: 1234</p>
-                                    <p>Shape and cutting style: {shape} {cuttingStyle}</p>
-                                    <p>Measurement: 7.72-7.74x4.54mm</p>
-                                </Col>
-                            </Row>
-                            <Row className="mb-4">
-                                <Col>
-                                <div className="section-title">
-                                <h3>GRADING RESULT</h3>
-                                </div>                                   
-                                    <p>Carat Weight: {carat} carat</p>
-                                    <p>Color Grade: {colorGrade}</p>
-                                    <p>Clarity Grade: {clarityGrade}</p>
-                                    <p>Cut Grade: {cutGrade}</p>
-                                </Col>
-                            </Row>
-                            <Row className="mb-4">
-                                <Col>
+        const canvas = await html2canvas(reportRef.current, {
+          scrollX: 0,
+          scrollY: 0,
+          scale: 1,
+          windowWidth: document.documentElement.offsetWidth,
+          windowHeight: document.documentElement.offsetHeight,
+        });
 
-                                <div className="section-title">
-                                <h3>ADDITIONAL GRADING INFORMATION</h3>
-                                </div>
-                                    
-                                    <p>Polish: {polish}</p>
-                                    <p>Symmetry: {symmetry}</p>
-                                    <p>Fluorescence: {fluorescence}</p>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col md={4}>
-                            <Row className="mb-4">
-                                <Col>
-                                <div className="section-title">
-                                <h3 >PROPORTION</h3>
-                                </div>
-                                    
-                                    {uploadedProportionImage && (
-                                        <div className="image-container">
-                                            <img
-                                                src={uploadedProportionImage}
-                                                alt="Proportion"
-                                                className="uploaded-image"
-                                            />
-                                        </div>
-                                    )}
-                                </Col>
-                            </Row>
-                            <Row className="mb-4">
-                                <Col>
-                                <div className="section-title">
-                                    <h3>CLARITY CHARACTERISTICS</h3>
-                                </div>
-                                    {uploadedClarityImage && (
-                                        <div className="image-container">
-                                            <img
-                                                src={uploadedClarityImage}
-                                                alt="Clarity"
-                                                className="uploaded-image"
-                                            />
-                                        </div>
-                                    )}
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col md={4}>
-                            <Row className="mb-4">
-                                <Col>
-                                <div className="section-title">
-                                    <h3>GRADING SCALE</h3>
-                                </div>
-                                    <img
-                                        src={"/src/assets/All-Scales.jpg"}
-                                        alt="Grading Scale"
-                                        className="img-fluid"
-                                    />
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </div>
-            </div>
-            {/* Buttons section */}
-            <Row className="mb-4">
-                <Col className='flexxx'>
-                    <Button variant="success" onClick={handleDownload} className="downnn">
-                        Download
-                    </Button>
-                    <Button variant="success" onClick={handleSubmit} className="ml-3">
-                        Submit
-                    </Button>
+        sectionTitles.forEach((title) =>
+          title.classList.remove("section-title-download")
+        );
+
+        const paperImage = canvas.toDataURL("image/png");
+
+        const assessmentData = {
+          sampleId: parseInt(id),
+          type: loai,
+          size: parseFloat(size),
+          shape: `${shape} ${cuttingStyle}`,
+          cuttingStyle,
+          color: colorGrade,
+          clarity: clarityGrade,
+          polish,
+          symmetry,
+          fluorescence,
+          weight: parseFloat(carat),
+          dateCreated: new Date().toISOString(),
+          paperImage,
+          accountId: loggedAccount.accountId,
+        };
+
+        const response = await axios.post(
+          "https://das-backend.fly.dev/api/assessment-papers",
+          assessmentData
+        );
+
+        const status = 3;
+        const responseb = await axios.put(
+          `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
+        );
+        window.alert("Đã Submit thành công!");
+        console.log("Submission successful:", response.data);
+        console.log("Submission successful:", responseb.data);
+        navigate("/assessmentstaff");
+      } catch (error) {
+        console.error("Error submitting data:", error);
+      }
+    }
+  };
+
+  return (
+    <Container className="mt-5 report-container">
+      <div ref={reportRef}>
+        <div className="gold-outline">
+          <div className="text-center mb-4">
+            <h1 className="report-title">DIAMOND ASSESSMENT REPORT #{id}</h1>
+            <h2 className="report-id"></h2>
+          </div>
+          <Row>
+            <Col md={4}>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>DAS NATURAL GRADING REPORT</h3>
+                  </div>
+                  <p>May 12th, 2024</p>
+                  <p>DAS report number: 1234</p>
+                  <p>
+                    Shape and cutting style: {shape} {cuttingStyle}
+                  </p>
+                  <p>Measurement: 7.72-7.74x4.54mm</p>
                 </Col>
-            </Row>
-        </Container>
-    );
+              </Row>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>GRADING RESULT</h3>
+                  </div>
+                  <p>Carat Weight: {carat} carat</p>
+                  <p>Color Grade: {colorGrade}</p>
+                  <p>Clarity Grade: {clarityGrade}</p>
+                  <p>Cut Grade: {cutGrade}</p>
+                </Col>
+              </Row>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>ADDITIONAL GRADING INFORMATION</h3>
+                  </div>
+                  <p>Polish: {polish}</p>
+                  <p>Symmetry: {symmetry}</p>
+                  <p>Fluorescence: {fluorescence}</p>
+                </Col>
+              </Row>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>QR CODE</h3>
+                  </div>
+                  {qrCodeUrl && (
+                    <div className="qr-code-container">
+                      <img
+                        src={qrCodeUrl}
+                        alt="QR Code"
+                        className="img-fluid"
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+            <Col md={4}>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>PROPORTION</h3>
+                  </div>
+                  {uploadedProportionImage && (
+                    <div className="image-container">
+                      <img
+                        src={uploadedProportionImage}
+                        alt="Proportion"
+                        className="uploaded-image"
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>CLARITY CHARACTERISTICS</h3>
+                  </div>
+                  {uploadedClarityImage && (
+                    <div className="image-container">
+                      <img
+                        src={uploadedClarityImage}
+                        alt="Clarity"
+                        className="uploaded-image"
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+            <Col md={4}>
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>GRADING SCALE</h3>
+                  </div>
+                  <img
+                    src={"/src/assets/All-Scales.jpg"}
+                    alt="Grading Scale"
+                    className="img-fluid"
+                  />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      </div>
+      {/* Buttons section */}
+      <Row className="mb-4">
+        <Col className="flexxx">
+          <Button variant="success" onClick={handleDownload} className="downnn">
+            Download
+          </Button>
+          <Button variant="success" onClick={handleSubmit} className="ml-3">
+            Submit
+          </Button>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default AssessmentPaperPreview;
