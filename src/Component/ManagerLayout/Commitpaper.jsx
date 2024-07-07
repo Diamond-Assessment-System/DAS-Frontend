@@ -1,21 +1,41 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toPng } from "html-to-image";
 import '../ManagerLayout/Commitpaper.css';
-import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Import the function to change booking status
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
+import getOrderDetails from "../../utils/getOrderDetails";
 
 const CommitmentPaperPage = () => {
     const location = useLocation();
-    const { bookingId } = location.state;
+    const { bookingId, accountName } = location.state;
     const [formData, setFormData] = useState({
-        creationDate: new Date().toISOString().split('T')[0],
-        userName: 'Nguyễn Văn A',
-        bookingId: bookingId,
+        creationDate: '',
+        userName: '',
+        bookingId: '',
         title: '',
         description: '',
     });
     const navigate = useNavigate();
     const paperRef = useRef();
+
+    useEffect(() => {
+        const fetchOrderDetails = async () => {
+            try {
+                const orderDetails = await getOrderDetails(bookingId);
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    creationDate: orderDetails.dateCreated || new Date().toISOString().split('T')[0],
+                    userName: orderDetails.accountName || accountName,
+                    bookingId: bookingId,
+                    title: orderDetails.title || '',
+                    description: orderDetails.description || ''
+                }));
+            } catch (error) {
+                console.error('Error fetching order details:', error);
+            }
+        };
+        fetchOrderDetails();
+    }, [bookingId, accountName]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,13 +48,8 @@ const CommitmentPaperPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Change the status of the booking to "Đã Seal"
             await changeBookingStatus(bookingId, 4);
-
-            // Generate the image of the commitment paper
             const dataUrl = await toPng(paperRef.current, { backgroundColor: 'white' });
-
-            // Navigate to the download page with the generated image URL
             navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
         } catch (error) {
             console.error('Error generating image or changing status:', error);
@@ -47,7 +62,7 @@ const CommitmentPaperPage = () => {
                 <div className="headerr">
                     <div className="left">
                         <p>CƠ QUAN, ĐƠN VỊ DAS STORE</p>
-                        <p>Số: ....................</p>
+                        <p>Số: {formData.bookingId}</p>
                     </div>
                     <div className="right">
                         <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
@@ -74,8 +89,7 @@ const CommitmentPaperPage = () => {
                     </div>
                 </div>
                 <div className="field">
-                    <p>Hôm nay, vào ngày {formData.creationDate.split('-')[2]} tháng {formData.creationDate.split('-')[1]} năm {formData.creationDate.split('-')[0]}</p>
-                    <p>Tại: ...................................................</p>
+                    <p>Tại: 304-306 Phan Xích Long, Phường 7, Quận Phú Nhuận, TP.Hồ Chí Minh, Việt Nam</p>
                     <div className="field">
                         <label className="label">Mô tả:</label>
                         <textarea
