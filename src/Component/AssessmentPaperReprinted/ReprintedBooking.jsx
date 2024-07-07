@@ -72,7 +72,6 @@ function ReprintedBooking() {
 
     const handleCreateBooking = (booking) => {
         switch (booking.status) {
-
             case 2:
                 navigate(`lookuppaper`);
                 break;
@@ -83,21 +82,21 @@ function ReprintedBooking() {
                 alert("Yêu cầu đã bị hủy!");
                 break;
             default:
-                alert("Yêu cầu chưa được chấp nhận,vui lòng thử lại");
-                // alert("Invalid!")
+                alert("Yêu cầu chưa được chấp nhận, vui lòng thử lại");
                 break;
         }
-
     };
 
-    const filteredBookings = bookings.filter((booking) => {
-        if (selectedStatus === "tatca") return true;
-        if (selectedStatus === "dangcho") return booking.status === 1;
-        if (selectedStatus === "datao") return booking.status === 2;
-        if (selectedStatus === "dahoantat") return booking.status === 3;
-        if (selectedStatus === "dahuy") return booking.status === 4;
-        return false;
-    });
+    const filteredBookings = bookings
+        .filter((booking) => booking.serviceId === 3) // Only show "Cấp lại giấy giám định" bookings
+        .filter((booking) => {
+            if (selectedStatus === "tatca") return true;
+            if (selectedStatus === "dangcho") return booking.status === 1;
+            if (selectedStatus === "datao") return booking.status === 2;
+            if (selectedStatus === "dahoantat") return booking.status === 3;
+            if (selectedStatus === "dahuy") return booking.status === 4;
+            return false;
+        });
 
     if (loading) {
         return (
@@ -161,7 +160,6 @@ function ReprintedBooking() {
                     <label htmlFor="status5"> Đã Huỷ</label>
                 </div>
 
-
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
                         <thead className="bg-gray-800 text-white">
@@ -197,7 +195,6 @@ function ReprintedBooking() {
                                             <button
                                                 onClick={() => handleCreateBooking(booking)}
                                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                            // disabled={booking.status !== 1}
                                             >
                                                 Cấp Lại Giấy Giám Định
                                             </button>

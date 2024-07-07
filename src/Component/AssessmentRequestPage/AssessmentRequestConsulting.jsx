@@ -88,9 +88,7 @@ function AssessmentRequestConsulting() {
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
-            b.bookingId === booking.bookingId
-              ? { ...b, status: 3 }
-              : b
+            b.bookingId === booking.bookingId ? { ...b, status: 3 } : b
           )
         );
         alert("Đã cập nhật trạng thái booking thành 'Đã Hoàn Thành'.");
@@ -110,9 +108,7 @@ function AssessmentRequestConsulting() {
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
-            b.bookingId === booking.bookingId
-              ? { ...b, status: 4 }
-              : b
+            b.bookingId === booking.bookingId ? { ...b, status: 4 } : b
           )
         );
         alert("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
@@ -122,14 +118,16 @@ function AssessmentRequestConsulting() {
     }
   };
 
-  const filteredBookings = bookings.filter((booking) => {
-    if (selectedStatus === "tatca") return true;
-    if (selectedStatus === "dangcho") return booking.status === 1;
-    if (selectedStatus === "datao") return booking.status === 2;
-    if (selectedStatus === "dahoantat") return booking.status === 3;
-    if (selectedStatus === "dahuy") return booking.status === 4;
-    return false;
-  });
+  const filteredBookings = bookings
+    .filter((booking) => booking.serviceId === 1) // Only show "Giám định kim cương" bookings
+    .filter((booking) => {
+      if (selectedStatus === "tatca") return true;
+      if (selectedStatus === "dangcho") return booking.status === 1;
+      if (selectedStatus === "datao") return booking.status === 2;
+      if (selectedStatus === "dahoantat") return booking.status === 3;
+      if (selectedStatus === "dahuy") return booking.status === 4;
+      return false;
+    });
 
   // Calculate the indices for the current page
   const indexOfLastBooking = currentPage * itemsPerPage;
@@ -250,7 +248,7 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {booking.status !== 4 && (
                       <div className="flex items-center justify-center space-x-2">
-                        
+
                         {booking.status === 1 && (
                           <button
                             onClick={() => handleCancelBooking(booking)}
