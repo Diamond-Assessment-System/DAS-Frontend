@@ -27,7 +27,7 @@ function AssessmentBooking() {
         setLoggedAccount(loggedAccount);
         try {
           // Lấy dữ liệu mẫu
-          const response = await axios.get(`${BOOKING_SAMPLES_URL}`);
+          const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
           const samplesData = response.data;
 
           // Fetch samplereturndate cho từng mẫu
