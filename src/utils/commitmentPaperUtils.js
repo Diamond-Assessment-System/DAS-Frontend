@@ -13,7 +13,7 @@ export const createCommitmentPaper = async (commitmentPaper) => {
 
 export const getCommitmentPaperById = async (id) => {
   try {
-    const response = await axios.get(getCommitmentPaperUrl(id));
+    const response = await axios.get(COMMITMENT_PAPER_URL(id));
     return response.data;
   } catch (error) {
     console.error('Error fetching commitment paper by id:', error);
@@ -33,7 +33,7 @@ export const getAllCommitmentPapers = async () => {
 
 export const updateCommitmentPaper = async (id, commitmentPaper) => {
   try {
-    const response = await axios.put(getCommitmentPaperUrl(id), commitmentPaper);
+    const response = await axios.put(COMMITMENT_PAPER_URL(id), commitmentPaper);
     return response.data;
   } catch (error) {
     console.error('Error updating commitment paper:', error);
@@ -43,7 +43,7 @@ export const updateCommitmentPaper = async (id, commitmentPaper) => {
 
 export const deleteCommitmentPaper = async (id) => {
   try {
-    const response = await axios.delete(getCommitmentPaperUrl(id));
+    const response = await axios.delete(COMMITMENT_PAPER_URL(id));
     return response.data;
   } catch (error) {
     console.error('Error deleting commitment paper:', error);
@@ -53,7 +53,7 @@ export const deleteCommitmentPaper = async (id) => {
 
 export const changeCommitmentPaperStatus = async (id, status) => {
   try {
-    const response = await axios.patch(changeCommitmentPaperStatusUrl(id, status));
+    const response = await axios.patch(COMMITMENT_PAPER_URL(id, status));
     return response.data;
   } catch (error) {
     console.error('Error changing commitment paper status:', error);
