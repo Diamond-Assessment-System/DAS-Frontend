@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { handleSession } from "../../utils/sessionUtils";
+import { format } from "date-fns";
 
 const AssessmentPaper = () => {
   const location = useLocation();
@@ -30,12 +31,14 @@ const AssessmentPaper = () => {
   const reportRef = useRef(null);
 
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
     }
+    setCurrentDate(format(new Date(), "yyyy/MM/dd - HH:mm:ss"));
   }, [navigate]);
 
   const handleProportionImageUpload = (event) => {
@@ -63,9 +66,9 @@ const AssessmentPaper = () => {
   const handlePreview = () => {
     if (uploadedProportionImage && uploadedClarityImage) {
       if (window.confirm("Thông tin đã xác thực?")) {
-        navigate('/assessmentstaff/assessmentbooking/:id/selection/info/summary/preview', {
+        navigate(`/assessmentstaff/assessmentbooking/${id}/selection/info/summary/preview`, {
           state: {
-            id, loai, trangThai, xuatXu, measurement, carat, colorGrade, clarityGrade, cutGrade, size,
+            id, loai, trangThai, xuatXu, carat, colorGrade, clarityGrade, cutGrade, size,
             shape, cuttingStyle, polish, symmetry, fluorescence,
             uploadedProportionImage, uploadedClarityImage, loggedAccount
           }
@@ -83,14 +86,13 @@ const AssessmentPaper = () => {
         <div className="gold-outline">
           <div className="text-center mb-4">
             <h1 className="report-title">DAS REPORT #{id}</h1>
-            <h2 className="report-id"></h2>
           </div>
           <Row>
             <Col md={4}>
               <Row className="mb-4">
                 <Col>
                   <h3 className="section-title">DAS Natural Grading Report</h3>
-                  <p>May 12th, 2024</p>
+                  <p>Date assessed: {currentDate}</p>
                   <p>DAS report number: 1234</p>
                   <p>Shape and cutting style: {shape} {cuttingStyle}</p>
                   <p>Measurement: {measurement}</p>
