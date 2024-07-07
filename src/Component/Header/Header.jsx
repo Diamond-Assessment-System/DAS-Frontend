@@ -48,7 +48,7 @@ const Header = () => {
   const { text, path } = getButtonProperties();
 
   return (
-    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full z-50">
+    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full ">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img className="h-12" src={logo} alt="DAS Logo" />
@@ -65,7 +65,7 @@ const Header = () => {
         </div>
       </div>
       <nav
-        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"} absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
+        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
       >
         <ul className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0">
           <li

@@ -4,9 +4,9 @@ import Footer from "../Component/Footer/Footer";
 
 function CustomerLayout() {
   return (
-    <div className="flex flex-col min-h-screen w-full">
+    <div >
       <Header />
-      <main className="flex-grow mt-20">
+      <main className="mt-15">
         <Outlet />
       </main>
       <Footer />
