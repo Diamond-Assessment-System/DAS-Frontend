@@ -102,61 +102,81 @@ const AssessmentPaperPreview = () => {
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
-      try {
-        const sectionTitles = reportRef.current.querySelectorAll(".section-title");
-        sectionTitles.forEach((title) =>
-          title.classList.add("section-title-download")
-        );
+        try {
+            const sectionTitles = reportRef.current.querySelectorAll(".section-title");
+            sectionTitles.forEach((title) =>
+                title.classList.add("section-title-download")
+            );
 
-        const canvas = await html2canvas(reportRef.current, {
-          scrollX: 0,
-          scrollY: 0,
-          scale: 1,
-          windowWidth: document.documentElement.offsetWidth,
-          windowHeight: document.documentElement.offsetHeight,
-        });
+            const canvas = await html2canvas(reportRef.current, {
+                scrollX: 0,
+                scrollY: 0,
+                scale: 1,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight,
+            });
 
-        sectionTitles.forEach((title) =>
-          title.classList.remove("section-title-download")
-        );
+            sectionTitles.forEach((title) =>
+                title.classList.remove("section-title-download")
+            );
 
-        const paperImage = canvas.toDataURL("image/png");
+            const paperImage = canvas.toDataURL("image/png");
 
-        const assessmentData = {
-          sampleId: parseInt(id),
-          type: loai,
-          size: parseFloat(size),
-          shape: `${shape} ${cuttingStyle}`,
-          measurement: `${measurement}`,
-          cuttingStyle,
-          color: colorGrade,
-          clarity: clarityGrade,
-          polish,
-          symmetry,
-          fluorescence,
-          weight: parseFloat(carat),
-          dateCreated: format(new Date(), 'yyyy/MM/dd - HH:mm:ss'),
-          paperImage,
-          accountId: loggedAccount.accountId,
-        };
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'paperImage.png');
+                formData.append('assessmentPaperId', parseInt(id)); // Assuming `id` is your sampleId
 
-        const response = await axios.post(
-          "https://das-backend.fly.dev/api/assessment-papers",
-          assessmentData
-        );
+                try {
+                    const uploadResponse = await axios.post(
+                        "https://das-backend.fly.dev/api/upload",
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    );
+                    const assessmentData = {
+                        sampleId: parseInt(id),
+                        type: loai,
+                        size: parseFloat(size),
+                        shape: `${shape} ${cuttingStyle}`,
+                        measurement: `${measurement}`,
+                        cuttingStyle,
+                        color: colorGrade,
+                        clarity: clarityGrade,
+                        polish,
+                        symmetry,
+                        fluorescence,
+                        weight: parseFloat(carat),
+                        dateCreated: format(new Date(), 'yyyy/MM/dd - HH:mm:ss'),
+                        paperImage,
+                        accountId: loggedAccount.accountId,
+                    };
 
-        const status = 3;
-        await axios.put(
-          `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
-        );
-        window.alert("Đã Submit thành công!");
-        console.log("Submission successful:", response.data);
-        navigate("/assessmentstaff");
-      } catch (error) {
-        console.error("Error submitting data:", error);
-      }
+                    const response = await axios.post(
+                        "https://das-backend.fly.dev/api/assessment-papers",
+                        assessmentData
+                    );
+
+                    const status = 3;
+                    await axios.put(
+                        `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
+                    );
+
+                    window.alert("Đã Submit thành công!");
+                    console.log("Submission successful:", response.data);
+                    navigate("/assessmentstaff");
+                } catch (error) {
+                    console.error("Error submitting data:", error);
+                }
+            }, 'image/png');
+        } catch (error) {
+            console.error("Error generating canvas:", error);
+        }
     }
-  };
+};
 
   return (
     <Container className="mt-5 report-container">

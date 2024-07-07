@@ -40,6 +40,9 @@ export const geAssessmentSummaryDetailUrl = (bookingId) => `${API_BASE_URL}/api/
 // AssessmentPaper
 export const ASSESSMENT_PAPER_URL = `${API_BASE_URL}/api/assessment-papers`;
 
+//StorageController
+export const STORAGE_CONTROLLER=`${API_BASE_URL}/api/upload`;
+
 // AssessmentPaperDetail
 export const getAssessmentPaperDetaillUrl = (id) => `${API_BASE_URL}/api/assessment-papers/${id}`;
 
