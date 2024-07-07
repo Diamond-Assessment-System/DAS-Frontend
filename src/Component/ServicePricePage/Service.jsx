@@ -3,6 +3,7 @@ import axios from "axios";
 import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
 import "./Service.css";
+import ContactModal from "../contact/ContactModal"; // Đảm bảo đường dẫn đến ContactModal là chính xác
 
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -64,6 +65,7 @@ export const EvaluateService = () => {
 
     return (
       <div className="evaluate-service">
+        <ContactModal/>
       <div className="section">
         <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
         <div className="table-container">
