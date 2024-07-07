@@ -65,6 +65,6 @@ export const getExecuteActionUrl = (sampleId, selectedAction) => `${API_BASE_URL
 
 export const CONSULTING_COMMITMENT_PAPER = `${API_BASE_URL}/api/commitment-papers`;
 
-
+export const BOOKING_SAMPLE_COUNT_URL = `${API_BASE_URL}/api/booking-samples`;
 
 

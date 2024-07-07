@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Pagination from "../Paginate/Pagination";
 import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingId"; 
 import '../Sealing/SealList.css';
+import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 
 function SealList() {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ function SealList() {
                   <td className="py-4 px-4 text-center align-middle">{sample.bookingId}</td>
                   <td className="py-4 px-4 text-center align-middle">{sample.sampleId}</td>
                   <td className="py-4 px-4 text-center align-middle">{sample.name}</td>
-                  <td className="py-4 px-4 text-center align-middle">{sample.status}</td>
+                  <td className="py-4 px-4 text-center align-middle">{getSampleStatusMeaning(sample.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
                       onClick={() => navigate(`/samples/${sample.sampleId}`)}
