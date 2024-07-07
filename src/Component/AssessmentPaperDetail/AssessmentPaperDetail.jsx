@@ -16,7 +16,7 @@ function AssessmentPaperDetail() {
         const response = await axios.get(getAssessmentPaperDetaillUrl(id));
         const formattedData = {
           ...response.data,
-          dateCreated: format(new Date(response.data.dateCreated), "yyyy/MM/dd - HH:mm:ss")
+          //dateCreated: format(new Date(response.data.dateCreated), "yyyy/MM/dd - HH:mm:ss")
         };
         setAssessmentPaper(formattedData);
       } catch (error) {
