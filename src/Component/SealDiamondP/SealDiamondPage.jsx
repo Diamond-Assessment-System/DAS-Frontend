@@ -82,7 +82,7 @@ function SealDiamondPage() {
                                         {booking.quantities}
                                     </td>
                                     <td className="py-4 px-4 align-middle">
-                                        {new Date(booking.dateCreated).toLocaleDateString()}  {/* Format the date */}
+                                        {booking.dateCreated}
                                     </td>
                                     <td className="py-4 px-4 align-middle">
                                         {getBookingStatusMeaning(booking.status)}
@@ -93,7 +93,7 @@ function SealDiamondPage() {
                                                 onClick={() => handleCreateBooking(booking)}
                                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             >
-                                                Cấp Lại Giấy Giám Định
+                                                Tạo đơn niêm phong
                                             </button>
                                         </div>
                                     </td>

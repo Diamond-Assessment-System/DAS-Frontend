@@ -26,18 +26,15 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
-          // Lấy dữ liệu mẫu
           const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
           const samplesData = response.data;
 
-          // Fetch samplereturndate cho từng mẫu
           const samplesWithReturnDate = await Promise.all(samplesData.map(async (sample) => {
             try {
               const booking = await getBookingFromId(sample.bookingId);
               return { ...sample, samplereturndate: booking.sampleReturnDate };
             } catch (error) {
               console.error(`Error fetching booking for sample ${sample.bookingId}:`, error);
-              // Nếu có lỗi, trả về giá trị mặc định cho samplereturndate
               return { ...sample, samplereturndate: null };
             }
           }));
@@ -99,30 +96,32 @@ function AssessmentBooking() {
     }
   };
 
-  const getReturnDateStatusClass = (returnDate) => {
+  const getReturnDateStatusClass = (returnDate, status) => {
+    if (status > 2) {
+      return ""; // Don't apply color change for statuses greater than 2
+    }
+
     const now = new Date();
 
-    // Nếu returnDate là null, không áp dụng lớp màu sắc
     if (!returnDate) {
       return "";
     }
 
-    // Chuyển đổi samplereturndate thành đối tượng Date
     const returnDateTime = parse(returnDate, 'yyyy/MM/dd - HH:mm:ss', new Date());
 
     if (isBefore(now, returnDateTime)) {
       const diffInHours = differenceInHours(returnDateTime, now);
 
       if (diffInHours <= 3) {
-        return "bg-yellow-200"; // Màu vàng nếu còn dưới 3 tiếng
+        return "bg-yellow-200";
       }
     }
 
     if (isBefore(returnDateTime, now)) {
-      return "bg-red-200"; // Màu đỏ nếu quá hạn
+      return "bg-red-200";
     }
 
-    return ""; // Màu mặc định nếu còn nhiều hơn 3 tiếng
+    return "";
   };
 
   if (loading) {
@@ -153,7 +152,7 @@ function AssessmentBooking() {
               {currentItems.map((sample) => (
                 <tr
                   key={sample.sampleId}
-                  className={`hover:bg-gray-100 ${getReturnDateStatusClass(sample.samplereturndate)}`}
+                  className={`hover:bg-gray-100 ${getReturnDateStatusClass(sample.samplereturndate, sample.status)}`}
                 >
                   <td className="py-4 px-4 align-middle">{`#${sample.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">{`${sample.name}`}</td>
