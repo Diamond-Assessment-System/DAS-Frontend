@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logodas.png"; // Ensure the path to the logo is correct
-import { AccountCircle, Menu, Close } from "@mui/icons-material";
-import { handleSession, clearSession, checkSession } from '../../utils/sessionUtils';
-import { Dropdown } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import logo from "../../assets/logodas.png";
+import { Menu, Close } from "@mui/icons-material";
+import {
+  handleSession,
+  clearSession,
+  checkSession,
+} from "../../utils/sessionUtils";
+import { Dropdown } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button } from "react-bootstrap";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,7 +33,7 @@ const Header = () => {
     clearSession();
     setUserName(null);
     setRole(0);
-    navigate('/');
+    navigate("/");
   };
 
   const getButtonProperties = () => {
@@ -66,6 +70,9 @@ const Header = () => {
       </div>
       <nav
         className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
+//         className={`flex-1 md:flex items-center justify-center ${
+//           isMobileMenuOpen ? "block" : "hidden"
+//         } md:flex md:items-center md:justify-center absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
       >
         <ul className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0">
           <li
@@ -109,44 +116,45 @@ const Header = () => {
       <div className="flex items-center space-x-4">
         <button
           onClick={() => navigate(path)}
-          className="bg-transparent border border-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
+          className="bg-transparent border border-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
         >
           {text}
         </button>
         {userName ? (
-          <div className="d-flex align-items-center">
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="secondary"
-                id="dropdown-basic"
-                className="ml-2"
-                style={{
-                  backgroundColor: 'black',
-                  borderColor: 'white',
-                  color: 'white',
-                  fontWeight: 'bold'
-                }}
-              >
-                {userName}
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item href="/history">Lịch sử đặt hẹn</Dropdown.Item>
-                <Dropdown.Item href="/account">Thông tin cá nhân</Dropdown.Item>
-                <Dropdown.Item href="/lookup">Dò giấy giám định</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item onClick={handleLogout} className="text-danger">Đăng xuất</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              className="ml-2"
+              style={{
+                backgroundColor: "black",
+                borderColor: "white",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              {userName}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="/history">Lịch sử đặt hẹn</Dropdown.Item>
+              <Dropdown.Item href="/account">Thông tin cá nhân</Dropdown.Item>
+              <Dropdown.Item href="/lookup">Dò giấy giám định</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={handleLogout} className="text-danger">
+                Đăng xuất
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         ) : (
           <Button
             variant="primary"
             onClick={() => navigate("/login")}
+            className="ml-2"
             style={{
-              backgroundColor: 'black',
-              borderColor: 'white',
-              color: 'white',
-              fontWeight: 'bold'
+              backgroundColor: "black",
+              borderColor: "white",
+              color: "white",
+              fontWeight: "bold",
             }}
           >
             Đăng Nhập / Đăng Ký

@@ -7,6 +7,11 @@ import Pagination from "../Paginate/Pagination";
 import '../ManagerLayout/AsPaperManager.css'; 
 import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
 
+// Utility function to remove diacritics
+const removeDiacritics = (str) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
+
 function AsPaperManager() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
@@ -16,6 +21,7 @@ function AsPaperManager() {
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
 
   const fetchSamples = async () => {
@@ -25,6 +31,8 @@ function AsPaperManager() {
       setSamples(filteredSamples);
     } catch (error) {
       console.error("Error fetching the samples:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,9 +54,14 @@ function AsPaperManager() {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(samples.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(samples.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, samples]);
+    const normalizedSearchQuery = removeDiacritics(searchQuery.toLowerCase());
+    const filteredSamples = samples.filter(sample =>
+      removeDiacritics(sample.name.toLowerCase()).includes(normalizedSearchQuery) ||
+      sample.bookingId.toString().includes(normalizedSearchQuery)
+    );
+    setCurrentItems(filteredSamples.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredSamples.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, samples, searchQuery]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % samples.length;
@@ -80,7 +93,6 @@ function AsPaperManager() {
     const selectedAction = selectedActions[sampleId];
     if (selectedAction) {
       try {
-        //await axios.put(`https://das-backend.fly.dev/api/booking-samples/${sampleId}/assign/${selectedAction}`);
         await axios.put(getExecuteActionUrl(sampleId, selectedAction));
         fetchSamples();
       } catch (error) {
@@ -104,6 +116,13 @@ function AsPaperManager() {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Assign Role</h4>
+        <input
+          type="text"
+          placeholder="Search by sample name or booking ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">

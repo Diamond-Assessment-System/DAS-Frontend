@@ -9,6 +9,7 @@ function AssignWork() {
   const [bookings, setBookings] = useState([]);
   const [selectedActions, setSelectedActions] = useState({});
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -58,6 +59,8 @@ function AssignWork() {
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching the bookings:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -80,17 +83,28 @@ function AssignWork() {
   };
 
   const handleCancel = async (bookingId) => {
+    setLoading(true);
     try {
-      await axios.put(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}/cancel`);
-      setBookings(bookings.map((booking) =>
-        booking.bookingId === bookingId ? { ...booking, status: 3 } : booking
-      ));
+      await axios.put(
+        `https://das-backend.fly.dev/api/assessment-bookings/${bookingId}/cancel`
+      );
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.bookingId === bookingId ? { ...booking, status: 3 } : booking
+        )
+      );
     } catch (error) {
       console.error("Error cancelling the booking:", error);
     } finally {
       setLoading(false);
     }
   };
+
+  const filteredBookings = bookings.filter(
+    (booking) =>
+      booking.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      booking.userId.toString().includes(searchQuery)
+  );
 
   if (loading) {
     return (
@@ -106,6 +120,13 @@ function AssignWork() {
         <h4 className="text-lg font-semibold text-gray-800 mb-4">
           Danh Sách Đặt Hẹn
         </h4>
+        <input
+          type="text"
+          placeholder="Search by user name or ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-blue-600 text-white">
@@ -122,7 +143,7 @@ function AssignWork() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {bookings.map((booking) => (
+              {filteredBookings.map((booking) => (
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 text-center align-middle">
@@ -148,7 +169,9 @@ function AssignWork() {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         value={selectedActions[booking.bookingId] || ""}
                       >
-                        <option value="" disabled hidden>Select action</option>
+                        <option value="" disabled hidden>
+                          Select action
+                        </option>
                         <option value="viewDetails">Xem chi tiết</option>
                       </select>
                       <button

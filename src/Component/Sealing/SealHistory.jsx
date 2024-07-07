@@ -1,4 +1,3 @@
-// src/components/SealHistory.jsx
 import React, { useState, useEffect } from "react";
 
 function SealHistory() {

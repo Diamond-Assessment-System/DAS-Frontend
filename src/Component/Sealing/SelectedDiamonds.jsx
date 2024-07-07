@@ -1,9 +1,10 @@
-// src/components/SelectedDiamonds.jsx
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SelectedDiamonds() {
   const [selectedDiamonds, setSelectedDiamonds] = useState([]);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const diamonds = JSON.parse(localStorage.getItem("selectedDiamonds")) || [];
@@ -23,6 +24,10 @@ function SelectedDiamonds() {
     localStorage.setItem('selectedDiamonds', JSON.stringify(updatedSelectedDiamonds));
     
     setMessage(`Viên kim cương ${diamondId} đã được hoàn thành seal.`);
+  };
+
+  const viewHistory = () => {
+    navigate('/manager/sealhistory');
   };
 
   return (
@@ -59,6 +64,12 @@ function SelectedDiamonds() {
             </tbody>
           </table>
         </div>
+        <button
+          onClick={viewHistory}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 focus:outline-none focus:shadow-outline"
+        >
+          Xem Lịch Sử
+        </button>
       </div>
     </div>
   );
