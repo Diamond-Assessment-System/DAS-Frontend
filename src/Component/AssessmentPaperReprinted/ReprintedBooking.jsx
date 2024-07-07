@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../AssessmentPaperReprinted/ReprintedBooking.css";
 import Spinner from "../Spinner/Spinner";
-import { ASSESSMENT_REQUEST_URL } from "../../utils/apiEndPoints";
+import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 
 function ReprintedBooking() {
     const navigate = useNavigate();
 
     const [bookings, setBookings] = useState([]);
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedStatus, setSelectedStatus] = useState("tatca");
 
@@ -38,32 +39,27 @@ function ReprintedBooking() {
         }
     };
 
-    const getServiceText = (service) => {
-        switch (service) {
-            case 1:
-                return "Giám định kim cương";
-            case 2:
-                return "Niêm phong kim cương";
-            case 3:
-                return "Cấp lại giấy giám định";
-            default:
-                return "Không xác định";
-        }
+    const getServiceName = (serviceId) => {
+        const service = services.find((service) => service.serviceId === serviceId);
+        return service ? service.serviceName : "Không xác định";
     };
 
     useEffect(() => {
-        const fetchBookings = async () => {
+        const fetchBookingsAndServices = async () => {
             try {
-                const response = await axios.get(ASSESSMENT_REQUEST_URL);
-                setBookings(response.data);
+                const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);
+                const servicesResponse = await axios.get(SERVICES_URL);
+
+                setBookings(bookingsResponse.data);
+                setServices(servicesResponse.data);
             } catch (error) {
-                console.error("Error fetching the bookings:", error);
+                console.error("Error fetching the bookings or services:", error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBookings();
+        fetchBookingsAndServices();
     }, []);
 
     const handleStatusChange = (e) => {
@@ -88,7 +84,10 @@ function ReprintedBooking() {
     };
 
     const filteredBookings = bookings
-        .filter((booking) => booking.serviceId === 3) // Only show "Cấp lại giấy giám định" bookings
+        .filter((booking) => {
+            const service = services.find((service) => service.serviceId === booking.serviceId);
+            return service && service.serviceType === 3;
+        })
         .filter((booking) => {
             if (selectedStatus === "tatca") return true;
             if (selectedStatus === "dangcho") return booking.status === 1;
@@ -179,7 +178,7 @@ function ReprintedBooking() {
                                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                                     <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                                     <td className="py-4 px-4 align-middle">
-                                        {getServiceText(booking.serviceId)}
+                                        {getServiceName(booking.serviceId)}
                                     </td>
                                     <td className="py-4 px-4 align-middle">
                                         {booking.quantities}

@@ -4,32 +4,39 @@ import "../AssessmentPaperReprinted/ReprintedBooking.css";
 import Spinner from "../Spinner/Spinner";
 import getAllBookings from "../../utils/getAllBookingsForConsulting"; // Import the getAllBookings function
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
+import { getAllServices } from "../../utils/getAllServices"; // Import the getAllServices function
 
 function SealDiamondPage() {
     const navigate = useNavigate();
     const [bookings, setBookings] = useState([]);
+    const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBookings = async () => {
+        const fetchBookingsAndServices = async () => {
             try {
                 const allBookings = await getAllBookings(); // Fetch all bookings
+                const allServices = await getAllServices(); // Fetch all services
                 console.log("All Bookings:", allBookings); // Debug: Check if data is fetched
+                console.log("All Services:", allServices); // Debug: Check if data is fetched
 
-                // Filter bookings to only include those with serviceType = 1
-                // Based on your network data, it looks like serviceType should be 1
-                const filteredBookings = allBookings.filter(booking => booking.serviceType === 2);
+                // Filter bookings to only include those with serviceType = 2
+                const filteredBookings = allBookings.filter(booking => {
+                    const service = allServices.find(service => service.serviceId === booking.serviceId);
+                    return service && service.serviceType === 2;
+                });
                 console.log("Filtered Bookings:", filteredBookings); // Debug: Check filtered data
 
                 setBookings(filteredBookings);
+                setServices(allServices);
             } catch (error) {
-                console.error("Error fetching the bookings:", error);
+                console.error("Error fetching the bookings or services:", error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBookings();
+        fetchBookingsAndServices();
     }, []);
 
     const handleCreateBooking = (booking) => {
