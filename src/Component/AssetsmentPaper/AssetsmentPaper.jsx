@@ -170,7 +170,7 @@ const AssessmentPaper = () => {
                 <Col>
                   <h3 className="section-title">GRADING SCALE</h3>
                   <img
-                    src={"/src/assets/All-Scales.jpg"}
+                    src={"/All-Scales.jpg"}
                     alt="Grading Scale"
                     className="img-fluid"
                   />

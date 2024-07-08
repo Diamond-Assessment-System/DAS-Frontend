@@ -280,7 +280,7 @@ const AssessmentPaperPreview = () => {
                     <h3>GRADING SCALE</h3>
                   </div>
                   <img
-                    src={"/src/assets/All-Scales.jpg"}
+                    src={"/All-Scales.jpg"}
                     alt="Grading Scale"
                     className="img-fluid"
                   />
