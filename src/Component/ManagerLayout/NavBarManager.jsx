@@ -68,20 +68,20 @@ const Navbar = () => {
           >
             Manage Pricing & Timelines
           </Link>
-          <Link
+          {/* <Link
             to="/manager/sealing-records"
             className="navbar-link"
             onClick={toggleMenu}
           >
             Sealing Records
-          </Link>
-          <Link
+          </Link> */}
+          {/* <Link
             to="/manager/commit"
             className="navbar-link"
             onClick={toggleMenu}
           >
             Commitment Paper
-          </Link>
+          </Link> */}
           {/* <Link
             to="/manager/assignwork"
             className="navbar-link"

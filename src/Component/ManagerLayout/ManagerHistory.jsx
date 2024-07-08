@@ -175,8 +175,8 @@ function ManagerHistory() {
                 <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Tên khách hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
-                <th className="py-4 px-4 text-center align-middle">Thời gian nhận</th>
-                <th className="py-4 px-4 text-center align-middle">Thời gian trả hàng</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày nhận mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Số lượng</th>
                 <th className="py-4 px-4 text-center align-middle">Hành Động</th>
@@ -189,7 +189,7 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.accountName}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.serviceName}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.dateCreated}</td>
-                  <td className="py-4 px-4 text-center align-middle">{order.dateReceived}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.dateReceived || "Chưa có"}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     {sampleCounts[order.bookingId]
