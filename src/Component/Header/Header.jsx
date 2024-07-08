@@ -53,7 +53,6 @@ const Header = () => {
   const { text, path } = getButtonProperties();
 
   return (
-    // <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0">
     <header className="header bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
@@ -70,15 +69,10 @@ const Header = () => {
           )}
         </div>
       </div>
-      <nav
-        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
-//         className={`flex-1 md:flex items-center justify-center ${
-//           isMobileMenuOpen ? "block" : "hidden"
-//         } md:flex md:items-center md:justify-center absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
-      >
-        <ul  className="pl-11 flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0 " >
+      <nav className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}>
+        <ul className="pl-11 flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0 ">
           <li
-            className="cursor-pointer hover:text-gray-400 "
+            className="cursor-pointer hover:text-gray-400"
             onClick={() => {
               navigate("/about");
               setIsMobileMenuOpen(false);
@@ -86,15 +80,33 @@ const Header = () => {
           >
             Về DAS
           </li>
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/diamonds");
-              setIsMobileMenuOpen(false);
-            }}
+          <Dropdown
+            onMouseEnter={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'block'}
+            onMouseLeave={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'none'}
           >
-            Kim Cương
-          </li>
+            <Dropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              className="cursor-pointer hover:text-gray-400 diamond-dropdown"
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                fontWeight: "bold",
+                fontFamily:"inherit",
+                fontSize:"20px"
+              }}
+            >
+              Kim Cương
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => navigate("/diamonds")}>
+                Trang Kim Cương
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate("/hierarchy")}>
+                Phân Cấp Kim Cương
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
           <li
             className="cursor-pointer hover:text-gray-400"
             onClick={() => {
@@ -133,7 +145,7 @@ const Header = () => {
                 borderColor: "white",
                 color: "white",
                 fontWeight: "bold",
-                padding:"4.5% 2% 4.5% 0 "
+                padding: "4.5% 2% 4.5% 0",
               }}
             >
               {userName}
