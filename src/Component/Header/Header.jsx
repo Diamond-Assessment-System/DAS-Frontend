@@ -54,7 +54,7 @@ const Header = () => {
 
   return (
     // <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0">
-    <header className="header bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
+    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img className="h-12" src={logo} alt="DAS Logo" />
