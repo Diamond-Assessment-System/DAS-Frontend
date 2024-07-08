@@ -133,6 +133,7 @@ const Header = () => {
                 borderColor: "white",
                 color: "white",
                 fontWeight: "bold",
+                padding:"4.5% 2% 4.5% 0 "
               }}
             >
               {userName}
