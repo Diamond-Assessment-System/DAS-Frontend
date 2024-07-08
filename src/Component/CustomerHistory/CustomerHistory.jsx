@@ -48,6 +48,9 @@ const CustomerHistory = () => {
         navigate(`/history/${sample.sampleId}`);
         break;
       case 4:
+        window.alert("Chưa thực hiện giám định");
+        break;
+      case 5:
         window.alert("Đã bị hủy, không thể xem");
         break;
       default:
@@ -64,6 +67,8 @@ const CustomerHistory = () => {
       case 3:
         return "status-completedCH";
       case 4:
+        return "status-sealedCH";
+      case 5:
         return "status-canceledCH";
       default:
         return "";
@@ -75,14 +80,16 @@ const CustomerHistory = () => {
       case 1:
         return "Đã Mở";
       case 2:
-        return "Đang Giám Định";
+        return "Đã Phân Việc";
       case 3:
         return "Đã Hoàn Thành";
       case 4:
+        return "Đã Seal";
+      case 5:
         return "Đã Hủy";
       default:
         return "Unknown status";
-  }
+    }
   };
 
   if (loading) {
