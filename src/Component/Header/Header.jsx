@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logodas.png";
 import { Menu, Close } from "@mui/icons-material";
-import {
-  handleSession,
-  clearSession,
-  checkSession,
-} from "../../utils/sessionUtils";
+import { handleSession, clearSession, checkSession } from "../../utils/sessionUtils";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
@@ -52,15 +48,12 @@ const Header = () => {
   const { text, path } = getButtonProperties();
 
   return (
-    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full ">
+    <header className="bg-black text-white flex items-center justify-between px-6 py-6 fixed top-0 left-0 w-full z-10 h-24"> {/* Increased header height */}
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <img className="h-12" src={logo} alt="DAS Logo" />
+          <img className="h-16" src={logo} alt="DAS Logo" /> {/* Adjusted logo height */}
         </div>
-        <div
-          className="md:hidden ml-4 cursor-pointer"
-          onClick={toggleMobileMenu}
-        >
+        <div className="md:hidden ml-4 cursor-pointer" onClick={toggleMobileMenu}>
           {isMobileMenuOpen ? (
             <Close style={{ color: "white", fontSize: 30 }} />
           ) : (
@@ -68,71 +61,29 @@ const Header = () => {
           )}
         </div>
       </div>
-      <nav
-        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
-//         className={`flex-1 md:flex items-center justify-center ${
-//           isMobileMenuOpen ? "block" : "hidden"
-//         } md:flex md:items-center md:justify-center absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
-      >
+      <nav className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"} flex-1 items-center justify-center`}>
         <ul className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0">
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/about");
-              setIsMobileMenuOpen(false);
-            }}
-          >
+          <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/about")}>
             Về DAS
           </li>
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/diamonds");
-              setIsMobileMenuOpen(false);
-            }}
-          >
+          <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/diamonds")}>
             Kim Cương
           </li>
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/services");
-              setIsMobileMenuOpen(false);
-            }}
-          >
+          <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/services")}>
             Dịch Vụ Giám Định
           </li>
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/lookup");
-              setIsMobileMenuOpen(false);
-            }}
-          >
+          <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/lookup")}>
             Tra Cứu
           </li>
         </ul>
       </nav>
       <div className="flex items-center space-x-4">
-        <button
-          onClick={() => navigate(path)}
-          className="bg-transparent border border-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded whitespace-nowrap"
-        >
+        <button onClick={() => navigate(path)} className="bg-transparent border border-blue-500 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded whitespace-nowrap">
           {text}
         </button>
         {userName ? (
           <Dropdown>
-            <Dropdown.Toggle
-              variant="secondary"
-              id="dropdown-basic"
-              className="ml-2"
-              style={{
-                backgroundColor: "black",
-                borderColor: "white",
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic" className="ml-2" style={{ backgroundColor: "black", borderColor: "white", color: "white", fontWeight: "bold" }}>
               {userName}
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -146,17 +97,7 @@ const Header = () => {
             </Dropdown.Menu>
           </Dropdown>
         ) : (
-          <Button
-            variant="primary"
-            onClick={() => navigate("/login")}
-            className="ml-2"
-            style={{
-              backgroundColor: "black",
-              borderColor: "white",
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
+          <Button variant="primary" onClick={() => navigate("/login")} className="ml-2" style={{ backgroundColor: "black", borderColor: "white", color: "white", fontWeight: "bold", whiteSpace: "nowrap" }}>
             Đăng Nhập / Đăng Ký
           </Button>
         )}
