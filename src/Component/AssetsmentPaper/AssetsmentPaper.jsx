@@ -93,7 +93,7 @@ const AssessmentPaper = () => {
                 <Col>
                   <h3 className="section-title">DAS Natural Grading Report</h3>
                   <p>Date assessed: {currentDate}</p>
-                  <p>DAS report number: 1234</p>
+                  <p>DAS report number: #{id}</p>
                   <p>Shape and cutting style: {shape} {cuttingStyle}</p>
                   <p>Measurement: {measurement}</p>
                   <p>Size: {size}</p>
@@ -170,7 +170,7 @@ const AssessmentPaper = () => {
                 <Col>
                   <h3 className="section-title">GRADING SCALE</h3>
                   <img
-                    src={"/src/assets/All-Scales.jpg"}
+                    src={"/All-Scales.jpg"}
                     alt="Grading Scale"
                     className="img-fluid"
                   />
@@ -183,6 +183,7 @@ const AssessmentPaper = () => {
       <Row className="mb-4">
         <Col>
           <Button
+            style={{width:100}}
             variant="primary"
             onClick={handlePreview}
             disabled={!uploadedProportionImage || !uploadedClarityImage}

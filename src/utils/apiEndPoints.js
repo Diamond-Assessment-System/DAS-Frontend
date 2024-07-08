@@ -40,6 +40,9 @@ export const geAssessmentSummaryDetailUrl = (bookingId) => `${API_BASE_URL}/api/
 // AssessmentPaper
 export const ASSESSMENT_PAPER_URL = `${API_BASE_URL}/api/assessment-papers`;
 
+//StorageController
+export const STORAGE_CONTROLLER=`${API_BASE_URL}/api/upload`;
+
 // AssessmentPaperDetail
 export const getAssessmentPaperDetaillUrl = (id) => `${API_BASE_URL}/api/assessment-papers/${id}`;
 
@@ -47,7 +50,7 @@ export const getAssessmentPaperDetaillUrl = (id) => `${API_BASE_URL}/api/assessm
 export const BOOKING_SAMPLES_URL = `${API_BASE_URL}/api/booking-samples`;
 
 // CancelAssessment
-export const getCancelAssessmentlUrl = (id) => `${API_BASE_URL}/api/booking-samples/${id}/status/4`;
+export const getCancelAssessmentlUrl = (id) => `${API_BASE_URL}/api/booking-samples/${id}/status/5`;
 
 // GetPaperByStatus
 export const getBookingSampleStatusUrl = (id, status) => `${API_BASE_URL}/api/booking-samples/${id}/status/${status}`;
@@ -62,6 +65,8 @@ export const getExecuteActionUrl = (sampleId, selectedAction) => `${API_BASE_URL
 
 export const CONSULTING_COMMITMENT_PAPER = `${API_BASE_URL}/api/commitment-papers`;
 
+export const BOOKING_SAMPLE_COUNT_URL = `${API_BASE_URL}/api/booking-samples`;
 
 
+export const COMMITMENT_PAPER_URL = `${API_BASE_URL}/api/commitment-papers`;
 

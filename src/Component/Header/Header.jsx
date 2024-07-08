@@ -6,6 +6,7 @@ import { handleSession, clearSession, checkSession } from "../../utils/sessionUt
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button } from "react-bootstrap";
+import "./Header.css";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -48,7 +49,7 @@ const Header = () => {
   const { text, path } = getButtonProperties();
 
   return (
-    <header className="bg-black text-white flex items-center justify-between px-6 py-6 fixed top-0 left-0 w-full z-10 h-24"> {/* Increased header height */}
+    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full ">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img className="h-16" src={logo} alt="DAS Logo" /> {/* Adjusted logo height */}
@@ -61,9 +62,20 @@ const Header = () => {
           )}
         </div>
       </div>
-      <nav className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"} flex-1 items-center justify-center`}>
+      <nav
+        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
+//         className={`flex-1 md:flex items-center justify-center ${
+//           isMobileMenuOpen ? "block" : "hidden"
+//         } md:flex md:items-center md:justify-center absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
+      >
         <ul className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0">
-          <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/about")}>
+          <li
+            className="cursor-pointer hover:text-gray-400"
+            onClick={() => {
+              navigate("/about");
+              setIsMobileMenuOpen(false);
+            }}
+          >
             Về DAS
           </li>
           <li className="cursor-pointer hover:text-gray-400" onClick={() => navigate("/diamonds")}>
@@ -97,7 +109,17 @@ const Header = () => {
             </Dropdown.Menu>
           </Dropdown>
         ) : (
-          <Button variant="primary" onClick={() => navigate("/login")} className="ml-2" style={{ backgroundColor: "black", borderColor: "white", color: "white", fontWeight: "bold", whiteSpace: "nowrap" }}>
+          <Button
+            variant="primary"
+            onClick={() => navigate("/login")}
+            className="ml-2"
+            style={{
+              backgroundColor: "black",
+              borderColor: "white",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
             Đăng Nhập / Đăng Ký
           </Button>
         )}

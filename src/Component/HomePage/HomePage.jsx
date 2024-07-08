@@ -39,30 +39,10 @@ function MyComponent() {
   };
 
   return (
-    <div className="bg-gray-50 text-gray-800">
-      {/* Phần Slideshow */}
-      <div className="relative w-4/5 h-[500px] mx-auto rounded-lg overflow-hidden shadow-lg">
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Hình ảnh trình chiếu ${index + 1}`}
-            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ${
-              index === currentIndex ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-        <div className="bottom-4 left-0 right-0 flex justify-center ">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full ${
-                index === currentIndex ? "bg-blue-600" : "bg-gray-400"
-              }`}
-              onClick={() => handleDotClick(index)}
-            />
-          ))}
-        </div>
+    <>
+      <div className="flex justify-center">
+        <img src={sampleImage} alt="Sample" className="h-full w-full" />
+        <ContactModal />
       </div>
 
       {/* Phần Giới Thiệu Về DAS */}

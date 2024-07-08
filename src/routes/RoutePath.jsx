@@ -52,6 +52,7 @@ import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
+import CustomerAssessmentPaperDetail from "../Component/CustomerHistory/CustomerHistoryDetail.jsx";
 import SealList from "../Component/Sealing/SealList.jsx";
 import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
 import SelectedDiamonds from "../Component/Sealing/SelectedDiamonds.jsx";
@@ -65,7 +66,9 @@ import AquamarineDetail from "../Component/DiamondInformationPage/AquamarineDeta
 import CoralDetail from "../Component/DiamondInformationPage/CoralDetail.jsx";
 import LookupPaperpage from "../Component/AssessmentPaperReprinted/LookupPaperpage.jsx";
 import SealForm from "../Component/Sealing/SealForm.jsx";
-
+import Commitment from "../Component/ManagerLayout/Commitment.jsx";
+import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
+import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -82,6 +85,7 @@ const RoutePath = () => {
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
+          <Route path="history/:id" element={<CustomerAssessmentPaperDetail />} />
           <Route path="/sealist" element={<SealList />} />
           {/* <Route path="/sealselect" element={<SelectedDiamonds />} />
           <Route path="/sealhistory" element={<SealHistory />} /> */}
@@ -105,6 +109,7 @@ const RoutePath = () => {
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
           <Route path="reprintpaper" element={<ReprintedBooking />} />
           <Route path="reprintpaper/lookuppaper" element={<LookupPaperpage />} />
+          <Route path="/consultingstaff/sealdiamond" element={<SealDiamondPage />} />
         </Route>
 
         <Route path="/assessmentstaff" element={<AssessmentStaffLayout />}>
@@ -127,9 +132,10 @@ const RoutePath = () => {
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
           <Route path="/manager/sealhistory" element={<SealHistory />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
-          {/* <Route path="/manager/assignwork" element={<AssignWork />} /> */}
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
+          <Route path="/manager/commit" element={<Commitment />} />
+          <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />

@@ -10,7 +10,7 @@ const ContactModal = () => {
     <>
       {/* Button trigger modal */}
       <button type="button" className="btn btn-primary btn-circle" data-bs-toggle="modal" data-bs-target="#contactModal">
-        <FontAwesomeIcon icon={faPhoneAlt} style={{ fontSize: '24px' }} />
+      <FontAwesomeIcon icon={faPhone} className="phone-icon" style={{ fontSize: '24px' }} />
       </button>
 
       {/* Modal */}
@@ -31,7 +31,7 @@ const ContactModal = () => {
                   Hãy đến với chúng tôi để trải nghiệm dịch vụ giám định kim cương uy tín và đáng tin cậy.
                 </p>
                 <p style={{ fontSize: '1rem' }}>
-                  <FontAwesomeIcon icon={faMapMarkerAlt} className="contact-icon" style={{ color: '#CCA866', marginRight: '0.5rem', fontSize: '1.2rem' }} /> 545 Mavis Island, Chicago, IL 19919
+                  <FontAwesomeIcon icon={faMapMarkerAlt} className="contact-icon" style={{ color: '#CCA866', marginRight: '0.5rem', fontSize: '1.2rem' }} /> 304-306 Phan Xích Long, Phường 7, Quận Phú Nhuận, TP.Hồ Chí Minh, Việt Nam
                 </p>
                 <p style={{ fontSize: '1rem' }}>
                   <FontAwesomeIcon icon={faPhone} className="contact-icon" style={{ color: '#CCA866', marginRight: '0.5rem', fontSize: '1.2rem' }} /> +1 (555) 234-5678

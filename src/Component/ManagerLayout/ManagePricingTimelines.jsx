@@ -90,7 +90,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <div className="modal-footer">
-            <Button variant="primary" type="submit">
+            <Button className="custom-save-button" type="submit">
               Save
             </Button>
             <Button variant="secondary" onClick={handleClose}>

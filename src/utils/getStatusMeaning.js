@@ -26,6 +26,8 @@ function getSampleStatusMeaning(status) {
     case 3:
       return "Đã Hoàn Thành";
     case 4:
+      return "Đã Seal";
+    case 5:
       return "Đã Hủy";
     default:
       return "Unknown status";

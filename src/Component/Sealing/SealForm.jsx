@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Form, InputNumber, Button, Typography, Row, Col, Select, DatePicker } from 'antd';
+import { Form, InputNumber, Button, Typography, Row, Col, Select } from 'antd';
+import { changeSampleStatus } from '../../utils/changeSampleStatus';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -8,19 +9,22 @@ const { Option } = Select;
 function SealForm() {
   const navigate = useNavigate();
   const location = useLocation();
-  const diamond = location.state?.diamond || {};
-  const orderId = location.state?.orderId;
+  const sample = location.state?.sample || {};
+  const bookingId = location.state?.bookingId;
 
-  const handleSubmit = (values) => {
-    // Combine diamond data with form values
-    const diamondData = { ...diamond, ...values };
-    // Store the diamond data in localStorage
-    let selectedDiamonds = JSON.parse(localStorage.getItem('selectedDiamonds')) || [];
-    selectedDiamonds.push(diamondData);
-    localStorage.setItem('selectedDiamonds', JSON.stringify(selectedDiamonds));
+  const handleSubmit = async (values) => {
+    const sampleData = { ...sample, ...values, status: 4 }; // Update status to indicate it has been sealed
+    let selectedSamples = JSON.parse(localStorage.getItem('selectedSamples')) || [];
+    selectedSamples.push(sampleData);
+    localStorage.setItem('selectedSamples', JSON.stringify(selectedSamples));
 
-    console.log('Form data submitted:', diamondData);
-    navigate('/manager/commitment-paper', { state: { diamondData, orderId } });
+    try {
+      await changeSampleStatus(sample.sampleId, 4);
+      console.log('Form data submitted:', sampleData);
+      navigate('/manager/sealing-records', { state: { bookingId } });
+    } catch (error) {
+      console.error('Error updating sample status:', error);
+    }
   };
 
   return (
@@ -172,19 +176,6 @@ function SealForm() {
             </Select>
           </Form.Item>
         </Col>
-        <Col span={12}>
-          <Form.Item
-            label={<span className="font-bold text-lg">Date Created</span>}
-            name="dateCreated"
-            rules={[{ required: true, message: 'Vui lòng chọn ngày tạo!' }]}
-            className="mb-6"
-          >
-            <DatePicker
-              className="w-full text-lg custom-input"
-              placeholder="Chọn ngày tạo"
-            />
-          </Form.Item>
-        </Col>
       </Row>
       <Form.Item className="text-center">
         <Button
@@ -196,7 +187,7 @@ function SealForm() {
         </Button>
         <Button
           type="default"
-          onClick={() => navigate('/manager/sealist')}
+          onClick={() => navigate('/manager/sealing-records', { state: { bookingId } })}
           className="mt-4 w-40 text-lg py-2 ml-4"
         >
           Cancel

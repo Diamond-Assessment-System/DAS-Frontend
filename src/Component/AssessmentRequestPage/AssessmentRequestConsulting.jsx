@@ -3,13 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
-import { ASSESSMENT_REQUEST_URL } from "../../utils/apiEndPoints";
+import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Assuming you have this file in the api directory
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
 
   const [bookings, setBookings] = useState([]);
+  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
@@ -47,32 +48,22 @@ function AssessmentRequestConsulting() {
     }
   };
 
-  const getServiceText = (service) => {
-    switch (service) {
-      case 1:
-        return "Giám định kim cương";
-      case 2:
-        return "Niêm phong kim cương";
-      case 3:
-        return "Cấp lại giấy giám định";
-      default:
-        return "Không xác định";
-    }
-  };
-
   useEffect(() => {
-    const fetchBookings = async () => {
+    const fetchBookingsAndServices = async () => {
       try {
-        const response = await axios.get(ASSESSMENT_REQUEST_URL);
-        setBookings(response.data);
+        const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);
+        const servicesResponse = await axios.get(SERVICES_URL);
+
+        setBookings(bookingsResponse.data);
+        setServices(servicesResponse.data);
       } catch (error) {
-        console.error("Error fetching the bookings:", error);
+        console.error("Error fetching the bookings or services:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBookings();
+    fetchBookingsAndServices();
   }, []);
 
   const handleStatusChange = (e) => {
@@ -88,9 +79,7 @@ function AssessmentRequestConsulting() {
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
-            b.bookingId === booking.bookingId
-              ? { ...b, status: 3 }
-              : b
+            b.bookingId === booking.bookingId ? { ...b, status: 3 } : b
           )
         );
         alert("Đã cập nhật trạng thái booking thành 'Đã Hoàn Thành'.");
@@ -110,9 +99,7 @@ function AssessmentRequestConsulting() {
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
-            b.bookingId === booking.bookingId
-              ? { ...b, status: 4 }
-              : b
+            b.bookingId === booking.bookingId ? { ...b, status: 4 } : b
           )
         );
         alert("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
@@ -122,14 +109,24 @@ function AssessmentRequestConsulting() {
     }
   };
 
-  const filteredBookings = bookings.filter((booking) => {
-    if (selectedStatus === "tatca") return true;
-    if (selectedStatus === "dangcho") return booking.status === 1;
-    if (selectedStatus === "datao") return booking.status === 2;
-    if (selectedStatus === "dahoantat") return booking.status === 3;
-    if (selectedStatus === "dahuy") return booking.status === 4;
-    return false;
-  });
+  const getServiceName = (serviceId) => {
+    const service = services.find((service) => service.serviceId === serviceId);
+    return service ? service.serviceName : "Không xác định";
+  };
+
+  const filteredBookings = bookings
+    .filter((booking) => {
+      const service = services.find((service) => service.serviceId === booking.serviceId);
+      return service && service.serviceType === 1;
+    })
+    .filter((booking) => {
+      if (selectedStatus === "tatca") return true;
+      if (selectedStatus === "dangcho") return booking.status === 1;
+      if (selectedStatus === "datao") return booking.status === 2;
+      if (selectedStatus === "dahoantat") return booking.status === 3;
+      if (selectedStatus === "dahuy") return booking.status === 4;
+      return false;
+    });
 
   // Calculate the indices for the current page
   const indexOfLastBooking = currentPage * itemsPerPage;
@@ -215,6 +212,7 @@ function AssessmentRequestConsulting() {
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Hành động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -222,7 +220,7 @@ function AssessmentRequestConsulting() {
                 <tr key={booking.bookingId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
-                    {getServiceText(booking.serviceId)}
+                    {getServiceName(booking.serviceId)}
                   </td>
                   <td className="py-4 px-4 align-middle">
                     {booking.quantities}
@@ -249,7 +247,7 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {booking.status !== 4 && (
                       <div className="flex items-center justify-center space-x-2">
-                        
+
                         {booking.status === 1 && (
                           <button
                             onClick={() => handleCancelBooking(booking)}

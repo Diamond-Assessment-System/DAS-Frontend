@@ -1,41 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
-import '../ManagerLayout/Commitpaper.css';
-import { changeBookingStatus } from "../../utils/changeBookingStatus";
-import getOrderDetails from "../../utils/getOrderDetails";
+import { useNavigate } from "react-router-dom";
 
-const CommitmentPaperPage = () => {
-    const location = useLocation();
-    const { bookingId, accountName } = location.state;
+const Commitment = () => {
     const [formData, setFormData] = useState({
         creationDate: '',
-        userName: '',
-        bookingId: '',
-        title: '',
+        userName: 'John Doe',
+        bookingId: '123456',
+        title: 'Kiểm định chất lượng',
         description: '',
+        signature: ''
     });
     const navigate = useNavigate();
     const paperRef = useRef();
 
     useEffect(() => {
-        const fetchOrderDetails = async () => {
-            try {
-                const orderDetails = await getOrderDetails(bookingId);
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                    creationDate: orderDetails.dateCreated || new Date().toISOString().split('T')[0],
-                    userName: orderDetails.accountName || accountName,
-                    bookingId: bookingId,
-                    title: orderDetails.title || '',
-                    description: orderDetails.description || ''
-                }));
-            } catch (error) {
-                console.error('Error fetching order details:', error);
-            }
-        };
-        fetchOrderDetails();
-    }, [bookingId, accountName]);
+        const today = new Date().toISOString().split('T')[0];
+        setFormData(prevData => ({ ...prevData, creationDate: today }));
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,24 +27,25 @@ const CommitmentPaperPage = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        try {
-            await changeBookingStatus(bookingId, 4);
-            const dataUrl = await toPng(paperRef.current, { backgroundColor: 'white' });
-            navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
-        } catch (error) {
-            console.error('Error generating image or changing status:', error);
-        }
+        toPng(paperRef.current)
+            .then((dataUrl) => {
+                console.log("Generated image data URL:", dataUrl);
+                navigate('/manager/managerhistory');
+            })
+            .catch((error) => {
+                console.error('Error generating image:', error);
+            });
     };
 
     return (
         <div className="paper-container">
-            <div className="paper-content" ref={paperRef} style={{ backgroundColor: 'white' }}>
+            <div className="paper-content" ref={paperRef}>
                 <div className="headerr">
                     <div className="left">
                         <p>CƠ QUAN, ĐƠN VỊ DAS STORE</p>
-                        <p>Số: {formData.bookingId}</p>
+                        <p>Số: ....................</p>
                     </div>
                     <div className="right">
                         <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
@@ -89,17 +72,18 @@ const CommitmentPaperPage = () => {
                     </div>
                 </div>
                 <div className="field">
-                    <p>Tại: 304-306 Phan Xích Long, Phường 7, Quận Phú Nhuận, TP.Hồ Chí Minh, Việt Nam</p>
+                    <p>Hôm nay, vào ngày {formData.creationDate.split('-')[2]} tháng {formData.creationDate.split('-')[1]} năm {formData.creationDate.split('-')[0]}</p>
+                    <p>Tại: ..............</p>
                     <div className="field">
-                        <label className="label">Mô tả:</label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            className="textarea"
-                            required
-                        ></textarea>
-                    </div>
+                    <label className="label">Mô tả:</label>
+                    <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="textarea"
+                        required
+                    ></textarea>
+                </div>
                     <p>Đơn hàng: {formData.bookingId}</p>
                 </div>
                 <div className="field">
@@ -126,4 +110,4 @@ const CommitmentPaperPage = () => {
     );
 };
 
-export default CommitmentPaperPage;
+export default Commitment;
