@@ -188,8 +188,8 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.bookingId}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.accountName}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.serviceName}</td>
-                  <td className="py-4 px-4 text-center align-middle">{new Date(order.dateCreated).toLocaleString()}</td>
-                  <td className="py-4 px-4 text-center align-middle">{order.dateReceived ? new Date(order.dateReceived).toLocaleString() : 'N/A'}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.dateCreated}</td>
+                  <td className="py-4 px-4 text-center align-middle">{order.dateReceived}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     {sampleCounts[order.bookingId]
