@@ -5,7 +5,9 @@
     justify-content: space-between;
     align-items: center; /* Align items vertically center */
     background-color: black; /* Added background color for visibility */
+    z-index: 30; /* Ensure header is above other content */
 }
+
 
 .logo {
     width: 15%; /* Ensure this width is appropriate for your design */
