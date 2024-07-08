@@ -10,7 +10,7 @@ const ContactModal = () => {
     <>
       {/* Button trigger modal */}
       <button type="button" className="btn btn-primary btn-circle" data-bs-toggle="modal" data-bs-target="#contactModal">
-      <FontAwesomeIcon icon={faPhone} className="phone-icon" style={{ fontSize: '24px' }} />
+      <FontAwesomeIcon icon={faPhone} className="phone-icon" style={{ fontSize: '30px' }} />
       </button>
 
       {/* Modal */}
