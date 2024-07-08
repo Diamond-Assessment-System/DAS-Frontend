@@ -65,3 +65,31 @@ tbody td {
   display: inline-block;
   margin: 0;
 }
+
+.status-openedCH {
+  color: #214fc6  ;
+}
+
+.status-openedCH h3 {
+  color: #214fc6 ;
+  background-color: #e7feff ;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 50%;
+  display: inline-block;
+  margin: 0;
+}
+
+.status-sealedCH {
+  color: #ff1493  ;
+}
+
+.status-sealedCH h3 {
+  color: #ff1493 ;
+  background-color: #ffe4e1 ;
+  border-radius: 50px;
+  padding: 10px 5px 10px 5px;
+  width: 50%;
+  display: inline-block;
+  margin: 0;
+}

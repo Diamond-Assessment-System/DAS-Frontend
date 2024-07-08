@@ -145,7 +145,7 @@ const Header = () => {
                 borderColor: "white",
                 color: "white",
                 fontWeight: "bold",
-                padding: "4.5% 2% 4.5% 0",
+                padding: "10px",
               }}
             >
               {userName}
@@ -170,7 +170,8 @@ const Header = () => {
               color: "white",
               fontWeight: "bold",
               width: "143px",
-              marginBottom: "1rem",
+              marginBottom: "1.5rem",
+              padding: "0",
             }}
           >
             Đăng Nhập / Đăng Ký
