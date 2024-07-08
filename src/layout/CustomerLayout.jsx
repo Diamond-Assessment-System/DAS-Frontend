@@ -10,6 +10,8 @@ function CustomerLayout() {
         <Outlet />
       </main>
       <Footer />
+   
+
     </div>
   );
 }
