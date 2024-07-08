@@ -87,7 +87,7 @@ const GoogleLoginComponent = () => {
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full md:w-1/2 p-8 flex flex-col justify-center items-center">
+        <div className="w-full justify-center items-center">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
             <h2 className="text-xl text-gray-800 mt-2">
@@ -108,13 +108,13 @@ const GoogleLoginComponent = () => {
             </div>
           ) : (
             <>
-              <div className="mb-4 flex justify-around w-full">
+              <div className="mb-4 w-full flex justify-center">
                 <button
                   className={`${
                     loginMethod === "google"
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 rounded transition-all duration-200`}
+                  } py-2 px-4 mx-2 rounded transition-all duration-200`}
                   onClick={() => setLoginMethod("google")}
                 >
                   Đăng nhập Google
@@ -124,7 +124,7 @@ const GoogleLoginComponent = () => {
                     loginMethod === "phone"
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 rounded transition-all duration-200`}
+                  } py-2 px-4 mx-2 rounded transition-all duration-200`}
                   onClick={() => setLoginMethod("phone")}
                 >
                   Đăng nhập SĐT
@@ -134,7 +134,7 @@ const GoogleLoginComponent = () => {
                 <button
                   className={`${
                     loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
-                  } text-white py-3 px-6 rounded transition w-full text-xl`}
+                  } text-white py-1 pr-20 pl-20 mx-auto ml-28 rounded text-xl block`}
                   onClick={loginWithGoogle}
                   disabled={loading}
                 >
