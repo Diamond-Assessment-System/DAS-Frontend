@@ -193,7 +193,7 @@ const AssessmentPaperPreview = () => {
                     <h3>DAS NATURAL GRADING REPORT</h3>
                   </div>
                   <p>Date assessed: {currentDate}</p>
-                  <p>DAS report number: 1234</p>
+                  <p>DAS report number: #{id}</p>
                   <p>
                     Shape and cutting style: {shape} {cuttingStyle}
                   </p>

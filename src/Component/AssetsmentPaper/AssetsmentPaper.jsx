@@ -93,7 +93,7 @@ const AssessmentPaper = () => {
                 <Col>
                   <h3 className="section-title">DAS Natural Grading Report</h3>
                   <p>Date assessed: {currentDate}</p>
-                  <p>DAS report number: 1234</p>
+                  <p>DAS report number: #{id}</p>
                   <p>Shape and cutting style: {shape} {cuttingStyle}</p>
                   <p>Measurement: {measurement}</p>
                   <p>Size: {size}</p>
