@@ -1,59 +1,74 @@
 .evaluate-service {
-    padding: 20px;
-    margin-bottom: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
 
 .section {
-    margin-bottom: 20px;
-    text-align: center;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .header {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    width: 100%;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  width: 100%;
+  color: #1a3679;
+  background-color: transparent; /* Bỏ nền đen */
 }
 
 .table-container {
-    overflow-x: auto;
-    margin: 0 auto;
-    width: 80%;
+  overflow-x: auto;
+  margin: 0 auto;
+  width: 90%;
+  border-radius: 8px;
 }
 
 .service-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    margin: 0 auto;
-    background-color: #fff;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .service-table th,
 .service-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+  border: 1px solid #e0e0e0;
+  padding: 12px;
 }
 
 .service-table th {
-    background-color: #1a3679;
-    text-align: center;
+  background-color: #1a3679;
+  color: #fff;
+  text-align: center;
 }
 
+.service-table tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
 
+.service-table tr:hover {
+  background-color: #f1f1f1;
+}
 
 .service-table ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
 }
 
 .service-table li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
-.price-td{
-    text-align: right;
-    color: red;
+.price-td {
+  text-align: right;
+  color: #e60000;
+  font-weight: bold;
 }

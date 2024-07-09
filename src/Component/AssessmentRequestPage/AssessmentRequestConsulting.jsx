@@ -116,7 +116,9 @@ function AssessmentRequestConsulting() {
 
   const filteredBookings = bookings
     .filter((booking) => {
-      const service = services.find((service) => service.serviceId === booking.serviceId);
+      const service = services.find(
+        (service) => service.serviceId === booking.serviceId
+      );
       return service && service.serviceType === 1;
     })
     .filter((booking) => {
@@ -131,7 +133,10 @@ function AssessmentRequestConsulting() {
   // Calculate the indices for the current page
   const indexOfLastBooking = currentPage * itemsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
-  const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+  const currentBookings = filteredBookings.slice(
+    indexOfFirstBooking,
+    indexOfLastBooking
+  );
   const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
@@ -204,15 +209,21 @@ function AssessmentRequestConsulting() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã yêu cầu</th>
+                <th className="py-4 px-4 text-center align-middle">
+                  Mã yêu cầu
+                </th>
                 <th className="py-4 px-4 text-center align-middle">Dịch vụ</th>
                 <th className="py-4 px-4 text-center align-middle">
                   Số Lượng Kim Cương
                 </th>
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
-                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">
+                  Trạng Thái
+                </th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-                <th className="py-4 px-4 text-center align-middle">Hành động</th>
+                <th className="py-4 px-4 text-center align-middle">
+                  Hành động
+                </th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -228,7 +239,11 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {booking.dateCreated}
                   </td>
-                  <td className={`py-4 px-4 align-middle ${getStatusClass(booking.status)}`}>
+                  <td
+                    className={`py-4 px-4 align-middle ${getStatusClass(
+                      booking.status
+                    )}`}
+                  >
                     <h3>{getStatusText(booking.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
@@ -236,7 +251,11 @@ function AssessmentRequestConsulting() {
                       <div className="flex items-center justify-center space-x-2">
                         <button
                           onClick={() => handleCreateBooking(booking)}
-                          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${booking.status === 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                            booking.status === 3
+                              ? "opacity-50 cursor-not-allowed"
+                              : ""
+                          }`}
                           disabled={booking.status === 3}
                         >
                           {booking.status === 2 ? "Hoàn Thành" : "Tạo Booking"}
@@ -247,12 +266,13 @@ function AssessmentRequestConsulting() {
                   <td className="py-4 px-4 align-middle">
                     {booking.status !== 4 && (
                       <div className="flex items-center justify-center space-x-2">
-
                         {booking.status === 1 && (
                           <button
                             onClick={() => handleCancelBooking(booking)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            disabled={booking.status === 2 || booking.status === 3}
+                            disabled={
+                              booking.status === 2 || booking.status === 3
+                            }
                           >
                             Hủy
                           </button>
