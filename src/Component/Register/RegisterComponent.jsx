@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
-import { AccountCircle, Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import "./RegisterComponent.css"; // Đường dẫn đã được sửa lại
+import {
+  AccountCircle,
+  Phone,
+  Lock,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import illustration from "../../assets/loginbackground.png";
 
 const RegisterComponent = () => {
@@ -59,27 +64,26 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center">
-<button
-  className="absolute top-4 right-4 bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-700"
-  onClick={handleGoBack}
->
-  &#x2715;
-</button>
-
-      <div className="bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
-        <div className="hidden md:flex w-1/2 bg-blue-800 items-center justify-center">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="relative bg-white rounded-lg shadow-lg flex flex-col md:flex-row max-w-4xl w-full overflow-hidden">
+        <button
+          className="absolute top-4 right-4 text-black text-2xl"
+          onClick={handleGoBack}
+        >
+          &#x2715;
+        </button>
+        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-blue-800">
           <img
             src={illustration}
             alt="Illustration"
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full md:w-1/2 p-12">
-          <div className="flex flex-col items-center mb-8">
+        <div className="w-full flex flex-col justify-center items-center p-8 md:p-12">
+          <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
             <h2 className="text-xl text-gray-800 mt-2">
-              We Valued Your Diamond!
+              We Value Your Diamond!
             </h2>
           </div>
           <form onSubmit={handleRegister} className="w-full">
@@ -94,15 +98,15 @@ const RegisterComponent = () => {
                 required
               />
             </div>
-            <div className="mb-4 flex items-center relative phone-input-container">
-              <Phone className="text-gray-400 phone-icon" />
+            <div className="mb-4 flex items-center relative w-full">
+              <Phone className="text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
               <PhoneInput
-                country={"us"}
+                country={"vn"}
                 value={phone}
                 onChange={(phone) => setPhone(phone)}
-                inputClass="w-full border border-gray-300 p-2 rounded"
-                containerClass="phone-input"
-                buttonClass="phone-input-button"
+                inputClass="w-full border border-gray-300 pl-12 pr-4 py-2 rounded"
+                containerClass="w-full"
+                buttonClass="bg-gray-200"
                 required
               />
             </div>
@@ -117,7 +121,7 @@ const RegisterComponent = () => {
                 required
               />
               <span
-                className="password-icon"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -134,20 +138,22 @@ const RegisterComponent = () => {
                 required
               />
               <span
-                className="password-icon"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
               </span>
             </div>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-700 transition w-full text-xl"
-            >
-              Đăng ký
-            </button>
+            <div className="mb-4 w-full flex justify-center">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white py-3 px-8 mr-20 rounded hover:bg-blue-700 text-xl"
+              >
+                Đăng ký
+              </button>
+            </div>
           </form>
-          <div className="mt-4">
+          <div className="text-center">
             <Link to="/login" className="text-blue-500 hover:underline">
               Đăng nhập
             </Link>
