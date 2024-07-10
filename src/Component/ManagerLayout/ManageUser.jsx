@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
-import { changeAccountStatus } from "../../utils/changeAccountStatus"; // Adjust path as needed
 import Spinner from "../Spinner/Spinner";
 
 const ManageUser = () => {
@@ -12,7 +11,8 @@ const ManageUser = () => {
   const fetchUsers = async () => {
     try {
       const accounts = await getAllAccounts();
-      setUsers(accounts);
+      const filteredAccounts = accounts.filter(account => account.role === 1);
+      setUsers(filteredAccounts);
     } catch (error) {
       console.error('Error fetching accounts:', error);
     } finally {
@@ -60,7 +60,8 @@ const ManageUser = () => {
                   <td className="py-4 px-4 text-center align-middle">{user.phone || "No Phone"}</td>
                   <td className="py-4 px-4 text-center align-middle">{getAccountStatusMeaning(user.accountStatus)}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                  <button
+                    <button
+                      onClick={() => window.location.href = `/user-details/${user.accountId}`}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       View Details
