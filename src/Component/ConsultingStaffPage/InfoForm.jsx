@@ -276,7 +276,7 @@ function InfoForm() {
         </Col>
       </Row>
 
-      <Row gutter={32}>
+      <Row>
         <Col span={12}>
           <Form.Item
             label={<span className="font-bold text-lg">Symmetry</span>}
@@ -322,16 +322,17 @@ function InfoForm() {
           </Form.Item>
         </Col>
       </Row>
-
-      <Form.Item className="text-center">
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="mt-4 w-40 text-lg py-2"
-        >
-          Tiếp theo
-        </Button>
-      </Form.Item>
+      <Col span={20}>
+        <Form.Item className="text-center">
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="mt-4 w-40 text-lg"
+          >
+            Tiếp theo
+          </Button>
+        </Form.Item>
+      </Col>
     </Form>
   );
 }

@@ -150,13 +150,9 @@ function SelectionForm() {
             />
           </Form.Item>
         </Col>
-        <Col span={24}>
+        <Col span={20}>
           <Form.Item className="flex justify-center">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="w-40 text-lg py-2"
-            >
+            <Button type="primary" htmlType="submit" className="w-40 text-lg">
               {loai === "Đá Giả Kim Cương" ? "Kết thúc" : "Tiếp theo"}
             </Button>
           </Form.Item>
