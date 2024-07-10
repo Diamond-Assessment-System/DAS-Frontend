@@ -7,7 +7,8 @@ import illustration from "../../assets/loginbackground.png";
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -58,7 +59,7 @@ const GoogleLoginComponent = () => {
     if (loading) return;
     setLoading(true);
     try {
-      const userInfo = await signInWithPhoneNumber(phoneNumber, password);
+      const userInfo = await signInWithPhoneNumber(phone, password);
       handleLoginSuccess(userInfo);
     } catch (error) {
       handleLoginFailure(error);
@@ -147,7 +148,7 @@ const GoogleLoginComponent = () => {
                     <input
                       type="text"
                       placeholder="Số điện thoại"
-                      value={phoneNumber}
+                      value={phone}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       className="border border-gray-300 p-2 w-full rounded"
                       required
@@ -175,6 +176,7 @@ const GoogleLoginComponent = () => {
                     className={`${
                       loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
                     } text-white py-3 px-6 rounded transition w-full text-xl mb-4`}
+                    onClick={loginWithPhoneNumber}
                     disabled={loading}
                   >
                     {loading ? "Loading..." : "Đăng nhập"}

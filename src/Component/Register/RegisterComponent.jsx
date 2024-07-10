@@ -1,41 +1,72 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { useNavigate, Link } from "react-router-dom";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import { AccountCircle, Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import "./RegisterComponent.css"; // Đường dẫn đã được sửa lại
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import "./RegisterComponent.css";
 import illustration from "../../assets/loginbackground.png";
 
 const RegisterComponent = () => {
   const [phone, setPhone] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [displayName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState({
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    general: ""
+  });
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (isSuccess) {
+      setShowSuccessPopup(true);
+      setTimeout(() => {
+        setShowSuccessPopup(false);
+        navigate("/login");
+      }, 3000);
+    }
+  }, [isSuccess, navigate]);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setErrors({ phone: "", password: "", confirmPassword: "", general: "" });
 
     if (!phone || phone.length < 10) {
-      alert("Phone number must be valid and contain at least 10 digits.");
+      setErrors(prev => ({ ...prev, phone: "Phone number must be valid and contain at least 10 digits." }));      
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      // alert("Passwords do not match!");
+      setErrors(prev => ({ ...prev, confirmPassword: "Passwords do not match!" }));
       return;
     }
 
+    let formattedPhone = phone;
+    if (phone.startsWith("84")) {
+      formattedPhone = phone.substring(2);
+    }
+    if (phone.startsWith("1")) {
+      formattedPhone = phone.substring(2);
+    }
+
     const userInfo = {
-      fullName,
-      phoneNumber: phone,
+      displayName,
       password,
+      phone: formattedPhone
     };
 
     try {
-      const response = await fetch("/api/register", {
+      // const response = await fetch("http://localhost:8080/api/accounts/phoneregister", {
+        const response = await fetch("https://das-backend.fly.dev/api/accounts/phoneregister", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,13 +75,22 @@ const RegisterComponent = () => {
       });
 
       if (response.ok) {
-        alert("Registration successful!");
-        navigate("/login");
+        // alert("Registration successful!");
+        // navigate("/login");
+        setIsSuccess(true);
       } else {
-        alert("Registration failed!");
+        const errorData = await response.json();
+        if (errorData.message) {
+          setErrors(prev => ({ ...prev, general: errorData.message }));
+        } else if (errorData.errors) {
+          setErrors(prev => ({ ...prev, general: Object.values(errorData.errors).join(", ") }));
+        } else {
+          setErrors(prev => ({ ...prev, general: `Registration failed. HTTP error! status: ${response.status}` }));
+        }
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      setErrors(prev => ({ ...prev, general: `An unexpected error occurred: ${error.message}` }));  
     }
   };
 
@@ -88,7 +128,7 @@ const RegisterComponent = () => {
               <input
                 type="text"
                 placeholder="Họ và Tên"
-                value={fullName}
+                value={displayName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="border border-gray-300 p-2 w-full rounded"
                 required
@@ -97,7 +137,7 @@ const RegisterComponent = () => {
             <div className="mb-4 flex items-center relative phone-input-container">
               <Phone className="text-gray-400 phone-icon" />
               <PhoneInput
-                country={"us"}
+                country={"vn"}
                 value={phone}
                 onChange={(phone) => setPhone(phone)}
                 inputClass="w-full border border-gray-300 p-2 rounded"
@@ -105,6 +145,7 @@ const RegisterComponent = () => {
                 buttonClass="phone-input-button"
                 required
               />
+              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
             <div className="mb-4 flex items-center relative">
               <Lock className="text-gray-400 mr-3" />
@@ -122,7 +163,9 @@ const RegisterComponent = () => {
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </span>
+              {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
             </div>
+            {errors.general && <p className="text-red-500 text-sm mb-4">{errors.general}</p>}
             <div className="mb-4 flex items-center relative">
               <Lock className="text-gray-400 mr-3" />
               <input
@@ -154,6 +197,17 @@ const RegisterComponent = () => {
           </div>
         </div>
       </div>
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 flex flex-col items-center">
+            <div className="w-16 h-16 relative mb-4">
+              <CheckCircleIcon className="text-green-500 w-full h-full animate-spin-slow" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2 text-green-600">Registration Successful!</h2>
+            <p className="text-gray-600">Redirecting to login page...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
