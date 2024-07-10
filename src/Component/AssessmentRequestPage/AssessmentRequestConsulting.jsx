@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
@@ -113,6 +114,24 @@ function AssessmentRequestConsulting() {
     const service = services.find((service) => service.serviceId === serviceId);
     return service ? service.serviceName : "Không xác định";
   };
+  const getBackgroundColor = (dateCreated, status) => {
+    if (status === 1) {
+
+      const dateFormat = 'YYYY/MM/DD - HH:mm:ss';
+      const parsedDate = moment(dateCreated, dateFormat);
+
+      if (!parsedDate.isValid()) {
+        console.error("Invalid date format:", dateCreated);
+        return "";
+      }
+      const dateDiff = moment().diff(parsedDate, 'days');
+      if (dateDiff > 5) return "bg-red-500";
+      if (dateDiff > 3) return "bg-yellow-500";
+    }
+    return "";
+  };
+
+
 
   const filteredBookings = bookings
     .filter((booking) => {
@@ -228,7 +247,7 @@ function AssessmentRequestConsulting() {
             </thead>
             <tbody className="text-gray-700">
               {currentBookings.map((booking) => (
-                <tr key={booking.bookingId} className="hover:bg-gray-100">
+                <tr key={booking.bookingId} className={`hover:bg-gray-100 ${getBackgroundColor(booking.dateCreated, booking.status)}`}>
                   <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
                   <td className="py-4 px-4 align-middle">
                     {getServiceName(booking.serviceId)}

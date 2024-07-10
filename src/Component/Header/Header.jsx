@@ -57,7 +57,7 @@ const Header = () => {
     <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
-          <img className="h-12" src={logo} alt="DAS Logo" />
+          <img className="h-20" src={logo} alt="DAS Logo" />
         </div>
         <div
           className="md:hidden ml-4 cursor-pointer"
@@ -70,15 +70,10 @@ const Header = () => {
           )}
         </div>
       </div>
-      <nav
-        className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}
-//         className={`flex-1 md:flex items-center justify-center ${
-//           isMobileMenuOpen ? "block" : "hidden"
-//         } md:flex md:items-center md:justify-center absolute md:relative top-16 md:top-auto left-0 md:left-auto bg-black md:bg-transparent w-full md:w-auto`}
-      >
-        <ul  className="pl-11 flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0 " >
+      <nav className={`md:flex ${isMobileMenuOpen ? "block" : "hidden"}  `}>
+        <ul className="pl-11 flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0 items-center p-4 md:p-0 ">
           <li
-            className="cursor-pointer hover:text-gray-400 "
+            className="cursor-pointer hover:text-gray-400"
             onClick={() => {
               navigate("/about");
               setIsMobileMenuOpen(false);
@@ -133,6 +128,7 @@ const Header = () => {
                 borderColor: "white",
                 color: "white",
                 fontWeight: "bold",
+                padding: "10px",
               }}
             >
               {userName}
@@ -157,7 +153,8 @@ const Header = () => {
               color: "white",
               fontWeight: "bold",
               width: "143px",
-              marginBottom: "1rem",
+              marginBottom: "1.5rem",
+              padding: "0",
             }}
           >
             Đăng Nhập / Đăng Ký
