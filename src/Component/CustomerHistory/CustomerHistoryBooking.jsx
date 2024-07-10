@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CustomerHistory/CustomerHistory.css";
-import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
+import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 
 const formatPrice = (price) => {
   return price ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " VND" : "Chưa xác nhận đơn";
 };
 
-const CustomerHistory = () => {
+const CustomerHistoryBooking = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState([]);
   const [loggedAccount, setLoggedAccount] = useState({});
@@ -21,15 +22,15 @@ const CustomerHistory = () => {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
-      fetchHistory(account.accountId);
+      fetchHistory(id);
     }
-  }, [navigate]);
+  }, [navigate, id]);
 
-  const fetchHistory = async (accountId) => {
+  const fetchHistory = async () => {
     try {
-      const response = await axios.get('https://das-backend.fly.dev/api/assessment-bookings');
-      const filteredHistory = response.data.filter(sample => sample.accountId === accountId);
-      setHistory(filteredHistory);
+        console.log("api: " + `https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
+      const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
+      setHistory(response.data);
     } catch (error) {
       console.error("Error fetching the history:", error);
     } finally {
@@ -40,24 +41,19 @@ const CustomerHistory = () => {
   const handleDetails = (sample) => {
     switch (sample.status) {
       case 1:
-
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đang chờ nhân viên xác nhận");
+        window.alert("Đang chờ nhân viên xác nhận");
         break;
       case 2:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đang thực hiện giám định");
+        window.alert("Đang thực hiện giám định");
         break;
       case 3:
-        navigate(`/history/${sample.bookingId}`);
+        navigate(`/history/historyBooking/${sample.sampleId}`);
         break;
       case 4:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Chưa thực hiện giám định");
+        window.alert("Chưa thực hiện giám định");
         break;
       case 5:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đã bị hủy, không thể xem");
+        window.alert("Đã bị hủy, không thể xem");
         break;
       default:
         break;
@@ -81,6 +77,23 @@ const CustomerHistory = () => {
     }
   };
 
+  const getStatusMeaning = (status) => {
+    switch (status) {
+      case 1:
+        return "Đã Mở";
+      case 2:
+        return "Đã Phân Việc";
+      case 3:
+        return "Đã Hoàn Thành";
+      case 4:
+        return "Đã Seal";
+      case 5:
+        return "Đã Hủy";
+      default:
+        return "Không rõ";
+    }
+  };
+
   if (loading) {
     return (
       <div className="text-center">
@@ -97,39 +110,25 @@ const CustomerHistory = () => {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
-                <th className="py-4 px-4 text-center align-middle">Ngày đặt đơn</th>
-                <th className="py-4 px-4 text-center align-middle">Ngày trả đơn</th>
-                <th className="py-4 px-4 text-center align-middle">Số lượng mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Tổng giá trị</th>
+                <th className="py-4 px-4 text-center align-middle">Mã mẫu</th>
+                <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
+                <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
+                <th className="py-4 px-4 text-center align-middle">Giá</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Đánh giá</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {history.map((sample, index) => (
                 <tr key={index}>
-                  <td className="py-4 px-4 align-middle">{sample.bookingId}</td>
-                  <td className="py-4 px-4 align-middle">{sample.dateCreated}</td>
+                  <td className="py-4 px-4 align-middle">{sample.sampleId}</td>
+                  <td className="py-4 px-4 align-middle">{sample.name}</td>
+                  <td className="py-4 px-4 align-middle">{sample.size}</td>
                   <td className="py-4 px-4 align-middle">
-                    {sample.sampleReturnDate ? sample.sampleReturnDate : "Chưa xác nhận đơn"}
-                  </td>
-                  <td className="py-4 px-4 align-middle">{sample.quantities}</td>
-                  <td className="py-4 px-4 align-middle">
-                    {formatPrice(sample.totalPrice)}
+                    {formatPrice(sample.price)}
                   </td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
-                    <h3>{getBookingStatusMeaning(sample.status)}</h3>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Đánh giá
-                      </button>
-                    </div>
+                    <h3>{getSampleStatusMeaning(sample.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
@@ -151,4 +150,4 @@ const CustomerHistory = () => {
   );
 };
 
-export default CustomerHistory;
+export default CustomerHistoryBooking;
