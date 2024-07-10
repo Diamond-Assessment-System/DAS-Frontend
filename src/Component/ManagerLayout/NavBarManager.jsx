@@ -68,13 +68,7 @@ const Navbar = () => {
           >
             Manage Pricing & Timelines
           </Link>
-          {/* { <Link
-            to="/manager/sealing-records"
-            className="navbar-link"
-            onClick={toggleMenu}
-          >
-            Sealing Records
-          </Link> } */}
+          
           { <Link
             to="/manager/commit"
             className="navbar-link"
@@ -82,13 +76,7 @@ const Navbar = () => {
           >
             Commitment Paper
           </Link> }
-          {/* {<Link
-            to="/manager/assignwork"
-            className="navbar-link"
-            onClick={toggleMenu}
-          >
-            Assign Booking
-          </Link> } */}
+          
           <Link
             to="/manager/assignpaper"
             className="navbar-link"
@@ -102,6 +90,13 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             History Booking
+          </Link>
+          <Link
+            to="/manager/manageruser"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            User Account
           </Link>
         </div>
       </div>
@@ -151,6 +146,13 @@ const Navbar = () => {
             onClick={toggleMenu}
           >
             History Booking
+          </Link>
+          <Link
+            to="/manager/manageruser"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            User Account
           </Link>
         </div>
       )}

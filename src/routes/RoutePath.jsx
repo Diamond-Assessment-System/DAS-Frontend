@@ -69,6 +69,7 @@ import SealForm from "../Component/Sealing/SealForm.jsx";
 import Commitment from "../Component/ManagerLayout/Commitment.jsx";
 import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
+import ManageUser from "../Component/ManagerLayout/ManageUser.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -136,6 +137,7 @@ const RoutePath = () => {
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
           <Route path="/manager/commit" element={<Commitment />} />
           <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
+          <Route path="/manager/manageruser" element={<ManageUser />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
