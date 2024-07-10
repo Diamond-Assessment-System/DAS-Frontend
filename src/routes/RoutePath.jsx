@@ -69,8 +69,6 @@ import SealForm from "../Component/Sealing/SealForm.jsx";
 import Commitment from "../Component/ManagerLayout/Commitment.jsx";
 import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
-import Hierarchy from "../Component/DiamondInformationPage/Hierarchy.jsx";
-
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -85,7 +83,6 @@ const RoutePath = () => {
           <Route path="lookup" element={<ProductSearch />} />
           <Route path="services" element={<EvaluateService />} />
           <Route path="diamonds" element={<DiamondInformation />} />
-          <Route path="hierarchy" element={<Hierarchy />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
           <Route path="history/:id" element={<CustomerAssessmentPaperDetail />} />
