@@ -1,26 +1,57 @@
 .progress-bar {
-    padding: 15px 20px;
-    background-color: #ffffff;
-    margin-bottom: 20px;
-    font-weight: bold;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .progress-bar .ant-breadcrumb {
-    font-size: 16px;
-  }
-  
-  .progress-bar .ant-breadcrumb-link {
-    color: #1890ff;
-  }
-  
-  .progress-bar .ant-breadcrumb-link:hover {
-    color: #40a9ff;
-  }
-  
-  .progress-bar .ant-breadcrumb-separator {
-    color: #1890ff;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.progress-step .step-number {
+  background-color: #d3d3d3;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  transition: background-color 0.3s;
+}
+
+.progress-step .step-label {
+  font-size: 1rem;
+  text-align: center;
+}
+
+.progress-step:hover {
+  color: #1a3679;
+  transform: translateY(-5px);
+}
+
+.progress-step:hover .step-number {
+  background-color: #1a3679;
+}
+
+.progress-step.active {
+  color: #1a3679;
+}
+
+.progress-step.active .step-number {
+  background-color: #1a3679;
+}

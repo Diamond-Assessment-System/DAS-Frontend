@@ -62,41 +62,5 @@
     cursor: pointer;
     margin-left: 20px;
     margin-right: 20px;
-}
+}/* 
 
-
-/* Header.css */
-
-.diamond-dropdown {
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-  }
-  
-  .diamond-dropdown:hover {
-    border-color: #FFCC00;
-  }
-
-  .diamond-dropdown:hover + .dropdown-menu,
-.dropdown-menu:hover {
-  display: block !important;
-}
-
-.dropdown-menu {
-  display: none;
-}
-/* Hiển thị dropdown menu khi parent có class .show */
-.show .dropdown-menu {
-    display: block;
-  }
-  
-  /* Thêm dấu > cho item được chọn */
-  .dropdown-item:hover {
-    position: relative;
-  }
-  
-  .dropdown-item:hover::before {
-    content: '>';
-    position: absolute;
-    left: -20px;
-    color: yellow;
-  }

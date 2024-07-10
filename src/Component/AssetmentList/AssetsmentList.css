@@ -1,66 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-.container {
-    width: 100%;
-    margin: 20px auto;
-    background-color: rgba(0, 57, 87, 1);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: rgb(255, 255, 255);
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: rgba(52, 57, 59, 0.7); /* Add the black background */
 }
 
-.invoice-title {
-    margin-bottom: 20px;
-}
-
-.invoice-title img {
-    width: 100px;
-}
-
-.invoice-title h2 {
-    margin-top: 10px;
-}
-
-.invoice-details address {
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.table {
-    font-family: 'Roboto', sans-serif;
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-    margin-left: 0;
-}
-
-.table th,
-.table td {
-    padding: 8px;
-    text-align: center;
-    color: #ffffff;
-    background-color: rgba(0, 57, 87, 1);
-}
-
-.table th {
-    background-color: rgba(0, 57, 87, 1);
-    color: #ffffff;
-}
-
-.table .line td {
-    color: rgba(0, 57, 87, 1);
-}
-
-.text-right {
-    text-align: right;
-}
-
-.text-center {
-    text-align: center;
-}
-
-.identity p {
-    margin: 0;
-    font-weight: bold;
+.logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain; /* Ensure the image is contained within the circle */
+  border-radius: 50%;
 }

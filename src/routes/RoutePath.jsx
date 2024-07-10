@@ -52,6 +52,7 @@ import SystemMaintenance from "../Component/AdminLayout/SystemMaintenance.jsx";
 import SystemUpdate from "../Component/AdminLayout/SystemUpdate.jsx";
 import ContentDatabase from "../Component/AdminLayout/ContentDatabase.jsx";
 import CustomerHistory from "../Component/CustomerHistory/CustomerHistory.jsx";
+import CustomerHistoryBooking from "../Component/CustomerHistory/CustomerHistoryBooking.jsx";
 import CustomerAssessmentPaperDetail from "../Component/CustomerHistory/CustomerHistoryDetail.jsx";
 import SealList from "../Component/Sealing/SealList.jsx";
 import SuccessBooking from "../Component/AssessmentBookingSuccess/SuccessBooking.jsx";
@@ -69,6 +70,7 @@ import SealForm from "../Component/Sealing/SealForm.jsx";
 import Commitment from "../Component/ManagerLayout/Commitment.jsx";
 import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
+import ManageUser from "../Component/ManagerLayout/ManageUser.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -85,7 +87,8 @@ const RoutePath = () => {
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
-          <Route path="history/:id" element={<CustomerAssessmentPaperDetail />} />
+          <Route path="history/:id" element={<CustomerHistoryBooking />} />
+          <Route path="history/historyBooking/:id" element={<CustomerAssessmentPaperDetail />} />
           <Route path="/sealist" element={<SealList />} />
           {/* <Route path="/sealselect" element={<SelectedDiamonds />} />
           <Route path="/sealhistory" element={<SealHistory />} /> */}
@@ -136,6 +139,7 @@ const RoutePath = () => {
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
           <Route path="/manager/commit" element={<Commitment />} />
           <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
+          <Route path="/manager/manageruser" element={<ManageUser />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />

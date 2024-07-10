@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 function SideBarAs() {
   return (
-    <div className="sidenav w-64 min-h-screen p-4 bg-gray-50 text-gray-800">
+    <div className=" w-64 h-full p-4 bg-gray-50 text-gray-800">
       <nav className="space-y-2">
         <NavLink
           to="/"

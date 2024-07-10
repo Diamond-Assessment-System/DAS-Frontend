@@ -54,7 +54,8 @@ const Header = () => {
   const { text, path } = getButtonProperties();
 
   return (
-    <header className="header bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
+    // <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0">
+    <header className="bg-black text-white flex items-center justify-between px-6 py-4 fixed top-0 left-0 w-full pd-0 z-30">
       <div className="flex items-center">
         <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img className="h-20" src={logo} alt="DAS Logo" />
@@ -81,52 +82,15 @@ const Header = () => {
           >
             Về DAS
           </li>
-          <Dropdown
-            // onMouseEnter={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'block'}
-            // onMouseLeave={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'none'}
-            show={isDropdownOpen} // Sử dụng show để điều khiển hiển thị menu
-            // onMouseEnter={() => setIsDropdownOpen(true)} // Khi hover vào toggle thì hiển thị menu
-            // onMouseLeave={() => setIsDropdownOpen(false)} // Khi rời chuột khỏi toggle thì ẩn menu
-            onClick={() => setIsDropdownOpen(true)} // Khi nhấn vào thì giữ menu hiển thị
+          <li
+            className="cursor-pointer hover:text-gray-400"
+            onClick={() => {
+              navigate("/diamonds");
+              setIsMobileMenuOpen(false);
+            }}
           >
-            <Dropdown.Toggle
-              variant="secondary"
-              id="dropdown-basic"
-              className="cursor-pointer hover:text-gray-400 diamond-dropdown"
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                fontWeight: "bold",
-                // fontFamily: "inherit",
-                fontSize: "20px",
-              }}
-            >
-              Kim Cương
-            </Dropdown.Toggle>
-            <Dropdown.Menu
-              onMouseEnter={() => setIsDropdownOpen(true)} // Khi hover vào menu thì giữ menu hiển thị
-              onMouseLeave={() => setIsDropdownOpen(false)} // Khi rời chuột khỏi menu thì ẩn menu
-              onClick={() => setIsDropdownOpen(true)} // Khi nhấn vào thì giữ menu hiển thị
-            >
-              <Dropdown.Item
-                onClick={() => {
-                  navigate("/diamonds");
-                  setIsDropdownOpen(false);
-                }}
-              >
-                Trang Kim Cương
-              </Dropdown.Item>
-              {/* <Dropdown.Item onClick={() => navigate("/hierarchy")}> */}
-              <Dropdown.Item
-                onClick={() => {
-                  navigate("/hierarchy");
-                  setIsDropdownOpen(false);
-                }}
-              >
-                Phân Cấp Kim Cương
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+            Kim Cương
+          </li>
           <li
             className="cursor-pointer hover:text-gray-400"
             onClick={() => {
