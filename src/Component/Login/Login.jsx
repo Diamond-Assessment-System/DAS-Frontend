@@ -73,7 +73,7 @@ const GoogleLoginComponent = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="relative bg-white rounded-lg shadow-lg flex flex-col md:flex-row max-w-4xl w-full overflow-hidden">
+      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
         <button
           className="absolute top-4 right-4 text-black text-2xl"
           onClick={() => navigate("/")}
@@ -87,7 +87,7 @@ const GoogleLoginComponent = () => {
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full flex flex-col justify-center items-center p-8 md:p-12">
+        <div className="w-full justify-center items-center">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
             <h2 className="text-xl text-gray-800 mt-2">
@@ -134,7 +134,7 @@ const GoogleLoginComponent = () => {
                 <button
                   className={`${
                     loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
-                  } text-white py-3 px-6 mr-20 rounded text-xl block`}
+                  } text-white py-1 pr-20 pl-20 mx-auto ml-28 rounded text-xl block`}
                   onClick={loginWithGoogle}
                   disabled={loading}
                 >
@@ -170,19 +170,15 @@ const GoogleLoginComponent = () => {
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </div>
                   </div>
-                  <div className="mb-4 w-full flex justify-center">
-                    <button
-                      type="submit"
-                      className={`${
-                        loading
-                          ? "bg-blue-300"
-                          : "bg-blue-500 hover:bg-blue-700"
-                      } text-white py-3 px-10 mr-20  rounded transition text-xl`}
-                      disabled={loading}
-                    >
-                      {loading ? "Loading..." : "Đăng nhập"}
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    className={`${
+                      loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
+                    } text-white py-3 px-6 rounded transition w-full text-xl mb-4`}
+                    disabled={loading}
+                  >
+                    {loading ? "Loading..." : "Đăng nhập"}
+                  </button>
                 </form>
               )}
               <div className="text-center">
