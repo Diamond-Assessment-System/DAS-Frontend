@@ -1,88 +1,100 @@
-
 .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Align items vertically center */
-    background-color: black; /* Added background color for visibility */
-    z-index: 30; /* Ensure header is above other content */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically center */
+  background-color: black; /* Added background color for visibility */
+  z-index: 30; /* Ensure header is above other content */
 }
 
-
 .logo {
-    width: 15%; /* Ensure this width is appropriate for your design */
-    max-width: 200px; /* Optional: Set a max width to prevent it from getting too large */
+  width: 15%; /* Ensure this width is appropriate for your design */
+  max-width: 200px; /* Optional: Set a max width to prevent it from getting too large */
 }
 
 .logoimg {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Remove any inline gaps */
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove any inline gaps */
 }
 
 .nav-links {
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    flex-grow: 1; /* Make it take the available space */
-    list-style: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1; /* Make it take the available space */
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
 }
 
 .nav-links li {
-    margin: 0 15px; /* Space between nav items */
-    cursor: pointer; /* Change cursor to pointer */
+  margin: 0 15px; /* Space between nav items */
+  cursor: pointer; /* Change cursor to pointer */
 }
 
-.pt-0{
-    padding-top: 0 !important;
+.pt-0 {
+  padding-top: 0 !important;
 }
 
-.pl-11{
-    padding-left: 11rem !important;
+.pl-11 {
+  padding-left: 11rem !important;
 }
 
 .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Align items vertically center */
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Align items vertically center */
+  color: white;
 }
 
 .appointment-btn {
-    background-color: #ff4500; /* Example button color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+  background-color: #ff4500; /* Example button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 .user-icon {
-    cursor: pointer;
-    margin-left: 20px;
-    margin-right: 20px;
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-
-/* Header.css */
-
 .diamond-dropdown {
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-  }
-  
-  .diamond-dropdown:hover {
-    border-color: #FFCC00;
-  }
+  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+}
 
-  .diamond-dropdown:hover + .dropdown-menu,
+.diamond-dropdown:hover {
+  border-color: #FFCC00;
+}
+
+/* Đảm bảo dropdown menu hiển thị khi hover vào toggle */
+.diamond-dropdown:hover + .dropdown-menu,
 .dropdown-menu:hover {
   display: block !important;
 }
 
+/* Ẩn dropdown menu mặc định */
 .dropdown-menu {
   display: none;
 }
 
-  
+/* Hiển thị dropdown menu khi parent có class .show */
+.show .dropdown-menu {
+  display: block;
+}
+
+/* Thêm dấu > cho item được chọn */
+.dropdown-item:hover {
+  position: relative;
+}
+
+.dropdown-item:hover::before {
+  content: '>';
+  position: absolute;
+  left: -20px;
+  color: yellow;
+}

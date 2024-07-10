@@ -220,8 +220,8 @@ body {
 }
 
 .react-tel-input .form-control {
-  width: calc(100% - 40px); /* Đảm bảo phần nhập số điện thoại chiếm không gian còn lại */
-  padding-left: 10px; /* Điều chỉnh khoảng cách phía bên trong của phần nhập số điện thoại */
+  width: calc(100% - 40px); /* Đảm bảo phần nhập số điện thoại chiếm không gian còn lại /
+  padding-left: 10px; / Điều chỉnh khoảng cách phía bên trong của phần nhập số điện thoại */
   margin-left: 38px;
 }
 
@@ -235,5 +235,3 @@ body {
   border-bottom-right-radius: 4px;
   padding-left: 10px; /* Đảm bảo phần select Country không che phủ số điện thoại */
 }
-
-
