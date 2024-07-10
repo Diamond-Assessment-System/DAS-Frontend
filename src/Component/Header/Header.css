@@ -84,5 +84,19 @@
 .dropdown-menu {
   display: none;
 }
-
+/* Hiển thị dropdown menu khi parent có class .show */
+.show .dropdown-menu {
+    display: block;
+  }
   
+  /* Thêm dấu > cho item được chọn */
+  .dropdown-item:hover {
+    position: relative;
+  }
+  
+  .dropdown-item:hover::before {
+    content: '>';
+    position: absolute;
+    left: -20px;
+    color: yellow;
+  }

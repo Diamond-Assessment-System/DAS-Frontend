@@ -15,6 +15,7 @@ import "./Header.css";
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userName, setUserName] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [role, setRole] = useState(0);
   const navigate = useNavigate();
 
@@ -81,8 +82,12 @@ const Header = () => {
             Về DAS
           </li>
           <Dropdown
-            onMouseEnter={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'block'}
-            onMouseLeave={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'none'}
+            // onMouseEnter={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'block'}
+            // onMouseLeave={(e) => e.currentTarget.querySelector('.dropdown-menu').style.display = 'none'}
+            show={isDropdownOpen} // Sử dụng show để điều khiển hiển thị menu
+            // onMouseEnter={() => setIsDropdownOpen(true)} // Khi hover vào toggle thì hiển thị menu
+            // onMouseLeave={() => setIsDropdownOpen(false)} // Khi rời chuột khỏi toggle thì ẩn menu
+            onClick={() => setIsDropdownOpen(true)} // Khi nhấn vào thì giữ menu hiển thị
           >
             <Dropdown.Toggle
               variant="secondary"
@@ -92,17 +97,32 @@ const Header = () => {
                 backgroundColor: "black",
                 color: "white",
                 fontWeight: "bold",
-                fontFamily:"inherit",
-                fontSize:"20px"
+                // fontFamily: "inherit",
+                fontSize: "20px",
               }}
             >
               Kim Cương
             </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => navigate("/diamonds")}>
+            <Dropdown.Menu
+              onMouseEnter={() => setIsDropdownOpen(true)} // Khi hover vào menu thì giữ menu hiển thị
+              onMouseLeave={() => setIsDropdownOpen(false)} // Khi rời chuột khỏi menu thì ẩn menu
+              onClick={() => setIsDropdownOpen(true)} // Khi nhấn vào thì giữ menu hiển thị
+            >
+              <Dropdown.Item
+                onClick={() => {
+                  navigate("/diamonds");
+                  setIsDropdownOpen(false);
+                }}
+              >
                 Trang Kim Cương
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => navigate("/hierarchy")}>
+              {/* <Dropdown.Item onClick={() => navigate("/hierarchy")}> */}
+              <Dropdown.Item
+                onClick={() => {
+                  navigate("/hierarchy");
+                  setIsDropdownOpen(false);
+                }}
+              >
                 Phân Cấp Kim Cương
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -144,7 +164,7 @@ const Header = () => {
                 backgroundColor: "black",
                 borderColor: "white",
                 color: "white",
-                fontWeight: "bold",
+                // fontWeight: "bold",
                 padding: "10px",
               }}
             >

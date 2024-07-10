@@ -40,8 +40,7 @@ function DiamondInformation() {
               <h2 className={`text-3xl font-bold ${hoveredImage === item.image ? "text-yellow-500" : ""}`}>{item.name}</h2>
               <p className="text-lg text-yellow-600 mt-4">Mô Tả</p>
               <Link to={`/diamonds/${item.name.toLowerCase()}`}>
-                <button className="mt-8 py-3 px-6 bg-amber-300 text-black font-semibold rounded-md shadow-lg hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2">
-                  Xem Chi Tiết
+              <button className="mt-8 py-3 px-6 bg-amber-300 text-black font-semibold rounded-md shadow-lg hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2">                  Xem Chi Tiết
                 </button>
               </Link>
             </div>
