@@ -87,7 +87,6 @@ const RoutePath = () => {
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
           <Route path="history/:id" element={<CustomerAssessmentPaperDetail />} />
-          <Route path="/sealist" element={<SealList />} />
           {/* <Route path="/sealselect" element={<SelectedDiamonds />} />
           <Route path="/sealhistory" element={<SealHistory />} /> */}
           <Route path="successbooking" element={<SuccessBooking />} />

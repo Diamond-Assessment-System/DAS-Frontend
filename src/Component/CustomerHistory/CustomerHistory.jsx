@@ -5,6 +5,7 @@ import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CustomerHistory/CustomerHistory.css";
+import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 
 const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -39,18 +40,22 @@ const CustomerHistory = () => {
   const handleDetails = (sample) => {
     switch (sample.status) {
       case 1:
-        window.alert("Đang chờ nhân viên xác nhận");
+        window.alert("Đang thực hiện giám định");
         break;
       case 2:
-        window.alert("Đang thực hiện giám định");
+        window.alert("Đang chờ nhân viên xác nhận");
         break;
       case 3:
         navigate(`/history/${sample.sampleId}`);
         break;
       case 4:
-        window.alert("Chưa thực hiện giám định");
+        window.alert("Đã bị hủy, không thể xem");
         break;
       case 5:
+        //navigate(`/history/${sample.sampleId}`);
+        window.alert("Đã bị niêm phong, không thể xem");
+        break;
+      case 6:
         window.alert("Đã bị hủy, không thể xem");
         break;
       default:
@@ -75,22 +80,6 @@ const CustomerHistory = () => {
     }
   };
 
-  const getStatusMeaning = (status) => {
-    switch (status) {
-      case 1:
-        return "Đã Mở";
-      case 2:
-        return "Đã Phân Việc";
-      case 3:
-        return "Đã Hoàn Thành";
-      case 4:
-        return "Đã Seal";
-      case 5:
-        return "Đã Hủy";
-      default:
-        return "Unknown status";
-    }
-  };
 
   if (loading) {
     return (
@@ -126,7 +115,7 @@ const CustomerHistory = () => {
                     {formatPrice(sample.price)} VND
                   </td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
-                    <h3>{getStatusMeaning(sample.status)}</h3>
+                    <h3>{getBookingStatusMeaning(sample.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
