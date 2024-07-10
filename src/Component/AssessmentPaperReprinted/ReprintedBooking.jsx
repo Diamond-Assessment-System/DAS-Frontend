@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "../AssessmentPaperReprinted/ReprintedBooking.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
+import moment from "moment";
 
 function ReprintedBooking() {
     const navigate = useNavigate();
@@ -82,7 +83,13 @@ function ReprintedBooking() {
                 break;
         }
     };
-
+    const getBackgroundColor = (dateCreated, status) => {
+        if (status !== 1) return "";
+        const dateDiff = moment().diff(moment(dateCreated), 'days');
+        if (dateDiff > 5) return "bg-red-500";
+        if (dateDiff > 3) return "bg-yellow-500";
+        return "";
+    };
     const filteredBookings = bookings
         .filter((booking) => {
             const service = services.find((service) => service.serviceId === booking.serviceId);
@@ -175,8 +182,8 @@ function ReprintedBooking() {
                         </thead>
                         <tbody className="text-gray-700">
                             {filteredBookings.map((booking) => (
-                                <tr key={booking.bookingId} className="hover:bg-gray-100">
-                                    <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
+                                <tr key={booking.bookingId} className={`hover:bg-gray-100 ${getBackgroundColor(booking.dateCreated, booking.status)}`}>
+                                    <td className="py-4 px-4 align-middle ">{`#${booking.bookingId}`}</td>
                                     <td className="py-4 px-4 align-middle">
                                         {getServiceName(booking.serviceId)}
                                     </td>
