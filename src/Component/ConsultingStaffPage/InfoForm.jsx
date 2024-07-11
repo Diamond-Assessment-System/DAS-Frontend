@@ -322,12 +322,12 @@ function InfoForm() {
           </Form.Item>
         </Col>
       </Row>
-      <Col span={20}>
+      <Col span={24}>
         <Form.Item className="text-center">
           <Button
             type="primary"
             htmlType="submit"
-            className="mt-4 w-40 text-lg"
+            className="mt-4 w-full text-lg  "
           >
             Tiếp theo
           </Button>
