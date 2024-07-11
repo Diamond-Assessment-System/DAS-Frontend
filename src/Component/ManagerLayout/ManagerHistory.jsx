@@ -5,6 +5,7 @@ import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
 import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2, countBookingSamplesByBookingIdWithStatus4 } from "../../utils/countBookingSamples";
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
 
 function ManagerHistory() {
   const navigate = useNavigate();
@@ -54,8 +55,18 @@ function ManagerHistory() {
   const completeOrder = async (bookingId) => {
     try {
       // Change the order status to "Đã Hoàn Thành"
-      await changeSampleStatus(bookingId, 3);
-      window.location.reload(); // Reload the page to refresh the status
+      await changeBookingStatus(bookingId, 3);
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Error completing order:", error);
+    }
+  };
+
+  const closeOrder = async (bookingId) => {
+    try {
+      // Change the order status to "Đã Hoàn Thành"
+      await changeBookingStatus(bookingId, 4);
+      window.location.reload(); 
     } catch (error) {
       console.error("Error completing order:", error);
     }
@@ -157,7 +168,7 @@ function ManagerHistory() {
             checked={selectedStatus === "4"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status5">Đã Seal</label>
+          <label htmlFor="status5">Đã Đóng</label>
           <input
             type="radio"
             id="status6"
@@ -166,7 +177,16 @@ function ManagerHistory() {
             checked={selectedStatus === "5"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status6">Đã Hủy</label>
+          <label htmlFor="status6">Đã Seal</label>
+          <input
+            type="radio"
+            id="status7"
+            name="status"
+            value="6"
+            checked={selectedStatus === "6"}
+            onChange={handleStatusChange}
+          />
+          <label htmlFor="status7">Đã Hủy</label>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
@@ -208,10 +228,10 @@ function ManagerHistory() {
                     {order.status === 3 && (
                       <div className="btn-container">
                         <button
-                          onClick={() => viewDetails(order.bookingId)}
+                          onClick={() => closeOrder(order.bookingId)}
                           className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
                         >
-                          Niêm Phong
+                          Đã Đóng
                         </button>
                         <button
                           onClick={() => createCommitmentPaper(order.bookingId)}
