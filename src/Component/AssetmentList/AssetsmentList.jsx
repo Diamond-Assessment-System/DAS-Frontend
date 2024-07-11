@@ -9,7 +9,7 @@ import Spinner from "../Spinner/Spinner";
 import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
 import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 import "./AssetsmentList.css"; // Import the CSS file
-
+import logo from "../../../public/logodas.png";
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -120,7 +120,7 @@ function AssetsmentList() {
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <div className="logo-container">
-            <img src="/src/assets/logodas.png" alt="Logo" className="logo" />
+          <img src={logo} alt="Logo" className="logo" />
           </div>
           <div>
             <h2 className="text-2xl font-bold">Hóa Đơn</h2>
