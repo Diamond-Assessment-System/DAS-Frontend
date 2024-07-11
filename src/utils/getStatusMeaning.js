@@ -11,6 +11,7 @@ function getBookingStatusMeaning(status) {
     case 4:
       return "Đã Đóng";
     case 5:
+<<<<<<< Updated upstream
       return "Đã Niêm Phong";
     case 6:
       return "Đã Hủy";
