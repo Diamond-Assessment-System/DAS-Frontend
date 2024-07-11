@@ -5,7 +5,7 @@ import moment from "moment";
 import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
-import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Assuming you have this file in the api directory
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 
 function AssessmentRequestConsulting() {
@@ -14,6 +14,7 @@ function AssessmentRequestConsulting() {
   const [bookings, setBookings] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("tatca");
 
   // Pagination state
@@ -119,9 +120,9 @@ function AssessmentRequestConsulting() {
     const service = services.find((service) => service.serviceId === serviceId);
     return service ? service.serviceName : "Không xác định";
   };
+
   const getBackgroundColor = (dateCreated, status) => {
     if (status === 1) {
-
       const dateFormat = 'YYYY/MM/DD - HH:mm:ss';
       const parsedDate = moment(dateCreated, dateFormat);
 
@@ -136,7 +137,9 @@ function AssessmentRequestConsulting() {
     return "";
   };
 
-
+  const removeDiacritics = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
 
   const filteredBookings = bookings
     .filter((booking) => {
@@ -146,15 +149,10 @@ function AssessmentRequestConsulting() {
       return service && service.serviceType === 1;
     })
     .filter((booking) => {
-      if (selectedStatus === "tatca") return true;
-      if (selectedStatus === "dangcho") return booking.status === 1;
-      if (selectedStatus === "datao") return booking.status === 2;
-      if (selectedStatus === "dahoantat") return booking.status === 3;
-      if (selectedStatus === "daniemphong") return booking.status === 5;
-      if (selectedStatus === "dadong") return booking.status === 4;
-      if (selectedStatus === "dahuy") return booking.status === 6;
-      
-      return false;
+      const matchesSearchQuery = removeDiacritics(booking.bookingId.toString().toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase()));
+      const matchesStatus = selectedStatus === "tatca" || booking.status.toString() === selectedStatus;
+
+      return matchesSearchQuery && matchesStatus;
     });
 
   // Calculate the indices for the current page
@@ -184,6 +182,13 @@ function AssessmentRequestConsulting() {
         <h4 className="text-lg font-semibold text-gray-800 mb-4">
           Danh Sách Đặt Hẹn
         </h4>
+        <input
+          type="text"
+          placeholder="Search by booking ID"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
         <div className="radio-group">
           <input
             type="radio"
@@ -239,7 +244,6 @@ function AssessmentRequestConsulting() {
             onChange={handleStatusChange}
           />
           <label htmlFor="status5"> Đã Niêm Phong</label>
-          
           <input
             type="radio"
             id="status7"
