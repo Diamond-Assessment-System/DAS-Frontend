@@ -6,6 +6,7 @@ import "../AssessmentRequestPage/AssessmentRequestConsulting.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Assuming you have this file in the api directory
+import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
@@ -145,7 +146,10 @@ function AssessmentRequestConsulting() {
       if (selectedStatus === "dangcho") return booking.status === 1;
       if (selectedStatus === "datao") return booking.status === 2;
       if (selectedStatus === "dahoantat") return booking.status === 3;
-      if (selectedStatus === "dahuy") return booking.status === 4;
+      if (selectedStatus === "daniemphong") return booking.status === 4;
+      if (selectedStatus === "dadong") return booking.status === 5;
+      if (selectedStatus === "dahuy") return booking.status === 6;
+      
       return false;
     });
 
@@ -217,11 +221,29 @@ function AssessmentRequestConsulting() {
             type="radio"
             id="status5"
             name="status"
+            value="daniemphong"
+            checked={selectedStatus === "daniemphong"}
+            onChange={handleStatusChange}
+          />
+          <label htmlFor="status5"> Đã Niêm Phong</label>
+          <input
+            type="radio"
+            id="status6"
+            name="status"
+            value="dadong"
+            checked={selectedStatus === "dadong"}
+            onChange={handleStatusChange}
+          />
+          <label htmlFor="status6"> Đã Đóng</label>
+          <input
+            type="radio"
+            id="status7"
+            name="status"
             value="dahuy"
             checked={selectedStatus === "dahuy"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status5"> Đã Huỷ</label>
+          <label htmlFor="status7"> Đã Huỷ</label>
         </div>
 
         <div className="overflow-x-auto">
@@ -263,7 +285,7 @@ function AssessmentRequestConsulting() {
                       booking.status
                     )}`}
                   >
-                    <h3>{getStatusText(booking.status)}</h3>
+                    <h3>{getBookingStatusMeaning(booking.status)}</h3>
                   </td>
                   <td className="py-4 px-4 align-middle">
                     {booking.status !== 4 && (
