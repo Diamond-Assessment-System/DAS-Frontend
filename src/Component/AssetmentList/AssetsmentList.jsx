@@ -116,7 +116,7 @@ function AssetsmentList() {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <div className="mx-auto p-6 bg-gray-100 min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <div className="logo-container">
