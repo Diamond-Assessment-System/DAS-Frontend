@@ -96,7 +96,7 @@ function AssessmentRequestConsulting() {
     if (booking.status === 1) {
       try {
         // Update the booking status to 'Đã Hủy' (status 4) using the new API
-        await changeBookingStatus(booking.bookingId, 4);
+        await changeBookingStatus(booking.bookingId, 6);
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
