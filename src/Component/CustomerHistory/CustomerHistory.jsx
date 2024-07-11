@@ -16,6 +16,9 @@ const CustomerHistory = () => {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState([]);
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedSample, setSelectedSample] = useState(null);
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     const account = handleSession(navigate);
@@ -38,29 +41,27 @@ const CustomerHistory = () => {
   };
 
   const handleDetails = (sample) => {
-    switch (sample.status) {
-      case 1:
+    navigate(`/history/${sample.bookingId}`);
+  };
 
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đang chờ nhân viên xác nhận");
-        break;
-      case 2:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đang thực hiện giám định");
-        break;
-      case 3:
-        navigate(`/history/${sample.bookingId}`);
-        break;
-      case 4:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Chưa thực hiện giám định");
-        break;
-      case 5:
-        navigate(`/history/${sample.bookingId}`);
-        //window.alert("Đã bị hủy, không thể xem");
-        break;
-      default:
-        break;
+  const handleOpenPopup = (sample) => {
+    setSelectedSample(sample);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setSelectedSample(null);
+    setFeedback("");
+  };
+
+  const handleSaveFeedback = async () => {
+    try {
+      await axios.put(`https://das-backend.fly.dev/api/assessment-bookings/${selectedSample.bookingId}/feedback`, { feedback });
+      handleClosePopup(); // Close the popup
+      fetchHistory(loggedAccount.accountId); // Refresh the history to show the feedback status
+    } catch (error) {
+      console.error("Error saving feedback:", error);
     }
   };
 
@@ -124,11 +125,16 @@ const CustomerHistory = () => {
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
-                      <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Đánh giá
-                      </button>
+                      {sample.feedback ? (
+                        <span className="successfull-feedback-history">Đã đánh giá</span>
+                      ) : (
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          onClick={() => handleOpenPopup(sample)}
+                        >
+                          Đánh giá
+                        </button>
+                      )}
                     </div>
                   </td>
                   <td className="py-4 px-4 align-middle">
@@ -147,6 +153,23 @@ const CustomerHistory = () => {
           </table>
         </div>
       </div>
+
+      {showPopup && (
+        <div className="popup-overlay-history">
+          <div className="popup-content-history">
+            <span className="close-history" onClick={handleClosePopup}>&times;</span>
+            <h3 className="title-feedback-history">Đánh giá dịch vụ</h3>
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Nhập đánh giá của bạn"
+              rows="5"
+              cols="50"
+            />
+            <button className="save-button-history" onClick={handleSaveFeedback}>Lưu</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
