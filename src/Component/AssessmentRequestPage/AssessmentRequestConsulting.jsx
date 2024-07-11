@@ -74,6 +74,10 @@ function AssessmentRequestConsulting() {
   };
 
   const handleCreateBooking = async (booking) => {
+    if (booking.status === 6) {
+      alert("Không thể tạo booking mới cho yêu cầu đã hủy.");
+      return;
+    }
     if (booking.status === 2) {
       try {
         // Update the booking status to 'Đã Hoàn Thành' (status 3) using the new API
@@ -146,8 +150,8 @@ function AssessmentRequestConsulting() {
       if (selectedStatus === "dangcho") return booking.status === 1;
       if (selectedStatus === "datao") return booking.status === 2;
       if (selectedStatus === "dahoantat") return booking.status === 3;
-      if (selectedStatus === "daniemphong") return booking.status === 4;
-      if (selectedStatus === "dadong") return booking.status === 5;
+      if (selectedStatus === "daniemphong") return booking.status === 5;
+      if (selectedStatus === "dadong") return booking.status === 4;
       if (selectedStatus === "dahuy") return booking.status === 6;
       
       return false;
@@ -219,15 +223,6 @@ function AssessmentRequestConsulting() {
           <label htmlFor="status4">Đã Hoàn Tất</label>
           <input
             type="radio"
-            id="status5"
-            name="status"
-            value="daniemphong"
-            checked={selectedStatus === "daniemphong"}
-            onChange={handleStatusChange}
-          />
-          <label htmlFor="status5"> Đã Niêm Phong</label>
-          <input
-            type="radio"
             id="status6"
             name="status"
             value="dadong"
@@ -235,6 +230,16 @@ function AssessmentRequestConsulting() {
             onChange={handleStatusChange}
           />
           <label htmlFor="status6"> Đã Đóng</label>
+          <input
+            type="radio"
+            id="status5"
+            name="status"
+            value="daniemphong"
+            checked={selectedStatus === "daniemphong"}
+            onChange={handleStatusChange}
+          />
+          <label htmlFor="status5"> Đã Niêm Phong</label>
+          
           <input
             type="radio"
             id="status7"
