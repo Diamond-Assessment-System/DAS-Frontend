@@ -48,7 +48,7 @@ const CommitmentPaperPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await changeBookingStatus(bookingId, 4);
+            await changeBookingStatus(bookingId, 5);
             const dataUrl = await toPng(paperRef.current, { backgroundColor: 'white' });
             navigate('/manager/commitmentdownload', { state: { imageUrl: dataUrl } });
         } catch (error) {
