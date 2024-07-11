@@ -93,7 +93,7 @@ const Commitment = () => {
                     <div className="date">
                         <p>Ngày {new Date().getDate()} tháng {new Date().getMonth() + 1} năm {new Date().getFullYear()}</p>
                     </div>
-                    <div className="signatures">
+                    <div className="signatures" >
                         <div className="left-signature">
                             <p><strong>Bên giao</strong></p>
                             <p>(Ký, ghi rõ họ tên)</p>
@@ -105,7 +105,7 @@ const Commitment = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={handleSubmit} className="button create-button">Tạo biên bản</button>
+            <button onClick={handleSubmit} className="button create-button mt-15 ">Tạo biên bản</button>
         </div>
     );
 };

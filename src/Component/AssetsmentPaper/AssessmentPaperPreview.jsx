@@ -7,6 +7,7 @@ import QRCode from "qrcode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { format } from "date-fns";
+import signatureImage from "../../assets/signature.png";
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -287,6 +288,20 @@ const AssessmentPaperPreview = () => {
                     alt="Grading Scale"
                     className="img-fluid"
                   />
+                </Col>
+              </Row>
+
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>SIGNATURE</h3>
+                  </div>
+                  <img
+                    src={signatureImage}
+                    alt="Signature"
+                    className="img-fluid signaturePreview"
+                  />
+    
                 </Col>
               </Row>
             </Col>
