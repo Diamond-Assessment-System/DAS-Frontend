@@ -30,7 +30,7 @@ const DeleteSuspendUsers = () => {
     try {
       const newStatus = currentStatus === 1 ? 2 : 1; // Toggle between 1 (active) and 2 (blocked)
       const confirmed = window.confirm(`Are you sure you want to ${currentStatus === 1 ? "block" : "unblock"} this user?`);
-      
+
       if (confirmed) {
         await changeAccountStatus(userId, newStatus);
         setUsers((prevUsers) =>
@@ -52,23 +52,23 @@ const DeleteSuspendUsers = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Block User Accounts
+          Chặn Tài Khoản Người Dùng
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="py-4 px-4 text-center align-middle">User Id</th>
-                <th className="py-4 px-4 text-center align-middle">Name</th>
+                <th className="py-4 px-4 text-center align-middle">Tên</th>
                 <th className="py-4 px-4 text-center align-middle">Email</th>
-                <th className="py-4 px-4 text-center align-middle">Phone</th>
-                <th className="py-4 px-4 text-center align-middle">Status</th>
-                <th className="py-4 px-4 text-center align-middle">Actions</th>
+                <th className="py-4 px-4 text-center align-middle">Số Điện Thoại</th>
+                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -82,9 +82,8 @@ const DeleteSuspendUsers = () => {
                   <td className="py-4 px-4 text-center align-middle">
                     <button
                       onClick={() => toggleUserStatus(user.accountId, user.accountStatus)}
-                      className={`${
-                        user.accountStatus === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
-                      } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                      className={`${user.accountStatus === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
+                        } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                     >
                       {user.accountStatus === 1 ? "Block User" : "Unblock User"}
                     </button>

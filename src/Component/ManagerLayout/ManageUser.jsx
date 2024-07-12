@@ -32,23 +32,23 @@ const ManageUser = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          User Accounts
+          Danh Sách Tài Khoản
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">User Id</th>
-                <th className="py-4 px-4 text-center align-middle">Name</th>
+                <th className="py-4 px-4 text-center align-middle">ID Khách Hàng</th>
+                <th className="py-4 px-4 text-center align-middle">Tên Khách Hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Email</th>
-                <th className="py-4 px-4 text-center align-middle">Phone</th>
-                <th className="py-4 px-4 text-center align-middle">Status</th>
-                <th className="py-4 px-4 text-center align-middle">Actions</th>
+                <th className="py-4 px-4 text-center align-middle">Số Điện Thoại</th>
+                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">

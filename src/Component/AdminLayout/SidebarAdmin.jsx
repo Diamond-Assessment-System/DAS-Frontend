@@ -1,6 +1,19 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../AdminLayout/AdminLayout.css";
+import { Button } from "react-bootstrap";
+import {
+  handleSession,
+  clearSession,
+  checkSession,
+} from "../../utils/sessionUtils";
+import { useNavigate } from "react-router-dom";
+const handleLogout = () => {
+  clearSession();
+  setUserName(null);
+  setRole(0);
+  navigate("/");
+};
 
 const SidebarAdmin = () => {
   return (
@@ -33,7 +46,7 @@ const SidebarAdmin = () => {
             className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
             activeClassName="bg-gray-300 font-semibold"
           >
-            Block User
+            Chặn Người Dùng
           </NavLink>
         </li>
         <li className="admin-sidebar-item">
@@ -42,7 +55,17 @@ const SidebarAdmin = () => {
             className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
             activeClassName="bg-gray-300 font-semibold"
           >
-            Assign Roles
+            Phân Quyền
+          </NavLink>
+        </li>
+        <li className="admin-sidebar-item">
+          <NavLink
+            to="/"
+            className="flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
+            onClick={handleLogout}
+            activeClassName="bg-gray-300 font-semibold"
+          >
+            Đăng Xuất
           </NavLink>
         </li>
         {/* <li className="admin-sidebar-item">
