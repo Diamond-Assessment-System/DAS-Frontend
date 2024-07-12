@@ -63,6 +63,7 @@ const AssessmentBookingDiamondInput = () => {
         status: 1,
         servicePriceId: priceId,
       });
+      form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
     }
     setSamples(updatedSamples);
   };
@@ -70,6 +71,9 @@ const AssessmentBookingDiamondInput = () => {
   const validateSize = (_, value) => {
     if (value < 0) {
       return Promise.reject(new Error("Kích cỡ phải lớn hơn hoặc bằng 0!"));
+    }
+    if (value > 100) {
+      return Promise.reject(new Error("Kích cỡ không được vượt quá 100!"));
     }
     if (isNaN(value)) {
       return Promise.reject(new Error("Kích cỡ phải là số!"));
@@ -102,6 +106,7 @@ const AssessmentBookingDiamondInput = () => {
                 form.setFieldsValue({ [`diamond${i + 1}Price`]: price });
               }}
               min="0"
+              max="100"
             />
           </Form.Item>
           <Form.Item label="Số tiền ước tính" name={`diamond${i + 1}Price`}>

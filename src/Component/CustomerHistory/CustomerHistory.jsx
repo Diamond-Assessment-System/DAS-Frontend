@@ -8,7 +8,7 @@ import "../CustomerHistory/CustomerHistory.css";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 
 const formatPrice = (price) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return price ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " VND" : "Chưa xác nhận đơn";
 };
 
 const CustomerHistory = () => {
@@ -16,6 +16,9 @@ const CustomerHistory = () => {
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState([]);
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedSample, setSelectedSample] = useState(null);
+  const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
     const account = handleSession(navigate);
@@ -27,7 +30,7 @@ const CustomerHistory = () => {
 
   const fetchHistory = async (accountId) => {
     try {
-      const response = await axios.get('https://das-backend.fly.dev/api/booking-samples');
+      const response = await axios.get('https://das-backend.fly.dev/api/assessment-bookings');
       const filteredHistory = response.data.filter(sample => sample.accountId === accountId);
       setHistory(filteredHistory);
     } catch (error) {
@@ -38,28 +41,27 @@ const CustomerHistory = () => {
   };
 
   const handleDetails = (sample) => {
-    switch (sample.status) {
-      case 1:
-        window.alert("Đang thực hiện giám định");
-        break;
-      case 2:
-        window.alert("Đang chờ nhân viên xác nhận");
-        break;
-      case 3:
-        navigate(`/history/${sample.sampleId}`);
-        break;
-      case 4:
-        window.alert("Đã bị hủy, không thể xem");
-        break;
-      case 5:
-        //navigate(`/history/${sample.sampleId}`);
-        window.alert("Đã bị niêm phong, không thể xem");
-        break;
-      case 6:
-        window.alert("Đã bị hủy, không thể xem");
-        break;
-      default:
-        break;
+    navigate(`/history/${sample.bookingId}`);
+  };
+
+  const handleOpenPopup = (sample) => {
+    setSelectedSample(sample);
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    setSelectedSample(null);
+    setFeedback("");
+  };
+
+  const handleSaveFeedback = async () => {
+    try {
+      await axios.put(`https://das-backend.fly.dev/api/assessment-bookings/${selectedSample.bookingId}/feedback`, { feedback });
+      handleClosePopup(); // Close the popup
+      fetchHistory(loggedAccount.accountId); // Refresh the history to show the feedback status
+    } catch (error) {
+      console.error("Error saving feedback:", error);
     }
   };
 
@@ -80,7 +82,6 @@ const CustomerHistory = () => {
     }
   };
 
-
   if (loading) {
     return (
       <div className="text-center">
@@ -98,10 +99,12 @@ const CustomerHistory = () => {
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
-                <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
-                <th className="py-4 px-4 text-center align-middle">Giá</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày đặt đơn</th>
+                <th className="py-4 px-4 text-center align-middle">Ngày trả đơn</th>
+                <th className="py-4 px-4 text-center align-middle">Số lượng mẫu</th>
+                <th className="py-4 px-4 text-center align-middle">Tổng giá trị</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Đánh giá</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
               </tr>
             </thead>
@@ -109,13 +112,30 @@ const CustomerHistory = () => {
               {history.map((sample, index) => (
                 <tr key={index}>
                   <td className="py-4 px-4 align-middle">{sample.bookingId}</td>
-                  <td className="py-4 px-4 align-middle">{sample.name}</td>
-                  <td className="py-4 px-4 align-middle">{sample.size}</td>
+                  <td className="py-4 px-4 align-middle">{sample.dateCreated}</td>
                   <td className="py-4 px-4 align-middle">
-                    {formatPrice(sample.price)} VND
+                    {sample.sampleReturnDate ? sample.sampleReturnDate : "Chưa xác nhận đơn"}
+                  </td>
+                  <td className="py-4 px-4 align-middle">{sample.quantities}</td>
+                  <td className="py-4 px-4 align-middle">
+                    {formatPrice(sample.totalPrice)}
                   </td>
                   <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
                     <h3>{getBookingStatusMeaning(sample.status)}</h3>
+                  </td>
+                  <td className="py-4 px-4 align-middle">
+                    <div className="flex items-center justify-center">
+                      {sample.feedback ? (
+                        <span className="successfull-feedback-history">Đã đánh giá</span>
+                      ) : (
+                        <button
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                          onClick={() => handleOpenPopup(sample)}
+                        >
+                          Đánh giá
+                        </button>
+                      )}
+                    </div>
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <div className="flex items-center justify-center">
@@ -133,6 +153,23 @@ const CustomerHistory = () => {
           </table>
         </div>
       </div>
+
+      {showPopup && (
+        <div className="popup-overlay-history">
+          <div className="popup-content-history">
+            <span className="close-history" onClick={handleClosePopup}>&times;</span>
+            <h3 className="title-feedback-history">Đánh giá dịch vụ</h3>
+            <textarea
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="Nhập đánh giá của bạn"
+              rows="5"
+              cols="50"
+            />
+            <button className="save-button-history" onClick={handleSaveFeedback}>Lưu</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

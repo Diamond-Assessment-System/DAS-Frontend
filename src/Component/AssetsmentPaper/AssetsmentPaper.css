@@ -132,3 +132,9 @@ body {
 .flexxx {
   margin-top: 10px;
 }
+
+.signaturePreview{
+  width: 70%;
+  height: 100px;
+  opacity: 0%;
+}
