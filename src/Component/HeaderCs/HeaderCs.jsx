@@ -5,7 +5,6 @@ import { clearSession } from '../../utils/sessionUtils';
 import { Button } from "react-bootstrap";
 import {
   handleSession,
-  clearSession,
   checkSession,
 } from "../../utils/sessionUtils";
 import { useNavigate } from "react-router-dom";

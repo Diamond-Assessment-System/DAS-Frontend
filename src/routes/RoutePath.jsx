@@ -111,7 +111,7 @@ const RoutePath = () => {
           <Route path="receipt" element={<AssessmentReceipt />} />
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
           <Route path="reprintpaper" element={<ReprintedBooking />} />
-          <Route path="reprintpaper/lookuppaper" element={<LookupPaperpage />} />
+          <Route path="reprintpaper/lookuppaper/:id" element={<LookupPaperpage />} />
           <Route path="/consultingstaff/sealdiamond" element={<SealDiamondPage />} />
         </Route>
 
