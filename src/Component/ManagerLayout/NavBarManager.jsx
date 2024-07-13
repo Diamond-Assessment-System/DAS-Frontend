@@ -8,20 +8,20 @@ import {
   checkSession,
 } from "../../utils/sessionUtils";
 import { useNavigate } from "react-router-dom";
+
+const handleLogout = () => {
+  clearSession();
+  setUserName(null);
+  setRole(0);
+  navigate("/");
+};
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-  const handleLogout = () => {
-    clearSession();
-    setUserName(null);
-    setRole(0);
-    navigate("/");
-  };
-
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
