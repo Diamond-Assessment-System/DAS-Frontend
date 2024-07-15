@@ -33,7 +33,7 @@ function AssessmentPaperDetail() {
     if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
-      const frontImage = new Image();
+      const frontImage =  new Image();
       const backImage = new Image();
 
       frontImage.crossOrigin = "Anonymous"; // Ensure CORS is enabled for front image
