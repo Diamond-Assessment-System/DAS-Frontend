@@ -3,14 +3,16 @@
 function getBookingStatusMeaning(status) {
   switch (status) {
     case 1:
-      return "Đã tạo";
+      return "Đang Chờ";
     case 2:
-      return "Đã nhận";
+      return "Đã Tạo";
     case 3:
       return "Đã Hoàn Thành";
     case 4:
-      return "Đã Seal";
+      return "Đã Đóng";
     case 5:
+      return "Đã Niêm Phong";
+    case 6:
       return "Đã Hủy";
     default:
       return "Unknown status";
@@ -20,14 +22,12 @@ function getBookingStatusMeaning(status) {
 function getSampleStatusMeaning(status) {
   switch (status) {
     case 1:
-      return "Đã Mở";
+      return "Đã mở";
     case 2:
       return "Đã Phân Việc";
     case 3:
       return "Đã Hoàn Thành";
     case 4:
-      return "Đã Seal";
-    case 5:
       return "Đã Hủy";
     default:
       return "Unknown status";

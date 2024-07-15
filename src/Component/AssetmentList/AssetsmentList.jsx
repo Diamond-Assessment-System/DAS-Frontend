@@ -8,7 +8,8 @@ import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
 import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
 import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
-
+import "./AssetsmentList.css"; // Import the CSS file
+import logo from "../../../public/logodas.png";
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,12 +56,12 @@ function AssetsmentList() {
   }, [diamonds, bookingData, serviceData, navigate]);
 
   const formatDateToLocalDateTime = (date) => {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
     const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
   };
 
@@ -113,16 +114,19 @@ function AssetsmentList() {
       setLoading(false);
     }
   };
- 
 
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <div className="mx-auto p-6 bg-gray-100 min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
-          <img src="/src/assets/logodas.png" alt="Logo" className="w-32" />
+          <div className="logo-container">
+          <img src={logo} alt="Logo" className="logo" />
+          </div>
           <div>
             <h2 className="text-2xl font-bold">Hóa Đơn</h2>
-            <p className="text-sm text-gray-600">Đơn hàng #{bookingData.bookingId}</p>
+            <p className="text-sm text-gray-600">
+              Đơn hàng #{bookingData.bookingId}
+            </p>
           </div>
         </div>
         <hr className="mb-6" />
@@ -168,7 +172,9 @@ function AssetsmentList() {
               <tr>
                 <td colSpan="2" />
                 <td className="py-4 px-4 text-right font-bold">Tổng tiền</td>
-                <td className="py-4 px-4 text-right font-bold">${totalPrice}</td>
+                <td className="py-4 px-4 text-right font-bold">
+                  ${totalPrice}
+                </td>
               </tr>
             </tbody>
           </table>
