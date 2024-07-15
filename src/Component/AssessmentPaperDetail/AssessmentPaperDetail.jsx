@@ -36,21 +36,24 @@ function AssessmentPaperDetail() {
       const frontImage = new Image();
       const backImage = new Image();
 
+      frontImage.crossOrigin = "Anonymous"; // Ensure CORS is enabled for front image
+      backImage.crossOrigin = "Anonymous"; // Ensure CORS is enabled for back image
+
       frontImage.src = frontImageFile;
       backImage.src = assessmentPaper.paperImage;
 
       frontImage.onload = () => {
-        // Set canvas size to fit both images
-        const width = frontImage.width;
-        const height = frontImage.height + backImage.height;
-        canvas.width = width;
-        canvas.height = height;
-
-        // Draw the front image
-        context.drawImage(frontImage, 0, 0, width, frontImage.height);
-
-        // Draw the back image below the front image
         backImage.onload = () => {
+          // Set canvas size to fit both images
+          const width = backImage.width;
+          const height = frontImage.height + backImage.height;
+          canvas.width = width;
+          canvas.height = height;
+
+          // Draw the front image
+          context.drawImage(frontImage, 0, 0, width, frontImage.height);
+
+          // Draw the back image below the front image
           context.drawImage(backImage, 0, frontImage.height, width, backImage.height);
 
           // Convert canvas to data URL and trigger download
@@ -59,6 +62,16 @@ function AssessmentPaperDetail() {
           link.download = 'AssessmentPaperDetail.png';
           link.click();
         };
+
+        // Handle back image load error
+        backImage.onerror = () => {
+          alert("Error loading back image from S3.");
+        };
+      };
+
+      // Handle front image load error
+      frontImage.onerror = () => {
+        alert("Error loading front image.");
       };
     }
   };

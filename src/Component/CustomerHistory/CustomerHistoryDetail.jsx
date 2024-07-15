@@ -30,10 +30,21 @@ function CustomerAssessmentPaperDetail() {
 
   const downloadImage = () => {
     if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
-      const link = document.createElement("a");
-      link.href = assessmentPaper.paperImage;
-      link.download = "AssessmentPaperDetail.png";
-      link.click();
+      fetch(assessmentPaper.paperImage, {
+        method: 'GET',
+        headers: {},
+      })
+      .then(response => {
+        response.blob().then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'AssessmentPaperDetail.png';
+          link.click();
+        });
+      }).catch(err => {
+        console.error('Error downloading the image', err);
+      });
     }
   };
 
