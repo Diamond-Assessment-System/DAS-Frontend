@@ -1,17 +1,29 @@
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
+
+// // AWS.config.update({
+// //   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
+// //   secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+// //   region: process.env.REACT_APP_AWS_REGION
+// // });
 
 // AWS.config.update({
-//   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-//   region: process.env.REACT_APP_AWS_REGION
+//   accessKeyId: 'AKIATCKATES2JQM6KTEY',
+//   secretAccessKey: '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',
+//   region: 'ap-southeast-2'
 // });
 
-AWS.config.update({
-  accessKeyId: 'AKIATCKATES2JQM6KTEY',
-  secretAccessKey: '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',
-  region: 'ap-southeast-2'
+// const s3 = new AWS.S3();
+
+// export default s3;
+
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const s3Client = new S3Client({
+  region: 'ap-southeast-2',
+  credentials: {
+    accessKeyId: 'AKIATCKATES2JQM6KTEY',
+    secretAccessKey: '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',
+  },
 });
 
-const s3 = new AWS.S3();
-
-export default s3;
+export { s3Client, PutObjectCommand };

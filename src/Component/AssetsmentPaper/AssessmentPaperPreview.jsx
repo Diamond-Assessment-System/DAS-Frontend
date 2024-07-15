@@ -8,7 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { format } from "date-fns";
 import signatureImage from "../../assets/signature.png";
-import s3 from '../../config/aws-config';
+//import s3 from '../../config/aws-config';
+import { s3Client, PutObjectCommand } from '../../config/aws-config';
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -138,7 +139,8 @@ const AssessmentPaperPreview = () => {
 
           try {
             console.log('Uploading with params:', params);
-            const uploadResponse = await s3.upload(params).promise();
+            const command = new PutObjectCommand(params);
+            const uploadResponse = await s3Client.send(command);
             console.log('Upload successful:', uploadResponse);
 
             const assessmentData = {
@@ -155,7 +157,7 @@ const AssessmentPaperPreview = () => {
               fluorescence,
               weight: parseFloat(carat),
               dateCreated: format(new Date(), "yyyy/MM/dd - HH:mm:ss"),
-              paperImage: uploadResponse.Location,
+              paperImage: `https://das-swp391.s3.ap-southeast-2.amazonaws.com/${params.Key}`,
               accountId: loggedAccount.accountId,
             };
 
