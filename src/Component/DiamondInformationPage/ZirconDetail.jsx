@@ -5,7 +5,7 @@ import Zircon from '../../assets/Zircon.jpg'
 
 const ZirconDetail = () => {
   return (
-    <div className="detail" style={{ marginTop: '50rem' }}>
+    <div className="detail" >
       <br /><br />
       <div className="detail-header">
         <img src={Zircon} alt="Zircon" className="detail-image" />

@@ -64,7 +64,7 @@ export const EvaluateService = () => {
       }
 
     return (
-      <div className="evaluate-service" style={{ marginTop: '87rem' }}>
+      <div className="evaluate-service" style={{ marginTop: '8rem' }}>
         <ContactModal/>
       <div className="section">
         <p className="headerService">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>

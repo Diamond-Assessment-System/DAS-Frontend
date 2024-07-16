@@ -7,7 +7,7 @@ const TanzaniteDetail = () => {
   return (
     <div className="detail">
       <br /><br />
-      <div className="detail-header" style={{ marginTop: '50rem' }}>
+      <div className="detail-header" >
         <img src={Tanzanite} alt="Tanzanite" className="detail-image" />
         <div className="detail-header-text">
           <h1>TANZANITE</h1>

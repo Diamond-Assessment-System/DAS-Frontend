@@ -7,7 +7,7 @@ const CoralDetail = () => {
   return (
     <div className="detail">
       <br /><br />
-      <div className="detail-header" style={{ marginTop: '50rem' }}>
+      <div className="detail-header" >
         <img src={SanHo} alt="Coral" className="detail-image" />
         <div className="detail-header-text">
           <h1>CORAL – SAN HÔ</h1>
