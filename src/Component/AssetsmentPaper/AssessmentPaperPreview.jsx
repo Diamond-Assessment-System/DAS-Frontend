@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { format } from "date-fns";
 import signatureImage from "../../assets/signature.png";
+//import s3 from '../../config/aws-config';
+import { s3Client, PutObjectCommand } from '../../config/aws-config';
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -127,20 +129,20 @@ const AssessmentPaperPreview = () => {
         const paperImage = canvas.toDataURL("image/png");
 
         canvas.toBlob(async (blob) => {
-          const formData = new FormData();
-          formData.append("file", blob, "paperImage.png");
-          formData.append("assessmentPaperId", parseInt(id)); // Assuming `id` is your sampleId
+          const fileName = `Assessment_Paper_${id}.png`;
+          const params = {
+            Bucket: 'das-swp391',
+            Key: fileName,
+            Body: blob,
+            ContentType: "image/png"
+          };
 
           try {
-            const uploadResponse = await axios.post(
-              "https://das-backend.fly.dev/api/upload",
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
+            console.log('Uploading with params:', params);
+            const command = new PutObjectCommand(params);
+            const uploadResponse = await s3Client.send(command);
+            console.log('Upload successful:', uploadResponse);
+
             const assessmentData = {
               sampleId: parseInt(id),
               type: loai,
@@ -155,7 +157,7 @@ const AssessmentPaperPreview = () => {
               fluorescence,
               weight: parseFloat(carat),
               dateCreated: format(new Date(), "yyyy/MM/dd - HH:mm:ss"),
-              paperImage,
+              paperImage: `https://das-swp391.s3.ap-southeast-2.amazonaws.com/${params.Key}`,
               accountId: loggedAccount.accountId,
             };
 
@@ -173,7 +175,7 @@ const AssessmentPaperPreview = () => {
             console.log("Submission successful:", response.data);
             navigate("/assessmentstaff");
           } catch (error) {
-            console.error("Error submitting data:", error);
+            console.error("Error uploading to S3:", error);
           }
         }, "image/png");
       } catch (error) {

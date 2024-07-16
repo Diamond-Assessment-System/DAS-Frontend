@@ -3,8 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import Pagination from "../Paginate/Pagination"; 
-import '../ManagerLayout/AsPaperManager.css'; 
+import Pagination from "../Paginate/Pagination";
+import '../ManagerLayout/AsPaperManager.css';
 import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
 
 // Utility function to remove diacritics
@@ -115,7 +115,7 @@ function AsPaperManager() {
   return (
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
-        <h4 className="text-lg font-semibold text-gray-800 mb-4">Assign Role</h4>
+        <h4 className="text-lg font-semibold text-gray-800 mb-4">Phân Việc</h4>
         <input
           type="text"
           placeholder="Search by sample name or booking ID"
@@ -150,7 +150,7 @@ function AsPaperManager() {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         value={selectedActions[sample.sampleId] || ""}
                       >
-                        <option value="" disabled hidden>Select action</option>
+                        <option value="" disabled hidden>Chọn Hành Động</option>
                         {accounts.map(account => (
                           <option key={account.accountId} value={account.accountId}>
                             {account.displayName}
@@ -161,7 +161,7 @@ function AsPaperManager() {
                         onClick={() => handleSubmit(sample.sampleId)}
                         className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
-                        Submit
+                        Gửi
                       </button>
                     </div>
                   </td>
