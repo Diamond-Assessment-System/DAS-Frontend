@@ -71,6 +71,10 @@ import Commitment from "../Component/ManagerLayout/Commitment.jsx";
 import CommitmentPaperImage from "../Component/ManagerLayout/CommitmentPaperImage.jsx";
 import SealDiamondPage from "../Component/SealDiamondP/SealDiamondPage.jsx";
 import ManageUser from "../Component/ManagerLayout/ManageUser.jsx";
+import SealDiamond from "../Component/SealDiamondP/SealDiamond.jsx";
+import SealInput from "../Component/SealDiamondP/SealInput.jsx";
+import SealDiamonDetail from "../Component/SealDiamondP/SealDiamondDetail.jsx";
+import SealReceipt from "../Component/SealDiamondP/SealReceipt.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -112,7 +116,10 @@ const RoutePath = () => {
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
           <Route path="reprintpaper" element={<ReprintedBooking />} />
           <Route path="reprintpaper/lookuppaper/:id" element={<LookupPaperpage />} />
-          <Route path="/consultingstaff/sealdiamond" element={<SealDiamondPage />} />
+          <Route path="/consultingstaff/sealdiamond" element={<SealDiamond />} />
+          <Route path="/consultingstaff/sealdiamond/:id" element={<SealDiamonDetail />} />
+          <Route path="/consultingstaff/sealdiamond/:id/sealinput" element={<SealInput />} />
+          <Route path="/consultingstaff/sealdiamond/:id/sealinput/sealreceipt" element={<SealReceipt />} />
         </Route>
 
         <Route path="/assessmentstaff" element={<AssessmentStaffLayout />}>
