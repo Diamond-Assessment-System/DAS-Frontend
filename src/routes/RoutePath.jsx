@@ -44,6 +44,7 @@ import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/Assessme
 import ReceiptDetail from "../Component/AssessmentReceiptDetailPage/AssessmentReceiptDetail.jsx";
 import ProductSearch from "../Component/SearchProductPage/SearchProduct";
 import { EvaluateService } from "../Component/ServicePricePage/Service.jsx";
+import { EvaluateServicePrice } from "../Component/ServicePricePage/ServicePrice.jsx";
 import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
 import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
 import CreateManageUsers from "../Component/AdminLayout/CreateManageUsers.jsx";
@@ -85,6 +86,7 @@ const RoutePath = () => {
           <Route path="success" element={<SuccessPage />} />
           <Route path="lookup" element={<ProductSearch />} />
           <Route path="services" element={<EvaluateService />} />
+          <Route path="serviceprices" element={<EvaluateServicePrice />} />
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
