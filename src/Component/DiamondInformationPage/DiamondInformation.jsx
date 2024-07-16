@@ -10,7 +10,7 @@ function DiamondInformation() {
   const [hoveredImage, setHoveredImage] = React.useState(null);
 
   return (
-    <div className="flex flex-col bg-white min-h-screen">
+    <div className="flex flex-col bg-white min-h-screen "style={{ marginTop: '15rem' }}>
       <div className="flex flex-col mt-28 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full space-y-16">
         {[{ image: Aquamarine, name: "Aquamarine" }, { image: SanHo, name: "SanHo" }, { image: Zircon, name: "Zircon" }, { image: Tanzanite, name: "Tanzanite" }].map((item, index) => (
           <div

@@ -4,14 +4,12 @@ import Footer from "../Component/Footer/Footer";
 
 function CustomerLayout() {
   return (
-    <div >
+    <div>
       <Header />
-      <main className="mt-15">
+      <main >
         <Outlet />
       </main>
       <Footer />
-   
-
     </div>
   );
 }
