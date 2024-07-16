@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
+import axios from "axios";
 import { AccountCircle, Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import backgroundImage from "../../assets/backgroundlogin.png"; // Update the path as necessary
 import illustration from "../../assets/loginbackground.png"; // Update the path to your image
+import { API_BASE_URL } from "../../utils/apiEndPoints";
 
 const RegisterComponent = () => {
   const [phone, setPhone] = useState("");
@@ -29,28 +29,31 @@ const RegisterComponent = () => {
     }
 
     const userInfo = {
-      fullName,
-      phoneNumber: phone,
-      password,
+      email: "",  // Add appropriate values or remove if not used
+      displayName: fullName,
+      uid: "",  // Add appropriate values or remove if not used
+      accountStatus: 1,  // Set a default value or make it dynamic as needed
+      role: 1,  // Set a default value or make it dynamic as needed
+      password: password,
+      phone: phone,
     };
 
     try {
-      const response = await fetch("/api/register", {
-        method: "POST",
+      const response = await axios.post(`${API_BASE_URL}/api/registerPhone`, userInfo, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userInfo),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Registration successful!");
         navigate("/login");
       } else {
-        alert("Registration failed!");
+        alert(`Registration failed: ${response.data}`);
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      alert("An error occurred. Please try again later.");
     }
   };
 
@@ -78,7 +81,7 @@ const RegisterComponent = () => {
         >
           &#x2715;
         </button>
-        <div className="hidden md:flex  bg-blue-800 items-center justify-center">
+        <div className="hidden md:flex bg-blue-800 items-center justify-center">
           <img
             src={illustration}
             alt="Illustration"
@@ -104,13 +107,12 @@ const RegisterComponent = () => {
             </div>
             <div className="mb-4 flex items-center relative">
               <Phone className="text-gray-400 mr-3" />
-              <PhoneInput
-                country={"us"}
+              <input
+                type="tel"
+                placeholder="Số điện thoại"
                 value={phone}
-                onChange={(phone) => setPhone(phone)}
-                inputClass="w-full border border-gray-300 p-2 rounded"
-                containerClass="w-full"
-                buttonClass="phone-input-button"
+                onChange={(e) => setPhone(e.target.value)}
+                className="border border-gray-300 p-2 w-full rounded"
                 required
               />
             </div>
