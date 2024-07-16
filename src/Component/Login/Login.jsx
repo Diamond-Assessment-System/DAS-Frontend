@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { signInWithGoogle, signInWithPhoneNumber } from "../../utils/authUtils";
 import { Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import illustration from "../../assets/loginbackground.png";
+import backgroundImage from "../../assets/backgroundlogin.png"; // Update the path as necessary
+import Image from "../../assets/loginbackground.png"; // Update the path to your image
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
@@ -72,33 +73,32 @@ const GoogleLoginComponent = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
+    <div
+      className="flex items-center justify-center min-h-screen p-4"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
+    >
+      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden bg-opacity-70">
         <button
           className="absolute top-4 right-4 text-black text-2xl"
           onClick={() => navigate("/")}
         >
           &#x2715;
         </button>
-        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-blue-800">
+        <div className="md:flex md:w-1/2 items-center justify-center bg-blue-800 w-full">
           <img
-            src={illustration}
-            alt="Illustration"
+            src={Image}
+            alt="Image"
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full justify-center items-center">
+        <div className="w-full md:w-1/2 p-8 flex flex-col items-center justify-center">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
-            <h2 className="text-xl text-gray-800 mt-2">
-              We Value Your Diamond!
-            </h2>
+            <h1 className="text-4xl font-bold text-gray-900">DAS</h1>
+            <h2 className="text-xl text-gray-800 mt-2">We Value Your Diamond!</h2>
           </div>
           {user ? (
             <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900">
-                Welcome, {user.name}
-              </h3>
+              <h3 className="text-2xl font-semibold text-gray-900">Welcome, {user.name}</h3>
               <Avatar
                 src={user.picture}
                 alt={user.name}
@@ -134,14 +134,14 @@ const GoogleLoginComponent = () => {
                 <button
                   className={`${
                     loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
-                  } text-white py-1 pr-20 pl-20 mx-auto ml-28 rounded text-xl block`}
+                  } text-white py-3 px-6 mx-auto rounded text-xl`}
                   onClick={loginWithGoogle}
                   disabled={loading}
                 >
                   {loading ? "Loading..." : "Dùng tài khoản Google"}
                 </button>
               ) : (
-                <form onSubmit={loginWithPhoneNumber} className="mb-4 w-full">
+                <form onSubmit={loginWithPhoneNumber} className="w-full">
                   <div className="mb-4 flex items-center">
                     <Phone className="text-gray-400 mr-3" />
                     <input
@@ -184,10 +184,7 @@ const GoogleLoginComponent = () => {
               <div className="text-center">
                 <p className="text-gray-700">
                   Chưa có tài khoản?{" "}
-                  <Link
-                    to="/register"
-                    className="text-blue-500 hover:underline"
-                  >
+                  <Link to="/register" className="text-blue-500 hover:underline">
                     Đăng ký
                   </Link>
                 </p>

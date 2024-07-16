@@ -3,7 +3,8 @@ module.exports = {
   theme: {
     extend: {
       margin: {
-        15: "8rem", // Custom value for margin-top
+        15: "8rem",
+        20: "10rem" // Custom value for margin-top
       },
     },
   },

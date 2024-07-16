@@ -3,8 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import { AccountCircle, Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import "./RegisterComponent.css"; // Đường dẫn đã được sửa lại
-import illustration from "../../assets/loginbackground.png";
+import backgroundImage from "../../assets/backgroundlogin.png"; // Update the path as necessary
+import illustration from "../../assets/loginbackground.png"; // Update the path to your image
 
 const RegisterComponent = () => {
   const [phone, setPhone] = useState("");
@@ -54,33 +54,41 @@ const RegisterComponent = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   const handleGoBack = () => {
     navigate("/");
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center">
-<button
-  className="absolute top-4 right-4 bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-700"
-  onClick={handleGoBack}
->
-  &#x2715;
-</button>
-
-      <div className="bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
-        <div className="hidden md:flex w-1/2 bg-blue-800 items-center justify-center">
+    <div
+      className="flex items-center justify-center min-h-screen p-4"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
+    >
+      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden bg-opacity-70">
+        <button
+          className="absolute top-4 right-4 bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-700"
+          onClick={handleGoBack}
+        >
+          &#x2715;
+        </button>
+        <div className="hidden md:flex  bg-blue-800 items-center justify-center">
           <img
             src={illustration}
             alt="Illustration"
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full md:w-1/2 p-12">
-          <div className="flex flex-col items-center mb-8">
-            <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
-            <h2 className="text-xl text-gray-800 mt-2">
-              We Valued Your Diamond!
-            </h2>
+        <div className="w-full md:w-1/2 p-8 flex flex-col items-center justify-center">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900">DAS</h1>
+            <h2 className="text-xl text-gray-800 mt-2">We Valued Your Diamond!</h2>
           </div>
           <form onSubmit={handleRegister} className="w-full">
             <div className="mb-4 flex items-center">
@@ -94,14 +102,14 @@ const RegisterComponent = () => {
                 required
               />
             </div>
-            <div className="mb-4 flex items-center relative phone-input-container">
-              <Phone className="text-gray-400 phone-icon" />
+            <div className="mb-4 flex items-center relative">
+              <Phone className="text-gray-400 mr-3" />
               <PhoneInput
                 country={"us"}
                 value={phone}
                 onChange={(phone) => setPhone(phone)}
                 inputClass="w-full border border-gray-300 p-2 rounded"
-                containerClass="phone-input"
+                containerClass="w-full"
                 buttonClass="phone-input-button"
                 required
               />
@@ -116,12 +124,12 @@ const RegisterComponent = () => {
                 className="border border-gray-300 p-2 w-full rounded"
                 required
               />
-              <span
-                className="password-icon"
-                onClick={() => setShowPassword(!showPassword)}
+              <div
+                className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={toggleShowPassword}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
-              </span>
+              </div>
             </div>
             <div className="mb-4 flex items-center relative">
               <Lock className="text-gray-400 mr-3" />
@@ -133,12 +141,12 @@ const RegisterComponent = () => {
                 className="border border-gray-300 p-2 w-full rounded"
                 required
               />
-              <span
-                className="password-icon"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              <div
+                className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={toggleShowConfirmPassword}
               >
                 {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-              </span>
+              </div>
             </div>
             <button
               type="submit"

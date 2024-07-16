@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Button } from 'react-bootstrap';
-import './AccountInfo.css'; // Assuming you have a CSS file for styling
+import './AccountInfo.css'; // Ensure you have the CSS file for styling
 
 const AccountInfo = () => {
     const [account, setAccount] = useState({
@@ -43,10 +43,10 @@ const AccountInfo = () => {
     };
 
     return (
-        <Container className="account-info-container">
-            <Card className="account-card">
-                <div className="account-card-body">
-                    <div className="account-avatar">
+        <div className="account-info">
+            <Card className="account-card shadow-sm">
+                <Card.Body className="d-flex flex-column align-items-center">
+                    <div className="account-avatar mb-4">
                         <input
                             type="file"
                             id="avatarUpload"
@@ -55,11 +55,13 @@ const AccountInfo = () => {
                         />
                         <img
                             src={account.avatar}
-                            alt=""
+                            alt="Avatar"
+                            className="rounded-circle"
                             onClick={() => document.getElementById('avatarUpload').click()}
+                            style={{ width: '150px', height: '150px', cursor: 'pointer' }}
                         />
                     </div>
-                    <div className="account-details">
+                    <div className="account-details w-100">
                         <Form onSubmit={handleUpdate}>
                             <Form.Group className="form-group" controlId="formDisplayName">
                                 <Form.Label>Họ và tên:</Form.Label>
@@ -77,14 +79,14 @@ const AccountInfo = () => {
                                 <Form.Label>Email:</Form.Label>
                                 <Form.Control type="text" readOnly value={account.email} />
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            <Button variant="primary" type="submit" className="mt-3 w-100">
                                 Update
                             </Button>
                         </Form>
                     </div>
-                </div>
+                </Card.Body>
             </Card>
-        </Container>
+            </div>
     );
 };
 

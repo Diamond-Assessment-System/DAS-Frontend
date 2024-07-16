@@ -1,0 +1,110 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: url('./../../assets/backgroundlogin.png') no-repeat center center; /* Update this path */
+    background-size: cover;
+    position: relative;
+  }
+  
+  .login-card {
+    background: rgba(255, 255, 255, 0.7); /* Adjust the alpha value to make it more or less transparent */
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-header {
+    display: flex;
+    justify-content: space-between;
+    background: rgba(63, 81, 181, 0.9); /* Adjusted for transparency */
+    padding: 10px;
+  }
+  
+  .login-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    transition: background 0.3s;
+  }
+  
+  .login-tab.active {
+    background: rgba(48, 63, 159, 0.9); /* Adjusted for transparency */
+  }
+  
+  .login-body {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .login-logo {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .google-login-btn, .phone-login-btn {
+    background: #4285f4;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .google-login-btn:hover, .phone-login-btn:hover {
+    background: #357ae8;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 5px 10px;
+  }
+  
+  .input-group input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px;
+  }
+  
+  .input-icon {
+    color: #888;
+    margin-right: 10px;
+  }
+  
+  .toggle-password {
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .background-text {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    color: white;
+    text-align: right;
+  }
+  
+  .background-text h1 {
+    font-size: 3rem;
+    margin: 0;
+  }
+  
+  .background-text h2 {
+    font-size: 2rem;
+    margin: 0;
+  }
+  
