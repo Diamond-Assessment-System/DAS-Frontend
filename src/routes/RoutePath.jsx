@@ -31,6 +31,7 @@ import CommitmentPaper from "../Component/ManagerLayout/CommitmentPaper.jsx";
 import Dashboard from "../Component/ManagerLayout/Dashboard";
 import AssetsmentList from "../Component/AssetmentList/AssetsmentList";
 import ManageOrderTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
+import ManageServicePrice from "../Component/ManagerLayout/ManageServicePrice.jsx";
 import Commitpaper from "../Component/ManagerLayout/Commitpaper.jsx";
 import RegisterComponent from "../Component/Register/RegisterComponent.jsx";
 import AssignWork from "../Component/ManagerLayout/Assignwork.jsx";
@@ -130,6 +131,7 @@ const RoutePath = () => {
         <Route path="/manager" element={<ManagerLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
+          <Route path="/manager/manage-service-pricing" element={<ManageServicePrice />} />
           <Route path="/manager/sealing-records" element={<SealList />} />
           <Route path="/manager/sealform" element={<SealForm />} />
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
