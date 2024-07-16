@@ -24,7 +24,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formServiceName">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Tên Dịch Vụ</Form.Label>
             <Form.Control
               type="text"
               name="serviceName"
@@ -34,7 +34,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <Form.Group controlId="formServiceDescription">
-            <Form.Label>Description</Form.Label>
+            <Form.Label>Mô Tả Dịch Vụ</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -45,7 +45,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <Form.Group controlId="formServiceStatus">
-            <Form.Label>Status</Form.Label>
+            <Form.Label>Trạng Thái</Form.Label>
             <Form.Control
               type="text"
               name="serviceStatus"
@@ -55,7 +55,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <Form.Group controlId="formServiceType">
-            <Form.Label>Type</Form.Label>
+            <Form.Label>Loại Dịch Vụ</Form.Label>
             <Form.Control
               as="select"
               name="serviceType"
@@ -70,7 +70,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             </Form.Control>
           </Form.Group>
           <Form.Group controlId="formServicePrice">
-            <Form.Label>Price</Form.Label>
+            <Form.Label>Giá Dịch Vụ</Form.Label>
             <Form.Control
               type="text"
               name="servicePrice"
@@ -80,7 +80,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <Form.Group controlId="formServiceTime">
-            <Form.Label>Time</Form.Label>
+            <Form.Label>Thời Gian</Form.Label>
             <Form.Control
               type="number"
               name="serviceTime"
@@ -91,10 +91,10 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
           </Form.Group>
           <div className="modal-footer">
             <Button className="custom-save-button" type="submit">
-              Save
+              Lưu
             </Button>
             <Button variant="secondary" onClick={handleClose}>
-              Cancel
+              Hủy
             </Button>
           </div>
         </Form>
@@ -228,27 +228,27 @@ const ManageOrderTimelines = () => {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">
-          Manage Assessment Services
+          Quản Lý Dịch Vụ
         </h4>
         <Button
           className="mb-4"
           variant="success"
           onClick={addService}
         >
-          Add Service
+          Thêm Dịch Vụ Mới
         </Button>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-blue-600 text-white">
               <tr>
                 <th className="py-4 px-4 text-center align-middle">ID</th>
-                <th className="py-4 px-4 text-center align-middle">Name</th>
-                <th className="py-4 px-4 text-center align-middle">Description</th>
-                <th className="py-4 px-4 text-center align-middle">Status</th>
-                <th className="py-4 px-4 text-center align-middle">Type</th>
-                <th className="py-4 px-4 text-center align-middle">Price</th>
-                <th className="py-4 px-4 text-center align-middle">Time</th>
-                <th className="py-4 px-4 text-center align-middle">Action</th>
+                <th className="py-4 px-4 text-center align-middle">Tên</th>
+                <th className="py-4 px-4 text-center align-middle">Mô Tả</th>
+                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
+                <th className="py-4 px-4 text-center align-middle">Loại</th>
+                <th className="py-4 px-4 text-center align-middle">Giá Dịch Vụ</th>
+                <th className="py-4 px-4 text-center align-middle">Thời Gian</th>
+                <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -279,7 +279,7 @@ const ManageOrderTimelines = () => {
                       variant="primary"
                       onClick={() => editService(service)}
                     >
-                      Edit
+                      Chỉnh Sửa
                     </Button>
                   </td>
                 </tr>

@@ -6,13 +6,17 @@ import * as Yup from "yup";
 import "./AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
-import { ASSESSMENT_BOOKINGS_URL, SERVICES_URL } from "../../utils/apiEndPoints";
+import {
+  ASSESSMENT_BOOKINGS_URL,
+  SERVICES_URL,
+} from "../../utils/apiEndPoints";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -35,12 +39,12 @@ function AssessmentRequest() {
   }, [navigate]);
 
   const formatDateToLocalDateTime = (date) => {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
     const year = date.getFullYear();
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
   };
 
@@ -52,17 +56,23 @@ function AssessmentRequest() {
       quantities: 1,
     },
     validationSchema: Yup.object({
-      phone: Yup.string().required("Please input!"),
-      serviceId: Yup.string().required("Please choose one!"),
-      paymentType: Yup.string().required("Please choose one!"),
+      phone: Yup.string()
+        .matches(/^[0-9]{10}$/, "Số điện thoại phải là 10 chữ số.")
+        .required("Vui lòng nhập số điện thoại!"),
+      serviceId: Yup.string().required("Vui lòng chọn dịch vụ!"),
+      paymentType: Yup.string().required("Vui lòng chọn hình thức thanh toán!"),
       quantities: Yup.number()
-        .required("Please input!")
-        .min(1, "At least 1 sample"),
+        .required("Vui lòng nhập số lượng!")
+        .min(1, "Ít nhất 1 mẫu.")
+        .max(100, "Không quá 100 mẫu."),
     }),
     onSubmit: (values) => {
       if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
+        setIsProcessing(true);
         const now = new Date();
-        const selectedService = services.find(service => service.serviceId === parseInt(values.serviceId));
+        const selectedService = services.find(
+          (service) => service.serviceId === parseInt(values.serviceId)
+        );
 
         const data = {
           ...values,
@@ -71,7 +81,9 @@ function AssessmentRequest() {
           status: 1,
           paymentStatus: 1,
           dateCreated: formatDateToLocalDateTime(now),
-          serviceName: selectedService ? selectedService.serviceName : "Unknown Service"
+          serviceName: selectedService
+            ? selectedService.serviceName
+            : "Unknown Service",
         };
 
         axios
@@ -230,6 +242,7 @@ function AssessmentRequest() {
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={isProcessing}
           >
             Đặt Lịch
           </button>

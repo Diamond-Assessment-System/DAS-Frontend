@@ -67,7 +67,7 @@ export const EvaluateService = () => {
       <div className="evaluate-service">
         <ContactModal/>
       <div className="section">
-        <p className="header">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
+        <p className="headerService">CÁC DỊCH VỤ GIÁM ĐỊNH KIM CƯƠNG HIỆN CÓ TẠI DAS</p>
         <div className="table-container">
           <table className="service-table">
             <thead>
@@ -94,7 +94,7 @@ export const EvaluateService = () => {
         </div>
       </div>
       <div className="section">
-        <p className="header">TIÊU CHUẨN GIÁM ĐỊNH KIM CƯƠNG PNJLAB</p>
+        <p className="headerService">TIÊU CHUẨN GIÁM ĐỊNH KIM CƯƠNG PNJLAB</p>
         <div className="table-container">
           <table className="service-table">
             <thead>

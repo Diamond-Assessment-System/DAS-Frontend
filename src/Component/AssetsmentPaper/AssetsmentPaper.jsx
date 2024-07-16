@@ -66,22 +66,41 @@ const AssessmentPaper = () => {
   const handlePreview = () => {
     if (uploadedProportionImage && uploadedClarityImage) {
       if (window.confirm("Thông tin đã xác thực?")) {
-        navigate(`/assessmentstaff/assessmentbooking/${id}/selection/info/summary/preview`, {
-          state: {
-            id, loai, trangThai, xuatXu, carat, measurement, colorGrade, clarityGrade, cutGrade, size,
-            shape, cuttingStyle, polish, symmetry, fluorescence,
-            uploadedProportionImage, uploadedClarityImage, loggedAccount
+        navigate(
+          `/assessmentstaff/assessmentbooking/${id}/selection/info/summary/preview`,
+          {
+            state: {
+              id,
+              loai,
+              trangThai,
+              xuatXu,
+              carat,
+              measurement,
+              colorGrade,
+              clarityGrade,
+              cutGrade,
+              size,
+              shape,
+              cuttingStyle,
+              polish,
+              symmetry,
+              fluorescence,
+              uploadedProportionImage,
+              uploadedClarityImage,
+              loggedAccount,
+            },
           }
-        });
+        );
       }
-
     } else {
-      alert("Please upload both the Proportion and Clarity images before proceeding.");
+      alert(
+        "Please upload both the Proportion and Clarity images before proceeding."
+      );
     }
   };
 
   return (
-    <Container className="mt-5 report-container">
+    <div className="mt-5 report-container">
       <div ref={reportRef}>
         <div className="gold-outline">
           <div className="text-center mb-4">
@@ -94,7 +113,9 @@ const AssessmentPaper = () => {
                   <h3 className="section-title">DAS Natural Grading Report</h3>
                   <p>Date assessed: {currentDate}</p>
                   <p>DAS report number: #{id}</p>
-                  <p>Shape and cutting style: {shape} {cuttingStyle}</p>
+                  <p>
+                    Shape and cutting style: {shape} {cuttingStyle}
+                  </p>
                   <p>Measurement: {measurement}</p>
                   <p>Size: {size}</p>
                 </Col>
@@ -112,7 +133,9 @@ const AssessmentPaper = () => {
               </Row>
               <Row className="mb-4">
                 <Col>
-                  <h3 className="section-title">ADDITIONAL GRADING INFORMATION</h3>
+                  <h3 className="section-title">
+                    ADDITIONAL GRADING INFORMATION
+                  </h3>
                   <p>Polish: {polish}</p>
                   <p>Symmetry: {symmetry}</p>
                   <p>Fluorescence: {fluorescence}</p>
@@ -183,7 +206,7 @@ const AssessmentPaper = () => {
       <Row className="mb-4">
         <Col>
           <Button
-            style={{width:100}}
+            style={{ width: 100 }}
             variant="primary"
             onClick={handlePreview}
             disabled={!uploadedProportionImage || !uploadedClarityImage}
@@ -192,7 +215,7 @@ const AssessmentPaper = () => {
           </Button>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

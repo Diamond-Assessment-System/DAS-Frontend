@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../AdminLayout/DeleteSuspendUsers.css";
 import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
-import { changeAccountStatus } from "../../utils/changeAccountStatus"; // Adjust path as needed
 import Spinner from "../Spinner/Spinner";
 
-const DeleteSuspendUsers = () => {
+const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     try {
       const accounts = await getAllAccounts();
-      setUsers(accounts);
+      const filteredAccounts = accounts.filter(account => account.role === 1);
+      setUsers(filteredAccounts);
     } catch (error) {
       console.error('Error fetching accounts:', error);
     } finally {
@@ -25,25 +24,6 @@ const DeleteSuspendUsers = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-
-  const toggleUserStatus = async (userId, currentStatus) => {
-    try {
-      const newStatus = currentStatus === 1 ? 2 : 1; // Toggle between 1 (active) and 2 (blocked)
-      const confirmed = window.confirm(`Are you sure you want to ${currentStatus === 1 ? "block" : "unblock"} this user?`);
-
-      if (confirmed) {
-        await changeAccountStatus(userId, newStatus);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.accountId === userId ? { ...user, accountStatus: newStatus } : user
-          )
-        );
-        console.log(`User status updated for ID ${userId}`);
-      }
-    } catch (error) {
-      console.error('Error updating user status:', error);
-    }
-  };
 
   if (loading) {
     return (
@@ -57,14 +37,14 @@ const DeleteSuspendUsers = () => {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Chặn Tài Khoản Người Dùng
+          Danh Sách Tài Khoản
         </h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">User Id</th>
-                <th className="py-4 px-4 text-center align-middle">Tên</th>
+                <th className="py-4 px-4 text-center align-middle">ID Khách Hàng</th>
+                <th className="py-4 px-4 text-center align-middle">Tên Khách Hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Email</th>
                 <th className="py-4 px-4 text-center align-middle">Số Điện Thoại</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
@@ -81,11 +61,10 @@ const DeleteSuspendUsers = () => {
                   <td className="py-4 px-4 text-center align-middle">{getAccountStatusMeaning(user.accountStatus)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
-                      onClick={() => toggleUserStatus(user.accountId, user.accountStatus)}
-                      className={`${user.accountStatus === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
-                        } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                      onClick={() => window.location.href = `/user-details/${user.accountId}`}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      {user.accountStatus === 1 ? "Block User" : "Unblock User"}
+                      View Details
                     </button>
                   </td>
                 </tr>
@@ -98,4 +77,4 @@ const DeleteSuspendUsers = () => {
   );
 };
 
-export default DeleteSuspendUsers;
+export default ManageUser;

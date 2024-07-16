@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import "../AssessmentPaperReprinted/ReprintedBooking.css";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
+import moment from "moment";
+import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 
 function ReprintedBooking() {
     const navigate = useNavigate();
@@ -18,26 +20,14 @@ function ReprintedBooking() {
             case 1:
                 return "status-pendingg";
             case 2:
-                return "status-completedd";
+                return "status-createdd";
             case 3:
-                return "status-canceledd";
+                return "status-completedd";
             default:
                 return "text-gray-500";
         }
     };
 
-    const getStatusText = (status) => {
-        switch (status) {
-            case 1:
-                return "Đang chờ";
-            case 2:
-                return "Đã tạo booking";
-            case 3:
-                return "Đã hủy";
-            default:
-                return "Không xác định";
-        }
-    };
 
     const getServiceName = (serviceId) => {
         const service = services.find((service) => service.serviceId === serviceId);
@@ -68,6 +58,9 @@ function ReprintedBooking() {
 
     const handleCreateBooking = (booking) => {
         switch (booking.status) {
+            case 1:
+                navigate(`lookuppaper/${booking.bookingId}`);
+                break;
             case 2:
                 navigate(`lookuppaper`);
                 break;
@@ -82,7 +75,13 @@ function ReprintedBooking() {
                 break;
         }
     };
-
+    const getBackgroundColor = (dateCreated, status) => {
+        if (status !== 1) return "";
+        const dateDiff = moment().diff(moment(dateCreated), 'days');
+        if (dateDiff > 5) return "bg-red-500";
+        if (dateDiff > 3) return "bg-yellow-500";
+        return "";
+    };
     const filteredBookings = bookings
         .filter((booking) => {
             const service = services.find((service) => service.serviceId === booking.serviceId);
@@ -175,8 +174,8 @@ function ReprintedBooking() {
                         </thead>
                         <tbody className="text-gray-700">
                             {filteredBookings.map((booking) => (
-                                <tr key={booking.bookingId} className="hover:bg-gray-100">
-                                    <td className="py-4 px-4 align-middle">{`#${booking.bookingId}`}</td>
+                                <tr key={booking.bookingId} className={`hover:bg-gray-100 ${getBackgroundColor(booking.dateCreated, booking.status)}`}>
+                                    <td className="py-4 px-4 align-middle ">{`#${booking.bookingId}`}</td>
                                     <td className="py-4 px-4 align-middle">
                                         {getServiceName(booking.serviceId)}
                                     </td>
@@ -187,7 +186,7 @@ function ReprintedBooking() {
                                         {booking.dateCreated}
                                     </td>
                                     <td className={`py-4 px-4 align-middle ${getStatusClass(booking.status)}`}>
-                                        <h3>{getStatusText(booking.status)}</h3>
+                                        <h3>{getBookingStatusMeaning(booking.status)}</h3>
                                     </td>
                                     <td className="py-4 px-4 align-middle">
                                         <div className="flex items-center justify-center">

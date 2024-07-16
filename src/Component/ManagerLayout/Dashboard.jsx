@@ -136,14 +136,14 @@ const CombinedDashboard = () => {
 
   return (
     <div className="dashboard">
-      <h1 className="dashboard-title">Manager Dashboard</h1>
+      <h1 className="dashboard-title">Dashboard</h1>
       <div className="summary-cards">
         <div className="summary-card">
-          <h3>Total Revenue</h3>
+          <h3>Tổng Doanh Thu</h3>
           <p>{totalRevenue.toLocaleString()} VND</p>
         </div>
         <div className="summary-card">
-          <h3>Total Bookings</h3>
+          <h3>Tổng Số Booking</h3>
           <p>{bookingData.length}</p>
         </div>
       </div>

@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: 'media', // or 'class' or false if you don't want dark mode
+  purge: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       margin: {
-        '15': '8rem', // Custom value for margin-top
+        '15': '8rem', // Giá trị tùy chỉnh cho margin-top
       },
     },
   },
@@ -14,4 +14,3 @@ module.exports = {
   },
   plugins: [],
 }
-

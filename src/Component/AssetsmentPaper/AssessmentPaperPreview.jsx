@@ -7,6 +7,9 @@ import QRCode from "qrcode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { format } from "date-fns";
+import signatureImage from "../../assets/signature.png";
+//import s3 from '../../config/aws-config';
+import { s3Client, PutObjectCommand } from '../../config/aws-config';
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -35,13 +38,15 @@ const AssessmentPaperPreview = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [currentDate, setCurrentDate] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     setCurrentDate(format(new Date(), "yyyy/MM/dd - HH:mm:ss"));
 
     const generateImageAndQrCode = async () => {
       try {
-        const sectionTitles = reportRef.current.querySelectorAll(".section-title");
+        const sectionTitles =
+          reportRef.current.querySelectorAll(".section-title");
         sectionTitles.forEach((title) =>
           title.classList.add("section-title-download")
         );
@@ -78,8 +83,10 @@ const AssessmentPaperPreview = () => {
   };
 
   const handleDownload = async () => {
+    setIsProcessing(true);
     try {
-      const sectionTitles = reportRef.current.querySelectorAll(".section-title");
+      const sectionTitles =
+        reportRef.current.querySelectorAll(".section-title");
       sectionTitles.forEach((title) =>
         title.classList.add("section-title-download")
       );
@@ -97,89 +104,96 @@ const AssessmentPaperPreview = () => {
       link.click();
     } catch (error) {
       console.error("Error generating image for download:", error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
-        try {
-            const sectionTitles = reportRef.current.querySelectorAll(".section-title");
-            sectionTitles.forEach((title) =>
-                title.classList.add("section-title-download")
+      setIsProcessing(true);
+      try {
+        const sectionTitles =
+          reportRef.current.querySelectorAll(".section-title");
+        sectionTitles.forEach((title) =>
+          title.classList.add("section-title-download")
+        );
+
+        const canvas = await html2canvas(reportRef.current, {
+          scrollX: 0,
+          scrollY: 0,
+          scale: 1,
+          windowWidth: document.documentElement.offsetWidth,
+          windowHeight: document.documentElement.offsetHeight,
+        });
+
+        sectionTitles.forEach((title) =>
+          title.classList.remove("section-title-download")
+        );
+
+        const paperImage = canvas.toDataURL("image/png");
+
+        canvas.toBlob(async (blob) => {
+          const fileName = `Assessment_Paper_${id}.png`;
+          const params = {
+            Bucket: 'das-swp391',
+            Key: fileName,
+            Body: blob,
+            ContentType: "image/png"
+          };
+
+          try {
+            console.log('Uploading with params:', params);
+            const command = new PutObjectCommand(params);
+            const uploadResponse = await s3Client.send(command);
+            console.log('Upload successful:', uploadResponse);
+
+            const assessmentData = {
+              sampleId: parseInt(id),
+              type: loai,
+              size: parseFloat(size),
+              shape: `${shape} ${cuttingStyle}`,
+              measurement: `${measurement}`,
+              cuttingStyle,
+              color: colorGrade,
+              clarity: clarityGrade,
+              polish,
+              symmetry,
+              fluorescence,
+              weight: parseFloat(carat),
+              dateCreated: format(new Date(), "yyyy/MM/dd - HH:mm:ss"),
+              paperImage: `https://das-swp391.s3.ap-southeast-2.amazonaws.com/${params.Key}`,
+              accountId: loggedAccount.accountId,
+            };
+
+            const response = await axios.post(
+              "https://das-backend.fly.dev/api/assessment-papers",
+              assessmentData
             );
 
-            const canvas = await html2canvas(reportRef.current, {
-                scrollX: 0,
-                scrollY: 0,
-                scale: 1,
-                windowWidth: document.documentElement.offsetWidth,
-                windowHeight: document.documentElement.offsetHeight,
-            });
-
-            sectionTitles.forEach((title) =>
-                title.classList.remove("section-title-download")
+            const status = 3;
+            await axios.put(
+              `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
             );
 
-            const paperImage = canvas.toDataURL("image/png");
-
-            canvas.toBlob(async (blob) => {
-                const formData = new FormData();
-                formData.append('file', blob, 'paperImage.png');
-                formData.append('assessmentPaperId', parseInt(id)); // Assuming `id` is your sampleId
-
-                try {
-                    const uploadResponse = await axios.post(
-                        "https://das-backend.fly.dev/api/upload",
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
-                    );
-                    const assessmentData = {
-                        sampleId: parseInt(id),
-                        type: loai,
-                        size: parseFloat(size),
-                        shape: `${shape} ${cuttingStyle}`,
-                        measurement: `${measurement}`,
-                        cuttingStyle,
-                        color: colorGrade,
-                        clarity: clarityGrade,
-                        polish,
-                        symmetry,
-                        fluorescence,
-                        weight: parseFloat(carat),
-                        dateCreated: format(new Date(), 'yyyy/MM/dd - HH:mm:ss'),
-                        paperImage,
-                        accountId: loggedAccount.accountId,
-                    };
-
-                    const response = await axios.post(
-                        "https://das-backend.fly.dev/api/assessment-papers",
-                        assessmentData
-                    );
-
-                    const status = 3;
-                    await axios.put(
-                        `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
-                    );
-
-                    window.alert("Đã Submit thành công!");
-                    console.log("Submission successful:", response.data);
-                    navigate("/assessmentstaff");
-                } catch (error) {
-                    console.error("Error submitting data:", error);
-                }
-            }, 'image/png');
-        } catch (error) {
-            console.error("Error generating canvas:", error);
-        }
+            window.alert("Đã Submit thành công!");
+            console.log("Submission successful:", response.data);
+            navigate("/assessmentstaff");
+          } catch (error) {
+            console.error("Error uploading to S3:", error);
+          } finally{
+            setIsProcessing(false);
+          }
+        }, "image/png");
+      } catch (error) {
+        console.error("Error generating canvas:", error);
+        setIsProcessing(false);
+      } 
     }
-};
+  };
 
   return (
-    <Container className="mt-5 report-container">
+    <div className="mt-5 report-container">
       <div ref={reportRef}>
         <div className="gold-outline">
           <div className="text-center mb-4">
@@ -286,21 +300,35 @@ const AssessmentPaperPreview = () => {
                   />
                 </Col>
               </Row>
+
+              <Row className="mb-4">
+                <Col>
+                  <div className="section-title">
+                    <h3>SIGNATURE</h3>
+                  </div>
+                  <img
+                    src={signatureImage}
+                    alt="Signature"
+                    className="img-fluid signaturePreview"
+                  />
+    
+                </Col>
+              </Row>
             </Col>
           </Row>
         </div>
       </div>
       <Row className="mb-4">
         <Col className="flexxx">
-          <Button variant="success" onClick={handleDownload} className="downnn">
+          <Button variant="success" onClick={handleDownload} className="downnn" disabled={isProcessing}>
             Download
           </Button>
-          <Button variant="success" onClick={handleSubmit} className="ml-3">
+          <Button variant="success" onClick={handleSubmit} className="ml-3" disabled={isProcessing}>
             Submit
           </Button>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

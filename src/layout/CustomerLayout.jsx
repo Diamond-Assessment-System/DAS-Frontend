@@ -11,6 +11,8 @@ function CustomerLayout() {
         <ContactModal />
       </main>
       <Footer />
+   
+
     </div>
   );
 }

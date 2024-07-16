@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './LookupPaperpage.css'; // Import the custom CSS file
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperUrl } from "../../utils/apiEndPoints";
 import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
 
 const LookupPaperpage = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();
     const [diamondCode, setDiamondCode] = useState('');
     const [searchResult, setSearchResult] = useState(null);
     const [imageData, setImageData] = useState(null); // State to hold base64 image data
@@ -31,6 +36,21 @@ const LookupPaperpage = () => {
             setSearchResult('Đã xảy ra lỗi khi tìm kiếm sản phẩm.');
             setImageData(null); // Clear image data on error
         }
+    };
+
+    const handleSubmitBooking = async (e) => {
+        e.preventDefault();
+
+            try {
+              // Change the order status to "Đã Hoàn Thành"
+              await changeBookingStatus(id, 3);
+              alert("Successfull");
+              navigate("/consultingstaff/reprintpaper");
+              
+            } catch (error) {
+              console.error("Error completing order:", error);
+            }
+          
     };
 
     const handlePrint = () => {
@@ -91,6 +111,9 @@ const LookupPaperpage = () => {
                     <img src={imageData} alt="Back Image" style={{ maxWidth: '100%', marginTop: '10px' }} />
                     <Button variant="success" className="mt-3" onClick={handlePrint}>
                         Print Report
+                    </Button>
+                    <Button variant="success" onClick={handleSubmitBooking} className="ml-3">
+                        Complete Reprint
                     </Button>
                 </div>
             )}
