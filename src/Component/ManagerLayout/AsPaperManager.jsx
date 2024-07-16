@@ -22,6 +22,7 @@ function AsPaperManager() {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
   const itemsPerPage = 10;
 
   const fetchSamples = async () => {
@@ -92,11 +93,14 @@ function AsPaperManager() {
   const handleSubmit = async (sampleId) => {
     const selectedAction = selectedActions[sampleId];
     if (selectedAction) {
+      setIsProcessing(true);
       try {
         await axios.put(getExecuteActionUrl(sampleId, selectedAction));
         fetchSamples();
       } catch (error) {
         console.error("Error assigning the staff:", error);
+      } finally{
+        setIsProcessing(false);
       }
     }
     if (selectedAction === "viewDetails") {
@@ -160,6 +164,7 @@ function AsPaperManager() {
                       <button
                         onClick={() => handleSubmit(sample.sampleId)}
                         className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        disabled={isProcessing}
                       >
                         Gửi
                       </button>

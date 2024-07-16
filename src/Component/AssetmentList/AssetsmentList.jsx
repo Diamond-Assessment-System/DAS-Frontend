@@ -19,6 +19,7 @@ function AssetsmentList() {
   const [account, setAccount] = useState({});
   const [completionDate, setCompletionDate] = useState("");
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const account = handleSession(navigate);
@@ -69,6 +70,7 @@ function AssetsmentList() {
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn submit không?")) {
+      setIsProcessing(true);
       const data = {
         status: 2,
         consultingAccountId: loggedAccount.accountId,
@@ -88,6 +90,8 @@ function AssetsmentList() {
         navigate("/consultingstaff");
       } catch (error) {
         console.error("Error submitting assessment booking:", error);
+      } finally {
+        setIsProcessing(false);
       }
     }
   };
@@ -180,7 +184,7 @@ function AssetsmentList() {
           </table>
         </div>
         <div className="text-right">
-          <Button type="primary" onClick={handleSubmit} className="mt-4 w-32">
+          <Button type="primary" onClick={handleSubmit} className="mt-4 w-32" disabled={isProcessing}>
             Submit
           </Button>
         </div>
