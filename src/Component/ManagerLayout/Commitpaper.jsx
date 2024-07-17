@@ -4,8 +4,6 @@ import { toPng } from "html-to-image";
 import '../ManagerLayout/Commitpaper.css';
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
 import getOrderDetails from "../../utils/getOrderDetails";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const CommitmentPaperPage = () => {
     const location = useLocation();
@@ -21,14 +19,6 @@ const CommitmentPaperPage = () => {
     const paperRef = useRef();
 
     useEffect(() => {
-        const account = handleSession(navigate);
-        if (!account) {
-            navigate(`/login`);
-        }
-        if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-            navigate(`/nopermission`);
-        };
-
         const fetchOrderDetails = async () => {
             try {
                 const orderDetails = await getOrderDetails(bookingId);

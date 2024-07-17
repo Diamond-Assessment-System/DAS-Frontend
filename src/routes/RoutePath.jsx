@@ -12,7 +12,6 @@ import InfoForm from "../Component/ConsultingStaffPage/InfoForm";
 
 // import SummaryPage from '../Component/ConsultingStaffPage/SummaryPage'
 import ErrorPage from "../Component/ErrorPage/ErrorPage";
-import NoPermission from "../Component/ErrorPage/NoPermission.jsx";
 import SelectionForm from "../Component/ConsultingStaffPage/SelectionForm";
 import AssessmentRequestCustomer from "../Component/AssessmentRequestCustomer/AssessmentRequestCustomer";
 import ConsultingStaffLayout from "../layout/ConsultingStaffLayout";
@@ -158,7 +157,6 @@ const RoutePath = () => {
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
-        <Route path="/nopermission" element={<NoPermission />} />
         <Route path="*" element={<ErrorPage />} />
 
       </Routes>

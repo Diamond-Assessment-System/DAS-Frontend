@@ -10,7 +10,6 @@ import {
   ASSESSMENT_BOOKINGS_URL,
   SERVICES_URL,
 } from "../../utils/apiEndPoints";
-import { checkRole } from "../../utils/checkRole";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
@@ -20,17 +19,6 @@ function AssessmentRequest() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 1 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-    if (account) {
-      setLoggedAccount(account);
-    }
-
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
@@ -41,7 +29,10 @@ function AssessmentRequest() {
       }
     };
 
-    
+    const account = handleSession(navigate);
+    if (account) {
+      setLoggedAccount(account);
+    }
 
     fetchServices();
     setLoading(false);

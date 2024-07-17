@@ -3,14 +3,10 @@ import axios from "axios";
 import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
@@ -26,13 +22,6 @@ const ManageUser = () => {
 
   // Fetch users on component mount
   useEffect(() => {
-    const account = handleSession(navigate);
-        if (!account) {
-            navigate(`/login`);
-        }
-        if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-            navigate(`/nopermission`);
-        };
     fetchUsers();
   }, []);
 

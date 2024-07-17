@@ -1,9 +1,7 @@
-import React, { useEffect }from "react";
+import React from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Form, InputNumber, Button, Typography, Select, Row, Col } from "antd";
 import "./InfoForm.css";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -13,17 +11,6 @@ function InfoForm() {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
-
-  useEffect(() => {
-
-    const account = handleSession(navigate);
-    if (!account) {
-        navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 2 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-        navigate(`/nopermission`);
-    };
-  });
 
   const { loai, trangThai, xuatXu, measurement } = location.state || {};
 

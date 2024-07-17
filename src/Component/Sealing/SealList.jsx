@@ -6,8 +6,6 @@ import '../Sealing/SealList.css';
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import { changeSampleStatus } from "../../utils/changeSampleStatus";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 function SealList() {
   const navigate = useNavigate();
@@ -23,15 +21,6 @@ function SealList() {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    
-    const account = handleSession(navigate);
-    if (!account) {
-        navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-        navigate(`/nopermission`);
-    };
-
     if (bookingId) {
       fetchSamples(bookingId);
     }

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 function SelectedDiamonds() {
   const [selectedDiamonds, setSelectedDiamonds] = useState([]);
@@ -9,14 +7,6 @@ function SelectedDiamonds() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const account = handleSession(navigate);
-    if (!account) {
-        navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-        navigate(`/nopermission`);
-    };
-    
     const diamonds = JSON.parse(localStorage.getItem("selectedDiamonds")) || [];
     setSelectedDiamonds(diamonds);
   }, []);

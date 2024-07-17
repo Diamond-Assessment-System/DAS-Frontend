@@ -6,8 +6,6 @@ import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import moment from "moment";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 function ReprintedBooking() {
     const navigate = useNavigate();
@@ -37,16 +35,6 @@ function ReprintedBooking() {
     };
 
     useEffect(() => {
-
-        const account = handleSession(navigate);
-        if (!account) {
-            navigate(`/login`);
-        }
-        if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-            navigate(`/nopermission`);
-        };
-
-
         const fetchBookingsAndServices = async () => {
             try {
                 const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);

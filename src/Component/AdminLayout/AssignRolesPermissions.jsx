@@ -4,26 +4,13 @@ import { getAllAccounts } from "../../utils/getAllAccounts";
 import { getRoleMeaning } from "../../utils/getStatusMeaning";
 import { changeAccountRole } from "../../utils/changeAccountRole";
 import Spinner from "../Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const AssignRolesPermissions = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRoles, setSelectedRoles] = useState({});
-  const navigate = useNavigate();
-
 
   useEffect(() => {
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 5 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-    
     const fetchUsers = async () => {
       try {
         const usersData = await getAllAccounts();

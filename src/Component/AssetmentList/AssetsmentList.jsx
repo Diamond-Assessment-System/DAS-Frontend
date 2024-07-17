@@ -10,9 +10,6 @@ import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
 import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 import "./AssetsmentList.css"; // Import the CSS file
 import logo from "../../../public/logodas.png";
-import { checkRole } from "../../utils/checkRole";
-
-
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,13 +26,6 @@ function AssetsmentList() {
     if (account) {
       setLoggedAccount(account);
     }
-
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
 
     if (diamonds && diamonds.length > 0) {
       const total = diamonds.reduce((acc, diamond) => acc + diamond.price, 0);
