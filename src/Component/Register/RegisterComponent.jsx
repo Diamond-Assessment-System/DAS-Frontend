@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
+import axios from "axios";
 import { AccountCircle, Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import "./RegisterComponent.css"; // Đường dẫn đã được sửa lại
-import illustration from "../../assets/loginbackground.png";
+import backgroundImage from "../../assets/backgroundlogin.png"; // Update the path as necessary
+import illustration from "../../assets/loginbackground.png"; // Update the path to your image
+import { API_BASE_URL } from "../../utils/apiEndPoints";
 
 const RegisterComponent = () => {
   const [phone, setPhone] = useState("");
@@ -29,29 +29,40 @@ const RegisterComponent = () => {
     }
 
     const userInfo = {
-      fullName,
-      phoneNumber: phone,
-      password,
+      email: "",  // Add appropriate values or remove if not used
+      displayName: fullName,
+      uid: "",  // Add appropriate values or remove if not used
+      accountStatus: 1,  // Set a default value or make it dynamic as needed
+      role: 1,  // Set a default value or make it dynamic as needed
+      password: password,
+      phone: phone,
     };
 
     try {
-      const response = await fetch("/api/register", {
-        method: "POST",
+      const response = await axios.post(`${API_BASE_URL}/api/registerPhone`, userInfo, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userInfo),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Registration successful!");
         navigate("/login");
       } else {
-        alert("Registration failed!");
+        alert(`Registration failed: ${response.data}`);
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      alert("An error occurred. Please try again later.");
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const handleGoBack = () => {
@@ -59,28 +70,28 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center">
-<button
-  className="absolute top-4 right-4 bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-700"
-  onClick={handleGoBack}
->
-  &#x2715;
-</button>
-
-      <div className="bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden">
-        <div className="hidden md:flex w-1/2 bg-blue-800 items-center justify-center">
+    <div
+      className="flex items-center justify-center min-h-screen p-4"
+      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover' }}
+    >
+      <div className="relative bg-white rounded-lg shadow-lg flex max-w-4xl w-full overflow-hidden bg-opacity-70">
+        <button
+          className="absolute top-4 right-4 bg-red-500 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-red-700"
+          onClick={handleGoBack}
+        >
+          &#x2715;
+        </button>
+        <div className="hidden md:flex bg-blue-800 items-center justify-center">
           <img
             src={illustration}
             alt="Illustration"
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full md:w-1/2 p-12">
-          <div className="flex flex-col items-center mb-8">
-            <h1 className="text-4xl font-bold mt-4 text-gray-900">DAS</h1>
-            <h2 className="text-xl text-gray-800 mt-2">
-              We Valued Your Diamond!
-            </h2>
+        <div className="w-full md:w-1/2 p-8 flex flex-col items-center justify-center">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900">DAS</h1>
+            <h2 className="text-xl text-gray-800 mt-2">We Valued Your Diamond!</h2>
           </div>
           <form onSubmit={handleRegister} className="w-full">
             <div className="mb-4 flex items-center">
@@ -94,15 +105,14 @@ const RegisterComponent = () => {
                 required
               />
             </div>
-            <div className="mb-4 flex items-center relative phone-input-container">
-              <Phone className="text-gray-400 phone-icon" />
-              <PhoneInput
-                country={"us"}
+            <div className="mb-4 flex items-center relative">
+              <Phone className="text-gray-400 mr-3" />
+              <input
+                type="tel"
+                placeholder="Số điện thoại"
                 value={phone}
-                onChange={(phone) => setPhone(phone)}
-                inputClass="w-full border border-gray-300 p-2 rounded"
-                containerClass="phone-input"
-                buttonClass="phone-input-button"
+                onChange={(e) => setPhone(e.target.value)}
+                className="border border-gray-300 p-2 w-full rounded"
                 required
               />
             </div>
@@ -116,12 +126,12 @@ const RegisterComponent = () => {
                 className="border border-gray-300 p-2 w-full rounded"
                 required
               />
-              <span
-                className="password-icon"
-                onClick={() => setShowPassword(!showPassword)}
+              <div
+                className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={toggleShowPassword}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
-              </span>
+              </div>
             </div>
             <div className="mb-4 flex items-center relative">
               <Lock className="text-gray-400 mr-3" />
@@ -133,12 +143,12 @@ const RegisterComponent = () => {
                 className="border border-gray-300 p-2 w-full rounded"
                 required
               />
-              <span
-                className="password-icon"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              <div
+                className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={toggleShowConfirmPassword}
               >
                 {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-              </span>
+              </div>
             </div>
             <button
               type="submit"

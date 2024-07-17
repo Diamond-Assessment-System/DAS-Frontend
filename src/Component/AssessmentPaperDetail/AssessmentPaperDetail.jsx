@@ -5,13 +5,27 @@ import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperDetaillUrl } from "../../utils/apiEndPoints";
 import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
+import { useNavigate } from "react-router-dom";
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [assessmentPaper, setAssessmentPaper] = useState(null);
+  const navigate = useNavigate();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+
     const fetchAssessmentPaper = async () => {
       try {
         const response = await axios.get(getAssessmentPaperDetaillUrl(id));
@@ -31,6 +45,7 @@ function AssessmentPaperDetail() {
 
   const downloadImage = () => {
     if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
+      setIsProcessing(true);
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
       const frontImage =  new Image();
@@ -73,6 +88,7 @@ function AssessmentPaperDetail() {
       frontImage.onerror = () => {
         alert("Error loading front image.");
       };
+      setIsProcessing(false);
     }
   };
 
@@ -105,7 +121,7 @@ function AssessmentPaperDetail() {
           </div>
         )}
       </div>
-      <button onClick={downloadImage} className="p-3 bg-orange-500 text-white font-bold rounded-md mt-4">
+      <button onClick={downloadImage} className="p-3 bg-orange-500 text-white font-bold rounded-md mt-4" disabled={isProcessing}>
         Download Image
       </button>
     </div>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, InputNumber, Button, Typography, Row, Col, Select } from 'antd';
 import { changeSampleStatus } from '../../utils/changeSampleStatus';
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -11,6 +13,18 @@ function SealForm() {
   const location = useLocation();
   const sample = location.state?.sample || {};
   const bookingId = location.state?.bookingId;
+
+
+  useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+  });
 
   const handleSubmit = async (values) => {
     const sampleData = { ...sample, ...values, status: 4 }; // Update status to indicate it has been sealed

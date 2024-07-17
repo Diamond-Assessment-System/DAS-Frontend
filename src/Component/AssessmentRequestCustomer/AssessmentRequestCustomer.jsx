@@ -10,14 +10,27 @@ import {
   ASSESSMENT_BOOKINGS_URL,
   SERVICES_URL,
 } from "../../utils/apiEndPoints";
+import { checkRole } from "../../utils/checkRole";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 1 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+    if (account) {
+      setLoggedAccount(account);
+    }
+
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
@@ -28,10 +41,7 @@ function AssessmentRequest() {
       }
     };
 
-    const account = handleSession(navigate);
-    if (account) {
-      setLoggedAccount(account);
-    }
+    
 
     fetchServices();
     setLoading(false);
@@ -67,6 +77,7 @@ function AssessmentRequest() {
     }),
     onSubmit: (values) => {
       if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
+        setIsProcessing(true);
         const now = new Date();
         const selectedService = services.find(
           (service) => service.serviceId === parseInt(values.serviceId)
@@ -240,6 +251,7 @@ function AssessmentRequest() {
           <button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={isProcessing}
           >
             Đặt Lịch
           </button>

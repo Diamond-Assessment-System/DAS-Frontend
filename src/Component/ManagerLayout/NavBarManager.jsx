@@ -42,6 +42,13 @@ const Navbar = () => {
           >
             Quản Lí Dịch Vụ
           </Link>
+          <Link
+            to="/manager/manage-service-pricing"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            Quản Lí Giá Dịch Vụ
+          </Link>
 
           {<Link
             to="/manager/commit"

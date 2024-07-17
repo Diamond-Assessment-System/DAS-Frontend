@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 function SealHistory() {
   const [sealHistory, setSealHistory] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+
     const history = JSON.parse(localStorage.getItem("sealedDiamonds")) || [];
     setSealHistory(history);
   }, []);

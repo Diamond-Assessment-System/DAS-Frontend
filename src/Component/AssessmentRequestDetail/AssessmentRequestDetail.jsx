@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './AssessmentRequestDetail.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import getServiceFromId from '../../utils/getServiceFromId';
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentDetailUrl } from "../../utils/apiEndPoints";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const AssessmentRequestDetail = () => {
   const navigate = useNavigate();
@@ -14,9 +15,18 @@ const AssessmentRequestDetail = () => {
   const [service, setService] = useState({});
 
   useEffect(() => {
+
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+
+
     const fetchData = async () => {
       try {
-        //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
         const response = await axios.get(getAssessmentDetailUrl(id));
         setBooking(response.data);
         const serviceData = await getServiceFromId(response.data.serviceId);
@@ -39,26 +49,30 @@ const AssessmentRequestDetail = () => {
 
   if (loading) {
     return (
-      <div className="loading-indicator">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
-      <h2 className='text-2xl font-bold mb-4'>Chi tiết đặt hẹn giám định</h2>
-      <p className='text-xl mb-2'>Mã đặt hẹn: <span className='font-semibold'>#{booking.bookingId}</span></p>
-      <p className='text-xl mb-2'>Số điện thoại: <span className='font-semibold'>{booking.phone}</span></p>
-      <p className='text-xl mb-2'>Dịch vụ: <span className='font-semibold'>{service.serviceName}</span></p>
-      <p className='text-xl mb-2'>Số lượng: <span className='font-semibold'>{booking.quantities}</span></p>
-      <p className='text-xl mb-2'>Ngày tạo: <span className='font-semibold'>{booking.dateCreated}</span></p>
-      <button
-        className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-150'
-        onClick={handleBookingClick}
-      >
-        Đặt Hẹn
-      </button>
+    <div className="items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+        <h2 className="text-3xl font-bold mb-6">Chi tiết đặt hẹn giám định</h2>
+        <div className="space-y-4">
+          <p className="text-lg"><strong>Mã đặt hẹn:</strong> #{booking.bookingId}</p>
+          <p className="text-lg"><strong>Số điện thoại:</strong> {booking.phone}</p>
+          <p className="text-lg"><strong>Dịch vụ:</strong> {service.serviceName}</p>
+          <p className="text-lg"><strong>Số lượng:</strong> {booking.quantities}</p>
+          <p className="text-lg"><strong>Ngày tạo:</strong> {booking.dateCreated}</p>
+        </div>
+        <button
+          className="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-150"
+          onClick={handleBookingClick}
+        >
+          Đặt Hẹn
+        </button>
+      </div>
     </div>
   );
 }

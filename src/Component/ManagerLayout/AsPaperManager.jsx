@@ -6,6 +6,8 @@ import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination";
 import '../ManagerLayout/AsPaperManager.css';
 import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 // Utility function to remove diacritics
 const removeDiacritics = (str) => {
@@ -22,6 +24,7 @@ function AsPaperManager() {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
   const itemsPerPage = 10;
 
   const fetchSamples = async () => {
@@ -48,6 +51,13 @@ function AsPaperManager() {
   };
 
   useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
     fetchSamples();
     fetchAccounts();
   }, []);
@@ -92,11 +102,14 @@ function AsPaperManager() {
   const handleSubmit = async (sampleId) => {
     const selectedAction = selectedActions[sampleId];
     if (selectedAction) {
+      setIsProcessing(true);
       try {
         await axios.put(getExecuteActionUrl(sampleId, selectedAction));
         fetchSamples();
       } catch (error) {
         console.error("Error assigning the staff:", error);
+      } finally{
+        setIsProcessing(false);
       }
     }
     if (selectedAction === "viewDetails") {
@@ -160,6 +173,7 @@ function AsPaperManager() {
                       <button
                         onClick={() => handleSubmit(sample.sampleId)}
                         className="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        disabled={isProcessing}
                       >
                         Gửi
                       </button>

@@ -4,6 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 function AssessmentPaperListCs() {
   const navigate = useNavigate();
@@ -11,6 +13,16 @@ function AssessmentPaperListCs() {
   const [assessmentPapers, setAssessmentPapers] = useState([]);
 
   useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+
+
     const fetchAssessmentPapers = async () => {
       try {
         const response = await axios.get(ASSESSMENT_PAPER_URL);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { useParams } from "react-router-dom";
@@ -9,6 +9,8 @@ import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperUrl } from "../../utils/apiEndPoints";
 import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const LookupPaperpage = () => {
     const navigate = useNavigate();
@@ -17,6 +19,17 @@ const LookupPaperpage = () => {
     const [searchResult, setSearchResult] = useState(null);
     const [imageData, setImageData] = useState(null); // State to hold base64 image data
 
+
+    useEffect(() => {
+        const account = handleSession(navigate);
+        if (!account) {
+            navigate(`/login`);
+        }
+        if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+            navigate(`/nopermission`);
+        };
+
+    });
     const handleSubmit = async (e, productCode) => {
         e.preventDefault();
 

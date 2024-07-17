@@ -10,6 +10,9 @@ import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
 import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 import "./AssetsmentList.css"; // Import the CSS file
 import logo from "../../../public/logodas.png";
+import { checkRole } from "../../utils/checkRole";
+
+
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,12 +22,20 @@ function AssetsmentList() {
   const [account, setAccount] = useState({});
   const [completionDate, setCompletionDate] = useState("");
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
     }
+
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
 
     if (diamonds && diamonds.length > 0) {
       const total = diamonds.reduce((acc, diamond) => acc + diamond.price, 0);
@@ -69,6 +80,7 @@ function AssetsmentList() {
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn submit không?")) {
+      setIsProcessing(true);
       const data = {
         status: 2,
         consultingAccountId: loggedAccount.accountId,
@@ -88,6 +100,8 @@ function AssetsmentList() {
         navigate("/consultingstaff");
       } catch (error) {
         console.error("Error submitting assessment booking:", error);
+      } finally {
+        setIsProcessing(false);
       }
     }
   };
@@ -180,7 +194,7 @@ function AssetsmentList() {
           </table>
         </div>
         <div className="text-right">
-          <Button type="primary" onClick={handleSubmit} className="mt-4 w-32">
+          <Button type="primary" onClick={handleSubmit} className="mt-4 w-32" disabled={isProcessing}>
             Submit
           </Button>
         </div>

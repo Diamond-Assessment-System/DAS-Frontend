@@ -10,6 +10,8 @@ import { format } from "date-fns";
 import signatureImage from "../../assets/signature.png";
 //import s3 from '../../config/aws-config';
 import { s3Client, PutObjectCommand } from '../../config/aws-config';
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -38,8 +40,18 @@ const AssessmentPaperPreview = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState(null);
   const [generatedImageUrl, setGeneratedImageUrl] = useState(null);
   const [currentDate, setCurrentDate] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 2 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+
     setCurrentDate(format(new Date(), "yyyy/MM/dd - HH:mm:ss"));
 
     const generateImageAndQrCode = async () => {
@@ -82,6 +94,7 @@ const AssessmentPaperPreview = () => {
   };
 
   const handleDownload = async () => {
+    setIsProcessing(true);
     try {
       const sectionTitles =
         reportRef.current.querySelectorAll(".section-title");
@@ -102,11 +115,14 @@ const AssessmentPaperPreview = () => {
       link.click();
     } catch (error) {
       console.error("Error generating image for download:", error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   const handleSubmit = async () => {
     if (window.confirm("Bạn có chắc chắn muốn Submit không?")) {
+      setIsProcessing(true);
       try {
         const sectionTitles =
           reportRef.current.querySelectorAll(".section-title");
@@ -176,11 +192,14 @@ const AssessmentPaperPreview = () => {
             navigate("/assessmentstaff");
           } catch (error) {
             console.error("Error uploading to S3:", error);
+          } finally{
+            setIsProcessing(false);
           }
         }, "image/png");
       } catch (error) {
         console.error("Error generating canvas:", error);
-      }
+        setIsProcessing(false);
+      } 
     }
   };
 
@@ -312,10 +331,10 @@ const AssessmentPaperPreview = () => {
       </div>
       <Row className="mb-4">
         <Col className="flexxx">
-          <Button variant="success" onClick={handleDownload} className="downnn">
+          <Button variant="success" onClick={handleDownload} className="downnn" disabled={isProcessing}>
             Download
           </Button>
-          <Button variant="success" onClick={handleSubmit} className="ml-3">
+          <Button variant="success" onClick={handleSubmit} className="ml-3" disabled={isProcessing}>
             Submit
           </Button>
         </Col>

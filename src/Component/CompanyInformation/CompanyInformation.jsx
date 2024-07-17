@@ -6,7 +6,7 @@ import serviceImage1 from "../../assets/pic1.png";
 import serviceImage2 from "../../assets/pic2.png";
 const InfoPage = () => {
   return (
-    <div className="bg-white text-gray-900 mt-10 w-full">
+    <div className="bg-white text-gray-900  w-full" >
       <main className="max-w-screen-xl mx-auto px-6 py-12">
         <section id="about" className="mb-16 flex flex-col md:flex-row items-center">
           <div className="md:w-1/2">

@@ -6,7 +6,7 @@ const AquamarineDetail = () => {
   return (
     <div className="detail">
       <br /><br />
-      <div className="detail-header">
+      <div className="detail-header" >
         <img src={Aquamarine} alt="Aquamarine" className="detail-image" />
         <div className="detail-header-text">
           <h1>AQUAMARINE</h1>

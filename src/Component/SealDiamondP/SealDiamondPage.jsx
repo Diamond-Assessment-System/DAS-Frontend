@@ -5,6 +5,8 @@ import Spinner from "../Spinner/Spinner";
 import getAllBookings from "../../utils/getAllBookingsForConsulting"; // Import the getAllBookings function
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import { getAllServices } from "../../utils/getAllServices"; // Import the getAllServices function
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 function SealDiamondPage() {
     const navigate = useNavigate();
@@ -13,6 +15,16 @@ function SealDiamondPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
+        const account = handleSession(navigate);
+        if (!account) {
+            navigate(`/login`);
+        }
+        if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+            navigate(`/nopermission`);
+        };
+
+
         const fetchBookingsAndServices = async () => {
             try {
                 const allBookings = await getAllBookings(); // Fetch all bookings
