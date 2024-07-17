@@ -6,6 +6,8 @@ import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import ProgressBar from "../Progressbar/ProgressBar";
 import { SERVICE_PRICE_LIST_URL } from "../../utils/apiEndPoints";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const AssessmentBookingDiamondInput = () => {
   const navigate = useNavigate();
@@ -20,6 +22,17 @@ const AssessmentBookingDiamondInput = () => {
   const [samples, setSamples] = useState([]);
 
   useEffect(() => {
+
+
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+
+    
     const fetchDiamondPrices = async () => {
       try {
         const response = await axios.get(SERVICE_PRICE_LIST_URL);

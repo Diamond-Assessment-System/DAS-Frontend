@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import errorImage from "../../assets/error_page_icon.png";
 import { useNavigate } from "react-router-dom";
 import { handleSession } from "../../utils/sessionUtils";
 import { checkRole } from "../../utils/checkRole";
 
-const ErrorPage = () => {
+const NoPermissionPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -29,10 +29,10 @@ const ErrorPage = () => {
     <div className="flex flex-col items-center justify-center min-h-screen px-3">
       <img src={errorImage} alt="Lỗi" className="w-1/4 max-w-xs mb-6" />
       <h1 className="text-5xl font-extrabold mb-4 text-gray-800">
-        404 - Không Tìm Thấy Trang
+        NO PERMISSION!
       </h1>
       <p className="text-xl mb-6 text-gray-600 text-center">
-        Trang bạn đang tìm kiếm đang bảo trì vui lòng quay lại sau.
+        Bạn không có quyền truy cập vào trang này!!!
       </p>
       <button
         onClick={handleButtonClick}
@@ -44,4 +44,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default NoPermissionPage;

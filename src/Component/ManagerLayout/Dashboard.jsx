@@ -5,6 +5,9 @@ import { Bar } from 'react-chartjs-2';
 import { SERVICES_URL, ASSESSMENT_REQUEST_URL } from '../../utils/apiEndPoints';
 import './Dashboard.css';
 import Spinner from "../Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -12,8 +15,19 @@ const CombinedDashboard = () => {
   const [serviceData, setServiceData] = useState([]);
   const [bookingData, setBookingData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
+
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+
+    
     const fetchData = async () => {
       try {
         const serviceResponse = await axios.get(SERVICES_URL);

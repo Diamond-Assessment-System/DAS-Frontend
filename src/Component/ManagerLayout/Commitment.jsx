@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
 import { useNavigate } from "react-router-dom";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const Commitment = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +17,14 @@ const Commitment = () => {
     const paperRef = useRef();
 
     useEffect(() => {
+        const account = handleSession(navigate);
+        if (!account) {
+            navigate(`/login`);
+        }
+        if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+            navigate(`/nopermission`);
+        };
+    
         const today = new Date().toISOString().split('T')[0];
         setFormData(prevData => ({ ...prevData, creationDate: today }));
     }, []);

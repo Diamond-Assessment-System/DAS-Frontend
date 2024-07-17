@@ -9,6 +9,7 @@ import Pagination from "../Paginate/Pagination";
 import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
 import getBookingFromId from "../../utils/getBookingFromId";
 import { parse, isBefore, differenceInHours } from 'date-fns';
+import { checkRole } from "../../utils/checkRole";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -23,6 +24,13 @@ function AssessmentBooking() {
   useEffect(() => {
     const initialize = async () => {
       const loggedAccount = handleSession(navigate);
+      if (!loggedAccount) {
+        navigate(`/login`);
+    }
+    if (checkRole(loggedAccount.accountId) != 2 || checkRole(loggedAccount.accountId) != 4 || checkRole(loggedAccount.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {

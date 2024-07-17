@@ -4,6 +4,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import "../ManagerLayout/ManagePricingTimeline.css";
 import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
+import { useNavigate } from "react-router-dom";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInputChange, isEditMode }) => {
   const formatPrice = (price) => {
@@ -102,8 +105,15 @@ const ManageServicePrice = () => {
       setLoading(false);
     }
   };
-
+  const navigate = useNavigate();
   useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
     fetchServicePrices();
   }, []);
 

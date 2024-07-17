@@ -6,6 +6,8 @@ import Spinner from "../Spinner/Spinner";
 import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
 import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2, countBookingSamplesByBookingIdWithStatus4 } from "../../utils/countBookingSamples";
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 function ManagerHistory() {
   const navigate = useNavigate();
@@ -20,6 +22,14 @@ function ManagerHistory() {
   const [itemsPerPage] = useState(5);
 
   useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+    
     const fetchData = async () => {
       try {
         const bookingHistory = await getAllBookings();

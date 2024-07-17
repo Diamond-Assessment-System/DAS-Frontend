@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./SuccessPage.css";
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const SuccessPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
+
+  useEffect(() => {
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 1 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    }
+  });
 
   return (
     <div className="success-page flex items-center justify-center min-h-screen bg-gray-100">

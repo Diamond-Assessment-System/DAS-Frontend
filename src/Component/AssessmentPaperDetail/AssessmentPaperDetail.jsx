@@ -5,14 +5,27 @@ import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperDetaillUrl } from "../../utils/apiEndPoints";
 import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
+import { useNavigate } from "react-router-dom";
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [assessmentPaper, setAssessmentPaper] = useState(null);
+  const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+      navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+      navigate(`/nopermission`);
+    };
+
     const fetchAssessmentPaper = async () => {
       try {
         const response = await axios.get(getAssessmentPaperDetaillUrl(id));

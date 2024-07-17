@@ -10,6 +10,8 @@ import { format } from "date-fns";
 import signatureImage from "../../assets/signature.png";
 //import s3 from '../../config/aws-config';
 import { s3Client, PutObjectCommand } from '../../config/aws-config';
+import { handleSession } from "../../utils/sessionUtils";
+import { checkRole } from "../../utils/checkRole";
 
 const AssessmentPaperPreview = () => {
   const location = useLocation();
@@ -41,6 +43,15 @@ const AssessmentPaperPreview = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
+    
+    const account = handleSession(navigate);
+    if (!account) {
+        navigate(`/login`);
+    }
+    if (checkRole(account.accountId) != 2 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
+        navigate(`/nopermission`);
+    };
+
     setCurrentDate(format(new Date(), "yyyy/MM/dd - HH:mm:ss"));
 
     const generateImageAndQrCode = async () => {
