@@ -10,6 +10,7 @@ import {
   ASSESSMENT_BOOKINGS_URL,
   SERVICES_URL,
 } from "../../utils/apiEndPoints";
+import useCheckRole from "../../utils/hookCheckRole";
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
@@ -18,6 +19,8 @@ function AssessmentRequest() {
   const [services, setServices] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  useCheckRole([1, 6]);
+  
   useEffect(() => {
     const fetchServices = async () => {
       try {
