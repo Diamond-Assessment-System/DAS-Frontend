@@ -81,15 +81,7 @@ const Header = () => {
           >
             Về DAS
           </li>
-          <li
-            className="cursor-pointer hover:text-gray-400"
-            onClick={() => {
-              navigate("/diamonds");
-              setIsMobileMenuOpen(false);
-            }}
-          >
-            Kim Cương
-          </li>
+         
           <li
             className="cursor-pointer hover:text-gray-400"
             onClick={() => {

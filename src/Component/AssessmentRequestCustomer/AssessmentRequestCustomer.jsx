@@ -3,14 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "../AssessmentRequestCustomer/AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
-import {
-  ASSESSMENT_BOOKINGS_URL,
-  SERVICES_URL,
-} from "../../utils/apiEndPoints";
+import { ASSESSMENT_BOOKINGS_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import useCheckRole from "../../utils/hookCheckRole";
+import backgroundImage from "../../assets/backgroundcus.png"; // Ensure the path to your background image is correct
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
@@ -99,7 +96,7 @@ function AssessmentRequest() {
             console.error("Error:", error);
           })
           .finally(() => {
-            setLoading(false);
+            setIsProcessing(false);
           });
       }
     },
@@ -107,154 +104,156 @@ function AssessmentRequest() {
 
   if (loading) {
     return (
-      <div className="loading-indicator">
+      <div className="flex justify-center items-center h-screen">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="container-customer">
-      <div className="container mx-auto p-4 mt-20 max-w-xl" style={{ marginTop: '10rem', marginBottom: '2rem' }}>
-      <form
-        onSubmit={formik.handleSubmit}
-        className="w-full bg-gray-100 shadow-md rounded-lg p-6"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-blue-600 text-center">
-          Đặt Hẹn
-        </h2>
+    <div
+      className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
+      style={{ backgroundImage: `url(${backgroundImage})` ,marginTop: '6rem' }}
+    >
+      <div className="container mx-auto p-4 max-w-xl bg-white bg-opacity-80 shadow-lg rounded-lg">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full p-6"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-blue-600 text-center">
+            Đặt Hẹn
+          </h2>
 
-        <div className="mb-4 text-left">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="phone"
-          >
-            Số Điện Thoại
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.phone}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              formik.touched.phone && formik.errors.phone
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.phone && formik.errors.phone ? (
-            <div className="text-red-500 text-xs italic mt-2">
-              {formik.errors.phone}
-            </div>
-          ) : null}
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
+              Số Điện Thoại
+            </label>
+            <input
+              id="phone"
+              name="phone"
+              type="text"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.phone}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.phone && formik.errors.phone
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            {formik.touched.phone && formik.errors.phone ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.phone}
+              </div>
+            ) : null}
+          </div>
 
-        <div className="mb-4 text-left">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="serviceId"
-          >
-            Chọn Dịch Vụ
-          </label>
-          <select
-            id="serviceId"
-            name="serviceId"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.serviceId}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              formik.touched.serviceId && formik.errors.serviceId
-                ? "border-red-500"
-                : ""
-            }`}
-          >
-            <option value="" label="Chọn Dịch Vụ" />
-            {services.map((service) => (
-              <option key={service.serviceId} value={service.serviceId}>
-                {service.serviceName}
-              </option>
-            ))}
-          </select>
-          {formik.touched.serviceId && formik.errors.serviceId ? (
-            <div className="text-red-500 text-xs italic mt-2">
-              {formik.errors.serviceId}
-            </div>
-          ) : null}
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="serviceId"
+            >
+              Chọn Dịch Vụ
+            </label>
+            <select
+              id="serviceId"
+              name="serviceId"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.serviceId}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.serviceId && formik.errors.serviceId
+                  ? "border-red-500"
+                  : ""
+              }`}
+            >
+              <option value="" label="Chọn Dịch Vụ" />
+              {services.map((service) => (
+                <option key={service.serviceId} value={service.serviceId}>
+                  {service.serviceName}
+                </option>
+              ))}
+            </select>
+            {formik.touched.serviceId && formik.errors.serviceId ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.serviceId}
+              </div>
+            ) : null}
+          </div>
 
-        <div className="mb-4 text-left">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="paymentType"
-          >
-            Hình Thức Thanh Toán
-          </label>
-          <select
-            id="paymentType"
-            name="paymentType"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.paymentType}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              formik.touched.paymentType && formik.errors.paymentType
-                ? "border-red-500"
-                : ""
-            }`}
-          >
-            <option value="" label="Chọn Hình Thức Thanh Toán" />
-            <option value={1} label="Tiền Mặt" />
-            <option value={2} label="Chuyển Khoản" />
-          </select>
-          {formik.touched.paymentType && formik.errors.paymentType ? (
-            <div className="text-red-500 text-xs italic mt-2">
-              {formik.errors.paymentType}
-            </div>
-          ) : null}
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="paymentType"
+            >
+              Hình Thức Thanh Toán
+            </label>
+            <select
+              id="paymentType"
+              name="paymentType"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.paymentType}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.paymentType && formik.errors.paymentType
+                  ? "border-red-500"
+                  : ""
+              }`}
+            >
+              <option value="" label="Chọn Hình Thức Thanh Toán" />
+              <option value={1} label="Tiền Mặt" />
+              <option value={2} label="Chuyển Khoản" />
+            </select>
+            {formik.touched.paymentType && formik.errors.paymentType ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.paymentType}
+              </div>
+            ) : null}
+          </div>
 
-        <div className="mb-4 text-left">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="quantities"
-          >
-            Số Lượng (Viên)
-          </label>
-          <input
-            id="quantities"
-            name="quantities"
-            type="number"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.quantities}
-            min="1"
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-              formik.touched.quantities && formik.errors.quantities
-                ? "border-red-500"
-                : ""
-            }`}
-          />
-          {formik.touched.quantities && formik.errors.quantities ? (
-            <div className="text-red-500 text-xs italic mt-2">
-              {formik.errors.quantities}
-            </div>
-          ) : null}
-        </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="quantities"
+            >
+              Số Lượng (Viên)
+            </label>
+            <input
+              id="quantities"
+              name="quantities"
+              type="number"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.quantities}
+              min="1"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.quantities && formik.errors.quantities
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            {formik.touched.quantities && formik.errors.quantities ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.quantities}
+              </div>
+            ) : null}
+          </div>
 
-        <div className="flex justify-center">
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            disabled={isProcessing}
-          >
-            Đặt Lịch
-          </button>
-        </div>
-      </form>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={isProcessing}
+            >
+              Đặt Lịch
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-      </div>  
-    
   );
 }
 
