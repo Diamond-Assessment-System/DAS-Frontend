@@ -5,14 +5,10 @@ import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as n
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
 import { changeAccountStatus } from "../../utils/changeAccountStatus"; // Adjust path as needed
 import Spinner from "../Spinner/Spinner";
-import { useNavigate } from "react-router-dom";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const DeleteSuspendUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     try {
@@ -27,14 +23,6 @@ const DeleteSuspendUsers = () => {
 
   // Fetch users on component mount
   useEffect(() => {
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 5 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-
     fetchUsers();
   }, []);
 

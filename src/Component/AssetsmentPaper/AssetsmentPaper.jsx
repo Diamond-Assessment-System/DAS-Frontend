@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../AssetsmentPaper/AssetsmentPaper.css";
 import { handleSession } from "../../utils/sessionUtils";
 import { format } from "date-fns";
-import { checkRole } from "../../utils/checkRole";
 
 const AssessmentPaper = () => {
   const location = useLocation();
@@ -36,12 +35,6 @@ const AssessmentPaper = () => {
 
   useEffect(() => {
     const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 2 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
     if (account) {
       setLoggedAccount(account);
     }

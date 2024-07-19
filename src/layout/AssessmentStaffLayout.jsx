@@ -2,8 +2,11 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import HeaderAs from "../Component/HeaderAs/HeaderAs";
 import SideBarAs from "../Component/SideBarAs/SideBarAs";
+import useCheckRole from "../utils/hookCheckRole";
 
 function AssessmentStaffLayout() {
+  useCheckRole([2, 4, 6]);
+
   return (
     <div className="flex flex-col min-h-screen w-full">
       <header>

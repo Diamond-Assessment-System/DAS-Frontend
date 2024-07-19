@@ -4,8 +4,6 @@ import axios from 'axios';
 import getServiceFromId from '../../utils/getServiceFromId';
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentDetailUrl } from "../../utils/apiEndPoints";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const AssessmentRequestDetail = () => {
   const navigate = useNavigate();
@@ -15,16 +13,6 @@ const AssessmentRequestDetail = () => {
   const [service, setService] = useState({});
 
   useEffect(() => {
-
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-
-
     const fetchData = async () => {
       try {
         const response = await axios.get(getAssessmentDetailUrl(id));

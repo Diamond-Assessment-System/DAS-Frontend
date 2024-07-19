@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Radio, Button, Form, Typography, Row, Col, Input } from "antd";
 import axios from "axios";
 import { getCancelAssessmentlUrl } from "../../utils/apiEndPoints";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 const { Title } = Typography;
 
@@ -15,17 +13,6 @@ function SelectionForm() {
   const [measurement, setMeasurement] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-
-  useEffect(() => {
-
-    const account = handleSession(navigate);
-    if (!account) {
-        navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 2 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-        navigate(`/nopermission`);
-    };
-  });
 
   const handleLoaiChange = (e) => {
     const value = e.target.value;

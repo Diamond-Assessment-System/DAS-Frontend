@@ -161,8 +161,7 @@ const Header = () => {
               borderColor: "white",
               color: "white",
               fontWeight: "bold",
-              width: "143px",
-              marginBottom: "1.5rem",
+              width: "180px",
               padding: "0",
             }}
           >

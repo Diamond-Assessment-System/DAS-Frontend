@@ -7,8 +7,6 @@ import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
@@ -54,15 +52,6 @@ function AssessmentRequestConsulting() {
   };
 
   useEffect(() => {
-
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-
     const fetchBookingsAndServices = async () => {
       try {
         const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);

@@ -6,8 +6,6 @@ import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination";
 import '../ManagerLayout/AsPaperManager.css';
 import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 // Utility function to remove diacritics
 const removeDiacritics = (str) => {
@@ -51,13 +49,6 @@ function AsPaperManager() {
   };
 
   useEffect(() => {
-    const account = handleSession(navigate);
-    if (!account) {
-        navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-        navigate(`/nopermission`);
-    };
     fetchSamples();
     fetchAccounts();
   }, []);

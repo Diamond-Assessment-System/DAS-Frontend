@@ -6,8 +6,6 @@ import getAccountFromId from "../../utils/getAccountFromId";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import { getBookingResponseUrl, getServiceResponseUrl, getDiamondResponseUrl } from "../../utils/apiEndPoints";
-import { handleSession } from "../../utils/sessionUtils";
-import { checkRole } from "../../utils/checkRole";
 
 function ReceiptDetail() {
   const { bookingId } = useParams();
@@ -21,16 +19,6 @@ function ReceiptDetail() {
   const [completionDate, setCompletionDate] = useState("");
 
   useEffect(() => {
-
-    const account = handleSession(navigate);
-    if (!account) {
-      navigate(`/login`);
-    }
-    if (checkRole(account.accountId) != 3 || checkRole(account.accountId) != 4 || checkRole(account.accountId) != 6){
-      navigate(`/nopermission`);
-    };
-
-    
     const fetchBookingDetails = async () => {
       try {
         const bookingResponse = await axios.get(getBookingResponseUrl(bookingId));

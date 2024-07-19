@@ -1,30 +1,39 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import errorImage from "../../assets/error_page_icon.png";
 import { useNavigate } from "react-router-dom";
+import errorImage from "../../assets/error_page_icon.png";
 import { handleSession } from "../../utils/sessionUtils";
 import { checkRole } from "../../utils/checkRole";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     const account = handleSession(navigate);
-    const role = checkRole(account.accountId);
-
-    if (!account || role === 1 || role !== 6) {
+    if (!account) {
       navigate(`/`);
-    } else if (role === 2) {
-      navigate(`/assessmentstaff`);
-    } else if (role === 3) {
-      navigate(`/consultingstaff`);
-    } else if (role === 4) {
-      navigate(`/manager`);
-    } else if (role === 5) {
-      navigate(`/admin`);
+      return;
+    }
+
+    try {
+      const role = await checkRole(account.accountId);
+      
+      if (role === 1 || role === 6) {
+        navigate(`/`);
+      } else if (role === 2) {
+        navigate(`/assessmentstaff`);
+      } else if (role === 3) {
+        navigate(`/consultingstaff`);
+      } else if (role === 4) {
+        navigate(`/manager`);
+      } else if (role === 5) {
+        navigate(`/admin`);
+      }
+    } catch (error) {
+      console.error('Error checking role:', error);
+      navigate(`/`);
     }
   };
-
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-3">
       <img src={errorImage} alt="Lỗi" className="w-1/4 max-w-xs mb-6" />
