@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "../ManagerLayout/ManagePricingTimeline.css";
 import { SERVICES_URL } from "../../utils/apiEndPoints";
 import Spinner from "../Spinner/Spinner";
 
-const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInputChange }) => {
+const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInputChange, handleDescriptionChange }) => {
   const formatPrice = (price) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
@@ -35,13 +37,9 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
           </Form.Group>
           <Form.Group controlId="formServiceDescription">
             <Form.Label>Mô Tả Dịch Vụ</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name="serviceDescription"
+            <ReactQuill
               value={formValues.serviceDescription}
-              onChange={handleInputChange}
-              required
+              onChange={handleDescriptionChange}
             />
           </Form.Group>
           <Form.Group controlId="formServiceStatus">
@@ -80,7 +78,7 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
             />
           </Form.Group>
           <Form.Group controlId="formServiceTime">
-            <Form.Label>Thời Gian</Form.Label>
+            <Form.Label>Thời Gian (giờ)</Form.Label>
             <Form.Control
               type="number"
               name="serviceTime"
@@ -180,6 +178,13 @@ const ManageOrderTimelines = () => {
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
+    }));
+  };
+
+  const handleDescriptionChange = (value) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      serviceDescription: value,
     }));
   };
 
@@ -294,6 +299,7 @@ const ManageOrderTimelines = () => {
         handleSubmit={handleFormSubmit}
         formValues={formValues}
         handleInputChange={handleInputChange}
+        handleDescriptionChange={handleDescriptionChange}
       />
     </div>
   );
