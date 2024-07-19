@@ -7,9 +7,10 @@ const Footer = () => {
 
   const navigationItems = [
     { label: "Kim Cương", route: "/diamonds" },
-    { label: "Đặc Điểm Đá Quý", route: "/features" },
+    { label: "Dịch vụ", route: "/serviceprices" },
     { label: "Tra Cứu", route: "/lookup" },
     { label: "Liên Hệ", route: "/contact" },
+
   ];
 
   const address =
@@ -19,7 +20,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-black text-white py-8 w-full">
-      <div className="flex flex-col md:flex-row px-8 space-y-8 md:space-y-0 w-full justify-between">
+      <div className="flex flex-col md:flex-row px-8 space-y-8 md:space-y-0 w-full justify-between items-center">
         {/* Logo Section */}
         <div className="md:justify-start">
           <img src={logo} alt="DAS Logo" className="h-20" />
@@ -39,7 +40,7 @@ const Footer = () => {
         </div>
 
         {/* Contact Section */}
-        <div className="text-center md:text-left space-y-2 ">
+        <div className="text-center md:text-left space-y-2">
           <p>Địa Chỉ: {address}</p>
           <p>Email: {email}</p>
           <p>SDT: {phone}</p>

@@ -3,9 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../CustomerHistory/CustomerHistory.css";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
+import backgroundImage from "../../assets/backgroundcus.png"; // Update the path as necessary
 
 const formatPrice = (price) => {
   return price ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " VND" : "Chưa xác nhận đơn";
@@ -68,15 +67,15 @@ const CustomerHistory = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
-        return "status-openedCH";
+        return "bg-yellow-100 text-yellow-800";
       case 2:
-        return "status-assessingCH";
+        return "bg-blue-100 text-blue-800";
       case 3:
-        return "status-completedCH";
+        return "bg-green-100 text-green-800";
       case 4:
-        return "status-sealedCH";
+        return "bg-purple-100 text-purple-800";
       case 5:
-        return "status-canceledCH";
+        return "bg-red-100 text-red-800";
       default:
         return "";
     }
@@ -84,89 +83,96 @@ const CustomerHistory = () => {
 
   if (loading) {
     return (
-      <div className="text-center">
+      <div className="flex justify-center items-center h-screen">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="max-w-full mx-auto p-4">
-        <h4 className="text-lg font-semibold text-gray-800 mb-4">Lịch sử giám định</h4>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã đơn hàng</th>
-                <th className="py-4 px-4 text-center align-middle">Ngày đặt đơn</th>
-                <th className="py-4 px-4 text-center align-middle">Ngày trả đơn</th>
-                <th className="py-4 px-4 text-center align-middle">Số lượng mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Tổng giá trị</th>
-                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Đánh giá</th>
-                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700">
-              {history.map((sample, index) => (
-                <tr key={index}>
-                  <td className="py-4 px-4 align-middle">{sample.bookingId}</td>
-                  <td className="py-4 px-4 align-middle">{sample.dateCreated}</td>
-                  <td className="py-4 px-4 align-middle">
-                    {sample.sampleReturnDate ? sample.sampleReturnDate : "Chưa xác nhận đơn"}
-                  </td>
-                  <td className="py-4 px-4 align-middle">{sample.quantities}</td>
-                  <td className="py-4 px-4 align-middle">
-                    {formatPrice(sample.totalPrice)}
-                  </td>
-                  <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
-                    <h3>{getBookingStatusMeaning(sample.status)}</h3>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      {sample.feedback ? (
-                        <span className="successfull-feedback-history">Đã đánh giá</span>
-                      ) : (
-                        <button
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          onClick={() => handleOpenPopup(sample)}
-                        >
-                          Đánh giá
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => handleDetails(sample)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Xem chi tiết
-                      </button>
-                    </div>
-                  </td>
+    <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="mx-auto py-16 px-4">
+        <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+          <h4 className="text-3xl font-semibold text-gray-800 mb-6 text-center">Lịch sử giám định</h4>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead className="bg-gray-800 text-white">
+                <tr>
+                  <th className="py-4 px-6 text-center">Mã đơn hàng</th>
+                  <th className="py-4 px-6 text-center">Ngày đặt đơn</th>
+                  <th className="py-4 px-6 text-center">Ngày trả đơn</th>
+                  <th className="py-4 px-6 text-center">Số lượng mẫu</th>
+                  <th className="py-4 px-6 text-center">Tổng giá trị</th>
+                  <th className="py-4 px-6 text-center">Trạng Thái</th>
+                  <th className="py-4 px-6 text-center">Đánh giá</th>
+                  <th className="py-4 px-6 text-center">Chi Tiết</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-gray-700">
+                {history.map((sample, index) => (
+                  <tr key={index} className="hover:bg-gray-100">
+                    <td className="py-4 px-6 text-center">{sample.bookingId}</td>
+                    <td className="py-4 px-6 text-center">{sample.dateCreated}</td>
+                    <td className="py-4 px-6 text-center">
+                      {sample.sampleReturnDate ? sample.sampleReturnDate : "Chưa xác nhận đơn"}
+                    </td>
+                    <td className="py-4 px-6 text-center">{sample.quantities}</td>
+                    <td className="py-4 px-6 text-center">
+                      {formatPrice(sample.totalPrice)}
+                    </td>
+                    <td className={`py-4 px-6 text-center ${getStatusClass(sample.status)}`}>
+                      {getBookingStatusMeaning(sample.status)}
+                    </td>
+                    <td className="py-4 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        {sample.feedback ? (
+                          <span className="bg-green-200 text-green-800 px-2 py-1 rounded">Đã đánh giá</span>
+                        ) : (
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            onClick={() => handleOpenPopup(sample)}
+                          >
+                            Đánh giá
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-center">
+                      <div className="flex items-center justify-center">
+                        <button
+                          onClick={() => handleDetails(sample)}
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                          Xem chi tiết
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {showPopup && (
-        <div className="popup-overlay-history">
-          <div className="popup-content-history">
-            <span className="close-history" onClick={handleClosePopup}>&times;</span>
-            <h3 className="title-feedback-history">Đánh giá dịch vụ</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2">
+            <span className="text-gray-800 text-2xl cursor-pointer float-right" onClick={handleClosePopup}>&times;</span>
+            <h3 className="text-xl font-bold mb-4">Đánh giá dịch vụ</h3>
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               placeholder="Nhập đánh giá của bạn"
               rows="5"
-              cols="50"
+              className="w-full p-2 border rounded"
             />
-            <button className="save-button-history" onClick={handleSaveFeedback}>Lưu</button>
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={handleSaveFeedback}
+            >
+              Lưu
+            </button>
           </div>
         </div>
       )}
