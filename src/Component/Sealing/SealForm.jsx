@@ -13,15 +13,15 @@ function SealForm() {
   const bookingId = location.state?.bookingId;
 
   const handleSubmit = async (values) => {
-    const sampleData = { ...sample, ...values, status: 4 }; // Update status to indicate it has been sealed
+    const sampleData = { ...sample, ...values, status: 3 }; // Update status to indicate it has been sealed and completed
     let selectedSamples = JSON.parse(localStorage.getItem('selectedSamples')) || [];
     selectedSamples.push(sampleData);
     localStorage.setItem('selectedSamples', JSON.stringify(selectedSamples));
 
     try {
-      await changeSampleStatus(sample.sampleId, 4);
+      await changeSampleStatus(sample.sampleId, 3); // Change status to 3 (completed)
       console.log('Form data submitted:', sampleData);
-      navigate('/manager/sealing-records', { state: { bookingId } });
+      navigate('/assessmentstaff/assessmentbooking', { state: { bookingId } });
     } catch (error) {
       console.error('Error updating sample status:', error);
     }
@@ -187,7 +187,7 @@ function SealForm() {
         </Button>
         <Button
           type="default"
-          onClick={() => navigate('/manager/sealing-records', { state: { bookingId } })}
+          onClick={() => navigate('/assessmentstaff/assessmentbooking', { state: { bookingId } })}
           className="mt-4 w-40 text-lg py-2 ml-4"
         >
           Cancel

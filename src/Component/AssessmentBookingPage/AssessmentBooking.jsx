@@ -9,6 +9,7 @@ import Pagination from "../Paginate/Pagination";
 import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
 import getBookingFromId from "../../utils/getBookingFromId";
 import { parse, isBefore, differenceInHours } from 'date-fns';
+import { checkServiceTypeFromBooking } from "../../utils/checkServiceTypeFromBookingId";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -79,20 +80,18 @@ function AssessmentBooking() {
     }
   };
 
-  const handleShowDetails = (sample) => {
-    switch (sample.status) {
-      case 2:
+  const handleShowDetails = async (sample) => {
+    try {
+      const serviceType = await checkServiceTypeFromBooking(sample.bookingId);
+      if (serviceType === 1) {
         navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/selection`);
-        break;
-      case 3:
-        navigate(`/assessmentstaff/assessmentpaperlist/${sample.sampleId}`);
-        break;
-      case 4:
-        alert("Yêu cầu đã bị hủy!");
-        break;
-      default:
-        alert("Invalid!");
-        break;
+      } else if (serviceType === 2) {
+        navigate(`/assessmentstaff/sealform/${sample.sampleId}`, { state: { sample, bookingId: sample.bookingId } });
+      } else {
+        alert("Invalid service type!");
+      }
+    } catch (error) {
+      console.error("Error checking service type:", error);
     }
   };
 

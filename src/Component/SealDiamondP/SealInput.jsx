@@ -42,6 +42,7 @@ const SealInput = () => {
       for (let i = 0; i < numberOfSamples; i++) {
         updatedSamples.push({
           name: `Mẫu ${i + 1}`,
+          size: 1, // Set size to 1
           price: servicePrice,
           isDiamond: 1,
           status: 1,

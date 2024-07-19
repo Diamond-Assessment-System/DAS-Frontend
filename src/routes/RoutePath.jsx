@@ -120,7 +120,8 @@ const RoutePath = () => {
           <Route path="receipt/:bookingId" element={<ReceiptDetail />} />
           <Route path="reprintpaper" element={<ReprintedBooking />} />
           <Route path="reprintpaper/lookuppaper/:id" element={<LookupPaperpage />} />
-          <Route path="/consultingstaff/sealdiamond" element={<SealDiamond />} />
+          {/* <Route path="/consultingstaff/sealdiamond" element={<SealDiamond />} /> */}
+          <Route path="/consultingstaff/sealdiamond" element={<SealDiamondPage />} />
           <Route path="/consultingstaff/sealdiamond/:id" element={<SealDiamonDetail />} />
           <Route path="/consultingstaff/sealdiamond/:id/sealinput" element={<SealInput />} />
           <Route path="/consultingstaff/sealdiamond/:id/sealinput/sealreceipt" element={<SealReceipt />} />
@@ -137,13 +138,14 @@ const RoutePath = () => {
           <Route path="assessmentbooking/:id/selection/info/summary/preview" element={<AssessmentPaperPreview />} />
           <Route path="assessmentpaperlist" element={<AssessmentPaperList />} />
           <Route path="assessmentpaperlist/:id" element={<AssessmentPaperDetail />} />
+          <Route path="/assessmentstaff/sealform/:sampleId" element={<SealForm />} />
         </Route>
         <Route path="/manager" element={<ManagerLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
           <Route path="/manager/manage-service-pricing" element={<ManageServicePrice />} />
           <Route path="/manager/sealing-records" element={<SealList />} />
-          <Route path="/manager/sealform" element={<SealForm />} />
+          {/* <Route path="/manager/sealform" element={<SealForm />} /> */}
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
           <Route path="/manager/sealhistory" element={<SealHistory />} />
           <Route path="/manager/commitment-paper" element={<Commitpaper />} />
