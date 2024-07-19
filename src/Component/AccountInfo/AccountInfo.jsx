@@ -43,7 +43,7 @@ const AccountInfo = () => {
     };
 
     return (
-        <div className="account-info">
+        <div className="account-info" style={{ marginTop: '18rem' }}>
             <Card className="account-card shadow-sm">
                 <Card.Body className="d-flex flex-column align-items-center">
                     <div className="account-avatar mb-4">

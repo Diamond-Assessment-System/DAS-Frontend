@@ -102,6 +102,15 @@ const Header = () => {
           <li
             className="cursor-pointer hover:text-gray-400"
             onClick={() => {
+              navigate("/serviceprices");
+              setIsMobileMenuOpen(false);
+            }}
+          >
+            Giá Dịch Vụ
+          </li>
+          <li
+            className="cursor-pointer hover:text-gray-400"
+            onClick={() => {
               navigate("/lookup");
               setIsMobileMenuOpen(false);
             }}
@@ -152,8 +161,7 @@ const Header = () => {
               borderColor: "white",
               color: "white",
               fontWeight: "bold",
-              width: "143px",
-              marginBottom: "1.5rem",
+              width: "180px",
               padding: "0",
             }}
           >

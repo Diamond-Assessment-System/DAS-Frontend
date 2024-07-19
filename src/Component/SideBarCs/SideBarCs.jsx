@@ -4,13 +4,7 @@ function SideBarCs() {
   return (
     <div className="w-full min-h-screen p-4 bg-gray-50 text-gray-800">
       <nav className="space-y-2">
-        <NavLink
-          to="/"
-          className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"
-          activeclassname="bg-gray-300 font-semibold"
-        >
-          <span className="mr-3">🏠</span> Trang Chủ
-        </NavLink>
+
         <NavLink
           to="/consultingstaff/assessmentrequest"
           className="flex items-center py-3 px-4 rounded-lg transition duration-200 hover:bg-gray-200 text-gray-800"

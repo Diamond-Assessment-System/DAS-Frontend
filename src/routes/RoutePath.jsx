@@ -12,6 +12,7 @@ import InfoForm from "../Component/ConsultingStaffPage/InfoForm";
 
 // import SummaryPage from '../Component/ConsultingStaffPage/SummaryPage'
 import ErrorPage from "../Component/ErrorPage/ErrorPage";
+import NoPermission from "../Component/ErrorPage/NoPermission.jsx";
 import SelectionForm from "../Component/ConsultingStaffPage/SelectionForm";
 import AssessmentRequestCustomer from "../Component/AssessmentRequestCustomer/AssessmentRequestCustomer";
 import ConsultingStaffLayout from "../layout/ConsultingStaffLayout";
@@ -31,6 +32,7 @@ import CommitmentPaper from "../Component/ManagerLayout/CommitmentPaper.jsx";
 import Dashboard from "../Component/ManagerLayout/Dashboard";
 import AssetsmentList from "../Component/AssetmentList/AssetsmentList";
 import ManageOrderTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
+import ManageServicePrice from "../Component/ManagerLayout/ManageServicePrice.jsx";
 import Commitpaper from "../Component/ManagerLayout/Commitpaper.jsx";
 import RegisterComponent from "../Component/Register/RegisterComponent.jsx";
 import AssignWork from "../Component/ManagerLayout/Assignwork.jsx";
@@ -43,6 +45,7 @@ import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/Assessme
 import ReceiptDetail from "../Component/AssessmentReceiptDetailPage/AssessmentReceiptDetail.jsx";
 import ProductSearch from "../Component/SearchProductPage/SearchProduct";
 import { EvaluateService } from "../Component/ServicePricePage/Service.jsx";
+import { EvaluateServicePrice } from "../Component/ServicePricePage/ServicePrice.jsx";
 import AccountInfo from "../Component/AccountInfo/AccountInfo.jsx";
 import AdminLayout from "../Component/AdminLayout/AdminLayout.jsx";
 import CreateManageUsers from "../Component/AdminLayout/CreateManageUsers.jsx";
@@ -84,6 +87,7 @@ const RoutePath = () => {
           <Route path="success" element={<SuccessPage />} />
           <Route path="lookup" element={<ProductSearch />} />
           <Route path="services" element={<EvaluateService />} />
+          <Route path="serviceprices" element={<EvaluateServicePrice />} />
           <Route path="diamonds" element={<DiamondInformation />} />
           <Route path="account" element={<AccountInfo />} />
           <Route path="history" element={<CustomerHistory />} />
@@ -130,6 +134,7 @@ const RoutePath = () => {
         <Route path="/manager" element={<ManagerLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="/manager/manage-pricing-timelines" element={<ManageOrderTimelines />} />
+          <Route path="/manager/manage-service-pricing" element={<ManageServicePrice />} />
           <Route path="/manager/sealing-records" element={<SealList />} />
           <Route path="/manager/sealform" element={<SealForm />} />
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
@@ -153,6 +158,7 @@ const RoutePath = () => {
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />
         <Route path="/register" element={<RegisterComponent />} />
+        <Route path="/nopermission" element={<NoPermission />} />
         <Route path="*" element={<ErrorPage />} />
 
       </Routes>

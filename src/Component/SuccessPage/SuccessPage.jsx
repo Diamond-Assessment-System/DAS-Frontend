@@ -1,12 +1,15 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./SuccessPage.css";
+import useCheckRole from "../../utils/hookCheckRole";
 
 const SuccessPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
 
+  useCheckRole([1, 6]);
+  
   return (
     <div className="success-page flex items-center justify-center min-h-screen bg-gray-100">
       <div className="success-message bg-white p-8 rounded-lg shadow-lg text-center max-w-md w-full">
