@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import "./AssessmentRequestCustomer.css";
+import "../AssessmentRequestCustomer/AssessmentRequestCustomer.css";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
 import {
@@ -114,7 +114,7 @@ function AssessmentRequest() {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-20 max-w-xl">
+    <div className="container mx-auto p-4 mt-20 max-w-xl" style={{ marginTop: '16rem', marginBottom: '2rem' }}>
       <form
         onSubmit={formik.handleSubmit}
         className="w-full bg-gray-100 shadow-md rounded-lg p-6"

@@ -1,17 +1,32 @@
-.container-booking h2{
+body {
+    background-image: url('../../../public/backgroundcus.png');
+    /* Đường dẫn tới tệp hình ảnh trong thư mục public */
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.container-booking h2 {
     margin-left: 250px;
     padding-bottom: 5px;
     padding-top: 5px;
 }
+
 .container-booking Form {
     background-color: rgb(248, 226, 202);
     border-radius: 20px;
     padding-bottom: 1px;
 }
-.FormItem{
+
+.FormItem {
     font-weight: 500;
 }
 
-.container-booking{
+.container-booking {
     margin-left: 100px;
 }
