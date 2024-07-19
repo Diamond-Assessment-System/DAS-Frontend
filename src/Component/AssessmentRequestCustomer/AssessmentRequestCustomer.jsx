@@ -114,7 +114,8 @@ function AssessmentRequest() {
   }
 
   return (
-    <div className="container mx-auto p-4 mt-20 max-w-xl" style={{ marginTop: '16rem', marginBottom: '2rem' }}>
+    <div className="container-customer">
+      <div className="container mx-auto p-4 mt-20 max-w-xl" style={{ marginTop: '10rem', marginBottom: '2rem' }}>
       <form
         onSubmit={formik.handleSubmit}
         className="w-full bg-gray-100 shadow-md rounded-lg p-6"
@@ -252,6 +253,8 @@ function AssessmentRequest() {
         </div>
       </form>
     </div>
+      </div>  
+    
   );
 }
 

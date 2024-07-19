@@ -39,7 +39,7 @@ function MyComponent() {
   };
 
   return (
-    <div  className="bg-gray-50 text-gray-800 " style={{ marginTop: '5rem' }}>
+    <div  className="bg-gray-50 text-gray-800 " style={{ marginTop: '8rem' }}>
       {/* Phần Slideshow */}
       <div className="relative w-4/5 h-[500px] mx-auto rounded-lg overflow-hidden shadow-lg">
         {images.map((image, index) => (
