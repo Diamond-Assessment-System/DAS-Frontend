@@ -39,14 +39,14 @@ const signInWithGoogle = async () => {
   }
 };
 
-export const signInWithPhoneNumber = async (phoneNumber, password) => {
+export const signInWithPhoneNumber = async (phone, password) => {
   try {
-    const response = await fetch('https://das-backend.fly.dev/api/register', {
+    const response = await fetch('https://das-backend.fly.dev/api/loginPhone', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ phoneNumber, password })
+      body: JSON.stringify({ phone, password })
     });
 
     if (response.ok) {
@@ -56,7 +56,6 @@ export const signInWithPhoneNumber = async (phoneNumber, password) => {
       const expirationTime = Date.now() + 2 * 3600 * 1000; // Set expiration time to 2 hours from now
 
       localStorage.setItem('sessionId', sessionId);
-      localStorage.setItem('idToken', data.idToken); // Assuming idToken is returned from backend
       localStorage.setItem('expirationTime', expirationTime);
       localStorage.setItem('account', JSON.stringify(account));
 
