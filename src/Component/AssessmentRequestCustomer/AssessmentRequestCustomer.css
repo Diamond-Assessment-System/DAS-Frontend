@@ -1,16 +1,3 @@
-body {
-    background-image: url('../../../public/backgroundcus.png');
-    /* Đường dẫn tới tệp hình ảnh trong thư mục public */
-    background-size: cover;
-    background-position: center;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
 .container-booking h2 {
     margin-left: 250px;
     padding-bottom: 5px;
@@ -29,4 +16,11 @@ body {
 
 .container-booking {
     margin-left: 100px;
+
+}
+
+.contaier-customer {
+    background-image: url('../../../public/backgroundcus.png');
+    background-size: cover;
+    background-position: center;
 }
