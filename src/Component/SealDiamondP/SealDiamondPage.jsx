@@ -40,7 +40,7 @@ function SealDiamondPage() {
     }, []);
 
     const handleCreateBooking = (booking) => {
-        navigate(`/lookuppaper/${booking.bookingId}`);  // Added bookingId to the URL path
+        navigate(`/consultingstaff/sealdiamond/${booking.bookingId}`);  // Added bookingId to the URL path
     };
 
     if (loading) {
