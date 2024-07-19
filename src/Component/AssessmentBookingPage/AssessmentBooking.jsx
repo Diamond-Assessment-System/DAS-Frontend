@@ -85,7 +85,7 @@ function AssessmentBooking() {
         navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/selection`);
         break;
       case 3:
-        navigate(`/consultingstaff/assessmentpaperlist/${sample.sampleId}`);
+        navigate(`/assessmentstaff/assessmentpaperlist/${sample.sampleId}`);
         break;
       case 4:
         alert("Yêu cầu đã bị hủy!");

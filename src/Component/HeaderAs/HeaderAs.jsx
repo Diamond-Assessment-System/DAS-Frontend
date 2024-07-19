@@ -17,8 +17,8 @@ function HeaderAs() {
 
   const handleLogout = () => {
     clearSession();
-    setUserName(null);
-    setRole(0);
+    //setUserName(null);
+    //setRole(0);
     navigate("/");
   };
 
