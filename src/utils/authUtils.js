@@ -26,7 +26,7 @@ const signInWithGoogle = async () => {
       localStorage.setItem('account', JSON.stringify(account));
 
       console.log("Successfully authenticated");
-      console.log("Account details:", account);
+      //console.log("Account details:", account);
 
       return account; // Return account details
     } else {
@@ -60,7 +60,7 @@ export const signInWithPhoneNumber = async (phone, password) => {
       localStorage.setItem('account', JSON.stringify(account));
 
       console.log("Successfully authenticated");
-      console.log("Account details:", account);
+      //console.log("Account details:", account);
 
       return account; // Return account details
     } else {

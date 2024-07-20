@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Modal, Button, Form } from "react-bootstrap";
 import "../AdminLayout/DeleteSuspendUsers.css";
 import { getAllAccounts } from "../../utils/getAllAccounts"; // Adjust path as needed
 import { getAccountStatusMeaning } from "../../utils/getStatusMeaning";
@@ -9,6 +10,9 @@ import Spinner from "../Spinner/Spinner";
 const DeleteSuspendUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [blockReason, setBlockReason] = useState("");
 
   const fetchUsers = async () => {
     try {
@@ -27,22 +31,38 @@ const DeleteSuspendUsers = () => {
   }, []);
 
   const toggleUserStatus = async (userId, currentStatus) => {
-    try {
-      const newStatus = currentStatus === 1 ? 2 : 1; // Toggle between 1 (active) and 2 (blocked)
-      const confirmed = window.confirm(`Are you sure you want to ${currentStatus === 1 ? "block" : "unblock"} this user?`);
+    const newStatus = currentStatus === 1 ? 2 : 1;
+    const confirmed = window.confirm(`Are you sure you want to ${currentStatus === 1 ? "block" : "unblock"} this user?`);
 
-      if (confirmed) {
-        await changeAccountStatus(userId, newStatus);
-        setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user.accountId === userId ? { ...user, accountStatus: newStatus } : user
-          )
-        );
-        console.log(`User status updated for ID ${userId}`);
+    if (confirmed) {
+      if (newStatus === 2) {
+        setSelectedUser(userId);
+        setShowModal(true);
+      } else {
+        await updateUserStatus(userId, newStatus, "");
       }
+    }
+  };
+
+  const updateUserStatus = async (userId, status, reason) => {
+    try {
+      const requestBody = JSON.stringify(reason);
+      await changeAccountStatus(userId, status, requestBody);
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.accountId === userId ? { ...user, accountStatus: status, blockReason: reason } : user
+        )
+      );
+      console.log(`User status updated for ID ${userId}`);
     } catch (error) {
       console.error('Error updating user status:', error);
+    } finally {
+      setShowModal(false);
     }
+  };
+
+  const handleBlockSubmit = async () => {
+    await updateUserStatus(selectedUser, 2, blockReason);
   };
 
   if (loading) {
@@ -94,6 +114,33 @@ const DeleteSuspendUsers = () => {
           </table>
         </div>
       </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Nhập Lý Do Chặn</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="blockReason">
+              <Form.Label>Lý Do</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={blockReason}
+                onChange={(e) => setBlockReason(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleBlockSubmit}>
+            Chặn Người Dùng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

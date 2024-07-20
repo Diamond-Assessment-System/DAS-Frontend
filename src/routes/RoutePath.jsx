@@ -30,6 +30,7 @@ import ManagerLayout from "../Component/ManagerLayout/ManagerLayout.jsx";
 import SealingRecords from "../Component/ManagerLayout/SealingRecords.jsx";
 import CommitmentPaper from "../Component/ManagerLayout/CommitmentPaper.jsx";
 import Dashboard from "../Component/ManagerLayout/Dashboard";
+import ManagerFeedback from "../Component/ManagerLayout/ManagerFeedback.jsx";
 import AssetsmentList from "../Component/AssetmentList/AssetsmentList";
 import ManageOrderTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
 import ManageServicePrice from "../Component/ManagerLayout/ManageServicePrice.jsx";
@@ -154,6 +155,7 @@ const RoutePath = () => {
           <Route path="/manager/commit" element={<Commitment />} />
           <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
           <Route path="/manager/manageruser" element={<ManageUser />} />
+          <Route path="/manager/feedback" element={<ManagerFeedback />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />

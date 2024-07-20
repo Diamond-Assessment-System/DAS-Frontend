@@ -3,8 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { signInWithGoogle, signInWithPhoneNumber } from "../../utils/authUtils";
 import { Phone, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
-import backgroundImage from "../../assets/backgroundlogin.png"; // Update the path as necessary
-import Image from "../../assets/loginbackground.png"; // Update the path to your image
+import { Modal, Button } from "react-bootstrap";
+import backgroundImage from "../../assets/backgroundlogin.png";
+import Image from "../../assets/loginbackground.png";
 
 const GoogleLoginComponent = () => {
   const [user, setUser] = useState(null);
@@ -12,10 +13,19 @@ const GoogleLoginComponent = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const [loginMethod, setLoginMethod] = useState("google");
+  const [blockReason, setBlockReason] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLoginSuccess = async (userInfo) => {
+    if (userInfo.accountStatus === 2) {
+      setBlockReason(userInfo.blockReason);
+      setShowModal(true); // Show modal with block reason
+      setLoading(false);
+      return;
+    }
+
     setUser(userInfo);
     localStorage.setItem("user", JSON.stringify(userInfo));
     switch (userInfo.role) {
@@ -30,6 +40,9 @@ const GoogleLoginComponent = () => {
         break;
       case 4:
         navigate("/manager");
+        break;
+      case 5:
+        navigate("/admin");
         break;
       default:
         navigate("/");
@@ -70,6 +83,10 @@ const GoogleLoginComponent = () => {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -193,6 +210,19 @@ const GoogleLoginComponent = () => {
           )}
         </div>
       </div>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Tài khoản bị chặn</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Lý do: {blockReason}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
