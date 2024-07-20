@@ -96,8 +96,8 @@ const DeleteSuspendUsers = () => {
                 <tr key={user.accountId} className={`hover:bg-gray-100 ${user.accountStatus === 2 ? "bg-red-100" : (user.accountStatus === 1 ? "bg-green-100" : "")}`}>
                   <td className="py-4 px-4 text-center align-middle">{user.accountId}</td>
                   <td className="py-4 px-4 text-center align-middle">{user.displayName}</td>
-                  <td className="py-4 px-4 text-center align-middle">{user.email || "No Email"}</td>
-                  <td className="py-4 px-4 text-center align-middle">{user.phone || "No Phone"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.email || "N/A"}</td>
+                  <td className="py-4 px-4 text-center align-middle">{user.phone || "N/A"}</td>
                   <td className="py-4 px-4 text-center align-middle">{getAccountStatusMeaning(user.accountStatus)}</td>
                   <td className="py-4 px-4 text-center align-middle">
                     <button
@@ -105,7 +105,7 @@ const DeleteSuspendUsers = () => {
                       className={`${user.accountStatus === 1 ? "bg-red-500 hover:bg-red-700" : "bg-green-500 hover:bg-green-700"
                         } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                     >
-                      {user.accountStatus === 1 ? "Block User" : "Unblock User"}
+                      {user.accountStatus === 1 ? "Chặn " : "Bỏ Chặn"}
                     </button>
                   </td>
                 </tr>
