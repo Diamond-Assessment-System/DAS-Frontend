@@ -1,10 +1,10 @@
+// src/components/AssessmentPaperDetail/AssessmentPaperDetail.js
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import { getAssessmentPaperDetaillUrl } from "../../utils/apiEndPoints";
 import frontImageFile from '../../assets/Frontimagepaper.png'; // Import the front image from assets
-import { s3Client, PutObjectCommand } from '../../config/aws-config'; // Import S3 client and command
 
 function AssessmentPaperDetail() {
   const { id } = useParams();
@@ -18,6 +18,7 @@ function AssessmentPaperDetail() {
         const response = await axios.get(getAssessmentPaperDetaillUrl(id));
         const formattedData = {
           ...response.data,
+          // dateCreated: format(new Date(response.data.dateCreated), "yyyy/MM/dd - HH:mm:ss")
         };
         setAssessmentPaper(formattedData);
       } catch (error) {
@@ -29,63 +30,22 @@ function AssessmentPaperDetail() {
     fetchAssessmentPaper();
   }, [id]);
 
-  const uploadToS3 = async (fileName, fileContent) => {
-    const params = {
-      Bucket: 'das-swp391',
-      Key: fileName,
-      Body: fileContent,
-      ContentType: "image/png",
-    };
-
-    try {
-      const command = new PutObjectCommand(params);
-      await s3Client.send(command);
-      return `https://das-swp391.s3.ap-southeast-2.amazonaws.com/${fileName}`;
-    } catch (error) {
-      console.error("Error uploading to S3:", error);
-      return null;
-    }
-  };
-
-  const fetchImageBlob = async (url) => {
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'image/png',
-        },
-      });
-      const blob = await response.blob();
-      return URL.createObjectURL(blob);
-    } catch (error) {
-      console.error("Error fetching image blob:", error);
-      return null;
-    }
-  };
-
-  const downloadImage = async () => {
+  const downloadImage = () => {
     if (window.confirm("Bạn có chắc chắn muốn tải không?")) {
       setIsProcessing(true);
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
-      const frontImage = new Image();
+      const frontImage =  new Image();
       const backImage = new Image();
 
       frontImage.crossOrigin = "Anonymous"; // Ensure CORS is enabled for front image
-
-      const backImageUrl = await fetchImageBlob(assessmentPaper.paperImage);
-
-      if (!backImageUrl) {
-        alert("Error loading back image from S3.");
-        setIsProcessing(false);
-        return;
-      }
+      backImage.crossOrigin = "Anonymous"; // Ensure CORS is enabled for back image
 
       frontImage.src = frontImageFile;
-      backImage.src = backImageUrl;
+      backImage.src = assessmentPaper.paperImage;
 
       frontImage.onload = () => {
-        backImage.onload = async () => {
+        backImage.onload = () => {
           // Set canvas size to fit both images
           const width = backImage.width;
           const height = frontImage.height + backImage.height;
@@ -98,35 +58,34 @@ function AssessmentPaperDetail() {
           // Draw the back image below the front image
           context.drawImage(backImage, 0, frontImage.height, width, backImage.height);
 
-          // Convert canvas to Blob
-          canvas.toBlob(async (blob) => {
-            const fileName = `Assessment_Paper_${id}.png`;
-            const s3Url = await uploadToS3(fileName, blob);
-            if (s3Url) {
-              // Trigger download
-              const link = document.createElement('a');
-              link.href = s3Url;
-              link.download = fileName;
-              link.click();
-            }
-            setIsProcessing(false);
-          }, "image/png");
+          // Convert canvas to data URL and trigger download
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'AssessmentPaperDetail.png';
+          link.click();
         };
 
         // Handle back image load error
         backImage.onerror = () => {
-          alert("Error loading back image.");
-          setIsProcessing(false);
+          alert("Error loading back image from S3.");
         };
       };
 
       // Handle front image load error
       frontImage.onerror = () => {
         alert("Error loading front image.");
-        setIsProcessing(false);
       };
+      setIsProcessing(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="loading-indicator">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (!assessmentPaper) {
     return (

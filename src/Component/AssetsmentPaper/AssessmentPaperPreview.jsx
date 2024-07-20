@@ -77,7 +77,7 @@ const AssessmentPaperPreview = () => {
   const simulateUpload = async (imageData, id) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(`https://das-swp391.s3.ap-southeast-2.amazonaws.com/Assessment_Paper_${id}.png`);
+        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`);
       }, 1000);
     });
   };
