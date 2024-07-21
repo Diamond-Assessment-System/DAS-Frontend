@@ -36,21 +36,6 @@ function AssessmentRequestConsulting() {
     }
   };
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 1:
-        return "Đang chờ";
-      case 2:
-        return "Đã tạo booking";
-      case 3:
-        return "Đã hoàn thành";
-      case 4:
-        return "Đã hủy";
-      default:
-        return "Không xác định";
-    }
-  };
-
   useEffect(() => {
     const fetchBookingsAndServices = async () => {
       try {
@@ -75,8 +60,8 @@ function AssessmentRequestConsulting() {
   };
 
   const handleCreateBooking = async (booking) => {
-    if (booking.status === 6) {
-      alert("Không thể tạo booking mới cho yêu cầu đã hủy.");
+    if (booking.status === 6 || booking.status === 3 || booking.status === 4 || booking.status === 5) {
+      alert("Không thể tạo booking mới cho yêu cầu này.");
       return;
     }
     if (booking.status === 2) {

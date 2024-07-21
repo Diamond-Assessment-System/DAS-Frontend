@@ -50,7 +50,7 @@ export const getAssessmentPaperDetaillUrl = (id) => `${API_BASE_URL}/api/assessm
 export const BOOKING_SAMPLES_URL = `${API_BASE_URL}/api/booking-samples`;
 
 // CancelAssessment
-export const getCancelAssessmentlUrl = (id) => `${API_BASE_URL}/api/booking-samples/${id}/status/5`;
+export const getCancelAssessmentlUrl = (id) => `${API_BASE_URL}/api/booking-samples/${id}/status/4`;
 
 // GetPaperByStatus
 export const getBookingSampleStatusUrl = (id, status) => `${API_BASE_URL}/api/booking-samples/${id}/status/${status}`;
