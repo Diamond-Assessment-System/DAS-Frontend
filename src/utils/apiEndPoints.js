@@ -56,7 +56,7 @@ export const getCancelAssessmentlUrl = (id) => `${API_BASE_URL}/api/booking-samp
 export const getBookingSampleStatusUrl = (id, status) => `${API_BASE_URL}/api/booking-samples/${id}/status/${status}`;
 
 // GetUsersRole3
-export const USERS_ROLE_3_URL = `${API_BASE_URL}/api/accounts/role/3`;
+export const USERS_ROLE_2_URL = `${API_BASE_URL}/api/accounts/role/2`;
 
 // ExecuteAction
 export const getExecuteActionUrl = (sampleId, selectedAction) => `${API_BASE_URL}/api/booking-samples/${sampleId}/assign/${selectedAction}`;
