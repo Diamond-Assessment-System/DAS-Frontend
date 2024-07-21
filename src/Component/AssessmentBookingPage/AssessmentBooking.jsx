@@ -81,6 +81,10 @@ function AssessmentBooking() {
   };
 
   const handleShowDetails = async (sample) => {
+    if(sample.satus === 1 || sample.status === 3 || sample.status === 4){
+      window.alert("Không thể giám định đơn hàng này");
+      return;
+    } 
     try {
       const serviceType = await checkServiceTypeFromBooking(sample.bookingId);
       if (serviceType === 1) {
@@ -125,7 +129,7 @@ function AssessmentBooking() {
 
   const handleCancelOrder = async (sample) => {
     if(sample.status === 3 || sample.status === 1 || sample.status === 4){
-      console.log("Không thể hủy");
+      window.alert("Không thể hủy");
       return;
     }
     try {
