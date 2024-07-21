@@ -7,31 +7,27 @@ import { checkRole } from "../../utils/checkRole";
 const NoPermissionPage = () => {
   const navigate = useNavigate();
 
-  const handleButtonClick = async () => {
+  const handleButtonClick = () => {
     const account = handleSession(navigate);
     if (!account) {
       navigate(`/`);
       return;
     }
 
-    try {
-      const role = await checkRole(account.accountId);
+      const accountrole = checkRole();
       
-      if (role === 1 || role === 6) {
+      if (accountrole.role === 1 || accountrole.role === 6) {
         navigate(`/`);
-      } else if (role === 2) {
+      } else if (accountrole.role === 2) {
         navigate(`/assessmentstaff`);
-      } else if (role === 3) {
+      } else if (accountrole.role === 3) {
         navigate(`/consultingstaff`);
-      } else if (role === 4) {
+      } else if (accountrole.role === 4) {
         navigate(`/manager`);
-      } else if (role === 5) {
+      } else if (accountrole.role === 5) {
         navigate(`/admin`);
       }
-    } catch (error) {
-      console.error('Error checking role:', error);
-      navigate(`/`);
-    }
+
   };
 
   return (

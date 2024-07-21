@@ -7,15 +7,15 @@ const useCheckRole = (allowedRoles) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const verifyUserRole = async () => {
+    const verifyUserRole = () => {
       const account = handleSession(navigate);
       if (!account) {
         navigate('/login');
         return;
       }
       try {
-        const role = await checkRole(account.accountId);
-        if (!allowedRoles.includes(role)) {
+        const accountrole = checkRole();
+        if (!allowedRoles.includes(accountrole.role)) {
           navigate('/nopermission');
         }
       } catch (error) {
