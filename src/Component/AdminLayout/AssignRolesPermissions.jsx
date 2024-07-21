@@ -92,8 +92,8 @@ const AssignRolesPermissions = () => {
                       >
                         <option value="" disabled hidden>Select Role</option>
                         <option value="1">Customer</option>
-                        <option value="2">Consulting Staff</option>
-                        <option value="3">Assessment Staff</option>
+                        <option value="2">Assessment Staff</option>
+                        <option value="3">Consulting Staff</option>
                         <option value="4">Manager</option>
                         <option value="5">Admin</option>
                       </select>

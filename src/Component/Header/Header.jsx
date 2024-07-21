@@ -42,9 +42,13 @@ const Header = () => {
       case 1:
         return { text: "Đặt Hẹn", path: "/makerequest" };
       case 2:
-        return { text: "Consult", path: "/consultingstaff" };
+        return { text: "Assessment", path: "/assessmentstaff" };
       case 3:
-        return { text: "Assess", path: "/assessmentstaff" };
+        return { text: "Consultment", path: "/consultingstaff" };
+      case 4:
+        return { text: "Manager", path: "/manager" };
+      case 5:
+        return { text: "Admin", path: "/admin"}
       default:
         return { text: "Đặt Hẹn", path: "/makerequest" };
     }

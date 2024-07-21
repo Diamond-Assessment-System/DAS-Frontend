@@ -33,10 +33,10 @@ const GoogleLoginComponent = () => {
         navigate("/");
         break;
       case 2:
-        navigate("/consultingstaff");
+        navigate("/assessmentstaff");
         break;
       case 3:
-        navigate("/assessmentstaff");
+        navigate("/consultingstaff");
         break;
       case 4:
         navigate("/manager");
