@@ -56,7 +56,7 @@ function ManagerHistory() {
     try {
       // Change the order status to "Đã Hoàn Thành"
       await changeBookingStatus(bookingId, 3);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Error completing order:", error);
     }
@@ -66,7 +66,7 @@ function ManagerHistory() {
     try {
       // Change the order status to "Đã Hoàn Thành"
       await changeBookingStatus(bookingId, 4);
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error("Error completing order:", error);
     }
@@ -231,13 +231,24 @@ function ManagerHistory() {
                           onClick={() => closeOrder(order.bookingId)}
                           className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
                         >
-                          Đã Đóng
+                          Đóng
                         </button>
                         <button
                           onClick={() => createCommitmentPaper(order.bookingId)}
                           className="btn-small bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
                         >
                           Biên Nhận
+                        </button>
+                      </div>
+                    )}
+
+                    {order.status === 5 && (
+                      <div className="btn-container">
+                        <button
+                          onClick={() => closeOrder(order.bookingId)}
+                          className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
+                        >
+                          Đóng
                         </button>
                       </div>
                     )}
