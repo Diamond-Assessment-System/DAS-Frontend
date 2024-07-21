@@ -123,6 +123,20 @@ function AssessmentBooking() {
     return "";
   };
 
+  const handleCancelOrder = async (sample) => {
+    try {
+      const response = await axios.patch(`${BOOKING_SAMPLES_URL}/${sample.sampleId}/status`, { status: 4 });
+      if (response.status === 200) {
+        const updatedSamples = samples.map((s) => 
+          s.sampleId === sample.sampleId ? { ...s, status: 4 } : s
+        );
+        setSamples(updatedSamples);
+      }
+    } catch (error) {
+      console.error("Error cancelling the sample:", error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading-indicator">
@@ -145,6 +159,7 @@ function AssessmentBooking() {
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Thời Hạn</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
+                <th className="py-4 px-4 text-center align-middle">Hủy</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -173,6 +188,16 @@ function AssessmentBooking() {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Xem chi tiết
+                      </button>
+                    </div>
+                  </td>
+                  <td className="py-4 px-4 align-middle">
+                    <div className="flex items-center justify-center">
+                      <button
+                        onClick={() => handleCancelOrder(sample)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      >
+                        Hủy
                       </button>
                     </div>
                   </td>
