@@ -29,11 +29,11 @@ const RegisterComponent = () => {
     }
 
     const userInfo = {
-      email: "",  // Add appropriate values or remove if not used
+      email: null,  
       displayName: fullName,
-      uid: "",  // Add appropriate values or remove if not used
-      accountStatus: 1,  // Set a default value or make it dynamic as needed
-      role: 1,  // Set a default value or make it dynamic as needed
+      uid: "",  
+      accountStatus: 1,  
+      role: 1, 
       password: password,
       phone: phone,
     };
