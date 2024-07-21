@@ -1,113 +1,76 @@
-import React, { useEffect, useState, useRef } from "react";
-import { toPng } from "html-to-image";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllCommitmentPapers } from "../../utils/commitmentPaperUtils";
+import Spinner from "../Spinner/Spinner";
 
-const Commitment = () => {
-    const [formData, setFormData] = useState({
-        creationDate: '',
-        userName: 'John Doe',
-        bookingId: '123456',
-        title: 'Kiểm định chất lượng',
-        description: '',
-        signature: ''
-    });
+const CommitmentPaperListPage = () => {
     const navigate = useNavigate();
-    const paperRef = useRef();
+    const [commitmentPapers, setCommitmentPapers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const today = new Date().toISOString().split('T')[0];
-        setFormData(prevData => ({ ...prevData, creationDate: today }));
+        const fetchData = async () => {
+            try {
+                const papers = await getAllCommitmentPapers();
+                setCommitmentPapers(papers);
+            } catch (error) {
+                console.error('Error fetching commitment papers:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
     }, []);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    const viewCommitmentPaper = (id) => {
+        navigate(`/manager/commitment-paper/${id}`);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        toPng(paperRef.current)
-            .then((dataUrl) => {
-                console.log("Generated image data URL:", dataUrl);
-                navigate('/manager/managerhistory');
-            })
-            .catch((error) => {
-                console.error('Error generating image:', error);
-            });
-    };
+    if (loading) {
+        return (
+            <div className="loading-indicator">
+                <Spinner />
+            </div>
+        );
+    }
 
     return (
-        <div className="paper-container">
-            <div className="paper-content" ref={paperRef}>
-                <div className="headerr">
-                    <div className="left">
-                        <p>CƠ QUAN, ĐƠN VỊ DAS STORE</p>
-                        <p>Số: ....................</p>
-                    </div>
-                    <div className="right">
-                        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
-                        <p>Độc lập - Tự do - Hạnh phúc</p>
-                        <p>{new Date().toLocaleDateString('vi-VN', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric'
-                        })}</p>
-                    </div>
-                </div>
-                <div className="title-section">
-                    <h2>BIÊN BẢN GIÁM ĐỊNH</h2>
-                    <div className="field centered-field">
-                        <label className="label">Về việc:</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleChange}
-                            className="input centered-input"
-                            required
-                        />
-                    </div>
-                </div>
-                <div className="field">
-                    <p>Hôm nay, vào ngày {formData.creationDate.split('-')[2]} tháng {formData.creationDate.split('-')[1]} năm {formData.creationDate.split('-')[0]}</p>
-                    <p>Tại: ..............</p>
-                    <div className="field">
-                    <label className="label">Mô tả:</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        className="textarea"
-                        required
-                    ></textarea>
-                </div>
-                    <p>Đơn hàng: {formData.bookingId}</p>
-                </div>
-                <div className="field">
-                    <p>Người dùng: Ông/Bà {formData.userName}</p>
-                </div>
-                <div className="signature-section">
-                    <div className="date">
-                        <p>Ngày {new Date().getDate()} tháng {new Date().getMonth() + 1} năm {new Date().getFullYear()}</p>
-                    </div>
-                    <div className="signatures" >
-                        <div className="left-signature">
-                            <p><strong>Bên giao</strong></p>
-                            <p>(Ký, ghi rõ họ tên)</p>
-                        </div>
-                        <div className="right-signature">
-                            <p><strong>Bên nhận</strong></p>
-                            <p>(Ký, ghi rõ họ tên)</p>
-                        </div>
-                    </div>
+        <div className="w-full">
+            <div className="max-w-full mx-auto p-4">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Biên Nhận</h4>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+                        <thead className="bg-blue-600 text-white">
+                            <tr>
+                                <th className="py-4 px-4 text-center align-middle">Mã Đơn Hàng</th>
+                                <th className="py-4 px-4 text-center align-middle">Tên Khách Hàng</th>
+                                <th className="py-4 px-4 text-center align-middle">Ngày Tạo</th>
+                                <th className="py-4 px-4 text-center align-middle">Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody className="text-gray-700">
+                            {commitmentPapers.map((paper) => (
+                                <tr key={paper.bookingId}>
+                                    <td className="py-4 px-4 text-center align-middle">{paper.bookingId}</td>
+                                    <td className="py-4 px-4 text-center align-middle">{paper.accountName}</td>
+                                    <td className="py-4 px-4 text-center align-middle">{new Date(paper.creationDate).toLocaleDateString()}</td>
+                                    <td className="py-4 px-4 text-center align-middle">
+                                        <button
+                                            onClick={() => viewCommitmentPaper(paper.bookingId)}
+                                            className="btn-small bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                                        >
+                                            Xem Biên Nhận
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <button onClick={handleSubmit} className="button create-button mt-15 ">Tạo biên bản</button>
         </div>
     );
 };
 
-export default Commitment;
+export default CommitmentPaperListPage;

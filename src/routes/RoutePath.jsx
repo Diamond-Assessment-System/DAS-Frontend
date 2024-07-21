@@ -149,10 +149,10 @@ const RoutePath = () => {
           {/* <Route path="/manager/sealform" element={<SealForm />} /> */}
           <Route path="/manager/sealselect" element={<SelectedDiamonds />} />
           <Route path="/manager/sealhistory" element={<SealHistory />} />
-          <Route path="/manager/commitment-paper" element={<Commitpaper />} />
+          <Route path="/manager/commit" element={<Commitment />} />
           <Route path="/manager/assignpaper" element={<AsPaperManager />} />
           <Route path="/manager/managerhistory" element={<ManagerHistory />} />
-          <Route path="/manager/commit" element={<Commitment />} />
+          <Route path="/manager/commitment-paper" element={<Commitpaper />} />
           <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
           <Route path="/manager/manageruser" element={<ManageUser />} />
           <Route path="/manager/feedback" element={<ManagerFeedback />} />
