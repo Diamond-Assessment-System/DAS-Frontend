@@ -161,10 +161,6 @@ const RoutePath = () => {
           <Route index element={<DeleteSuspendUsers />} />
           <Route path="/admin/block-suspend-users" element={<DeleteSuspendUsers />} />
           <Route path="/admin/assign-roles-permissions" element={<AssignRolesPermissions />} />
-          {/* <Route path="/admin/system-maintenance" element={<SystemMaintenance />} /> */}
-          {/* <Route path="/admin/system-update" element={<SystemUpdate />} /> */}
-          {/* <Route path="/admin/content-database" element={<ContentDatabase />} /> */}
-          {/* <Route path="/admin/create-manage-users" element={<CreateManageUsers />} /> */}
         </Route>
         <Route path="assetsmentpaper" element={<AssetsmentPaper />} />
         <Route path="/login" element={<GoogleLoginComponent />} />

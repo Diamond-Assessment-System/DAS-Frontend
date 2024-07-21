@@ -21,6 +21,7 @@ import sampleImage2 from "../../../public/backgrounddas1.png";
 import sampleImage3 from "../../../public/backgrounddas2.png";
 import { FaGem, FaCertificate, FaRegHandshake } from "react-icons/fa";
 import ContactModal from "../contact/ContactModal";
+import { useNavigate } from "react-router-dom";
 const images = [sampleImage1, sampleImage2, sampleImage3];
 
 function MyComponent() {
@@ -33,6 +34,8 @@ function MyComponent() {
 
     return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
   }, []);
+
+  const navigate = useNavigate();
 
   const handleDotClick = (index) => {
     setCurrentIndex(index);
@@ -127,10 +130,10 @@ function MyComponent() {
             Liên hệ với chúng tôi để biết thêm thông tin hoặc để đặt lịch hẹn.
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300">
+            <button onClick={() => navigate('/makerequest')} className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300">
               Đặt Lịch Hẹn
             </button>
-            <button className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300">
+            <button onClick={() => navigate('/login')} className="bg-blue-600 text-white py-2 px-6 rounded-full hover:bg-blue-700 transition-colors duration-300">
               Đăng Nhập / Đăng Ký
             </button>
             
