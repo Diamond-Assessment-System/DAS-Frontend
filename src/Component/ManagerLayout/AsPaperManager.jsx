@@ -5,7 +5,7 @@ import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination";
 import '../ManagerLayout/AsPaperManager.css';
-import { BOOKING_SAMPLES_URL, USERS_ROLE_3_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
+import { BOOKING_SAMPLES_URL, USERS_ROLE_2_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
 
 // Utility function to remove diacritics
 const removeDiacritics = (str) => {
@@ -39,7 +39,7 @@ function AsPaperManager() {
 
   const fetchAccounts = async () => {
     try {
-      const response = await axios.get(USERS_ROLE_3_URL);
+      const response = await axios.get(USERS_ROLE_2_URL);
       setAccounts(response.data);
     } catch (error) {
       console.error("Error fetching the accounts:", error);
