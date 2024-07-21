@@ -124,8 +124,12 @@ function AssessmentBooking() {
   };
 
   const handleCancelOrder = async (sample) => {
+    if(sample.status === 3 || sample.status === 1 || sample.status === 4){
+      console.log("Không thể hủy");
+      return;
+    }
     try {
-      const response = await axios.patch(`${BOOKING_SAMPLES_URL}/${sample.sampleId}/status`, { status: 4 });
+      const response = await axios.put(`${BOOKING_SAMPLES_URL}/${sample.sampleId}/status/4`);
       if (response.status === 200) {
         const updatedSamples = samples.map((s) => 
           s.sampleId === sample.sampleId ? { ...s, status: 4 } : s
