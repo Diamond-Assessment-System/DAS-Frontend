@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toPng } from "html-to-image";
+import { format } from "date-fns";
 import '../ManagerLayout/Commitpaper.css';
 import { createCommitmentPaper } from "../../utils/commitmentPaperUtils";
 import getOrderDetails from "../../utils/getOrderDetails";
@@ -14,9 +15,9 @@ const CommitmentPaperPage = () => {
     approvalDate: '',
     commitmentType: 'Default Type',
     title: '',
-    status: 0,
+    status: 1,
     bookingId: bookingId,
-    accountId: 0 // Set this according to your logic or get from user data
+    accountId: 1 // Set this according to your logic or get from user data
   });
   const navigate = useNavigate();
   const paperRef = useRef();
@@ -25,10 +26,11 @@ const CommitmentPaperPage = () => {
     const fetchOrderDetails = async () => {
       try {
         const orderDetails = await getOrderDetails(bookingId);
+        const currentDate = format(new Date(), "yyyy/MM/dd - HH:mm:ss");
         setFormData(prevFormData => ({
           ...prevFormData,
-          dateCreated: orderDetails.dateCreated || new Date().toISOString(),
-          approvalDate: new Date().toISOString(),
+          dateCreated: currentDate,
+          approvalDate: currentDate,
           accountId: orderDetails.accountId, // Assuming orderDetails contains accountId
           title: orderDetails.title || '',
           description: orderDetails.description || ''
@@ -106,7 +108,7 @@ const CommitmentPaperPage = () => {
           <p>Đơn hàng: {formData.bookingId}</p>
         </div>
         <div className="field">
-          <p>Người dùng: Ông/Bà {formData.userName}</p>
+          <p>Người dùng: Ông/Bà </p>
         </div>
         <div className="signature-section">
           <div className="date">
