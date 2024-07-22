@@ -86,12 +86,12 @@ function AssessmentRequestConsulting() {
   const handleCancelBooking = async (booking) => {
     if (booking.status === 1) {
       try {
-        // Update the booking status to 'Đã Hủy' (status 4) using the new API
+        // Update the booking status to 'Đã Hủy' (status 6) using the new API
         await changeBookingStatus(booking.bookingId, 6);
         // Update the booking status locally
         setBookings((prevBookings) =>
           prevBookings.map((b) =>
-            b.bookingId === booking.bookingId ? { ...b, status: 4 } : b
+            b.bookingId === booking.bookingId ? { ...b, status: 6 } : b
           )
         );
         alert("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
@@ -140,10 +140,13 @@ function AssessmentRequestConsulting() {
       return matchesSearchQuery && matchesStatus;
     });
 
+  // Sort bookings by status
+  const sortedBookings = filteredBookings.sort((a, b) => a.status - b.status);
+
   // Calculate the indices for the current page
   const indexOfLastBooking = currentPage * itemsPerPage;
   const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
-  const currentBookings = filteredBookings.slice(
+  const currentBookings = sortedBookings.slice(
     indexOfFirstBooking,
     indexOfLastBooking
   );
@@ -188,8 +191,8 @@ function AssessmentRequestConsulting() {
             type="radio"
             id="status2"
             name="status"
-            value="dangcho"
-            checked={selectedStatus === "dangcho"}
+            value="1"
+            checked={selectedStatus === "1"}
             onChange={handleStatusChange}
           />
           <label htmlFor="status2">Đang Chờ</label>
@@ -197,8 +200,8 @@ function AssessmentRequestConsulting() {
             type="radio"
             id="status3"
             name="status"
-            value="datao"
-            checked={selectedStatus === "datao"}
+            value="2"
+            checked={selectedStatus === "2"}
             onChange={handleStatusChange}
           />
           <label htmlFor="status3"> Đã Tạo </label>
@@ -206,35 +209,35 @@ function AssessmentRequestConsulting() {
             type="radio"
             id="status4"
             name="status"
-            value="dahoantat"
-            checked={selectedStatus === "dahoantat"}
+            value="3"
+            checked={selectedStatus === "3"}
             onChange={handleStatusChange}
           />
           <label htmlFor="status4">Đã Hoàn Tất</label>
           <input
             type="radio"
-            id="status6"
-            name="status"
-            value="dadong"
-            checked={selectedStatus === "dadong"}
-            onChange={handleStatusChange}
-          />
-          <label htmlFor="status6"> Đã Đóng</label>
-          <input
-            type="radio"
             id="status5"
             name="status"
-            value="daniemphong"
-            checked={selectedStatus === "daniemphong"}
+            value="4"
+            checked={selectedStatus === "4"}
             onChange={handleStatusChange}
           />
-          <label htmlFor="status5"> Đã Niêm Phong</label>
+          <label htmlFor="status5"> Đã Đóng</label>
+          <input
+            type="radio"
+            id="status6"
+            name="status"
+            value="5"
+            checked={selectedStatus === "5"}
+            onChange={handleStatusChange}
+          />
+          <label htmlFor="status6"> Đã Niêm Phong</label>
           <input
             type="radio"
             id="status7"
             name="status"
-            value="dahuy"
-            checked={selectedStatus === "dahuy"}
+            value="6"
+            checked={selectedStatus === "6"}
             onChange={handleStatusChange}
           />
           <label htmlFor="status7"> Đã Huỷ</label>
