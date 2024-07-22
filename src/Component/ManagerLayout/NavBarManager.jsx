@@ -80,6 +80,13 @@ const Navbar = () => {
             Tài Khoản Khách Hàng
           </Link>
           <Link
+            to="/manager/feedback"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            Phản Hồi Khách Hàng
+          </Link>
+          <Link
             to="/"
             className="navbar-link"
             onClick={handleLogout}
