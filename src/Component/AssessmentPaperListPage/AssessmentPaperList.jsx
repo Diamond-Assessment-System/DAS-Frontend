@@ -9,32 +9,35 @@ function AssessmentPaperList() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [assessmentPapers, setAssessmentPapers] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get("https://das-backend.fly.dev/api/assessment-papers")
-  //     .then(response => {
-  //       setAssessmentPapers(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error("There was an error fetching the assessment papers!", error);
-  //     });
-  // }, []);
+  const [accounts, setAccounts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const fetchAssessmentPapers = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(ASSESSMENT_PAPER_URL);
-        setAssessmentPapers(response.data);
+        const [papersResponse, accountsResponse] = await Promise.all([
+          axios.get(ASSESSMENT_PAPER_URL),
+          axios.get(`https://das-backend.fly.dev/api/accounts`),
+        ]);
+        setAssessmentPapers(papersResponse.data);
+        setAccounts(accountsResponse.data);
       } catch (error) {
-        console.error("There was an error fetching the assessment papers!", error);
+        console.error("There was an error fetching the data!", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAssessmentPapers();
+    fetchData();
   }, []);
-  
+
+  const filteredAssessmentPapers = assessmentPapers.filter(paper => {
+    const account = accounts.find(account => account.accountId === paper.accountId);
+    return account && (
+      (account.phone?.includes(searchQuery) || '') ||
+      (account.email?.includes(searchQuery) || '')
+    );
+  });
 
   if (loading) {
     return (
@@ -48,6 +51,15 @@ function AssessmentPaperList() {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đơn</h4>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by phone number or email"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="p-2 border border-gray-300 rounded"
+          />
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -60,7 +72,7 @@ function AssessmentPaperList() {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {assessmentPapers.map((paper) => (
+              {filteredAssessmentPapers.map((paper) => (
                 <tr key={paper.diamondId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{paper.diamondId}</td>
                   <td className="py-4 px-4 text-center">{paper.accountId}</td>

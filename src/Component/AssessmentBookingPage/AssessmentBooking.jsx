@@ -19,6 +19,7 @@ function AssessmentBooking() {
   const [loggedAccount, setLoggedAccount] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // Added searchQuery state
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -33,10 +34,10 @@ function AssessmentBooking() {
           const samplesWithReturnDate = await Promise.all(samplesData.map(async (sample) => {
             try {
               const booking = await getBookingFromId(sample.bookingId);
-              return { ...sample, samplereturndate: booking.sampleReturnDate };
+              return { ...sample, samplereturndate: booking.sampleReturnDate, phone: booking.phone };
             } catch (error) {
               console.error(`Error fetching booking for sample ${sample.bookingId}:`, error);
-              return { ...sample, samplereturndate: null };
+              return { ...sample, samplereturndate: null, phone: null };
             }
           }));
 
@@ -55,10 +56,11 @@ function AssessmentBooking() {
   }, [navigate]);
 
   useEffect(() => {
+    const filteredSamples = samples.filter(sample => sample.phone.includes(searchQuery));
     const endOffset = itemOffset + itemsPerPage;
-    setCurrentItems(samples.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(samples.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, samples]);
+    setCurrentItems(filteredSamples.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(filteredSamples.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, samples, searchQuery]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % samples.length;
@@ -81,7 +83,7 @@ function AssessmentBooking() {
   };
 
   const handleShowDetails = async (sample) => {
-    if(sample.satus === 1 || sample.status === 3 || sample.status === 4){
+    if (sample.status === 1 || sample.status === 3 || sample.status === 4) {
       window.alert("Không thể giám định đơn hàng này");
       return;
     } 
@@ -127,23 +129,6 @@ function AssessmentBooking() {
     return "";
   };
 
-  const handleCancelOrder = async (sample) => {
-    if(sample.status === 3 || sample.status === 1 || sample.status === 4){
-      window.alert("Không thể hủy");
-      return;
-    }
-    try {
-      const response = await axios.put(`${BOOKING_SAMPLES_URL}/${sample.sampleId}/status/4`);
-      if (response.status === 200) {
-        const updatedSamples = samples.map((s) => 
-          s.sampleId === sample.sampleId ? { ...s, status: 4 } : s
-        );
-        setSamples(updatedSamples);
-      }
-    } catch (error) {
-      console.error("Error cancelling the sample:", error);
-    }
-  };
 
   if (loading) {
     return (
@@ -157,6 +142,15 @@ function AssessmentBooking() {
     <div className="w-full">
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Danh Sách Đặt Hẹn</h4>
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by phone number"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="p-2 border border-gray-300 rounded"
+          />
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
@@ -167,7 +161,6 @@ function AssessmentBooking() {
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Thời Hạn</th>
                 <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-                <th className="py-4 px-4 text-center align-middle">Hủy</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
@@ -196,16 +189,6 @@ function AssessmentBooking() {
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       >
                         Xem chi tiết
-                      </button>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => handleCancelOrder(sample)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Hủy
                       </button>
                     </div>
                   </td>

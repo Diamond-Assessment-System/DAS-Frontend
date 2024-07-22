@@ -13,6 +13,7 @@ function AssessmentRequestConsulting() {
 
   const [bookings, setBookings] = useState([]);
   const [services, setServices] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("tatca");
@@ -37,21 +38,23 @@ function AssessmentRequestConsulting() {
   };
 
   useEffect(() => {
-    const fetchBookingsAndServices = async () => {
+    const fetchBookingsServicesAccounts = async () => {
       try {
         const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);
         const servicesResponse = await axios.get(SERVICES_URL);
+        const accountsResponse = await axios.get(`https://das-backend.fly.dev/api/accounts`);
 
         setBookings(bookingsResponse.data);
         setServices(servicesResponse.data);
+        setAccounts(accountsResponse.data);
       } catch (error) {
-        console.error("Error fetching the bookings or services:", error);
+        console.error("Error fetching the bookings, services, or accounts:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBookingsAndServices();
+    fetchBookingsServicesAccounts();
   }, []);
 
   const handleStatusChange = (e) => {
@@ -134,7 +137,9 @@ function AssessmentRequestConsulting() {
       return service && service.serviceType === 1;
     })
     .filter((booking) => {
-      const matchesSearchQuery = removeDiacritics(booking.bookingId.toString().toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase()));
+      const account = accounts.find((account) => account.accountId === booking.accountId);
+      const accountInfo = `${account?.phone || ""} ${account?.email || ""}`;
+      const matchesSearchQuery = removeDiacritics(accountInfo.toLowerCase()).includes(removeDiacritics(searchQuery.toLowerCase()));
       const matchesStatus = selectedStatus === "tatca" || booking.status.toString() === selectedStatus;
 
       return matchesSearchQuery && matchesStatus;
@@ -172,7 +177,7 @@ function AssessmentRequestConsulting() {
         </h4>
         <input
           type="text"
-          placeholder="Search by booking ID"
+          placeholder="Search by phone or email"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="mb-4 p-2 border border-gray-300 rounded"
