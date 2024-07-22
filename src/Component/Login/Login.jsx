@@ -62,6 +62,7 @@ const GoogleLoginComponent = () => {
       handleLoginSuccess(userInfo);
     } catch (error) {
       handleLoginFailure(error);
+
     } finally {
       setLoading(false);
     }
@@ -76,6 +77,7 @@ const GoogleLoginComponent = () => {
       handleLoginSuccess(userInfo);
     } catch (error) {
       handleLoginFailure(error);
+      window.alert("Wrong credentials!");
     } finally {
       setLoading(false);
     }
