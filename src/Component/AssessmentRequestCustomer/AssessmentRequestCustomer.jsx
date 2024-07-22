@@ -64,7 +64,7 @@ function AssessmentRequest() {
       quantities: Yup.number()
         .required("Vui lòng nhập số lượng!")
         .min(1, "Ít nhất 1 mẫu.")
-        .max(100, "Không quá 100 mẫu."),
+        .max(20, "Không quá 20 mẫu."),
     }),
     onSubmit: (values) => {
       if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
