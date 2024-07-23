@@ -133,10 +133,10 @@ const RoutePath = () => {
           <Route path="assessmentbooking" element={<AssessmentBooking />} />
           {/* <Route path='assessmentbooking/:id' element={<AssessmentBookingSample />} /> */}
           <Route path="assessmentbooking/:id/selection" element={<SelectionForm />} />
-          <Route path="assessmentbooking/:id/selection/info" element={<InfoForm />} />
+          <Route path="assessmentbooking/:id/info" element={<InfoForm />} />
           {/* <Route path="assessmentbooking/:id/selection/info/cut" element={<CutForm/>} /> */}
-          <Route path="assessmentbooking/:id/selection/info/summary" element={<AssetsmentPaper />} />
-          <Route path="assessmentbooking/:id/selection/info/summary/preview" element={<AssessmentPaperPreview />} />
+          <Route path="assessmentbooking/:id/info/summary" element={<AssetsmentPaper />} />
+          <Route path="assessmentbooking/:id/info/summary/preview" element={<AssessmentPaperPreview />} />
           <Route path="assessmentpaperlist" element={<AssessmentPaperList />} />
           <Route path="assessmentpaperlist/:id" element={<AssessmentPaperDetail />} />
           <Route path="/assessmentstaff/sealform/:sampleId" element={<SealForm />} />

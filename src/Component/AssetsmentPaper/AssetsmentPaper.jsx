@@ -67,7 +67,7 @@ const AssessmentPaper = () => {
     if (uploadedProportionImage && uploadedClarityImage) {
       if (window.confirm("Thông tin đã xác thực?")) {
         navigate(
-          `/assessmentstaff/assessmentbooking/${id}/selection/info/summary/preview`,
+          `/assessmentstaff/assessmentbooking/${id}/info/summary/preview`,
           {
             state: {
               id,

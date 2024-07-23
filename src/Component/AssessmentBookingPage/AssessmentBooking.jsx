@@ -86,11 +86,11 @@ function AssessmentBooking() {
     if (sample.status === 1 || sample.status === 3 || sample.status === 4) {
       window.alert("Không thể giám định đơn hàng này");
       return;
-    } 
+    }
     try {
       const serviceType = await checkServiceTypeFromBooking(sample.bookingId);
       if (serviceType === 1) {
-        navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/selection`);
+        navigate(`/assessmentstaff/assessmentbooking/${sample.sampleId}/info`);
       } else if (serviceType === 2) {
         navigate(`/assessmentstaff/sealform/${sample.sampleId}`, { state: { sample, bookingId: sample.bookingId } });
       } else {

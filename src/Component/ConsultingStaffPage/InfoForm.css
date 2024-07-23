@@ -1,20 +1,30 @@
 .custom-input .ant-input-number,
 .custom-input .ant-select-selector {
-  height: 40px; 
+  height: 40px;
   padding: 0 11px;
   font-size: 16px;
-  width: 100%; 
+  width: 100%;
 }
 
 .ant-input-number-input {
   height: 100%;
-  line-height: 40px; 
+  line-height: 40px;
 }
 
 .ant-select-selector {
-  width: 100% !important; 
+  width: 100% !important;
 }
 
 .custom-input {
-  width: 100% !important; 
+  width: 100% !important;
+}
+
+.custom-link {
+  color: black;
+  font-size: 20px;
+  /* Tăng cỡ chữ */
+  font-weight: bold;
+  /* Tô đậm */
+  text-decoration: underline;
+  /* Gạch dưới */
 }
