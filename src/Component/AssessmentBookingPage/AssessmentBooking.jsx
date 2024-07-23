@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./AssessmentBooking.css";
+import { Modal, Button, Form } from "react-bootstrap";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import { handleSession } from "../../utils/sessionUtils";
@@ -15,6 +16,7 @@ import { cancelSample } from "../../utils/changeSampleStatus"; // Make sure this
 function AssessmentBooking() {
   const navigate = useNavigate();
   const [samples, setSamples] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loggedAccount, setLoggedAccount] = useState([]);
@@ -32,15 +34,17 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
-          const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
-          const samplesData = response.data;
+          const [samplesResponse, accountsResponse] = await Promise.all([
+            axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`),
+            axios.get('https://das-backend.fly.dev/api/accounts'),
+          ]);
+          const samplesData = samplesResponse.data;
 
           const samplesWithReturnDate = await Promise.all(samplesData.map(async (sample) => {
             try {
               const booking = await getBookingFromId(sample.bookingId);
               return {
-                ...sample, samplereturndate: booking.sampleReturnDate, phone
-                  : booking.phone
+                ...sample, samplereturndate: booking.sampleReturnDate, phone: booking.phone
               };
             } catch (error) {
               console.error(`Error fetching booking for sample ${sample.bookingId}:`, error);
@@ -49,8 +53,9 @@ function AssessmentBooking() {
           }));
 
           setSamples(samplesWithReturnDate);
+          setAccounts(accountsResponse.data);
         } catch (error) {
-          console.error("Error fetching the samples:", error);
+          console.error("Error fetching the samples or accounts:", error);
         } finally {
           setLoading(false);
         }
@@ -63,11 +68,18 @@ function AssessmentBooking() {
   }, [navigate]);
 
   useEffect(() => {
-    const filteredSamples = samples.filter(sample => sample.phone.includes(searchQuery));
+    const filteredSamples = samples.filter(sample => {
+      const account = accounts.find(account => account.accountId === sample.accountId);
+      return account && (
+        (account.phone?.includes(searchQuery) || '') ||
+        (account.email?.includes(searchQuery) || '')
+      );
+    });
+
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(filteredSamples.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(filteredSamples.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, samples, searchQuery]);
+  }, [itemOffset, itemsPerPage, samples, searchQuery, accounts]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % samples.length;
@@ -143,25 +155,40 @@ function AssessmentBooking() {
     }
 
     try {
+      const requestBody = JSON.stringify(cancelReason);
       console.log("Canceling sample with ID:", cancelSampleId);
       console.log("Cancel reason:", cancelReason);
+      console.log("Cancel reason:", requestBody);
 
-      await cancelSample(cancelSampleId, cancelReason);
-      await changeSampleStatus(cancelSampleId, 4);
-
-      const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
-      setSamples(response.data);
-      setShowModal(false);
-      setCancelReason("");
+      await cancelSample(cancelSampleId, requestBody);
+      //await changeSampleStatus(cancelSampleId, 4);
+      //const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
+      //setSamples(response.data);
+      
+      //
     } catch (error) {
       console.error("Error canceling sample:", error);
+    } finally {
+      setShowModal(false);
+      setCancelReason("");
     }
   };
 
-
   const openCancelModal = (sampleId) => {
-    setCancelSampleId(sampleId);
-    setShowModal(true);
+    const sample = samples.find(sample => sample.sampleId === sampleId);
+    if (sample.status === 4) {
+      setCancelReason(sample.cancelReason || "");
+      setCancelSampleId(sampleId);
+      setShowModal(true);
+    } else if (sample.status === 3){
+      window.alert("Đã hoàn thành giám định, không thể hủy.");
+      return;
+    } else {
+      setCancelReason("");
+      setCancelSampleId(sampleId);
+      setShowModal(true);
+    }
+    
   };
 
   if (loading) {
@@ -179,7 +206,7 @@ function AssessmentBooking() {
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Search by phone number"
+            placeholder="Search by phone number or email"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="p-2 border border-gray-300 rounded"
@@ -245,35 +272,33 @@ function AssessmentBooking() {
         <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
       </div>
 
-      {/* Modal for canceling */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-            <h3 className="text-lg font-semibold mb-4">Nhập lý do hủy</h3>
-            <textarea
-              value={cancelReason}
-              onChange={(e) => setCancelReason(e.target.value)}
-              rows="4"
-              className="w-full border border-gray-300 rounded p-2 mb-4"
-              placeholder="Nhập lý do hủy"
-            />
-            <div className="flex justify-end">
-              <button
-                onClick={handleCancel}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
-              >
-                Xác nhận
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Hủy
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Nhập Lý Do Hủy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="blockReason">
+              <Form.Label>Lý Do</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                required
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Hủy
+          </Button>
+          <Button variant="primary" onClick={handleCancel}>
+            Hủy Mẫu
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
