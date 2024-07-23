@@ -23,8 +23,8 @@ function AssessmentRequest() {
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
-        console.log("Fetched services: ", response.data); // Log the fetched services
-        setServices(response.data);
+        const filteredData = response.data.filter(service => service.serviceStatus ===  1);
+        setServices(filteredData);
       } catch (error) {
         console.error("Error fetching the services:", error);
       }

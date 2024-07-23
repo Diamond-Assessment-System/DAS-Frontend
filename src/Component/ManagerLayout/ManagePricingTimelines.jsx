@@ -45,12 +45,15 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
           <Form.Group controlId="formServiceStatus">
             <Form.Label>Trạng Thái</Form.Label>
             <Form.Control
-              type="text"
+              as="select"
               name="serviceStatus"
               value={formValues.serviceStatus}
               onChange={handleInputChange}
               required
-            />
+              >
+              <option value="1">Đang hoạt động</option>
+              <option value="2">Tạm dừng</option>
+              </Form.Control>
           </Form.Group>
           <Form.Group controlId="formServiceType">
             <Form.Label>Loại Dịch Vụ</Form.Label>
@@ -61,7 +64,6 @@ const ServiceModal = ({ show, handleClose, handleSubmit, formValues, handleInput
               onChange={handleInputChange}
               required
             >
-              <option value="">Select Type</option>
               <option value="1">Giám định</option>
               <option value="2">Niêm phong</option>
               <option value="3">Khác</option>
@@ -142,6 +144,17 @@ const ManageOrderTimelines = () => {
         return "Niêm phong";
       case 3:
         return "Khác";
+      default:
+        return "NULL";
+    }
+  };
+
+  const getServiceStatusText = (status) => {
+    switch (status) {
+      case 1:
+        return "Đang hoạt động";
+      case 2:
+        return "Tạm dừng";
       default:
         return "NULL";
     }
@@ -251,8 +264,8 @@ const ManageOrderTimelines = () => {
                 <th className="py-4 px-4 text-center align-middle">Mô Tả</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
                 <th className="py-4 px-4 text-center align-middle">Loại</th>
-                <th className="py-4 px-4 text-center align-middle">Giá Dịch Vụ</th>
-                <th className="py-4 px-4 text-center align-middle">Thời Gian</th>
+                <th className="py-4 px-4 text-center align-middle">Giá Dịch Vụ (VND)</th>
+                <th className="py-4 px-4 text-center align-middle">Thời Gian (giờ)</th>
                 <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
@@ -262,22 +275,22 @@ const ManageOrderTimelines = () => {
                   <td className="py-4 px-4 text-center align-middle">
                     {service.serviceId}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
+                  <td className="py-4 px-4 text-left align-middle">
                     {service.serviceName}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle" dangerouslySetInnerHTML={{ __html: service.serviceDescription }}>
+                  <td className="py-4 px-4 text-left align-middle" dangerouslySetInnerHTML={{ __html: service.serviceDescription }}>
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {service.serviceStatus}
+                  <td className="py-4 px-4 text-left align-middle">
+                    {getServiceStatusText(service.serviceStatus)}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
+                  <td className="py-4 px-4 text-left align-middle">
                     {getServiceTypeText(service.serviceType)}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {formatPrice(service.servicePrice)} VND
+                  <td className="py-4 px-4 text-right align-middle">
+                    {formatPrice(service.servicePrice)}
                   </td>
-                  <td className="py-4 px-4 text-center align-middle">
-                    {service.serviceTime}h
+                  <td className="py-4 px-4 text-right align-middle">
+                    {service.serviceTime}
                   </td>
                   <td className="py-4 px-4 text-center align-middle">
                     <Button
