@@ -6,10 +6,11 @@ import axios from "axios";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { handleSession } from "../../utils/sessionUtils";
 import Spinner from "../Spinner/Spinner";
-import { geAssessmentSummaryDetailUrl } from "../../utils/apiEndPoints";
+import { geAssessmentSummaryDetailUrl, ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
 import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 import "./AssetsmentList.css"; // Import the CSS file
 import logo from "../../../public/logodas.png";
+
 function AssetsmentList() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function AssetsmentList() {
   const [completionDate, setCompletionDate] = useState("");
   const [loggedAccount, setLoggedAccount] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   useEffect(() => {
     const account = handleSession(navigate);
@@ -41,8 +43,19 @@ function AssetsmentList() {
       }
     };
 
+    const fetchPhoneNumber = async () => {
+      try {
+        const response = await axios.get(`${ASSESSMENT_BOOKING_URL}/${bookingData.bookingId}`);
+        const phone = response.data.phone;
+        setPhoneNumber(phone);
+      } catch (error) {
+        console.error("Error fetching phone number:", error);
+      }
+    };
+
     if (bookingData && bookingData.accountId) {
       fetchAccount();
+      fetchPhoneNumber();
     }
 
     const createdDate = parse(
@@ -123,21 +136,22 @@ function AssetsmentList() {
     <div className="mx-auto p-6 bg-gray-100 min-h-screen">
       <div className="bg-white p-8 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-6">
-          <div className="logo-container">
-          <img src={logo} alt="Logo" className="logo" />
-          </div>
           <div>
-            <h2 className="text-2xl font-bold">Hóa Đơn</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-4xl font-bold">Hóa Đơn</h2>
+            <p className="text-2xl font-bold text-gray-600 py-2 mt-4">
               Đơn hàng #{bookingData.bookingId}
             </p>
+          </div>
+          <div className="logo-container">
+            <img src={logo} alt="Logo" className="logo" />
           </div>
         </div>
         <hr className="mb-6" />
         <div className="flex justify-between mb-6">
           <div>
-            <strong>Khách Hàng: {account.displayName}</strong>
-            <p>{account.phone ? `Số điện thoại: ${account.phone}` : ""}</p>
+            <strong>Khách Hàng: {account.displayName}</strong> <br />
+            <strong>{phoneNumber ? `Số điện thoại: ${phoneNumber}` : ""}</strong> <br />
+            <strong>Email: {account.email}</strong>
           </div>
           <div>
             <strong>Ngày Tạo Đơn:</strong>
@@ -158,26 +172,26 @@ function AssetsmentList() {
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden mt-4">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-left">#</th>
+                <th className="py-4 px-4 text-center">STT</th>
                 <th className="py-4 px-4 text-center">Tên mẫu</th>
                 <th className="py-4 px-4 text-center">Kích cỡ</th>
-                <th className="py-4 px-4 text-right">Giá</th>
+                <th className="py-4 px-4 text-right">Giá(VND)</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {diamonds.map((diamond, index) => (
                 <tr key={index} className="hover:bg-gray-100">
-                  <td className="py-4 px-4">{index + 1}</td>
+                  <td className="py-4 px-4 text-center">{index + 1}</td>
                   <td className="py-4 px-4 text-center">{diamond.name}</td>
                   <td className="py-4 px-4 text-center">{diamond.size}</td>
-                  <td className="py-4 px-4 text-right">${diamond.price}</td>
+                  <td className="py-4 px-4 text-right">{diamond.price}</td>
                 </tr>
               ))}
               <tr>
                 <td colSpan="2" />
                 <td className="py-4 px-4 text-right font-bold">Tổng tiền</td>
                 <td className="py-4 px-4 text-right font-bold">
-                  ${totalPrice}
+                  {totalPrice}
                 </td>
               </tr>
             </tbody>
@@ -185,7 +199,7 @@ function AssetsmentList() {
         </div>
         <div className="text-right">
           <Button type="primary" onClick={handleSubmit} className="mt-4 w-32" disabled={isProcessing}>
-            Submit
+            {isProcessing ? <Spinner /> : "Submit"}
           </Button>
         </div>
       </div>

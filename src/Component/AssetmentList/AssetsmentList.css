@@ -5,12 +5,14 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background-color: rgba(52, 57, 59, 0.7); /* Add the black background */
+  background-color: rgba(52, 57, 59, 0.7);
+  /* Add the black background */
 }
 
 .logo {
   width: 100px;
   height: 100px;
-  object-fit: contain; /* Ensure the image is contained within the circle */
+  object-fit: contain;
+  /* Ensure the image is contained within the circle */
   border-radius: 50%;
 }
