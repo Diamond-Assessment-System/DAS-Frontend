@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./AssessmentBooking.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
@@ -11,7 +11,7 @@ import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
 import getBookingFromId from "../../utils/getBookingFromId";
 import { parse, isBefore, differenceInHours } from 'date-fns';
 import { checkServiceTypeFromBooking } from "../../utils/checkServiceTypeFromBookingId";
-import { cancelSample } from "../../utils/changeSampleStatus"; // Make sure this path is correct
+import { cancelSample } from "../../utils/changeSampleStatus";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -102,8 +102,12 @@ function AssessmentBooking() {
   };
 
   const handleShowDetails = async (sample) => {
-    if (sample.status === 1 || sample.status === 3 || sample.status === 4) {
-      window.alert("Không thể giám định đơn hàng này");
+    if (sample.status === 4) {
+      alert(`Lý do hủy: ${sample.cancelReason}`);
+      return;
+    }
+    if (sample.status === 1 || sample.status === 3) {
+      alert("Không thể giám định đơn hàng này");
       return;
     }
     try {
@@ -161,34 +165,33 @@ function AssessmentBooking() {
       console.log("Cancel reason:", requestBody);
 
       await cancelSample(cancelSampleId, requestBody);
-      //await changeSampleStatus(cancelSampleId, 4);
-      //const response = await axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`);
-      //setSamples(response.data);
-      
+
       //
     } catch (error) {
       console.error("Error canceling sample:", error);
     } finally {
       setShowModal(false);
       setCancelReason("");
+      navigate("/assessmentstaff");
     }
   };
 
   const openCancelModal = (sampleId) => {
     const sample = samples.find(sample => sample.sampleId === sampleId);
-    if (sample.status === 4) {
+    if (sample.status === 2) {
       setCancelReason(sample.cancelReason || "");
       setCancelSampleId(sampleId);
       setShowModal(true);
-    } else if (sample.status === 3){
-      window.alert("Đã hoàn thành giám định, không thể hủy.");
+
+    } else if (sample.status === 3 || sample.status === 4) {
+      window.alert("Không Thể Hủy Mẫu Khi Đã Hoàn Thành/Đã Hủy");
       return;
     } else {
       setCancelReason("");
       setCancelSampleId(sampleId);
       setShowModal(true);
     }
-    
+
   };
 
   if (loading) {
@@ -237,65 +240,56 @@ function AssessmentBooking() {
                   <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
                     <h3>{getSampleStatusMeaning(sample.status)}</h3>
                   </td>
+                  <td className="py-4 px-4 align-middle">{sample.samplereturndate}</td>
                   <td className="py-4 px-4 align-middle">
-                    {sample.samplereturndate ? (
-                      <span>{sample.samplereturndate}</span>
-                    ) : (
-                      <span>Chưa có thông tin</span>
-                    )}
+                    <button
+                      className="text-blue-500 underline"
+                      onClick={() => handleShowDetails(sample)}
+                    >
+                      Xem chi tiết
+                    </button>
                   </td>
                   <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => handleShowDetails(sample)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Xem chi tiết
-                      </button>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => openCancelModal(sample.sampleId)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Hủy
-                      </button>
-                    </div>
+                    <button
+                      className="text-red-500 underline"
+                      onClick={() => openCancelModal(sample.sampleId)}
+                    >
+                      Hủy
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
+        <div className="flex justify-center mt-4">
+          <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
+        </div>
       </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Nhập Lý Do Hủy</Modal.Title>
+          <Modal.Title>Hủy Mẫu</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="blockReason">
-              <Form.Label>Lý Do</Form.Label>
+            <Form.Group controlId="cancelReason">
+              <Form.Label>Lý do hủy</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 value={cancelReason}
                 onChange={(e) => setCancelReason(e.target.value)}
-                required
               />
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Hủy
+            Đóng
           </Button>
           <Button variant="primary" onClick={handleCancel}>
-            Hủy Mẫu
+            Xác nhận hủy
           </Button>
         </Modal.Footer>
       </Modal>
