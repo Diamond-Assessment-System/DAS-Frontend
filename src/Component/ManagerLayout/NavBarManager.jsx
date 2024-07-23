@@ -73,6 +73,13 @@ const Navbar = () => {
             Lịch Sử Đặt Hẹn
           </Link>
           <Link
+            to="/manager/cancelhistory"
+            className="navbar-link"
+            onClick={toggleMenu}
+          >
+            Lịch Sử Hủy Mẫu
+          </Link>
+          <Link
             to="/manager/manageruser"
             className="navbar-link"
             onClick={toggleMenu}
