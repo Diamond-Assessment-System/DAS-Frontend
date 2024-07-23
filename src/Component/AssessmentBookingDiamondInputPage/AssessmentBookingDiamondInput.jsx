@@ -6,14 +6,15 @@ import axios from "axios";
 import Spinner from "../Spinner/Spinner";
 import ProgressBar from "../Progressbar/ProgressBar";
 import { SERVICE_PRICE_LIST_URL } from "../../utils/apiEndPoints";
+import getAccountFromId from "../../utils/getAccountFromId"; // Ensure this utility is imported
 
 const AssessmentBookingDiamondInput = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { bookingData, serviceData, numberOfSamples, id } =
-    location.state || {};
+  const { bookingData, serviceData, numberOfSamples, id } = location.state || {};
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
+  const [customerName, setCustomerName] = useState("");
 
   const [diamondPrices, setDiamondPrices] = useState([]);
   const [service, setService] = useState(serviceData);
@@ -31,8 +32,18 @@ const AssessmentBookingDiamondInput = () => {
       }
     };
 
+    const fetchCustomerName = async () => {
+      try {
+        const accountData = await getAccountFromId(bookingData.accountId);
+        setCustomerName(accountData.displayName);
+      } catch (error) {
+        console.error("Error fetching customer name:", error);
+      }
+    };
+
     fetchDiamondPrices();
-  }, []);
+    fetchCustomerName();
+  }, [bookingData.accountId]);
 
   const calculatePrice = (size) => {
     const { servicePrice } = service;
@@ -56,7 +67,7 @@ const AssessmentBookingDiamondInput = () => {
       const price = calculatePrice(sampleSize);
       const priceId = parseInt(allValues[`diamond${i + 1}ServicePriceId`] || 0);
       updatedSamples.push({
-        name: `Mẫu ${i + 1}`,
+        name: `Mẫu ${i + 1} (${customerName})`,
         size: sampleSize,
         price: price,
         isDiamond: 1,
@@ -87,7 +98,7 @@ const AssessmentBookingDiamondInput = () => {
       diamondFields.push(
         <div key={i} className="diamond-field">
           <Form.Item label={`Tên mẫu`}>
-            <Input disabled value={`Mẫu ${i + 1}`} />
+            <Input disabled value={`Mẫu ${i + 1} (${customerName})`} />
           </Form.Item>
           <Form.Item
             label="Kích cỡ"

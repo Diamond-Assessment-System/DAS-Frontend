@@ -60,9 +60,9 @@ function getPaymentTypeMeaning(type) {
       case 1:
         return "Customer";
       case 2:
-        return "Consulting Staff";
-      case 3:
         return "Assessment Staff";
+      case 3:
+        return "Consulting Staff";
       case 4:
         return "Manager";
       case 5:

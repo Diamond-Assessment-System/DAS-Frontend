@@ -30,21 +30,15 @@ const AccountInfo = () => {
     };
 
     return (
-        <div className="min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: `url(${backgroundImage})` , marginTop:'5rem'}}>
-            <div className="w-full max-w-3xl bg-white bg-opacity-90 p-10 rounded-lg shadow-lg">
-                <form onSubmit={handleUpdate}>
+        <div className="min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: `url(${backgroundImage})`, marginTop: '5rem' }}>
+            <div className="w-full max-w-lg bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+                <form onSubmit={handleUpdate} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="flex justify-between items-center mb-6">
-                        <h4 className="text-2xl font-bold">Account Information</h4>
-                        {!isEditing && (
-                            <PencilSquare
-                                className="text-blue-500 cursor-pointer"
-                                size={24}
-                                onClick={() => setIsEditing(true)}
-                            />
-                        )}
+                        <h4 className="text-2xl font-bold text-gray-700">Thông tin tài khoản</h4>
+                        
                     </div>
-                    <div className="mb-6">
-                        <label htmlFor="displayName" className="block text-sm font-medium text-gray-700">Họ và tên:</label>
+                    <div className="mb-4">
+                        <label htmlFor="displayName" className="block text-gray-700 text-sm font-bold mb-2">Họ và tên:</label>
                         <input
                             type="text"
                             name="displayName"
@@ -52,11 +46,11 @@ const AccountInfo = () => {
                             value={account.displayName}
                             onChange={handleChange}
                             readOnly={!isEditing}
-                            className={`mt-1 block w-full h-14 text-lg ${isEditing ? 'bg-white' : 'bg-gray-200'} border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                            className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none  ${isEditing ? 'bg-white' : 'bg-gray-100'}`}
                         />
                     </div>
-                    <div className="mb-6">
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Số điện thoại:</label>
+                    <div className="mb-4">
+                        <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">Số điện thoại:</label>
                         <input
                             type="text"
                             name="phone"
@@ -64,11 +58,11 @@ const AccountInfo = () => {
                             value={account.phone}
                             onChange={handleChange}
                             readOnly={!isEditing}
-                            className={`mt-1 block w-full h-14 text-lg ${isEditing ? 'bg-white' : 'bg-gray-200'} border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                            className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ${isEditing ? 'bg-white' : 'bg-gray-100'}`}
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
+                        <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                         <input
                             type="text"
                             name="email"
@@ -76,15 +70,29 @@ const AccountInfo = () => {
                             value={account.email}
                             onChange={handleChange}
                             readOnly={!isEditing}
-                            className={`mt-1 block w-full h-14 text-lg ${isEditing ? 'bg-white' : 'bg-gray-200'} border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500`}
+                            className={`appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none  ${isEditing ? 'bg-white' : 'bg-gray-100'}`}
                         />
                     </div>
                     {isEditing && (
-                        <button type="submit" className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                            Save
+                        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none  mb-4">
+                            Lưu
                         </button>
                     )}
                 </form>
+                <div className="flex justify-between">
+                    <button
+                        onClick={() => setIsEditing(true)}
+                        className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                    >
+                        Cập nhật thông tin tài khoản
+                    </button>
+                    <button
+                        onClick={() => alert('Change Password Clicked')}
+                        className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                    >
+                        Đổi mật khẩu
+                    </button>
+                </div>
             </div>
         </div>
     );
