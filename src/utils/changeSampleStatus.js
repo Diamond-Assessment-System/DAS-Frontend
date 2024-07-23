@@ -11,3 +11,17 @@ export const changeSampleStatus = async (sampleId, status) => {
         throw error;
     }
 };
+
+export const cancelSample = async (sampleId, reason) => {
+    try {
+      const response = await axios.put(`${API_URL}/${sampleId}/cancel`, reason, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error cancel booking:', error);
+      throw error;
+    }
+  };

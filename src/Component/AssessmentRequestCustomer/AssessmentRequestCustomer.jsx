@@ -11,19 +11,20 @@ import backgroundImage from "../../assets/backgroundcus.png"; // Ensure the path
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [initialPhone, setInitialPhone] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
   useCheckRole([1, 6]);
-  
+
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
-        console.log("Fetched services: ", response.data); // Log the fetched services
-        setServices(response.data);
+        const filteredData = response.data.filter(service => service.serviceStatus ===  1);
+        setServices(filteredData);
       } catch (error) {
         console.error("Error fetching the services:", error);
       }
@@ -32,6 +33,7 @@ function AssessmentRequest() {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
+      setInitialPhone(account.phone || ""); // Set the initial phone number if available
     }
 
     fetchServices();
@@ -50,17 +52,16 @@ function AssessmentRequest() {
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      phone: initialPhone,
       serviceId: "",
-      paymentType: "",
       quantities: 1,
+      notes: "", // Added a field for customer notes
     },
     validationSchema: Yup.object({
       phone: Yup.string()
         .matches(/^[0-9]{10}$/, "Số điện thoại phải là 10 chữ số.")
         .required("Vui lòng nhập số điện thoại!"),
       serviceId: Yup.string().required("Vui lòng chọn dịch vụ!"),
-      paymentType: Yup.string().required("Vui lòng chọn hình thức thanh toán!"),
       quantities: Yup.number()
         .required("Vui lòng nhập số lượng!")
         .min(1, "Ít nhất 1 mẫu.")
@@ -100,7 +101,15 @@ function AssessmentRequest() {
           });
       }
     },
+    enableReinitialize: true, // Enable reinitialization when initial values change
   });
+
+  const handleKeyDown = (event) => {
+    const invalidChars = ["-", "+", "e", "E"];
+    if (invalidChars.includes(event.key)) {
+      event.preventDefault();
+    }
+  };
 
   if (loading) {
     return (
@@ -113,7 +122,7 @@ function AssessmentRequest() {
   return (
     <div
       className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center"
-      style={{ backgroundImage: `url(${backgroundImage})` ,marginTop: '6rem' }}
+      style={{ backgroundImage: `url(${backgroundImage})`, marginTop: '6rem' }}
     >
       <div className="container mx-auto p-4 max-w-xl bg-white bg-opacity-80 shadow-lg rounded-lg">
         <form
@@ -187,36 +196,6 @@ function AssessmentRequest() {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="paymentType"
-            >
-              Hình Thức Thanh Toán
-            </label>
-            <select
-              id="paymentType"
-              name="paymentType"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.paymentType}
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.paymentType && formik.errors.paymentType
-                  ? "border-red-500"
-                  : ""
-              }`}
-            >
-              <option value="" label="Chọn Hình Thức Thanh Toán" />
-              <option value={1} label="Tiền Mặt" />
-              <option value={2} label="Chuyển Khoản" />
-            </select>
-            {formik.touched.paymentType && formik.errors.paymentType ? (
-              <div className="text-red-500 text-xs italic mt-2">
-                {formik.errors.paymentType}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="quantities"
             >
               Số Lượng (Viên)
@@ -229,6 +208,7 @@ function AssessmentRequest() {
               onBlur={formik.handleBlur}
               value={formik.values.quantities}
               min="1"
+              onKeyDown={handleKeyDown}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 formik.touched.quantities && formik.errors.quantities
                   ? "border-red-500"
@@ -238,6 +218,34 @@ function AssessmentRequest() {
             {formik.touched.quantities && formik.errors.quantities ? (
               <div className="text-red-500 text-xs italic mt-2">
                 {formik.errors.quantities}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Customer Notes Input */}
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="notes"
+            >
+              Lưu Ý
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.notes}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.notes && formik.errors.notes
+                  ? "border-red-500"
+                  : ""
+              }`}
+              rows="3"
+            ></textarea>
+            {formik.touched.notes && formik.errors.notes ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.notes}
               </div>
             ) : null}
           </div>

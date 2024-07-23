@@ -40,6 +40,7 @@ import AssignWork from "../Component/ManagerLayout/Assignwork.jsx";
 import AsPaperManager from "../Component/ManagerLayout/AsPaperManager.jsx";
 import AssessmentReceipt from "../Component/AssessmentReceipt/AssessmentReceipt.jsx";
 import ManagerHistory from "../Component/ManagerLayout/ManagerHistory.jsx";
+import CancelHistory from "../Component/ManagerLayout/HistoryCancel.jsx";
 import ManagePricingTimelines from "../Component/ManagerLayout/ManagePricingTimelines.jsx";
 import AssessmentPaperPreview from "../Component/AssetsmentPaper/AssessmentPaperPreview.jsx";
 import AssessmentPaperListCs from "../Component/AssessmentPaperListPage/AssessmentPaperListCs.jsx";
@@ -156,6 +157,7 @@ const RoutePath = () => {
           <Route path="/manager/commitmentdownload" element={<CommitmentPaperImage />} />
           <Route path="/manager/manageruser" element={<ManageUser />} />
           <Route path="/manager/feedback" element={<ManagerFeedback />} />
+          <Route path="/manager/cancelhistory" element={<CancelHistory />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />

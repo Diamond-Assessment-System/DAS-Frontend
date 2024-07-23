@@ -17,7 +17,8 @@ export const EvaluateService = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
-        setServices(response.data);
+        const filteredData = response.data.filter(service => service.serviceStatus === 1);
+        setServices(filteredData);
       } catch (error) {
         console.error("Error fetching the services:", error);
       } finally {
@@ -68,16 +69,16 @@ export const EvaluateService = () => {
                 <th className="py-4 px-6 text-center">STT</th>
                 <th className="py-4 px-6 text-center">LOẠI DỊCH VỤ</th>
                 <th className="py-4 px-6 text-center">NỘI DUNG</th>
-                <th className="py-4 px-6 text-center">GIÁ DỊCH VỤ</th>
+                <th className="py-4 px-6 text-center">GIÁ DỊCH VỤ (VND)</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {serviceData.map((service, index) => (
                 <tr key={index} className="hover:bg-gray-100">
                   <td className="py-4 px-6 text-center">{index + 1}</td>
-                  <td className="py-4 px-6 text-center">{service.serviceName}</td>
+                  <td className="py-4 px-6 text-left">{service.serviceName}</td>
                   <td className="py-4 px-6 text-left" dangerouslySetInnerHTML={{ __html: service.serviceDescription }}></td>
-                  <td className="py-4 px-6 text-right pr-12">{formatPrice(service.servicePrice)} VND</td>
+                  <td className="py-4 px-6 text-right pr-12">{formatPrice(service.servicePrice)}</td>
                 </tr>
               ))}
             </tbody>
