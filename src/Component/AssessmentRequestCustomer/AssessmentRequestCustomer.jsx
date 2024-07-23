@@ -11,6 +11,7 @@ import backgroundImage from "../../assets/backgroundcus.png"; // Ensure the path
 
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
+  const [initialPhone, setInitialPhone] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
@@ -32,6 +33,7 @@ function AssessmentRequest() {
     const account = handleSession(navigate);
     if (account) {
       setLoggedAccount(account);
+      setInitialPhone(account.phone || ""); // Set the initial phone number if available
     }
 
     fetchServices();
@@ -50,7 +52,7 @@ function AssessmentRequest() {
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
+      phone: initialPhone,
       serviceId: "",
       quantities: 1,
       notes: "", // Added a field for customer notes
@@ -99,6 +101,7 @@ function AssessmentRequest() {
           });
       }
     },
+    enableReinitialize: true, // Enable reinitialization when initial values change
   });
 
   const handleKeyDown = (event) => {
