@@ -12,6 +12,7 @@ import getBookingFromId from "../../utils/getBookingFromId";
 import { parse, isBefore, differenceInHours } from 'date-fns';
 import { checkServiceTypeFromBooking } from "../../utils/checkServiceTypeFromBookingId";
 import { cancelSample } from "../../utils/changeSampleStatus";
+import { toast, ToastContainer } from 'react-toastify';
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -164,15 +165,18 @@ function AssessmentBooking() {
       console.log("Cancel reason:", cancelReason);
       console.log("Cancel reason:", requestBody);
 
-      await cancelSample(cancelSampleId, requestBody);
 
+      await cancelSample(cancelSampleId, requestBody);
+      toast.success("Mẫu đã được hủy thành công!");
+
+      setTimeout(() => window.location.reload(), 2000);
       //
     } catch (error) {
       console.error("Error canceling sample:", error);
     } finally {
       setShowModal(false);
       setCancelReason("");
-      navigate("/assessmentstaff");
+
     }
   };
 
