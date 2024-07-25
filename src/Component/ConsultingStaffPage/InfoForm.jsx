@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Form, InputNumber, Button, Typography, Select, Row, Col, Radio, Modal, Input } from "antd";
 import axios from "axios";
 import { getCancelAssessmentlUrl } from "../../utils/apiEndPoints";
+import { cancelSample } from "../../utils/changeSampleStatus";
 import "./InfoForm.css";
 
 const { Title } = Typography;
@@ -25,15 +26,18 @@ function InfoForm() {
     setLoai(value);
     if (value === "Diamond-Like") {
       setIsDisabled(true);
+      setCancelReason("Diamond-Like");
     } else {
       setIsDisabled(false);
+      setCancelReason("");
     }
   };
 
   const handleCancelOk = async () => {
     if (cancelReason) {
       try {
-        await axios.put(getCancelAssessmentlUrl(id));
+        await cancelSample(id, JSON.stringify(cancelReason));
+        await cancelSample(cancelSampleId, requestBody);
         navigate("/assessmentstaff");
       } catch (error) {
         console.error("Error updating status:", error);
