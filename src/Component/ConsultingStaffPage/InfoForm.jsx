@@ -37,7 +37,7 @@ function InfoForm() {
     if (cancelReason) {
       try {
         await cancelSample(id, JSON.stringify(cancelReason));
-        await cancelSample(cancelSampleId, requestBody);
+        //await cancelSample(cancelSampleId, requestBody);
         navigate("/assessmentstaff");
       } catch (error) {
         console.error("Error updating status:", error);
