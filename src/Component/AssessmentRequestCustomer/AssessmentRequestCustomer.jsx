@@ -35,15 +35,7 @@ function AssessmentRequest() {
     if (account) {
       setLoggedAccount(account);
       setInitialPhone(account.phone || ""); // Set the initial phone number if available
-      if (account.email) {
-        setInitialEmail(account.email); // Set the initial email if available
-      } else {
-        alert("Vui lòng cập nhật email của bạn.");
-        navigate("/account"); // Redirect to /account if email is not available
-      }
-    } else {
-      alert("Vui lòng cập nhật email của bạn.");
-      navigate("/account"); // Redirect to /account if no account information
+      setInitialEmail(account.email || ""); // Set the initial email if available
     }
 
     fetchServices();
@@ -92,6 +84,13 @@ function AssessmentRequest() {
         ),
     }),
     onSubmit: (values) => {
+      const account = handleSession(navigate);
+      if (!account) {
+        alert("Bạn cần đăng nhập trước.");
+        navigate("/login");
+        return;
+      }
+
       if (!values.email) {
         alert("Vui lòng cập nhật email của bạn.");
         navigate("/account");
@@ -108,7 +107,7 @@ function AssessmentRequest() {
         const data = {
           ...values,
           serviceId: parseInt(values.serviceId),
-          accountId: loggedAccount.accountId,
+          accountId: account.accountId,
           status: 1,
           paymentStatus: 1,
           dateCreated: formatDateToLocalDateTime(now),
