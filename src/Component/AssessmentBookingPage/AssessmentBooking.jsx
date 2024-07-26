@@ -13,6 +13,7 @@ import { parse, isBefore, differenceInHours } from 'date-fns';
 import { checkServiceTypeFromBooking } from "../../utils/checkServiceTypeFromBookingId";
 import { cancelSample } from "../../utils/changeSampleStatus";
 import { toast, ToastContainer } from 'react-toastify';
+import { ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -28,6 +29,8 @@ function AssessmentBooking() {
   const [cancelSampleId, setCancelSampleId] = useState(null);
   const [cancelReason, setCancelReason] = useState("");
   const itemsPerPage = 10;
+  const [assessmentPapers, setAssessmentPapers] = useState([]);
+  
 
   useEffect(() => {
     const initialize = async () => {
@@ -35,9 +38,10 @@ function AssessmentBooking() {
       if (loggedAccount) {
         setLoggedAccount(loggedAccount);
         try {
-          const [samplesResponse, accountsResponse] = await Promise.all([
+          const [samplesResponse, accountsResponse, assessmentPapers] = await Promise.all([
             axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`),
             axios.get('https://das-backend.fly.dev/api/accounts'),
+            axios.get(ASSESSMENT_PAPER_URL),
           ]);
           const samplesData = samplesResponse.data;
 
@@ -55,6 +59,7 @@ function AssessmentBooking() {
 
           setSamples(samplesWithReturnDate);
           setAccounts(accountsResponse.data);
+          setAssessmentPapers(assessmentPapers.data);
         } catch (error) {
           console.error("Error fetching the samples or accounts:", error);
         } finally {
@@ -102,13 +107,32 @@ function AssessmentBooking() {
     }
   };
 
+  const findDiamondId = async (sampleId) => {
+    try {
+      const matchedSample = assessmentPapers.find(sample => sample.sampleId === sampleId);
+      return matchedSample ? matchedSample.diamondId : null;
+    } catch (error) {
+      console.error(`Error fetching diamondId for sample ${sampleId}:`, error);
+      return null;
+    }
+  };
+
   const handleShowDetails = async (sample) => {
     if (sample.status === 4) {
       alert(`Lý do hủy: ${sample.cancelReason}`);
       return;
     }
-    if (sample.status === 1 || sample.status === 3) {
+    if (sample.status === 1) {
       alert("Không thể giám định đơn hàng này");
+      return;
+    }
+    if (sample.status === 3){
+      const diamondId = await findDiamondId(sample.sampleId);
+      if (diamondId) {
+        navigate(`/assessmentstaff/assessmentpaperlist/${diamondId}`);
+      } else {
+        alert("Không thể tìm thấy Diamond ID");
+      }
       return;
     }
     try {
