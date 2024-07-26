@@ -12,6 +12,7 @@ import backgroundImage from "../../assets/backgroundcus.png"; // Ensure the path
 function AssessmentRequest() {
   const [loggedAccount, setLoggedAccount] = useState({});
   const [initialPhone, setInitialPhone] = useState("");
+  const [initialEmail, setInitialEmail] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [services, setServices] = useState([]);
@@ -23,8 +24,8 @@ function AssessmentRequest() {
     const fetchServices = async () => {
       try {
         const response = await axios.get(SERVICES_URL);
-        const filteredData = response.data.filter(service => service.serviceStatus ===  1);
-        setServices(filteredData);
+        console.log("Fetched services: ", response.data); // Log the fetched services
+        setServices(response.data);
       } catch (error) {
         console.error("Error fetching the services:", error);
       }
@@ -34,6 +35,15 @@ function AssessmentRequest() {
     if (account) {
       setLoggedAccount(account);
       setInitialPhone(account.phone || ""); // Set the initial phone number if available
+      if (account.email) {
+        setInitialEmail(account.email); // Set the initial email if available
+      } else {
+        alert("Vui lòng cập nhật email của bạn.");
+        navigate("/account"); // Redirect to /account if email is not available
+      }
+    } else {
+      alert("Vui lòng cập nhật email của bạn.");
+      navigate("/account"); // Redirect to /account if no account information
     }
 
     fetchServices();
@@ -53,21 +63,41 @@ function AssessmentRequest() {
   const formik = useFormik({
     initialValues: {
       phone: initialPhone,
+      email: initialEmail,
       serviceId: "",
+      paymentType: "",
       quantities: 1,
-      notes: "", // Added a field for customer notes
+      note: "",
     },
-    validationSchema: Yup.object({
+    validationSchema: Yup.object().shape({
       phone: Yup.string()
         .matches(/^[0-9]{10}$/, "Số điện thoại phải là 10 chữ số.")
         .required("Vui lòng nhập số điện thoại!"),
+      email: Yup.string()
+        .email("Email không hợp lệ.")
+        .required("Vui lòng nhập email!"),
       serviceId: Yup.string().required("Vui lòng chọn dịch vụ!"),
+      paymentType: Yup.string().required("Vui lòng chọn hình thức thanh toán!"),
       quantities: Yup.number()
         .required("Vui lòng nhập số lượng!")
         .min(1, "Ít nhất 1 mẫu.")
-        .max(20, "Không quá 20 mẫu."),
+        .max(20, "Không quá 20 mẫu.")
+        .test(
+          'is-one-quantity',
+          'Chỉ được phép chọn 1 viên khi cấp lại giấy giám định.',
+          function (value) {
+            const { serviceId } = this.parent;
+            return serviceId === '9' ? value === 1 : true;
+          }
+        ),
     }),
     onSubmit: (values) => {
+      if (!values.email) {
+        alert("Vui lòng cập nhật email của bạn.");
+        navigate("/account");
+        return;
+      }
+
       if (window.confirm("Bạn có chắc chắn muốn đặt lịch không?")) {
         setIsProcessing(true);
         const now = new Date();
@@ -163,6 +193,33 @@ function AssessmentRequest() {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : ""
+              }`}
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.email}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="serviceId"
             >
               Chọn Dịch Vụ
@@ -196,6 +253,36 @@ function AssessmentRequest() {
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="paymentType"
+            >
+              Hình Thức Thanh Toán
+            </label>
+            <select
+              id="paymentType"
+              name="paymentType"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.paymentType}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                formik.touched.paymentType && formik.errors.paymentType
+                  ? "border-red-500"
+                  : ""
+              }`}
+            >
+              <option value="" label="Chọn Hình Thức Thanh Toán" />
+              <option value={1} label="Tiền Mặt" />
+              <option value={2} label="Chuyển Khoản" />
+            </select>
+            {formik.touched.paymentType && formik.errors.paymentType ? (
+              <div className="text-red-500 text-xs italic mt-2">
+                {formik.errors.paymentType}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="quantities"
             >
               Số Lượng (Viên)
@@ -206,8 +293,9 @@ function AssessmentRequest() {
               type="number"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.quantities}
+              value={formik.values.serviceId === "9" ? 1 : formik.values.quantities} // Set quantity to 1 for service ID 9
               min="1"
+              disabled={formik.values.serviceId === "9"} // Disable input for service ID 9
               onKeyDown={handleKeyDown}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 formik.touched.quantities && formik.errors.quantities
@@ -222,33 +310,34 @@ function AssessmentRequest() {
             ) : null}
           </div>
 
-          {/* Customer Notes Input */}
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="notes"
-            >
-              Lưu Ý
-            </label>
-            <textarea
-              id="notes"
-              name="notes"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.notes}
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                formik.touched.notes && formik.errors.notes
-                  ? "border-red-500"
-                  : ""
-              }`}
-              rows="3"
-            ></textarea>
-            {formik.touched.notes && formik.errors.notes ? (
-              <div className="text-red-500 text-xs italic mt-2">
-                {formik.errors.notes}
-              </div>
-            ) : null}
-          </div>
+          {formik.values.serviceId === "9" && ( // Check if the service ID is "9"
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="note"
+              >
+                Lưu Ý
+              </label>
+              <textarea
+                id="note"
+                name="note"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.note}
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  formik.touched.note && formik.errors.note
+                    ? "border-red-500"
+                    : ""
+                }`}
+                rows="3"
+              ></textarea>
+              {formik.touched.note && formik.errors.note ? (
+                <div className="text-red-500 text-xs italic mt-2">
+                  {formik.errors.note}
+                </div>
+              ) : null}
+            </div>
+          )}
 
           <div className="flex justify-center">
             <button
