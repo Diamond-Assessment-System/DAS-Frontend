@@ -11,7 +11,7 @@ const SuccessPage = () => {
   useCheckRole([1, 6]);
   
   return (
-    <div className="success-page flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="success-page flex items-center justify-center min-h-screen bg-gray-100" style={{ marginTop: '5rem' }}>
       <div className="success-message bg-white p-8 rounded-lg shadow-lg text-center max-w-md w-full">
         <div className="checkmark flex items-center justify-center mb-4">
           <svg
@@ -48,6 +48,7 @@ const SuccessPage = () => {
           </h2>
           <div className="appointment-details text-left text-gray-700">
             <p>Số Điện Thoại: {state.phone}</p>
+            <p>Email: {state.email}</p> {/* Added email here */}
             <p>Dịch Vụ: {state.serviceName}</p>
             <p>Số Lượng (Viên): {state.quantities}</p>
             <p>Ngày Đặt Hẹn: {state.dateCreated}</p>
