@@ -74,10 +74,10 @@ const AssessmentPaperPreview = () => {
     generateImageAndQrCode();
   }, [id]);
 
-  const simulateUpload = async (imageData, id) => {
+  const simulateUpload = async (imageData, sampleid) => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(`https://your-public-url.com/Assessment_Paper_${id}.png`);
+        resolve(`https://das-swp391.s3.ap-southeast-2.amazonaws.com/Assessment_Paper_${sampleid}.png`);
       }, 1000);
     });
   };

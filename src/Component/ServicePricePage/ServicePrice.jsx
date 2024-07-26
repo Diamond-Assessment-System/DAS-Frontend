@@ -50,18 +50,18 @@ export const EvaluateServicePrice = () => {
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="py-4 px-4 text-center">STT</th>
-                <th className="py-4 px-4 text-center">VÙNG KÍCH THƯỚC</th>
-                <th className="py-4 px-4 text-center">GIÁ CƠ BẢN</th>
-                <th className="py-4 px-4 text-center">GIÁ TĂNG THÊM</th>
+                <th className="py-4 px-4 text-center">VÙNG KÍCH THƯỚC(mm)</th>
+                <th className="py-4 px-4 text-center">GIÁ CƠ BẢN(VND)</th>
+                <th className="py-4 px-4 text-center">GIÁ TĂNG THÊM(VND)</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {serviceData.map((service, index) => (
                 <tr key={index} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{index + 1}</td>
-                  <td className="py-4 px-4 text-center">{service.sizeFrom} mm → {service.sizeTo} mm</td>
-                  <td className="py-4 px-4 text-right pr-10">{formatPrice(service.initPrice)} VND</td>
-                  <td className="py-4 px-4 text-right pr-10">{formatPrice(service.priceUnit)} VND</td>
+                  <td className="py-4 px-4 text-center">{service.sizeFrom} → {service.sizeTo}</td>
+                  <td className="py-4 px-4 text-right pr-10">{formatPrice(service.initPrice)} </td>
+                  <td className="py-4 px-4 text-right pr-10">{formatPrice(service.priceUnit)} </td>
                 </tr>
               ))}
             </tbody>

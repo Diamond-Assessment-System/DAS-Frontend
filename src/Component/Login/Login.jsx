@@ -13,7 +13,6 @@ const GoogleLoginComponent = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [loginMethod, setLoginMethod] = useState("google");
   const [blockReason, setBlockReason] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +61,6 @@ const GoogleLoginComponent = () => {
       handleLoginSuccess(userInfo);
     } catch (error) {
       handleLoginFailure(error);
-
     } finally {
       setLoading(false);
     }
@@ -127,29 +125,46 @@ const GoogleLoginComponent = () => {
             </div>
           ) : (
             <>
-              <div className="mb-4 w-full flex justify-center">
+              <form onSubmit={loginWithPhoneNumber} className="w-full">
+                <div className="mb-4 flex items-center">
+                  <Phone className="text-gray-400 mr-3" />
+                  <input
+                    type="text"
+                    placeholder="Số điện thoại"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="border border-gray-300 p-2 w-full rounded"
+                    required
+                  />
+                </div>
+                <div className="mb-4 flex items-center relative">
+                  <Lock className="text-gray-400 mr-3" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Mật khẩu"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="border border-gray-300 p-2 w-full rounded"
+                    required
+                  />
+                  <div
+                    className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
+                    onClick={toggleShowPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </div>
+                </div>
                 <button
+                  type="submit"
                   className={`${
-                    loginMethod === "google"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 mx-2 rounded transition-all duration-200`}
-                  onClick={() => setLoginMethod("google")}
+                    loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
+                  } text-white py-3 px-6 rounded transition w-full text-xl mb-4`}
+                  disabled={loading}
                 >
-                  Đăng nhập Google
+                  {loading ? "Loading..." : "Đăng nhập"}
                 </button>
-                <button
-                  className={`${
-                    loginMethod === "phone"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-800"
-                  } py-2 px-4 mx-2 rounded transition-all duration-200`}
-                  onClick={() => setLoginMethod("phone")}
-                >
-                  Đăng nhập SĐT
-                </button>
-              </div>
-              {loginMethod === "google" ? (
+              </form>
+              <div className="w-full flex justify-center mb-4">
                 <button
                   className={`${
                     loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
@@ -159,47 +174,7 @@ const GoogleLoginComponent = () => {
                 >
                   {loading ? "Loading..." : "Dùng tài khoản Google"}
                 </button>
-              ) : (
-                <form onSubmit={loginWithPhoneNumber} className="w-full">
-                  <div className="mb-4 flex items-center">
-                    <Phone className="text-gray-400 mr-3" />
-                    <input
-                      type="text"
-                      placeholder="Số điện thoại"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="border border-gray-300 p-2 w-full rounded"
-                      required
-                    />
-                  </div>
-                  <div className="mb-4 flex items-center relative">
-                    <Lock className="text-gray-400 mr-3" />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Mật khẩu"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="border border-gray-300 p-2 w-full rounded"
-                      required
-                    />
-                    <div
-                      className="ml-3 cursor-pointer absolute right-3 top-1/2 transform -translate-y-1/2"
-                      onClick={toggleShowPassword}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    className={`${
-                      loading ? "bg-blue-300" : "bg-blue-500 hover:bg-blue-700"
-                    } text-white py-3 px-6 rounded transition w-full text-xl mb-4`}
-                    disabled={loading}
-                  >
-                    {loading ? "Loading..." : "Đăng nhập"}
-                  </button>
-                </form>
-              )}
+              </div>
               <div className="text-center">
                 <p className="text-gray-700">
                   Chưa có tài khoản?{" "}
