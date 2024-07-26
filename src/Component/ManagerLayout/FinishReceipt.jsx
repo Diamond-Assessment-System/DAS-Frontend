@@ -71,7 +71,7 @@ function FinishReceipt() {
 
   const formatDateToLocalDateTime = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); 
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
     const year = date.getFullYear();
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -134,9 +134,15 @@ function FinishReceipt() {
                   <td className="py-4 px-4 text-center">
                     {sample.name}
                     <div className="text-sm text-gray-600 mt-1">
-                      Type: {sampleDetails[sample.sampleId]?.type || ''}, Shape: {sampleDetails[sample.sampleId]?.shape || ''}, Color: {sampleDetails[sample.sampleId]?.color || ''}, 
-                      Clarity: {sampleDetails[sample.sampleId]?.clarity || ''}, Polish: {sampleDetails[sample.sampleId]?.polish || ''}, Symmetry: {sampleDetails[sample.sampleId]?.symmetry || ''}, 
-                      Fluorescence: {sampleDetails[sample.sampleId]?.fluorescence || ''}, Weight: {sampleDetails[sample.sampleId]?.weight || ''}
+                      {sample.cancelReason ? (
+                        `Mẫu Huỷ: ${sample.cancelReason}`
+                      ) : (
+                        <>
+                          Type: {sampleDetails[sample.sampleId]?.type || ''}, Shape: {sampleDetails[sample.sampleId]?.shape || ''}, Color: {sampleDetails[sample.sampleId]?.color || ''}, 
+                          Clarity: {sampleDetails[sample.sampleId]?.clarity || ''}, Polish: {sampleDetails[sample.sampleId]?.polish || ''}, Symmetry: {sampleDetails[sample.sampleId]?.symmetry || ''}, 
+                          Fluorescence: {sampleDetails[sample.sampleId]?.fluorescence || ''}, Weight: {sampleDetails[sample.sampleId]?.weight || ''}
+                        </>
+                      )}
                     </div>
                   </td>
                   <td className="py-4 px-4 text-center">{sample.size}</td>
