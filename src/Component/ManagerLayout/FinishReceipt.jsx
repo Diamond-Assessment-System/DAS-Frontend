@@ -11,6 +11,7 @@ import getAccountFromId from "../../utils/getAccountFromId";
 import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { ASSESSMENT_PAPER_URL, ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
 import logo from "../../../public/logodas.png";
+import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Import the function to change booking status
 
 function FinishReceipt() {
   const location = useLocation();
@@ -77,6 +78,19 @@ function FinishReceipt() {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${year}/${month}/${day} - ${hours}:${minutes}:${seconds}`;
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await changeBookingStatus(bookingId, 4); // Change the booking status to 4
+      navigate("/managerhistory"); // Redirect to ManagerHistory page
+    } catch (error) {
+      console.error("Error changing booking status:", error);
+    }
+  };
+
+  const handlePayment = () => {
+    navigate("/payment", { state: { bookingId } }); // Redirect to Payment page
   };
 
   if (loading) {
@@ -157,6 +171,20 @@ function FinishReceipt() {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end mt-6 space-x-4">
+          <button
+            onClick={handleSubmit}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Submit
+          </button>
+          <button
+            onClick={handlePayment}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Thanh Toán Chuyển Khoản
+          </button>
         </div>
       </div>
     </div>
