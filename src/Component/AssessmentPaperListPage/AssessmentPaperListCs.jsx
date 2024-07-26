@@ -40,6 +40,11 @@ function AssessmentPaperListCs() {
     );
   });
 
+  const getAccountName = (accountId) => {
+    const account = accounts.find(account => account.accountId === accountId);
+    return account ? account.displayName : 'Unknown';
+  };
+
   if (loading) {
     return (
       <div className="loading-indicator">
@@ -76,7 +81,7 @@ function AssessmentPaperListCs() {
               {filteredAssessmentPapers.map((paper) => (
                 <tr key={paper.diamondId} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{paper.diamondId}</td>
-                  <td className="py-4 px-4 text-center">{paper.accountId}</td>
+                  <td className="py-4 px-4 text-center">{getAccountName(paper.accountId)}</td>
                   <td className="py-4 px-4 text-center">{paper.dateCreated}</td>
                   <td className="py-4 px-4 text-center">{paper.sampleId}</td>
                   <td className="py-4 px-4 text-center">
