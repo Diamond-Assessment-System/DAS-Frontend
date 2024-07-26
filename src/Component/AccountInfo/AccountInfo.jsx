@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { PencilSquare } from 'react-bootstrap-icons';
 import backgroundImage from './../../assets/backgroundcus.png'; // Ensure the path to your background image is correct
+import { updateProfile } from '../../utils/updateAccount';
 
 const AccountInfo = () => {
     const [account, setAccount] = useState({
+        accountId: '', // Add this line to include accountId
         displayName: '',
         email: '',
         phone: '',
@@ -22,11 +23,21 @@ const AccountInfo = () => {
         setAccount((prevAccount) => ({ ...prevAccount, [name]: value }));
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        localStorage.setItem('account', JSON.stringify(account));
-        alert('Account information updated!');
-        setIsEditing(false);
+        try {
+            await updateProfile(account.accountId, {
+                displayName: account.displayName,
+                email: account.email,
+                phone: account.phone
+            });
+            localStorage.setItem('account', JSON.stringify(account));
+            alert('Account information updated!');
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Error updating account information:', error);
+            alert('Failed to update account information.');
+        }
     };
 
     return (
@@ -35,7 +46,6 @@ const AccountInfo = () => {
                 <form onSubmit={handleUpdate} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="flex justify-between items-center mb-6">
                         <h4 className="text-2xl font-bold text-gray-700">Thông tin tài khoản</h4>
-                        
                     </div>
                     <div className="mb-4">
                         <label htmlFor="displayName" className="block text-gray-700 text-sm font-bold mb-2">Họ và tên:</label>
