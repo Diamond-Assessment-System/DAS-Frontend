@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import { changeSampleStatus } from "../../utils/changeSampleStatus"; // Import the function to change sample status
-import { countAllBookingSamplesByBookingId, countBookingSamplesByBookingIdWithStatus1or2, countBookingSamplesByBookingIdWithStatus4 } from "../../utils/countBookingSamples";
+import { getBookingDetails } from "../../utils/getBookingDetails"; // Import the function to get booking details
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
 
 function ManagerHistory() {
@@ -13,7 +12,6 @@ function ManagerHistory() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("tatca");
-  // const [sampleCounts, setSampleCounts] = useState({});
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,23 +21,9 @@ function ManagerHistory() {
     const fetchData = async () => {
       try {
         const bookingHistory = await getAllBookings();
-        console.log("Booking History:", bookingHistory);
         setOrders(bookingHistory);
-
-        // // Fetch sample counts for each booking
-        // const sampleCountsData = {};
-        // for (const order of bookingHistory) {
-        //   const allSamplesCount = await countAllBookingSamplesByBookingId(order.bookingId);
-        //   const status1or2SamplesCount = await countBookingSamplesByBookingIdWithStatus4(order.bookingId);
-        //   sampleCountsData[order.bookingId] = {
-        //     allSamplesCount,
-        //     status1or2SamplesCount,
-        //   };
-        // }
-        // console.log("Sample Counts Data:", sampleCountsData);
-        // setSampleCounts(sampleCountsData);
       } catch (error) {
-        console.error("Error fetching booking history or sample counts:", error);
+        console.error("Error fetching booking history:", error);
       } finally {
         setLoading(false);
       }
@@ -64,11 +48,20 @@ function ManagerHistory() {
 
   const closeOrder = async (bookingId) => {
     try {
-      // Change the order status to "Đã Hoàn Thành"
-      await changeBookingStatus(bookingId, 4);
-      window.location.reload();
+      // Fetch the booking details
+      const bookingDetails = await getBookingDetails(bookingId);
+      // Navigate to FinishReceipt with the booking details
+      navigate(`/manager/finishreceipt`, {
+        state: {
+          ...bookingDetails,
+          diamonds: bookingDetails.diamonds,
+          bookingData: bookingDetails.bookingData,
+          serviceData: bookingDetails.serviceData,
+          sampleDetails: bookingDetails.sampleDetails,
+        },
+      });
     } catch (error) {
-      console.error("Error completing order:", error);
+      console.error("Error fetching booking details:", error);
     }
   };
 
@@ -94,7 +87,6 @@ function ManagerHistory() {
     return matchesSearchQuery && matchesStatus;
   });
 
-  // Calculate the indices for the current page
   const indexOfLastOrder = currentPage * itemsPerPage;
   const indexOfFirstOrder = indexOfLastOrder - itemsPerPage;
   const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
@@ -198,7 +190,6 @@ function ManagerHistory() {
                 <th className="py-4 px-4 text-center align-middle">Ngày tạo</th>
                 <th className="py-4 px-4 text-center align-middle">Ngày nhận mẫu</th>
                 <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                {/* <th className="py-4 px-4 text-center align-middle">Số lượng</th> */}
                 <th className="py-4 px-4 text-center align-middle">Hành Động</th>
               </tr>
             </thead>
@@ -211,11 +202,6 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.dateCreated}</td>
                   <td className="py-4 px-4 text-center align-middle">{order.dateReceived || "Chưa có"}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
-                  {/* <td className="py-4 px-4 text-center align-middle">
-                    {sampleCounts[order.bookingId]
-                      ? `${sampleCounts[order.bookingId].status1or2SamplesCount} / ${sampleCounts[order.bookingId].allSamplesCount}`
-                      : "Loading..."}
-                  </td> */}
                   <td className="py-4 px-4 text-center align-middle">
                     {order.status === 2 && (
                       <button
