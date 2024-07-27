@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import "./AssessmentBooking.css";
+import "../AssessmentBookingPage/AssessmentBooking.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
@@ -271,7 +271,7 @@ function AssessmentBooking() {
                   <td className="py-4 px-4 align-middle">{sample.samplereturndate}</td>
                   <td className="py-4 px-4 align-middle">
                     <button
-                      className="text-blue-500 underline"
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       onClick={() => handleShowDetails(sample)}
                     >
                       Xem chi tiết
@@ -279,7 +279,7 @@ function AssessmentBooking() {
                   </td>
                   <td className="py-4 px-4 align-middle">
                     <button
-                      className="text-red-500 underline"
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                       onClick={() => openCancelModal(sample.sampleId)}
                     >
                       Hủy
@@ -313,11 +313,11 @@ function AssessmentBooking() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="light" onClick={() => setShowModal(false)}>
             Đóng
           </Button>
-          <Button variant="primary" onClick={handleCancel}>
-            Xác nhận hủy
+          <Button variant="outline-primary" onClick={handleCancel}>
+            Hủy Yêu Cầu
           </Button>
         </Modal.Footer>
       </Modal>
