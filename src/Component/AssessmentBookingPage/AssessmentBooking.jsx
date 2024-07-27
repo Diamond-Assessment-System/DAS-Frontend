@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../AssessmentBookingPage/AssessmentBooking.css";
 import { Modal, Button, Form } from "react-bootstrap";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import { handleSession } from "../../utils/sessionUtils";
 import Pagination from "../Paginate/Pagination";
-import { BOOKING_SAMPLES_URL } from "../../utils/apiEndPoints";
+import { BOOKING_SAMPLES_URL, ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
 import getBookingFromId from "../../utils/getBookingFromId";
 import { parse, isBefore, differenceInHours } from 'date-fns';
 import { checkServiceTypeFromBooking } from "../../utils/checkServiceTypeFromBookingId";
 import { cancelSample } from "../../utils/changeSampleStatus";
 import { toast, ToastContainer } from 'react-toastify';
-import { ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
 
 function AssessmentBooking() {
   const navigate = useNavigate();
@@ -30,7 +29,7 @@ function AssessmentBooking() {
   const [cancelReason, setCancelReason] = useState("");
   const itemsPerPage = 10;
   const [assessmentPapers, setAssessmentPapers] = useState([]);
-  
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
     const initialize = async () => {
@@ -126,7 +125,7 @@ function AssessmentBooking() {
       alert("Không thể giám định đơn hàng này");
       return;
     }
-    if (sample.status === 3){
+    if (sample.status === 3) {
       const diamondId = await findDiamondId(sample.sampleId);
       if (diamondId) {
         navigate(`/assessmentstaff/assessmentpaperlist/${diamondId}`);
@@ -189,18 +188,19 @@ function AssessmentBooking() {
       console.log("Cancel reason:", cancelReason);
       console.log("Cancel reason:", requestBody);
 
-
       await cancelSample(cancelSampleId, requestBody);
       toast.success("Mẫu đã được hủy thành công!");
 
+      // Show the success popup
+      setShowSuccessPopup(true);
+
+      // Reload the page after 2 seconds
       setTimeout(() => window.location.reload(), 2000);
-      //
     } catch (error) {
       console.error("Error canceling sample:", error);
     } finally {
       setShowModal(false);
       setCancelReason("");
-
     }
   };
 
@@ -210,7 +210,6 @@ function AssessmentBooking() {
       setCancelReason(sample.cancelReason || "");
       setCancelSampleId(sampleId);
       setShowModal(true);
-
     } else if (sample.status === 3 || sample.status === 4) {
       window.alert("Không Thể Hủy Mẫu Khi Đã Hoàn Thành/Đã Hủy");
       return;
@@ -219,7 +218,6 @@ function AssessmentBooking() {
       setCancelSampleId(sampleId);
       setShowModal(true);
     }
-
   };
 
   if (loading) {
@@ -321,6 +319,23 @@ function AssessmentBooking() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* Success Popup Modal */}
+      <Modal show={showSuccessPopup} onHide={() => setShowSuccessPopup(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Success</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Mẫu đã được hủy thành công!</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowSuccessPopup(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <ToastContainer />
     </div>
   );
 }
