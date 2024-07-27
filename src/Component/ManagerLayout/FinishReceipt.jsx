@@ -1,5 +1,3 @@
-// src/components/FinishReceipt.jsx
-
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -137,6 +135,7 @@ function FinishReceipt() {
               <tr>
                 <th className="py-4 px-4 text-center">STT</th>
                 <th className="py-4 px-4 text-center">Tên mẫu</th>
+                <th className="py-4 px-4 text-center">Chi Tiết Mẫu</th>
                 <th className="py-4 px-4 text-center">Kích cỡ</th>
                 <th className="py-4 px-4 text-right">Giá(VND)</th>
               </tr>
@@ -145,8 +144,8 @@ function FinishReceipt() {
               {samples.map((sample, index) => (
                 <tr key={index} className="hover:bg-gray-100">
                   <td className="py-4 px-4 text-center">{index + 1}</td>
+                  <td className="py-4 px-4 text-center">{sample.name}</td>
                   <td className="py-4 px-4 text-center">
-                    {sample.name}
                     <div className="text-sm text-gray-600 mt-1">
                       {sample.cancelReason ? (
                         `Mẫu Huỷ: ${sample.cancelReason}`
@@ -164,7 +163,7 @@ function FinishReceipt() {
                 </tr>
               ))}
               <tr>
-                <td colSpan="3" className="py-4 px-4 text-right font-bold">Tổng tiền</td>
+                <td colSpan="4" className="py-4 px-4 text-right font-bold">Tổng tiền</td>
                 <td className="py-4 px-4 text-right font-bold">
                   {samples.reduce((acc, sample) => acc + sample.price, 0)}
                 </td>

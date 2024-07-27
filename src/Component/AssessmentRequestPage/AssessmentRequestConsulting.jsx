@@ -7,6 +7,8 @@ import Spinner from "../Spinner/Spinner";
 import { ASSESSMENT_REQUEST_URL, SERVICES_URL } from "../../utils/apiEndPoints";
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
+import { Modal, Button, Form } from "react-bootstrap"; 
+import { toast, ToastContainer } from 'react-toastify'; 
 
 function AssessmentRequestConsulting() {
   const navigate = useNavigate();
@@ -21,6 +23,11 @@ function AssessmentRequestConsulting() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Number of items per page
+
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [cancelBookingId, setCancelBookingId] = useState(null);
+  const [cancelReason, setCancelReason] = useState("");
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -86,21 +93,43 @@ function AssessmentRequestConsulting() {
     }
   };
 
-  const handleCancelBooking = async (booking) => {
+  const handleCancelBooking = async (bookingId) => {
+    if (!cancelReason.trim()) {
+      alert("Lý do hủy không được để trống");
+      return;
+    }
+
+    try {
+      // Update the booking status to 'Đã Hủy' (status 6) using the new API
+      await changeBookingStatus(bookingId, 6, cancelReason);
+      // Update the booking status locally
+      setBookings((prevBookings) =>
+        prevBookings.map((b) =>
+          b.bookingId === bookingId ? { ...b, status: 6, cancelReason: cancelReason } : b
+        )
+      );
+      toast.success("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
+    } catch (error) {
+      console.error("Error updating the booking status:", error);
+    } finally {
+      setShowModal(false);
+      setCancelReason("");
+    }
+  };
+
+  const openCancelModal = (bookingId) => {
+    const booking = bookings.find((b) => b.bookingId === bookingId);
     if (booking.status === 1) {
-      try {
-        // Update the booking status to 'Đã Hủy' (status 6) using the new API
-        await changeBookingStatus(booking.bookingId, 6);
-        // Update the booking status locally
-        setBookings((prevBookings) =>
-          prevBookings.map((b) =>
-            b.bookingId === booking.bookingId ? { ...b, status: 6 } : b
-          )
-        );
-        alert("Đã cập nhật trạng thái booking thành 'Đã Hủy'.");
-      } catch (error) {
-        console.error("Error updating the booking status:", error);
-      }
+      setCancelReason(booking.cancelReason || "");
+      setCancelBookingId(bookingId);
+      setShowModal(true);
+    } else if (booking.status === 3 || booking.status === 4) {
+      window.alert("Không Thể Hủy Booking Khi Đã Hoàn Thành/Đã Hủy");
+      return;
+    } else {
+      setCancelReason("");
+      setCancelBookingId(bookingId);
+      setShowModal(true);
     }
   };
 
@@ -311,7 +340,7 @@ function AssessmentRequestConsulting() {
                       <div className="flex items-center justify-center space-x-2">
                         {booking.status === 1 && (
                           <button
-                            onClick={() => handleCancelBooking(booking)}
+                            onClick={() => openCancelModal(booking.bookingId)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                             disabled={
                               booking.status === 2 || booking.status === 3
@@ -350,6 +379,33 @@ function AssessmentRequestConsulting() {
           </button>
         </div>
       </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Hủy Yêu Cầu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="cancelReason">
+              <Form.Label>Lý do hủy</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light" onClick={() => setShowModal(false)}>
+            Đóng
+          </Button>
+          <Button variant="outline-primary" onClick={() => handleCancelBooking(cancelBookingId)}>
+            Hủy Yêu Cầu
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

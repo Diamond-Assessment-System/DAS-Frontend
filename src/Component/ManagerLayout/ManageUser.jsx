@@ -6,13 +6,16 @@ import Spinner from "../Spinner/Spinner";
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchUsers = async () => {
     try {
       const accounts = await getAllAccounts();
       const filteredAccounts = accounts.filter(account => account.role === 1);
       setUsers(filteredAccounts);
+      setFilteredUsers(filteredAccounts);
     } catch (error) {
       console.error('Error fetching accounts:', error);
     } finally {
@@ -24,6 +27,15 @@ const ManageUser = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    const normalizedSearchQuery = searchQuery.toLowerCase();
+    const newFilteredUsers = users.filter(user =>
+      user.displayName.toLowerCase().includes(normalizedSearchQuery) ||
+      user.phone?.toLowerCase().includes(normalizedSearchQuery)
+    );
+    setFilteredUsers(newFilteredUsers);
+  }, [searchQuery, users]);
 
   if (loading) {
     return (
@@ -39,11 +51,18 @@ const ManageUser = () => {
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
           Danh Sách Tài Khoản
         </h2>
+        <input
+          type="text"
+          placeholder="Search by name or phone number"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mb-4 p-2 border border-gray-300 rounded"
+        />
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
             <thead className="bg-gray-800 text-white">
               <tr>
-                <th className="py-4 px-4 text-center align-middle">ID Khách Hàng</th>
+                <th className="py-4 px-4 text-center align-middle">Mã Khách Hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Tên Khách Hàng</th>
                 <th className="py-4 px-4 text-center align-middle">Email</th>
                 <th className="py-4 px-4 text-center align-middle">Số Điện Thoại</th>
@@ -52,7 +71,7 @@ const ManageUser = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.accountId} className={`hover:bg-gray-100 ${user.accountStatus === 2 ? "bg-red-100" : (user.accountStatus === 1 ? "bg-green-100" : "")}`}>
                   <td className="py-4 px-4 text-center align-middle">{user.accountId}</td>
                   <td className="py-4 px-4 text-center align-middle">{user.displayName}</td>

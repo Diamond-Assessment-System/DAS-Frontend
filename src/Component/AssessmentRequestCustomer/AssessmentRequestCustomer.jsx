@@ -57,7 +57,7 @@ function AssessmentRequest() {
       phone: initialPhone,
       email: initialEmail,
       serviceId: "",
-      paymentType: "",
+      paymentType: 1,
       quantities: 1,
       note: "",
     },
@@ -251,16 +251,18 @@ function AssessmentRequest() {
 
           <div className="mb-4">
             <label
+              hidden
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="paymentType"
             >
               Hình Thức Thanh Toán
             </label>
             <select
-              id="paymentType"
+              id="paymentType" 
               name="paymentType"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              hidden
               value={formik.values.paymentType}
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 formik.touched.paymentType && formik.errors.paymentType

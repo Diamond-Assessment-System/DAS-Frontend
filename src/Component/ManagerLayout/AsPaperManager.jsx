@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
 import Pagination from "../Paginate/Pagination";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../ManagerLayout/AsPaperManager.css';
 import { BOOKING_SAMPLES_URL, USERS_ROLE_2_URL, getExecuteActionUrl } from "../../utils/apiEndPoints";
 
@@ -97,9 +99,10 @@ function AsPaperManager() {
       try {
         await axios.put(getExecuteActionUrl(sampleId, selectedAction));
         fetchSamples();
+        toast.success("Đã phân việc thành công!");
       } catch (error) {
         console.error("Error assigning the staff:", error);
-      } finally{
+      } finally {
         setIsProcessing(false);
       }
     }
@@ -118,6 +121,7 @@ function AsPaperManager() {
 
   return (
     <div className="w-full">
+      <ToastContainer />
       <div className="max-w-full mx-auto p-4">
         <h4 className="text-lg font-semibold text-gray-800 mb-4">Phân Việc</h4>
         <input
