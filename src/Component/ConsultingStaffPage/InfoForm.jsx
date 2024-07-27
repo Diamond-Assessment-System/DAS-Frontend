@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, InputNumber, Button, Typography, Select, Row, Col, Radio, Modal, Input } from "antd";
 import axios from "axios";
-import { getCancelAssessmentlUrl } from "../../utils/apiEndPoints";
 import { cancelSample } from "../../utils/changeSampleStatus";
 import "./InfoForm.css";
 
@@ -20,6 +19,7 @@ function InfoForm() {
   const [isDisabled, setIsDisabled] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
   const handleLoaiChange = (e) => {
     const value = e.target.value;
@@ -37,11 +37,11 @@ function InfoForm() {
     if (cancelReason) {
       try {
         await cancelSample(id, JSON.stringify(cancelReason));
-        //await cancelSample(cancelSampleId, requestBody);
-        navigate("/assessmentstaff");
+        setIsCancelModalVisible(false);
+        setIsSuccessModalVisible(true);
       } catch (error) {
         console.error("Error updating status:", error);
-        alert("Có lỗi xảy ra khi cập nhật trạng thái.");
+        Modal.error({ title: 'Error', content: 'Có lỗi xảy ra khi cập nhật trạng thái.' });
       }
     } else {
       Modal.error({ title: 'Error', content: 'Please provide a reason to cancel.' });
@@ -51,6 +51,11 @@ function InfoForm() {
   const handleCancelCancel = () => {
     setIsCancelModalVisible(false);
     setCancelReason("");
+  };
+
+  const handleSuccessOk = () => {
+    setIsSuccessModalVisible(false);
+    navigate("/assessmentstaff");
   };
 
   const handleSubmit = (values) => {
@@ -482,7 +487,9 @@ function InfoForm() {
             >
               Kết thúc
             </Button>
+
           </Form.Item>
+          <p><a href="https://doji.vn/5-cach-nhan-biet-kim-cuong-that-gia/" target="_blank" class="custom-link">Cách nhận biết kim cương</a></p>
         </Col>
       </Row>
 
@@ -498,9 +505,16 @@ function InfoForm() {
           placeholder="Reason for cancellation"
         />
       </Modal>
-      <p><a href="https://doji.vn/5-cach-nhan-biet-kim-cuong-that-gia/" target="_blank" class="custom-link">Cách nhận biết kim cương</a></p>
-    </Form>
 
+      <Modal
+        title="Success"
+        visible={isSuccessModalVisible}
+        onOk={handleSuccessOk}
+        cancelButtonProps={{ style: { display: 'none' } }}
+      >
+        <p>Mẫu đã được hủy thành công!</p>
+      </Modal>
+    </Form>
   );
 }
 
