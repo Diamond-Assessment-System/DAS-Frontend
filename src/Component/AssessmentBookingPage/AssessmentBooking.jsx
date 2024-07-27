@@ -86,8 +86,9 @@ function AssessmentBooking() {
     setPageCount(Math.ceil(filteredSamples.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, samples, searchQuery, accounts]);
 
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % samples.length;
+  const handlePageClick = (data) => {
+    const selectedPage = data.selected;
+    const newOffset = selectedPage * itemsPerPage;
     setItemOffset(newOffset);
   };
 
@@ -289,7 +290,7 @@ function AssessmentBooking() {
           </table>
         </div>
         <div className="flex justify-center mt-4">
-          <Pagination pageCount={pageCount} handlePageClick={handlePageClick} />
+          <Pagination pageCount={pageCount} onPageChange={handlePageClick} />
         </div>
       </div>
 
