@@ -1,5 +1,3 @@
-// getAllBookings.js
-
 import axios from 'axios';
 
 async function getAllBookings() {
@@ -16,6 +14,7 @@ async function getAllBookings() {
           ...booking,
           accountName: accountResponse.data.displayName,
           serviceName: serviceResponse.data.serviceName,
+          accountMail: accountResponse.data.email,
         };
       })
     );
