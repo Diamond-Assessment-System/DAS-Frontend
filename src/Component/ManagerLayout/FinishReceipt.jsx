@@ -82,7 +82,8 @@ function FinishReceipt() {
       ipAddress: "127.0.0.1" // Replace with actual IP address if needed
     };
     const response = await axios.post("https://das-backend.fly.dev/api/payment/create-payment", paymentRequest);
-    console.log(response.data);
+    // console.log(response.data);
+    window.location.href = response.data;
   };
 
   if (loading) {
