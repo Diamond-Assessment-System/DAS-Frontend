@@ -81,6 +81,7 @@ import SealInput from "../Component/SealDiamondP/SealInput.jsx";
 import SealDiamonDetail from "../Component/SealDiamondP/SealDiamondDetail.jsx";
 import SealReceipt from "../Component/SealDiamondP/SealReceipt.jsx";
 import FinishReceipt from "../Component/ManagerLayout/FinishReceipt.jsx";
+import PaymentSuccess from "../Component/ManagerLayout/PaymentSuccess.jsx";
 const RoutePath = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["user"]);
   return (
@@ -161,6 +162,7 @@ const RoutePath = () => {
           <Route path="/manager/feedback" element={<ManagerFeedback />} />
           <Route path="/manager/cancelhistory" element={<CancelHistory />} />
           <Route path="/manager/finishreceipt"  element={<FinishReceipt />} />
+          <Route path="/manager/paymentsuccess" element={<PaymentSuccess />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
