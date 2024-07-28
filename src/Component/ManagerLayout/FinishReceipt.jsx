@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { format } from "date-fns";
-import Spinner from "../Spinner/Spinner"; // Update the import path as needed
+import Spinner from "../Spinner/Spinner";
 import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingId";
 import { getBookingDetails } from "../../utils/getBookingDetails";
 import getAccountFromId from "../../utils/getAccountFromId";
-import { getPaymentTypeMeaning } from "../../utils/getStatusMeaning";
 import { ASSESSMENT_PAPER_URL, ASSESSMENT_BOOKING_URL } from "../../utils/apiEndPoints";
 import logo from "../../../public/logodas.png";
-import { changeBookingStatus } from "../../utils/changeBookingStatus"; // Import the function to change booking status
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
+
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
 
 function FinishReceipt() {
   const location = useLocation();
@@ -25,36 +27,23 @@ function FinishReceipt() {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        // Fetch booking details
         const details = await getBookingDetails(bookingId);
         setBookingDetails(details);
-
-        // Fetch account details
         const accountData = await getAccountFromId(details.accountId);
         setAccount(accountData);
-
-        // Fetch samples
         const samplesData = await getBookingSamplesByBookingId(bookingId);
         setSamples(samplesData);
-
-        // Fetch all assessment papers
         const assessmentPapersResponse = await axios.get(ASSESSMENT_PAPER_URL);
         const assessmentPapers = assessmentPapersResponse.data;
-
-        // Find and set details for each sample
         const samplesWithDetails = samplesData.map(sample => {
           const sampleDetail = assessmentPapers.find(paper => paper.sampleId === sample.sampleId);
           return { ...sample, ...sampleDetail };
         });
-
         const detailsMap = samplesWithDetails.reduce((acc, sample) => {
           acc[sample.sampleId] = sample;
           return acc;
         }, {});
-
         setSampleDetails(detailsMap);
-
-        // Fetch phone number
         const response = await axios.get(`${ASSESSMENT_BOOKING_URL}/${bookingId}`);
         const phone = response.data.phone;
         setPhoneNumber(phone);
@@ -64,13 +53,12 @@ function FinishReceipt() {
         setLoading(false);
       }
     };
-
     fetchDetails();
   }, [bookingId]);
 
   const formatDateToLocalDateTime = (date) => {
     const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -80,15 +68,21 @@ function FinishReceipt() {
 
   const handleSubmit = async () => {
     try {
-      await changeBookingStatus(bookingId, 4); // Change the booking status to 4
-      navigate("/managerhistory"); // Redirect to ManagerHistory page
+      await changeBookingStatus(bookingId, 4);
+      navigate("/managerhistory");
     } catch (error) {
       console.error("Error changing booking status:", error);
     }
   };
 
-  const handlePayment = () => {
-    navigate("/payment", { state: { bookingId } }); // Redirect to Payment page
+  const handlePayment = async () => {
+    const paymentRequest = {
+      amount: samples.reduce((acc, sample) => acc + sample.price, 0),
+      description: `Payment for booking ${bookingDetails.bookingId}`,
+      ipAddress: "127.0.0.1" // Replace with actual IP address if needed
+    };
+    const response = await axios.post("https://das-backend.fly.dev/api/payment/create-payment", paymentRequest);
+    console.log(response.data);
   };
 
   if (loading) {
@@ -130,46 +124,48 @@ function FinishReceipt() {
         <div className="mb-6">
           <h3 className="text-xl font-semibold">Dịch vụ:</h3>
           <h3 className="text-xl font-semibold">Tóm Tắt Đơn Hàng</h3>
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden mt-4">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-4 px-4 text-center">STT</th>
-                <th className="py-4 px-4 text-center">Tên mẫu</th>
-                <th className="py-4 px-4 text-center">Chi Tiết Mẫu</th>
-                <th className="py-4 px-4 text-center">Kích cỡ</th>
-                <th className="py-4 px-4 text-right">Giá(VND)</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700">
-              {samples.map((sample, index) => (
-                <tr key={index} className="hover:bg-gray-100">
-                  <td className="py-4 px-4 text-center">{index + 1}</td>
-                  <td className="py-4 px-4 text-center">{sample.name}</td>
-                  <td className="py-4 px-4 text-center">
-                    <div className="text-sm text-gray-600 mt-1">
-                      {sample.cancelReason ? (
-                        `Mẫu Huỷ: ${sample.cancelReason}`
-                      ) : (
-                        <>
-                          Type: {sampleDetails[sample.sampleId]?.type || ''}, Shape: {sampleDetails[sample.sampleId]?.shape || ''}, Color: {sampleDetails[sample.sampleId]?.color || ''}, 
-                          Clarity: {sampleDetails[sample.sampleId]?.clarity || ''}, Polish: {sampleDetails[sample.sampleId]?.polish || ''}, Symmetry: {sampleDetails[sample.sampleId]?.symmetry || ''}, 
-                          Fluorescence: {sampleDetails[sample.sampleId]?.fluorescence || ''}, Weight: {sampleDetails[sample.sampleId]?.weight || ''}
-                        </>
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-4 px-4 text-center">{sample.size}</td>
-                  <td className="py-4 px-4 text-right">{sample.price}</td>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden mt-4">
+              <thead className="bg-blue-800 text-white">
+                <tr>
+                  <th className="py-4 px-4 text-center">STT</th>
+                  <th className="py-4 px-4 text-center">Tên mẫu</th>
+                  <th className="py-4 px-4 text-center">Chi Tiết Mẫu</th>
+                  <th className="py-4 px-4 text-center">Kích cỡ</th>
+                  <th className="py-4 px-4 text-right whitespace-nowrap">Giá (VND)</th>
                 </tr>
-              ))}
-              <tr>
-                <td colSpan="4" className="py-4 px-4 text-right font-bold">Tổng tiền</td>
-                <td className="py-4 px-4 text-right font-bold">
-                  {samples.reduce((acc, sample) => acc + sample.price, 0)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-gray-700">
+                {samples.map((sample, index) => (
+                  <tr key={index} className="hover:bg-gray-100">
+                    <td className="py-4 px-4 text-center">{index + 1}</td>
+                    <td className="py-4 px-4 text-center">{sample.name}</td>
+                    <td className="py-4 px-4 text-center">
+                      <div className="text-sm text-gray-600 mt-1">
+                        {sample.cancelReason ? (
+                          `Mẫu Huỷ: ${sample.cancelReason}`
+                        ) : (
+                          <>
+                            Type: {sampleDetails[sample.sampleId]?.type || ''}, Shape: {sampleDetails[sample.sampleId]?.shape || ''}, Color: {sampleDetails[sample.sampleId]?.color || ''}, 
+                            Clarity: {sampleDetails[sample.sampleId]?.clarity || ''}, Polish: {sampleDetails[sample.sampleId]?.polish || ''}, Symmetry: {sampleDetails[sample.sampleId]?.symmetry || ''}, 
+                            Fluorescence: {sampleDetails[sample.sampleId]?.fluorescence || ''}, Weight: {sampleDetails[sample.sampleId]?.weight || ''}
+                          </>
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-center">{sample.size}</td>
+                    <td className="py-4 px-4 text-right whitespace-nowrap">{formatPrice(sample.price)}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td colSpan="4" className="py-4 px-4 text-right font-bold">Tổng tiền</td>
+                  <td className="py-4 px-4 text-right font-bold whitespace-nowrap">
+                    {formatPrice(samples.reduce((acc, sample) => acc + sample.price, 0))}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="flex justify-end mt-6 space-x-4">
           <button
