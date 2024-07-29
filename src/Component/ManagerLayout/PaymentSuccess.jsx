@@ -1,16 +1,40 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { changeBookingStatus } from "../../utils/changeBookingStatus";
 
 function PaymentSuccess() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate("/manager/managerhistory");
-    }, 3000); // Redirect after 3 seconds
+    const handlePaymentSuccess = async () => {
+      const orderInfo = searchParams.get("vnp_OrderInfo");
+      console.log("Order Info:", orderInfo); // Debug log
 
-    return () => clearTimeout(timer); // Cleanup the timer on component unmount
-  }, [navigate]);
+      if (orderInfo) {
+        const bookingId = orderInfo;
+        console.log("Booking ID:", bookingId); // Debug log
+
+        if (bookingId) {
+          try {
+            await changeBookingStatus(parseInt(bookingId), 4); 
+            console.log(`Booking status changed to Success for booking ID: ${bookingId}`);
+            
+            // Navigate after the status change is successful
+            const timer = setTimeout(() => {
+              navigate("/manager/managerhistory");
+            }, 3000); // Redirect after 3 seconds
+
+            return () => clearTimeout(timer); // Cleanup the timer on component unmount
+          } catch (error) {
+            console.error("Error changing booking status:", error);
+          }
+        }
+      }
+    };
+
+    handlePaymentSuccess();
+  }, [searchParams, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

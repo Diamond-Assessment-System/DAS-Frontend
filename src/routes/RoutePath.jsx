@@ -162,7 +162,7 @@ const RoutePath = () => {
           <Route path="/manager/feedback" element={<ManagerFeedback />} />
           <Route path="/manager/cancelhistory" element={<CancelHistory />} />
           <Route path="/manager/finishreceipt"  element={<FinishReceipt />} />
-          <Route path="/manager/paymentsuccess" element={<PaymentSuccess />} />
+          <Route path="/manager/payment-success" element={<PaymentSuccess />} />
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
