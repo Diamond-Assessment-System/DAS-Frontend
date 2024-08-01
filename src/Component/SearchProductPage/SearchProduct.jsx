@@ -12,7 +12,7 @@ const ProductSearch = () => {
         e.preventDefault();
         setError('');
         if (!diamondCode) {
-            setError('Bạn cần nhập mã viên kim cương');
+            setError('Bạn cần nhập mã giám định');
             return;
         }
 
@@ -35,7 +35,7 @@ const ProductSearch = () => {
     };
 
     return (
-        <div className="container mb-24" style={{ marginTop: '10rem' }}> {/* Increased margin top and bottom */}
+        <div className="container mb-24" style={{ marginTop: '10rem' }}>
             <h1 className="text-center text-4xl font-bold text-blue-900 mb-12">Tra cứu thông tin sản phẩm</h1>
             <p className="text-center text-gray-600 mb-12">
                 Đây là dịch vụ tra cứu của DASL nhằm mục đích mang đến cho quý khách hàng sự tiện lợi, nhanh chóng và chính xác về những thông tin của sản phẩm trên bảng giám định đúng với những thông tin lưu trong cơ sở dữ liệu của DASL.
@@ -48,7 +48,7 @@ const ProductSearch = () => {
                             type="text"
                             value={diamondCode}
                             onChange={(e) => setDiamondCode(e.target.value)}
-                            placeholder="Nhập số sản phẩm"
+                            placeholder="Nhập mã giám định"
                             className="flex-grow p-2 border rounded-md"
                         />
                         <button type="submit" className="ml-4 px-4 py-2 bg-blue-900 text-white rounded-md hover:bg-blue-700">

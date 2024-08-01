@@ -90,7 +90,7 @@ const CustomerHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})`, marginTop:"5rem" }}>
       <div className="mx-auto py-16 px-4">
         <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
           <h4 className="text-3xl font-semibold text-gray-800 mb-6 text-center">Lịch sử giám định</h4>
