@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
-import { getBookingDetails } from "../../utils/getBookingDetails"; // Import the function to get booking details
-import { changeBookingStatus } from "../../utils/changeBookingStatus";
-import { Modal, Button, Form } from "react-bootstrap";
-import axios from "axios";
 
 function ManagerHistory() {
   const navigate = useNavigate();
@@ -18,17 +14,6 @@ function ManagerHistory() {
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-
-  // Modal state
-  const [showModal, setShowModal] = useState(false);
-  const [emailContent, setEmailContent] = useState({
-    toEmail: "",
-    subject: "Hoàn Thành Đơn Hàng",
-    name: "",
-    messageBody: "",
-    senderName: "DAS's Manager",
-  });
-  const [currentBookingId, setCurrentBookingId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,27 +31,12 @@ function ManagerHistory() {
   }, []);
 
   const viewDetails = (bookingId) => {
-    navigate(`/manager/sealing-records`, { state: { bookingId } });
-  };
-
-  const completeOrder = async (bookingId) => {
-    const mailDetails = orders.find((detail) => detail.bookingId === bookingId);
-    setCurrentBookingId(bookingId);
-    setEmailContent((prev) => ({
-      ...prev,
-      subject: `Hoàn Thành Đơn Hàng #${mailDetails.bookingId}`,
-      toEmail: mailDetails.accountMail,
-      name: mailDetails.accountName,
-      messageBody: `Đơn hàng của quý khách với mã #${mailDetails.bookingId} gồm ${mailDetails.quantities} viên đã được hoàn thành, vui lòng đến gặp nhân viên để nhận lại mẫu.`
-    }));
-    setShowModal(true);
+    navigate(`/manager/booking-details`, { state: { bookingId } });
   };
 
   const closeOrder = async (bookingId) => {
     try {
-      // Fetch the booking details
       const bookingDetails = await getBookingDetails(bookingId);
-      // Navigate to FinishReceipt with the booking details
       navigate(`/manager/finishreceipt`, {
         state: {
           ...bookingDetails,
@@ -92,30 +62,6 @@ function ManagerHistory() {
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
     setCurrentPage(1);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEmailContent((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const sendEmail = async () => {
-    try {
-      await axios.post("https://das-backend.fly.dev/api/mail", emailContent);
-      await changeBookingStatus(currentBookingId, 3);
-      setShowModal(false);
-      setEmailContent({
-        toEmail: "",
-        subject: "Hoàn Thành Đơn Hàng",
-        name: "",
-        messageBody: "Đơn hàng của quý khách đã được hoàn thành, vui lòng đến gặp nhân viên để nhận lại mẫu.",
-        senderName: "DAS's Manager",
-      });
-      window.location.reload();
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to send email.");
-    }
   };
 
   const filteredOrders = orders.filter((order) => {
@@ -243,12 +189,12 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">{order.dateReceived || "Chưa có"}</td>
                   <td className="py-4 px-4 text-center align-middle">{getBookingStatusMeaning(order.status)}</td>
                   <td className="py-4 px-4 text-center align-middle">
-                    {order.status === 2 && (
+                    {(order.status === 1 || order.status === 2) && (
                       <button
-                        onClick={() => completeOrder(order.bookingId)}
-                        className="btn-small bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline"
+                        onClick={() => viewDetails(order.bookingId)}
+                        className="btn-small bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
                       >
-                        Hoàn Thành
+                        Xem Chi Tiết
                       </button>
                     )}
                     {order.status === 3 && (
@@ -267,7 +213,6 @@ function ManagerHistory() {
                         </button>
                       </div>
                     )}
-
                     {order.status === 5 && (
                       <div className="btn-container">
                         <button
@@ -305,71 +250,6 @@ function ManagerHistory() {
           </button>
         </div>
       </div>
-
-      {/* Email Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Gửi Email</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="toEmail">
-              <Form.Label>To Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="toEmail"
-                value={emailContent.toEmail}
-                onChange={handleInputChange}             
-              />
-            </Form.Group>
-            <Form.Group controlId="subject">
-              <Form.Label>Subject</Form.Label>
-              <Form.Control
-                type="text"
-                name="subject"
-                value={emailContent.subject}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                value={emailContent.name}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="messageBody">
-              <Form.Label>Message Body</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="messageBody"
-                rows={3}
-                value={emailContent.messageBody}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="senderName">
-              <Form.Label>Sender Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="senderName"
-                value={emailContent.senderName}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Đóng
-          </Button>
-          <Button variant="primary" onClick={sendEmail}>
-            Gửi Email
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 }

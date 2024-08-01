@@ -145,7 +145,7 @@ function FinishReceipt() {
                     <td className="py-4 px-4 text-center">
                       <div className="text-sm text-gray-600 mt-1">
                         {sample.cancelReason ? (
-                          `Mẫu Huỷ: ${sample.cancelReason}`
+                          `Lý Do Huỷ: ${sample.cancelReason}`
                         ) : (
                           <>
                             Type: {sampleDetails[sample.sampleId]?.type || ''}, Shape: {sampleDetails[sample.sampleId]?.shape || ''}, Color: {sampleDetails[sample.sampleId]?.color || ''}, 
