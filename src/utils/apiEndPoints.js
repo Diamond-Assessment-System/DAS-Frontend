@@ -5,7 +5,7 @@ export const API_BASE_URL = "https://das-backend.fly.dev";
 export const ASSESSMENT_BOOKINGS_URL = `${API_BASE_URL}/api/assessment-bookings`;
 
 // SearchProduct
-export const getAssessmentPaperUrl = (productCode) => `${API_BASE_URL}/api/assessment-papers/${productCode}`;
+export const getAssessmentPaperUrl = (productCode) => `${API_BASE_URL}/api/assessment-papers/${productCode}/sample`;
 
 // SealList
 export const SEAL_LIST_URL = `${API_BASE_URL}/api/diamonds-to-seal`;
