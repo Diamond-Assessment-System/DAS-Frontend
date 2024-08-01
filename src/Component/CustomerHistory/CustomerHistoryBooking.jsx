@@ -6,6 +6,7 @@ import Spinner from "../Spinner/Spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CustomerHistory/CustomerHistory.css";
 import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
+import backgroundImage from "../../assets/backgroundcus.png";
 
 const formatPrice = (price) => {
   return price ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " VND" : "Chưa xác nhận đơn";
@@ -28,7 +29,7 @@ const CustomerHistoryBooking = () => {
 
   const fetchHistory = async () => {
     try {
-        console.log("api: " + `https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
+      console.log("api: " + `https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
       const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
       setHistory(response.data);
     } catch (error) {
@@ -63,87 +64,68 @@ const CustomerHistoryBooking = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case 1:
-        return "status-openedCH";
+        return "bg-yellow-100 text-yellow-800";
       case 2:
-        return "status-assessingCH";
+        return "bg-blue-100 text-blue-800";
       case 3:
-        return "status-completedCH";
+        return "bg-green-100 text-green-800";
       case 4:
-        return "status-sealedCH";
+        return "bg-gray-100 text-gray-800";
       case 5:
-        return "status-canceledCH";
+        return "bg-red-100 text-red-800";
       default:
-        return "";
-    }
-  };
-
-  const getStatusMeaning = (status) => {
-    switch (status) {
-      case 1:
-        return "Đã Mở";
-      case 2:
-        return "Đã Phân Việc";
-      case 3:
-        return "Đã Hoàn Thành";
-      case 4:
-        return "Đã Seal";
-      case 5:
-        return "Đã Hủy";
-      default:
-        return "Không rõ";
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   if (loading) {
     return (
-      <div className="text-center">
+      <div className="flex justify-center items-center h-screen">
         <Spinner />
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="max-w-full mx-auto p-4">
-        <h4 className="text-lg font-semibold text-gray-800 mb-4">Lịch sử giám định</h4>
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead className="bg-gray-800 text-white">
-              <tr>
-                <th className="py-4 px-4 text-center align-middle">Mã mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Tên mẫu</th>
-                <th className="py-4 px-4 text-center align-middle">Kích cỡ</th>
-                <th className="py-4 px-4 text-center align-middle">Giá</th>
-                <th className="py-4 px-4 text-center align-middle">Trạng Thái</th>
-                <th className="py-4 px-4 text-center align-middle">Chi Tiết</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-700">
-              {history.map((sample, index) => (
-                <tr key={index}>
-                  <td className="py-4 px-4 align-middle">{sample.sampleId}</td>
-                  <td className="py-4 px-4 align-middle">{sample.name}</td>
-                  <td className="py-4 px-4 align-middle">{sample.size}</td>
-                  <td className="py-4 px-4 align-middle">
-                    {formatPrice(sample.price)}
-                  </td>
-                  <td className={`py-4 px-4 align-middle ${getStatusClass(sample.status)}`}>
-                    <h3>{getSampleStatusMeaning(sample.status)}</h3>
-                  </td>
-                  <td className="py-4 px-4 align-middle">
-                    <div className="flex items-center justify-center">
+    <div className="min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})`, marginTop: "5rem" }}>
+      <div className="mx-auto py-16 px-4">
+        <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+          <h4 className="text-3xl font-semibold text-gray-800 mb-6 text-center">Lịch sử giám định</h4>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead className="bg-gray-800 text-white">
+                <tr>
+                  <th className="py-4 px-6 text-center">Mã mẫu</th>
+                  <th className="py-4 px-6 text-center">Tên mẫu</th>
+                  <th className="py-4 px-6 text-center">Kích cỡ</th>
+                  <th className="py-4 px-6 text-center">Giá</th>
+                  <th className="py-4 px-6 text-center">Trạng Thái</th>
+                  <th className="py-4 px-6 text-center">Chi Tiết</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-700">
+                {history.map((sample, index) => (
+                  <tr key={index} className="hover:bg-gray-100">
+                    <td className="py-4 px-6 text-center">{sample.sampleId}</td>
+                    <td className="py-4 px-6 text-center">{sample.name}</td>
+                    <td className="py-4 px-6 text-center">{sample.size}</td>
+                    <td className="py-4 px-6 text-center">{formatPrice(sample.price)}</td>
+                    <td className={`py-4 px-6 text-center ${getStatusClass(sample.status)}`}>
+                      {getSampleStatusMeaning(sample.status)}
+                    </td>
+                    <td className="py-4 px-6 text-center">
                       <button
                         onClick={() => handleDetails(sample)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
                       >
                         Xem chi tiết
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
