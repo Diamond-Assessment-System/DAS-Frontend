@@ -49,7 +49,7 @@ function AssessmentRequestConsulting() {
       try {
         const bookingsResponse = await axios.get(ASSESSMENT_REQUEST_URL);
         const servicesResponse = await axios.get(SERVICES_URL);
-        const accountsResponse = await axios.get(`https://das-backend.fly.dev/api/accounts`);
+        const accountsResponse = await axios.get(`http://localhost:8080/api/accounts`);
 
         setBookings(bookingsResponse.data);
         setServices(servicesResponse.data);

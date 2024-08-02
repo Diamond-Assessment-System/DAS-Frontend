@@ -54,7 +54,7 @@ function AssignWork() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessment-bookings"
+          "http://localhost:8080/api/assessment-bookings"
         );
         setBookings(response.data);
       } catch (error) {
@@ -86,7 +86,7 @@ function AssignWork() {
     setLoading(true);
     try {
       await axios.put(
-        `https://das-backend.fly.dev/api/assessment-bookings/${bookingId}/cancel`
+        `http://localhost:8080/api/assessment-bookings/${bookingId}/cancel`
       );
       setBookings((prevBookings) =>
         prevBookings.map((booking) =>

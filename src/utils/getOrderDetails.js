@@ -4,11 +4,11 @@ import axios from 'axios';
 
 async function getOrderDetails(bookingId) {
   try {
-    const bookingResponse = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${bookingId}`);
+    const bookingResponse = await axios.get(`http://localhost:8080/api/assessment-bookings/${bookingId}`);
     const booking = bookingResponse.data;
 
-    const accountResponse = await axios.get(`https://das-backend.fly.dev/api/accounts/${booking.accountId}`);
-    const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${booking.serviceId}`);
+    const accountResponse = await axios.get(`http://localhost:8080/api/accounts/${booking.accountId}`);
+    const serviceResponse = await axios.get(`http://localhost:8080/api/services/${booking.serviceId}`);
 
     return {
       ...booking,

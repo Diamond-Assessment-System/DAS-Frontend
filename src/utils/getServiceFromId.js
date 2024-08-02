@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function getServiceFromId(id) {
   try {
-    const response = await axios.get(`https://das-backend.fly.dev/api/services/${id}`);
+    const response = await axios.get(`http://localhost:8080/api/services/${id}`);
     return response.data; // Return the fetched service data
   } catch (error) {
     if (error.response) {

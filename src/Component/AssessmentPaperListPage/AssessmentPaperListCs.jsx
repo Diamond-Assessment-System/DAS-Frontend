@@ -17,7 +17,7 @@ function AssessmentPaperListCs() {
       try {
         const [papersResponse, accountsResponse] = await Promise.all([
           axios.get(ASSESSMENT_PAPER_URL),
-          axios.get(`https://das-backend.fly.dev/api/accounts`),
+          axios.get(`http://localhost:8080/api/accounts`),
         ]);
         const sortedPapers = papersResponse.data.sort((a, b) => b.diamondId - a.diamondId);
         setAssessmentPapers(sortedPapers);

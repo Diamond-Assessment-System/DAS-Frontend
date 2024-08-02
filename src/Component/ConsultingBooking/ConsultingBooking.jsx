@@ -15,7 +15,7 @@ function ConsultingBooking() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://das-backend.fly.dev/api/assessmentbookings"
+          "http://localhost:8080/api/assessmentbookings"
         );
         setBookings(response.data);
       } catch (error) {

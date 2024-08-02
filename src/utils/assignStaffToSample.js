@@ -3,7 +3,7 @@ import axios from "axios";
 async function AssignStaffToSample(sampleId, staffId) {
     try {
         const response = await axios.patch(
-            `https://das-backend.fly.dev/api/booking-samples/${sampleId}/staff/${staffId}`
+            `http://localhost:8080/api/booking-samples/${sampleId}/staff/${staffId}`
         );
         return response.data;
     } catch (error) {

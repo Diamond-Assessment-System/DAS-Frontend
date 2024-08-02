@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://das-backend.fly.dev/api/assessment-bookings';
+const API_URL = 'http://localhost:8080/api/assessment-bookings';
 
 export const changeBookingStatus = async (bookingId, status) => {
     try {

@@ -1,5 +1,5 @@
 // src/utils/apiEndpoints.js
-export const API_BASE_URL = "https://das-backend.fly.dev";
+export const API_BASE_URL = "http://localhost:8080";
 
 // makerequest
 export const ASSESSMENT_BOOKINGS_URL = `${API_BASE_URL}/api/assessment-bookings`;

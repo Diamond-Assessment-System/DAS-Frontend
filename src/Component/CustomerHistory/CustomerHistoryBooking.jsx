@@ -29,8 +29,8 @@ const CustomerHistoryBooking = () => {
 
   const fetchHistory = async () => {
     try {
-      console.log("api: " + `https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
-      const response = await axios.get(`https://das-backend.fly.dev/api/booking-samples/booking/${id}`);
+      console.log("api: " + `http://localhost:8080/api/booking-samples/booking/${id}`);
+      const response = await axios.get(`http://localhost:8080/api/booking-samples/booking/${id}`);
       setHistory(response.data);
     } catch (error) {
       console.error("Error fetching the history:", error);

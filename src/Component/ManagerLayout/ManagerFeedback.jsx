@@ -21,7 +21,7 @@ const ManagerFeedbackList = () => {
 
   const fetchFeedbackList = async (accountId) => {
     try {
-      const response = await axios.get('https://das-backend.fly.dev/api/assessment-bookings');
+      const response = await axios.get('http://localhost:8080/api/assessment-bookings');
       const feedbacks = response.data.filter(sample => sample.feedback);
 
       // Extract feedback and phone number

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://das-backend.fly.dev/api/accounts';
+const API_URL = 'http://localhost:8080/api/accounts';
 
 export const changeAccountRole = async (accountId, role) => {
     try {

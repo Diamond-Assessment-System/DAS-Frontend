@@ -17,7 +17,7 @@ function AssessmentPaperList() {
       try {
         const [papersResponse, accountsResponse] = await Promise.all([
           axios.get(ASSESSMENT_PAPER_URL),
-          axios.get(`https://das-backend.fly.dev/api/accounts`),
+          axios.get(`http://localhost:8080/api/accounts`),
         ]);
         setAssessmentPapers(papersResponse.data);
         setAccounts(accountsResponse.data);

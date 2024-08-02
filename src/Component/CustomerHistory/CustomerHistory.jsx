@@ -29,7 +29,7 @@ const CustomerHistory = () => {
 
   const fetchHistory = async (accountId) => {
     try {
-      const response = await axios.get('https://das-backend.fly.dev/api/assessment-bookings');
+      const response = await axios.get('http://localhost:8080/api/assessment-bookings');
       const filteredHistory = response.data.filter(sample => sample.accountId === accountId);
       setHistory(filteredHistory);
     } catch (error) {
@@ -56,7 +56,7 @@ const CustomerHistory = () => {
 
   const handleSaveFeedback = async () => {
     try {
-      await axios.put(`https://das-backend.fly.dev/api/assessment-bookings/${selectedSample.bookingId}/feedback`, { feedback });
+      await axios.put(`http://localhost:8080/api/assessment-bookings/${selectedSample.bookingId}/feedback`, { feedback });
       handleClosePopup(); // Close the popup
       fetchHistory(loggedAccount.accountId); // Refresh the history to show the feedback status
     } catch (error) {

@@ -15,7 +15,7 @@ export const EvaluateServicePrice = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/service-price-lists`);
+        const response = await axios.get(`http://localhost:8080/api/service-price-lists`);
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching the services:", error);

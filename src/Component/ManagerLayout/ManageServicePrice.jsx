@@ -94,7 +94,7 @@ const ManageServicePrice = () => {
 
   const fetchServicePrices = async () => {
     try {
-      const response = await axios.get(`https://das-backend.fly.dev/api/service-price-lists`);
+      const response = await axios.get(`http://localhost:8080/api/service-price-lists`);
       setPrices(response.data);
     } catch (error) {
       console.error("Error fetching the service prices:", error);
@@ -150,9 +150,9 @@ const ManageServicePrice = () => {
     if (window.confirm(confirmMessage)) {
       try {
         if (formValues.servicePriceId) {
-          await axios.put(`https://das-backend.fly.dev/api/service-price-lists/${formValues.servicePriceId}`, formValues);
+          await axios.put(`http://localhost:8080/api/service-price-lists/${formValues.servicePriceId}`, formValues);
         } else {
-          await axios.post(`https://das-backend.fly.dev/api/service-price-lists`, formValues);
+          await axios.post(`http://localhost:8080/api/service-price-lists`, formValues);
         }
         setShowModal(false);
         fetchServicePrices(); // Reload the data

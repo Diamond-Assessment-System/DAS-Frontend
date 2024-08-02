@@ -121,7 +121,7 @@ function AssetsmentList() {
       }));
 
       const response = await axios.post(
-        "https://das-backend.fly.dev/api/booking-samples/samples",
+        "http://localhost:8080/api/booking-samples/samples",
         samplesData
       );
       console.log("Booking Samples created:", response.data);

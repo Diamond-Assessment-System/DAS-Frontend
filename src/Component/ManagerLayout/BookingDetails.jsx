@@ -90,7 +90,7 @@ function BookingDetails() {
 
   const completeOrder = async () => {
     try {
-      await axios.post("https://das-backend.fly.dev/api/mail", emailContent);
+      await axios.post("http://localhost:8080/api/mail", emailContent);
       await changeBookingStatus(bookingId, 3);
       setShowModal(false);
       window.location.reload();

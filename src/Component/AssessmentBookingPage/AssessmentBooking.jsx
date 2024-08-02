@@ -39,7 +39,7 @@ function AssessmentBooking() {
         try {
           const [samplesResponse, accountsResponse, assessmentPapers] = await Promise.all([
             axios.get(`${BOOKING_SAMPLES_URL}/assessment-account/${loggedAccount.accountId}`),
-            axios.get('https://das-backend.fly.dev/api/accounts'),
+            axios.get('http://localhost:8080/api/accounts'),
             axios.get(ASSESSMENT_PAPER_URL),
           ]);
           const samplesData = samplesResponse.data;

@@ -167,13 +167,13 @@ const AssessmentPaperPreview = () => {
             };
 
             const response = await axios.post(
-              "https://das-backend.fly.dev/api/assessment-papers",
+              "http://localhost:8080/api/assessment-papers",
               assessmentData
             );
 
             const status = 3;
             await axios.put(
-              `https://das-backend.fly.dev/api/booking-samples/${id}/status/${status}`
+              `http://localhost:8080/api/booking-samples/${id}/status/${status}`
             );
 
             window.alert("Đã Submit thành công!");

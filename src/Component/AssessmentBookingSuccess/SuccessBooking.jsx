@@ -53,7 +53,7 @@ function SuccessBooking() {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get("https://das-backend.fly.dev/api/assessment-bookings");
+      const response = await axios.get("http://localhost:8080/api/assessment-bookings");
       setBookings(response.data.filter((booking) => booking.status === 1));
     } catch (error) {
       console.error("Error fetching the bookings:", error);
@@ -81,7 +81,7 @@ function SuccessBooking() {
     if (window.confirm("Bạn có chắc chắn muốn hoàn thành yêu cầu này không?")) {
       try {
         await axios.put(
-          `https://das-backend.fly.dev/api/assessment-bookings/${booking.bookingId}`,
+          `http://localhost:8080/api/assessment-bookings/${booking.bookingId}`,
           { status: 2 }
         );
 

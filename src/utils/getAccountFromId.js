@@ -2,7 +2,7 @@ import axios from "axios"
 
 async function getAccountFromId(id){
     try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/accounts/${id}`);
+        const response = await axios.get(`http://localhost:8080/api/accounts/${id}`);
         return response.data;
     } catch (error) {
         if (error.response) {

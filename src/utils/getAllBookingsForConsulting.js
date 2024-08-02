@@ -4,13 +4,13 @@ import axios from 'axios';
 
 async function getAllBookingsForConsulting() {
     try {
-        const response = await axios.get('https://das-backend.fly.dev/api/assessment-bookings/ordered');
+        const response = await axios.get('http://localhost:8080/api/assessment-bookings/ordered');
         const bookings = response.data;
 
         const bookingHistory = await Promise.all(
             bookings.map(async (booking) => {
 
-                const serviceResponse = await axios.get(`https://das-backend.fly.dev/api/services/${booking.serviceId}`);
+                const serviceResponse = await axios.get(`http://localhost:8080/api/services/${booking.serviceId}`);
 
                 return {
                     ...booking,

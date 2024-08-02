@@ -25,7 +25,7 @@ const CanceledSamplesList = () => {
     try {
       const [samplesResponse, accountsResponse] = await Promise.all([
         axios.get(BOOKING_SAMPLES_URL),
-        axios.get('https://das-backend.fly.dev/api/accounts'),
+        axios.get('http://localhost:8080/api/accounts'),
       ]);
 
       const samples = samplesResponse.data;

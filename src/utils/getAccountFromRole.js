@@ -2,7 +2,7 @@ import axios from "axios"
 
 async function getAccountFromRole(role){
     try {
-        const response = await axios.get(`https://das-backend.fly.dev/api/accounts/role/${role}`);
+        const response = await axios.get(`http://localhost:8080/api/accounts/role/${role}`);
         return response.data;
     } catch (error) {
         if (error.response) {

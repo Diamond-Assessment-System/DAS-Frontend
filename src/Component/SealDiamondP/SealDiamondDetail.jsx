@@ -16,7 +16,7 @@ const SealDiamonDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const response = await axios.get(`https://das-backend.fly.dev/api/assessment-bookings/${id}`);
+        //const response = await axios.get(`http://localhost:8080/api/assessment-bookings/${id}`);
         const response = await axios.get(getAssessmentDetailUrl(id));
         setBooking(response.data);
         const serviceData = await getServiceFromId(response.data.serviceId);
