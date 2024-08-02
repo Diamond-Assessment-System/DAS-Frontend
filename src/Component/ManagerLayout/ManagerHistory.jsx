@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import getAllBookings from "../../utils/getAllBookingsForManager";
 import { getBookingStatusMeaning } from "../../utils/getStatusMeaning";
 import Spinner from "../Spinner/Spinner";
+import { getBookingDetails } from "../../utils/getBookingDetails";
 
 function ManagerHistory() {
   const navigate = useNavigate();
