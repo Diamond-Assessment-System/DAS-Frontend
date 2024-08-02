@@ -236,10 +236,12 @@ function AssessmentRequest() {
               }`}
             >
               <option value="" label="Chọn Dịch Vụ" />
-              {services.map((service) => (
-                <option key={service.serviceId} value={service.serviceId}>
-                  {service.serviceName}
-                </option>
+              {services
+                .filter(service => service.serviceStatus !== 2) // Filter out services with serviceStatus 2
+                .map((service) => (
+                  <option key={service.serviceId} value={service.serviceId}>
+                    {service.serviceName}
+                  </option>
               ))}
             </select>
             {formik.touched.serviceId && formik.errors.serviceId ? (

@@ -165,7 +165,6 @@ const RoutePath = () => {
           <Route path="/manager/finishreceipt"  element={<FinishReceipt />} />
           <Route path="/manager/payment-success" element={<PaymentSuccess />} />
           <Route path="/manager/booking-details" element={<BookingDetails />} />
-
         </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<DeleteSuspendUsers />} />
