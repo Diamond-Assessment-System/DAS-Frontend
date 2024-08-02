@@ -13,7 +13,7 @@ import getAccountFromId from "../../utils/getAccountFromId";
 function BookingDetails() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { bookingId } = location.state;
+  const { bookingId, accountId } = location.state; // Nhận accountId từ state
   const [samples, setSamples] = useState([]);
   const [sampleDetails, setSampleDetails] = useState({});
   const [currentItems, setCurrentItems] = useState([]);
@@ -55,7 +55,7 @@ function BookingDetails() {
         }, {});
         setSampleDetails(detailsMap);
 
-        const accountData = await getAccountFromId(bookingId);
+        const accountData = await getAccountFromId(accountId); // Lấy thông tin tài khoản dựa trên accountId
         setAccountDetails(accountData);
 
       } catch (error) {
@@ -66,7 +66,7 @@ function BookingDetails() {
     };
 
     fetchBookingSamples();
-  }, [bookingId]);
+  }, [bookingId, accountId]); // Thêm accountId vào dependency array
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;

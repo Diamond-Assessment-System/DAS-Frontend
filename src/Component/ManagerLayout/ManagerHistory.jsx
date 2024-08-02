@@ -31,8 +31,8 @@ function ManagerHistory() {
     fetchData();
   }, []);
 
-  const viewDetails = (bookingId) => {
-    navigate(`/manager/booking-details`, { state: { bookingId } });
+  const viewDetails = (bookingId, accountId) => {
+    navigate(`/manager/booking-details`, { state: { bookingId, accountId } });
   };
 
   const closeOrder = async (bookingId) => {
@@ -192,11 +192,11 @@ function ManagerHistory() {
                   <td className="py-4 px-4 text-center align-middle">
                     {(order.status === 1 || order.status === 2) && (
                       <button
-                        onClick={() => viewDetails(order.bookingId)}
-                        className="btn-small bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
-                      >
-                        Xem Chi Tiết
-                      </button>
+                      onClick={() => viewDetails(order.bookingId, order.accountId)}
+                      className="btn-small bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded focus:outline-none focus:shadow-outline mr-2"
+                    >
+                      Xem Chi Tiết
+                    </button>
                     )}
                     {order.status === 3 && (
                       <div className="btn-container">
