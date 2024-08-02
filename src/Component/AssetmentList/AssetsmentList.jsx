@@ -162,10 +162,10 @@ function AssetsmentList() {
             <p>{completionDate}</p>
           </div>
         </div>
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <strong>Phương Thức Thanh Toán:</strong>
           <p>{getPaymentTypeMeaning(bookingData.paymentType)}</p>
-        </div>
+        </div> */}
         <div className="mb-6">
           <h3 className="text-xl font-semibold">Dịch vụ:</h3>
           <h3 className="text-xl font-semibold">Tóm Tắt Đơn Hàng</h3>
