@@ -8,6 +8,7 @@ import { getSampleStatusMeaning } from "../../utils/getStatusMeaning";
 import { getBookingSamplesByBookingId } from "../../utils/getSamplesFromBookingId";
 import { changeBookingStatus } from "../../utils/changeBookingStatus";
 import { ASSESSMENT_PAPER_URL } from "../../utils/apiEndPoints";
+import getAccountFromId from "../../utils/getAccountFromId";
 
 function BookingDetails() {
   const navigate = useNavigate();
@@ -31,6 +32,9 @@ function BookingDetails() {
     senderName: "DAS's Manager",
   });
 
+  // Account details state
+  const [accountDetails, setAccountDetails] = useState({});
+
   useEffect(() => {
     const fetchBookingSamples = async () => {
       try {
@@ -51,8 +55,11 @@ function BookingDetails() {
         }, {});
         setSampleDetails(detailsMap);
 
+        const accountData = await getAccountFromId(bookingId);
+        setAccountDetails(accountData);
+
       } catch (error) {
-        console.error("Error fetching booking samples:", error);
+        console.error("Error fetching booking samples or account details:", error);
       } finally {
         setLoading(false);
       }
@@ -93,7 +100,7 @@ function BookingDetails() {
       await axios.post("http://localhost:8080/api/mail", emailContent);
       await changeBookingStatus(bookingId, 3);
       setShowModal(false);
-      window.location.reload();
+      navigate("/manager/managerhistory");
     } catch (error) {
       console.error("Error sending email:", error);
       alert("Failed to send email.");
@@ -103,6 +110,8 @@ function BookingDetails() {
   const openCompleteOrderModal = () => {
     setEmailContent((prev) => ({
       ...prev,
+      toEmail: accountDetails.email || "",
+      name: accountDetails.displayName || "",
       subject: `Hoàn Thành Đơn Hàng #${bookingId}`,
       messageBody: `Đơn hàng của quý khách với mã #${bookingId} đã được hoàn thành, vui lòng đến gặp nhân viên để nhận lại mẫu.`,
     }));
