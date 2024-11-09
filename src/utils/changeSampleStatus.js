@@ -22,6 +22,7 @@ export const cancelSample = async (sampleId, reason) => {
       return response.data;
     } catch (error) {
       console.error('Error cancel booking:', error);
+      
       throw error;
     }
   };
